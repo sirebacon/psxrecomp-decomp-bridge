@@ -1,0 +1,36 @@
+MIT License
+
+Copyright (c) 2026 psxrecomp-decomp-bridge contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---
+
+This license covers the code and documentation in this repository (the
+bridge engine, build scripts, findings, and patches). It does NOT cover, and
+makes no claim over:
+
+  * Parasite Eve, its assets, or any PS1 disc/BIOS image -- property of
+    Square Enix / Sony, not distributed here.
+  * khasinski/parasite-eve-decomp -- no license currently selected upstream;
+    this repo does not vendor any of its generated output. See CREDITS.md.
+  * Alexbeav/psxrecomp and mstan/psxrecomp -- PolyForm Noncommercial 1.0.0.
+    Anything in patches/ is a diff against that codebase and inherits its
+    terms. See CREDITS.md and patches/README.md.
+  * Alexbeav/parasite-eve-recomp -- GPL-3.0-only for its own scripts/config.

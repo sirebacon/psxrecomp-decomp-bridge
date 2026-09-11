@@ -1,0 +1,25 @@
+Against Alexbeav/psxrecomp @ 94ea3b28 (release/wave2-v0.3.0-source), the exact
+commit parasite-eve-recomp pins. Real `git diff` output, not hand-reconstructed.
+
+Adds `fromfile_prefix_chars='@'` to compile_overlays.py's argument parser, so
+a curated `--force-interior` address list can be passed as `@somefile` instead
+of hundreds of repeated `--force-interior 0x...` arguments on one command
+line. See findings/framework-findings.md finding #2 and build/play.ps1's
+`-ForceInterior` handling for what this is for.
+
+This is a workaround for a build-tooling ergonomics gap, not a fix for any
+of the framework bugs in findings/ -- it doesn't change what gets compiled,
+only how you tell the tool what to compile.
+
+--- a/tools/compile_overlays.py
++++ b/tools/compile_overlays.py
+@@ -5193,7 +5193,8 @@ def cached_shard_manifest_status(dll_path: str, expected_abi: int | None,
+
+ def main():
+     ap = argparse.ArgumentParser(description=__doc__,
+-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
++                                 formatter_class=argparse.RawDescriptionHelpFormatter,
++                                 fromfile_prefix_chars='@')
+     ap.add_argument('--captures',        default=None,
+                     help='overlay_captures.json from the runtime. Optional: the '
+                          'runtime injects PSX_OVERLAY_CAPTURES (the canonical '

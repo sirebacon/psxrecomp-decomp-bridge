@@ -1,0 +1,48 @@
+# Bridge config for Parasite Eve: khasinski/parasite-eve-decomp ->
+# Alexbeav/parasite-eve-recomp. See ../../bridge/decomp_bridge.py and
+# ../../docs/ADDING_A_GAME.md.
+#
+# All paths below are relative to THIS file, unless overridden on the
+# command line with --decomp / --recomp.
+#
+# NOTE: [paths] decomp/recomp point at wherever YOUR two upstream checkouts
+# live -- edit these two lines for your machine, or pass --decomp / --recomp
+# at the command line instead of editing the file.
+
+[game]
+id = "parasite-eve"
+
+[paths]
+decomp         = "../../../Parasite Eve Project/parasite-eve-decomp"
+recomp         = "../../../Parasite Eve Project/parasite-eve-recomp"
+manual_toml    = "symbols.manual.toml"
+seeds_baseline = "seeds.baseline.txt"
+# Only used if parasite-eve-recomp/game.toml has no [recompiler].seeds --
+# it does, so this is a documented fallback, not the active path.
+seeds_fallback = "seeds/decomp_funcs.txt"
+
+[decomp]
+# NAME = 0xADDR; // type:func   (see ../../docs/SYMBOL_FORMATS.md)
+format = "splat"
+# Named in symbols.toml -- main EXE only, so overlay-local statics don't
+# collide across regions that reuse the same load address.
+main_symbol_files = ["configs/USA/sym.main.txt"]
+# Everything the seed list draws from -- main EXE + every captured overlay.
+seed_symbol_globs = [
+    "configs/USA/sym.main.txt",
+    "configs/USA/overlays/sym.*.txt",
+]
+
+[addresses]
+# Sane PS1 main-RAM code window. Anything outside is a data/HW/placeholder
+# symbol we don't want as a recompiler seed.
+ram_lo = "0x80010000"
+ram_hi = "0x80200000"
+
+[names]
+# Decomp names that would otherwise collide with libc / the runtime's own
+# symbols get this prefix (PSX_FN_Pe_main, etc). Extend `reserved_extra`
+# here if the decomp starts naming something the engine's default libc list
+# (bridge/decomp_bridge.py: DEFAULT_RESERVED) doesn't cover.
+collision_prefix = "Pe_"
+reserved_extra = []

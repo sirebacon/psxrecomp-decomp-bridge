@@ -1,0 +1,17 @@
+# Hand-authored symbols for the Parasite Eve recomp.
+#
+# These are merged into parasite-eve-recomp/symbols.toml by
+# bridge/decomp_bridge.py and ALWAYS win over a decomp-derived entry
+# at the same address or name. Put anything here that the decomp does not
+# yet name, or where we want a different name / status / note than the
+# decomp's.
+#
+# status: guessed | confirmed | hot
+# emit  : keep false until the entry is safe for the recompiler to own.
+
+[[func]]
+pc = 0x80072534
+name = "BootEntry"
+emit = false
+status = "confirmed"
+note = "SYSTEM.CNF / EXE entry PC"

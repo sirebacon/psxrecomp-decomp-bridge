@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why the Parasite Eve Recomp Ran Slow</title>
+<meta name="description" content="Investigation notes on the overlay-interpreter bottleneck behind the Parasite Eve static recompilation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --ground:      #e7ebe5;
+    --surface:     #f3f6f0;
+    --surface-2:   #e9ede4;
+    --ink:         #16201c;
+    --ink-dim:     #59635c;
+    --line:        #d0d7cc;
+    --teal:        #1d746b;
+    --teal-fill:   #d6e6e1;
+    --ember:       #a94f1c;
+    --ember-fill:  #ecdccb;
+    --good:        #3c7746;
+    --warn:        #8c6826;
+    --shadow:      0 1px 2px rgba(20, 32, 28, .06), 0 8px 24px -12px rgba(20, 32, 28, .12);
+
+    /* chart marks: fixed across themes, chosen to carry white labels
+       and stay legible on both the light and dark chart-card surface */
+    --c-interp:  #a94f1c;
+    --c-static:  #1d746b;
+    --c-overlay: #3c7746;
+    --c-gpu:     #8c6826;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:     #0b1211;
+      --surface:    #111b19;
+      --surface-2:  #16221e;
+      --ink:        #dce4df;
+      --ink-dim:    #8a968e;
+      --line:       #253128;
+      --teal:       #59b7ac;
+      --teal-fill:  #163029;
+      --ember:      #e28b49;
+      --ember-fill: #382513;
+      --good:       #6bbf76;
+      --warn:       #c9a251;
+      --shadow:     0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px -14px rgba(0, 0, 0, .5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:     #0b1211;
+    --surface:    #111b19;
+    --surface-2:  #16221e;
+    --ink:        #dce4df;
+    --ink-dim:    #8a968e;
+    --line:       #253128;
+    --teal:       #59b7ac;
+    --teal-fill:  #163029;
+    --ember:      #e28b49;
+    --ember-fill: #382513;
+    --good:       #6bbf76;
+    --warn:       #c9a251;
+    --shadow:     0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px -14px rgba(0, 0, 0, .5);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+
+  .wrap {
+    max-width: 53rem;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 4rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+  }
+
+  /* ---- type ------------------------------------------------------------ */
+  h1, h2, h3 {
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(2rem, 5.4vw, 2.85rem);
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 1.44rem;
+    letter-spacing: -0.015em;
+    margin-bottom: .6rem;
+  }
+  h3 {
+    font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: -0.01em;
+  }
+  p { margin: 0 0 1rem; max-width: 42rem; }
+  a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
+  strong { font-weight: 600; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  code, .mono {
+    font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+    font-size: 0.86em;
+    font-variant-ligatures: none;
+  }
+  p code, li code, td code {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+    white-space: nowrap;
+  }
+
+  /* ---- header -------------------------------------------------------- */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1.6rem;
+    margin-bottom: 2.4rem;
+  }
+  header .eyebrow { display: block; margin-bottom: 0.9rem; }
+  .dek {
+    font-size: 1.12rem;
+    color: var(--ink-dim);
+    max-width: 40rem;
+    margin: 1rem 0 0;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.5rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.76rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.03em;
+  }
+  .meta span { white-space: nowrap; }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  /* ---- stat strip --------------------------------------------------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 2.4rem 0 3rem;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 1.15rem 1.15rem 1.25rem;
+    border-top: 3px solid var(--teal);
+  }
+  .stat.hot { border-top-color: var(--ember); }
+  .stat .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .stat .v {
+    font-family: "Archivo", sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+  .stat .v .arrow { color: var(--teal); font-size: 1rem; font-weight: 600; }
+  .stat.hot .v .now { color: var(--ember); }
+  .stat .v .was { color: var(--ink-dim); font-weight: 500; font-size: 1.15rem; }
+  .stat .note { font-size: 0.78rem; color: var(--ink-dim); margin-top: 0.35rem; }
+
+  /* ---- sections ---------------------------------------------------- */
+  section { margin-top: 3.2rem; }
+  section > p:last-child { margin-bottom: 0; }
+
+  /* ---- callout ---------------------------------------------------- */
+  .finding {
+    background: var(--ember-fill);
+    border-left: 3px solid var(--ember);
+    border-radius: 0 8px 8px 0;
+    padding: 1.15rem 1.35rem;
+    margin: 1.6rem 0;
+  }
+  .finding p { margin: 0; max-width: none; }
+  .finding p + p { margin-top: 0.7rem; }
+  .finding .tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ember);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  /* ---- timeline ------------------------------------------------- */
+  ol.timeline {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    counter-reset: step;
+  }
+  ol.timeline li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 1.5rem 3rem;
+    border-left: 1px solid var(--line);
+    margin-left: 0.85rem;
+  }
+  ol.timeline li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  ol.timeline li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: -0.85rem;
+    top: -0.15rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: grid;
+    place-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--teal);
+  }
+  ol.timeline li.turn::before {
+    border-color: var(--ember);
+    color: var(--ember);
+    background: var(--ember-fill);
+  }
+  ol.timeline .lead { font-weight: 600; display: block; margin-bottom: 0.15rem; }
+  ol.timeline p { margin: 0.15rem 0 0; font-size: 0.96rem; color: var(--ink); max-width: 40rem; }
+
+  /* ---- chart -------------------------------------------------- */
+  figure { margin: 1.8rem 0 0; }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.5rem 1.4rem 1.2rem;
+  }
+  .chart-card svg { display: block; width: 100%; height: auto; overflow: visible; }
+  figcaption {
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    margin-top: 0.9rem;
+    max-width: 40rem;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin-top: 1rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .legend i { width: 0.7rem; height: 0.7rem; border-radius: 2px; display: inline-block; }
+
+  /* ---- tables ---------------------------------------------- */
+  .tbl-scroll { overflow-x: auto; margin: 1.4rem 0 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+    min-width: 30rem;
+  }
+  caption {
+    text-align: left;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding-bottom: 0.7rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.9rem 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; padding-right: 1.1rem; }
+  td:last-child, th:last-child { padding-right: 0; }
+  tr td .delta-down { color: var(--good); font-weight: 600; }
+  tr td .delta-up { color: var(--warn); font-weight: 600; }
+
+  /* ---- config / code block ------------------------------- */
+  .code {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 0.95rem 1.1rem;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .code .c { color: var(--ink-dim); }
+  .code .a { color: var(--teal); }
+
+  /* ---- next tests ------------------------------------- */
+  ul.tests { list-style: none; margin: 1.4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+  ul.tests li {
+    display: grid;
+    grid-template-columns: 1.15rem 1fr;
+    gap: 0.85rem;
+    align-items: start;
+  }
+  ul.tests li::before {
+    content: "";
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.18rem;
+    border: 1.5px solid var(--teal);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+  ul.tests li.done::before {
+    border-color: var(--good);
+    background: var(--good);
+    box-shadow: inset 0 0 0 2px var(--surface);
+  }
+  ul.tests li.done .lead { color: var(--ink-dim); }
+  ul.tests .lead { font-weight: 600; display: block; }
+  ul.tests p { margin: 0.15rem 0 0; font-size: 0.92rem; color: var(--ink-dim); max-width: 38rem; }
+  ul.tests .rank {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-right: 0.55rem;
+  }
+  ul.tests li.done .rank { color: var(--good); }
+
+  .lede-list { padding-left: 1.1rem; margin: 1rem 0; }
+  .lede-list li { margin-bottom: 0.5rem; max-width: 40rem; }
+  .lede-list li::marker { color: var(--teal); }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+    line-height: 1.8;
+  }
+
+  hr.rule { border: 0; border-top: 1px solid var(--line); margin: 3.2rem 0 0; }
+
+  @media (max-width: 34rem) {
+    .stats { grid-template-columns: 1fr; }
+    ol.timeline li { padding-left: 2.6rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    a { transition: color .15s ease; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">psxrecomp · SLUS-00662 · field notes</span>
+    <h1>Why the Parasite Eve recomp ran slow</h1>
+    <p class="dek">The static recompilation booted fine but ran at roughly 0.7&times; speed &mdash; menus, FMVs, and gameplay all sluggish. This is what the instrumentation showed, the one change that moved the needle to ~0.8&times;, and why the four follow-up tests all came up empty.</p>
+    <div class="meta">
+      <span>host&nbsp; <b>i7-6700HQ</b> &middot; 4C/8T &middot; 2015 mobile</span>
+      <span>gpu&nbsp; <b>GTX&nbsp;1070</b> &middot; ~idle &middot; 1&times; scale</span>
+      <span>bios&nbsp; <b>retail SCPH-1001</b> (US)</span>
+      <span>target&nbsp; <b>59.94&nbsp;Hz</b> NTSC &middot; 33.8688&nbsp;MHz</span>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat hot">
+      <span class="k">Time in interpreter</span>
+      <span class="v"><span class="was">40.8%</span><span class="arrow">&rarr;</span><span class="now">4.1%</span></span>
+      <span class="note">wall-clock share, per <span class="mono">stall_report</span></span>
+    </div>
+    <div class="stat">
+      <span class="k">Speed, menus &amp; field</span>
+      <span class="v"><span class="was">~0.72&times;</span><span class="arrow">&rarr;</span><span>~0.79&times;</span></span>
+      <span class="note">FMV / heavy scenes still ~0.25&times;</span>
+    </div>
+    <div class="stat">
+      <span class="k">Hot function, interpreted insns</span>
+      <span class="v"><span class="was">383M</span><span class="arrow">&rarr;</span><span>25M</span></span>
+      <span class="note"><span class="mono">0x80191B94</span> &mdash; one address</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>The short version</h2>
+    <p>Parasite Eve streams almost all of its logic &mdash; menus, rooms, battles, cutscenes &mdash; as <strong>code overlays</strong> loaded from the disc at runtime. psxrecomp only translates the main executable ahead of time; overlay code runs in one of three tiers: static native, <em>compiled-on-first-sight</em> native, or the dirty-RAM <strong>interpreter</strong>.</p>
+    <p>The scaffold-generated <code>game.toml</code> never enabled overlay caching, so <strong>100% of overlay code was interpreted</strong>. Turning it on exposed a second problem: the bundled clang toolchain can't compile overlay shards. With a real GCC in place, overlays compiled &mdash; but one function stayed stuck in the interpreter and accounted for nearly the entire remaining cost.</p>
+    <div class="finding">
+      <span class="tag">Root cause</span>
+      <p><code>0x80191B94</code> &mdash; <code>RoomLib_InitD</code> in the decomp &mdash; sits in Parasite Eve's resident room-library overlay, which is loaded during essentially all field play and menus. Its overlay compiled to a native DLL, but the runtime's capture never tagged this address as a function entry, so it fell back to the interpreter <strong>forever</strong>: 383&nbsp;million interpreted instructions, ~26,000 per entry.</p>
+      <p>Forcing the compiler to carve it out (<code>compile_overlays.py --force-interior 0x80191B94</code>) dropped the interpreter's share of every frame from ~41% to ~4%.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>How we got there</h2>
+    <ol class="timeline">
+      <li>
+        <span class="lead">Symptom</span>
+        <p>Recomp builds and boots. Steady ~0.72&ndash;0.80&times; speed, dropping to ~0.22&times; in some scenes. An earlier macOS build had a similar issue fixed by disabling vsync.</p>
+      </li>
+      <li>
+        <span class="lead">Ruled out vsync &amp; pacing</span>
+        <p><code>PSX_VSYNC=0</code> &mdash; the macOS fix &mdash; had no effect. The wall-clock pacer measured correct at 16.6611&nbsp;ms/frame (&asymp;&nbsp;60.02&nbsp;Hz vs NTSC 59.94).</p>
+      </li>
+      <li>
+        <span class="lead">Ruled out the FMV decoder</span>
+        <p>Menus were slow too, and there was no MDEC activity during the slow spans. Not an FMV-specific problem.</p>
+      </li>
+      <li class="turn">
+        <span class="lead">Root cause: overlays interpreted</span>
+        <p><code>game.toml</code> was missing <code>[runtime] overlay_cache = true</code>. Every overlay ran on the interpreter, the slowest tier. Added that plus <code>idle_skip = true</code>.</p>
+      </li>
+      <li>
+        <span class="lead">Toolchain blocker</span>
+        <p>The bundled clang pack fails every overlay shard with a hard <code>cannot add 'dllexport' attribute</code> error &mdash; clang-only, no downgrade flag. Installed <strong>WinLibs GCC 16.1.0</strong>.</p>
+      </li>
+      <li>
+        <span class="lead">Overlays compiled &mdash; still slow</span>
+        <p>With real GCC, 16 overlay DLLs built cleanly. Speed nudged up but held ~0.72&times;, still sagging to 0.22&times;.</p>
+      </li>
+      <li>
+        <span class="lead">Instrumented</span>
+        <p>Built a RelWithDebInfo runtime with the debug TCP server on <code>:4370</code>, ran <code>stall_report.py</code> for interpreter/exception attribution.</p>
+      </li>
+      <li class="turn">
+        <span class="lead">Diagnosis</span>
+        <p>~40% of every frame was the interpreter, and ~99% of <em>that</em> was one address, <code>0x80191B94</code>. Cross-referenced against the decomp: <code>RoomLib_InitD</code>, an &ldquo;interior fragment&rdquo; the overlay compiler never exposed as a callable function.</p>
+      </li>
+      <li>
+        <span class="lead">Fix applied</span>
+        <p><code>--force-interior</code> on that address plus three other observed hot PCs, wired into <code>build\play.ps1</code>.</p>
+      </li>
+      <li class="turn">
+        <span class="lead">Result</span>
+        <p>Interpreter share 40.8% &rarr; 4.1%. Native-overlay share 3.1% &rarr; 23.0%. Release-build speed stabilized at ~0.80&times; &mdash; and stopped collapsing to 0.22&times;.</p>
+      </li>
+      <li>
+        <span class="lead">Tested: OpenBIOS vs retail</span>
+        <p>A/B on the debug build. Exception handling stays ~20&ndash;22% of the frame either way; OpenBIOS is marginally slower. The kernel cost is not a BIOS-choice problem &mdash; retail stays the right pick.</p>
+      </li>
+      <li>
+        <span class="lead">Tried: force every overlay function</span>
+        <p>Patched <code>compile_overlays.py</code> to read a 1,131-address file of every decomp overlay function. It backfired &mdash; a background-compile storm (237 half-built DLLs) dragged speed to ~0.19&times;. Reverted to an opt-in flag; the targeted hot set is the working config.</p>
+      </li>
+      <li>
+        <span class="lead">Tried: <code>-march=native</code></span>
+        <p>Rebuilt with Skylake AVX2/FMA codegen (<code>-march=native -O3</code>, verified in the compile flags). No measurable change &mdash; menus/field held ~0.79&times; either way. The frame is scalar recompiled game code plus the LLE kernel; neither vectorizes.</p>
+      </li>
+      <li>
+        <span class="lead">Not available: PGO</span>
+        <p>The <code>psxrecomp_cli.py rebuild --force-pgo</code> path passes <code>-DPSX_PGO=</code>, but this framework pin has no such CMake option &mdash; the flag is silently ignored, so there is no instrumentation to profile. Profile-guided optimization would need patching the framework's build files.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Where the frame goes now</h2>
+    <p>Wall-clock composition before and after the <code>--force-interior</code> fix, from the debug build's <code>stall_report</code> phase shares. The interpreter block is what shrank; static native code took its place.</p>
+    <figure>
+      <div class="chart-card">
+        <svg viewBox="0 0 600 214" role="img" aria-label="Stacked bar comparison of wall-clock composition before and after the fix. Before: interpreter 45 percent, static native 54 percent, GPU under 1 percent. After: interpreter 4 percent, static native 69 percent, native overlay 23 percent, GPU under 1 percent.">
+          <g stroke="var(--line)" stroke-width="1">
+            <line x1="185" y1="34" x2="185" y2="182"></line>
+            <line x1="310" y1="34" x2="310" y2="182"></line>
+            <line x1="435" y1="34" x2="435" y2="182"></line>
+          </g>
+          <line x1="60" y1="34" x2="60" y2="182" stroke="var(--ink-dim)" stroke-width="1"></line>
+          <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-dim)">
+            <text x="60" y="200">0%</text>
+            <text x="185" y="200" text-anchor="middle">25</text>
+            <text x="310" y="200" text-anchor="middle">50</text>
+            <text x="435" y="200" text-anchor="middle">75</text>
+            <text x="560" y="200" text-anchor="end">100</text>
+          </g>
+
+          <text x="60" y="38" font-family="Archivo, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">BEFORE</text>
+          <rect x="60"  y="44" width="227" height="40" fill="var(--c-interp)"></rect>
+          <rect x="287" y="44" width="270" height="40" fill="var(--c-static)"></rect>
+          <rect x="557" y="44" width="3"   height="40" fill="var(--c-gpu)"></rect>
+          <text x="173" y="69" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#fff">45% interp</text>
+          <text x="422" y="69" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#fff">54% static native</text>
+
+          <text x="60" y="112" font-family="Archivo, sans-serif" font-size="12" font-weight="700" fill="var(--ink)">AFTER</text>
+          <rect x="60"  y="118" width="21"  height="40" fill="var(--c-interp)"></rect>
+          <rect x="81"  y="118" width="358" height="40" fill="var(--c-static)"></rect>
+          <rect x="439" y="118" width="119" height="40" fill="var(--c-overlay)"></rect>
+          <rect x="558" y="118" width="2"   height="40" fill="var(--c-gpu)"></rect>
+          <text x="260" y="143" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#fff">69% static native</text>
+          <text x="498" y="143" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#fff">23% overlay</text>
+          <text x="70"  y="177" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="var(--c-interp)">4%</text>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--c-interp)"></i> interpreter</span>
+        <span><i style="background:var(--c-static)"></i> static native (main EXE)</span>
+        <span><i style="background:var(--c-overlay)"></i> native overlay</span>
+        <span><i style="background:var(--c-gpu)"></i> GPU</span>
+      </div>
+      <figcaption>Shares are from separate <code>stall_report</code> snapshots and don't sum to exactly 100% &mdash; the tool's rolling windows overlap. Exception / LLE-kernel handling is counted on a <em>separate</em> overlapping axis: ~16% before, ~22% after &mdash; and it is roughly the same on OpenBIOS, so it is inherent LLE cost, not a BIOS problem.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>The measured deltas</h2>
+    <div class="tbl-scroll">
+      <table>
+        <caption>debug build &middot; stall_report &middot; before &rarr; after --force-interior</caption>
+        <thead>
+          <tr><th>Signal</th><th class="num">Before</th><th class="num">After</th><th>Read</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>interp_share</code> (time)</td>
+            <td class="num">40.8%</td>
+            <td class="num">4.1%</td>
+            <td><span class="delta-down">&minus;90%</span> &mdash; the win</td>
+          </tr>
+          <tr>
+            <td><code>native_share</code> (time)</td>
+            <td class="num">3.1%</td>
+            <td class="num">23.0%</td>
+            <td>overlay code now runs native</td>
+          </tr>
+          <tr>
+            <td><code>dispatch_native</code> events</td>
+            <td class="num">0.8M</td>
+            <td class="num">36.2M</td>
+            <td>44&times; more native dispatch</td>
+          </tr>
+          <tr>
+            <td><code>0x80191B94</code> interp insns</td>
+            <td class="num">383M</td>
+            <td class="num">25M</td>
+            <td>the hot loop, now mostly native</td>
+          </tr>
+          <tr>
+            <td>Release steady speed</td>
+            <td class="num">~0.72&times;</td>
+            <td class="num">~0.80&times;</td>
+            <td>and no longer collapsing</td>
+          </tr>
+          <tr>
+            <td><code>exc_share</code> (time)</td>
+            <td class="num">16.5%</td>
+            <td class="num">21.8%</td>
+            <td>LLE kernel &mdash; ~same on OpenBIOS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the decomp actually does here</h2>
+    <p>The recompiler works straight off the retail disc &mdash; disc &rarr; recompiler &rarr; C &rarr; native binary. It never reads decomp C. The decompilation is a <strong>reference layer</strong> bolted alongside, and it is easy to over-credit it:</p>
+    <div class="tbl-scroll">
+      <table>
+        <caption>decomp inputs · fed in by bridge/decomp_bridge.py</caption>
+        <thead><tr><th>Input</th><th>Consumed by</th><th>Effect on the build</th></tr></thead>
+        <tbody>
+          <tr><td><code>symbols.toml</code> &mdash; 1,674 names, all <code>emit = false</code></td><td>header generation only</td><td><strong>None.</strong> Naming. It is why <code>0x80191B94</code> reads as <code>RoomLib_InitD</code>.</td></tr>
+          <tr><td><code>seeds/ghidra_funcs.txt</code> &mdash; 1,300 probe + <strong>1,736 from decomp</strong></td><td>the recompiler, as function-start hints</td><td>Additive. More complete function carving; more likely to help coverage than hurt.</td></tr>
+          <tr><td><code>--force-interior</code> addresses</td><td><code>compile_overlays.py</code></td><td>The four that matter came from <code>stall_report</code>. The decomp only labeled them.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The three real problems &mdash; <code>overlay_cache</code> off, clang can't build shards, one overlay function interpreted &mdash; are none of them decomp-caused. A pure no-decomp recomp hits all three the same way, just with worse names.</p>
+  </section>
+
+  <section>
+    <h2>What changed on disk</h2>
+    <p>Everything below is local build config &mdash; none of it is committed upstream to <code>parasite-eve-recomp</code> or <code>parasite-eve-decomp</code>.</p>
+    <div class="code"><span class="c"># parasite-eve-recomp/game.toml &mdash; [runtime]</span>
+<span class="a">overlay_cache</span> = true   <span class="c"># capture + compile overlays instead of interpreting</span>
+<span class="a">idle_skip</span>     = true   <span class="c"># fast-forward guest spin-waits</span></div>
+    <ul class="lede-list">
+      <li><code>build/play.ps1</code> &mdash; launch wrapper: overlay autocompile via WinLibs GCC, <code>--force-interior</code> hot set, FPS telemetry, <code>--no-launcher</code>, <code>-OpenBios</code> flag for A/B.</li>
+      <li><code>bridge/decomp_bridge.py</code> &mdash; the decomp&rarr;recomp bridge, generalized past Parasite Eve (see the table above).</li>
+      <li><code>compile_overlays.py</code> patched with <code>fromfile_prefix_chars='@'</code> so a force-interior address list can be passed as a file.</li>
+      <li>WinLibs GCC 16.1.0 at <code>%LOCALAPPDATA%\Programs\mingw64\</code> &mdash; the bundled clang pack cannot build overlay shards.</li>
+      <li>Two builds: <code>build-release/</code> (37.5&nbsp;MB, what you play) and <code>build-dbg/</code> (163&nbsp;MB, RelWithDebInfo, debug server on <code>:4370</code>).</li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Where it stands &mdash; the levers are spent</h2>
+    <p>The <code>--force-interior</code> fix handled the single biggest cost. Everything on the follow-up list has now been tried, and none of it moved the needle further.</p>
+    <ul class="tests">
+      <li class="done">
+        <div>
+          <span class="lead"><span class="rank">tested</span>Kernel / exception overhead (~22%)</span>
+          <p>OpenBIOS vs retail made no difference &mdash; the LLE kernel's interrupt and syscall dispatch is ~20&ndash;22% of the frame on both. Inherent to a cycle-faithful LLE BIOS. Reducing it would mean trading emulation accuracy for speed (<code>PSX_EVENT_STEP_*</code>) &mdash; out of scope.</p>
+        </div>
+      </li>
+      <li class="done">
+        <div>
+          <span class="lead"><span class="rank">tried</span>The per-room overlay tail</span>
+          <p>Forcing every decomp overlay function (1,131) caused a compile storm. The path that works is growing the <code>-ForceInterior</code> set from per-area <code>stall_report</code> output, or a curated RoomLib subset &mdash; slow, incremental, worth chipping at.</p>
+        </div>
+      </li>
+      <li class="done">
+        <div>
+          <span class="lead"><span class="rank">tried</span><code>-march=native</code> rebuild</span>
+          <p>Applied cleanly (<code>-march=native -O3</code>). No measurable change &mdash; the workload is scalar recompiled game code and the LLE kernel, neither of which vectorizes.</p>
+        </div>
+      </li>
+      <li class="done">
+        <div>
+          <span class="lead"><span class="rank">n/a</span>PGO</span>
+          <p>Not implemented in this psxrecomp framework pin &mdash; the CLI's <code>-DPSX_PGO</code> is silently ignored. Would require patching the framework's CMake.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Where it actually lands</h2>
+    <p>Menus and field play hold <strong>~0.79&times;</strong> (about three-quarters of the time in an unattended session). FMV and heavy scripted scenes drop to <strong>~0.25&times;</strong>. It hit exactly 1.00&times; at boot, and the native parts of the frame run at full speed &mdash; so it is not a raw hardware wall, but the practical ceiling on this box is ~0.8&times;, set by the two structural costs that stayed put: the interpreted RoomLib tail and the LLE kernel.</p>
+    <p>That is fine for the actual goal &mdash; the recomp is the platform for mod work, where 0.8&times; is workable and the decomp&rarr;symbol bridge is what matters. For playing Parasite Eve through, DuckStation runs it at full speed on the same machine.</p>
+  </section>
+
+  <section>
+    <h2>The bottleneck is one CPU core</h2>
+    <p>This machine is a well-specced 2016 gaming laptop &mdash; 48&nbsp;GB RAM, a GTX&nbsp;1070, an NVMe SSD. None of that touches this workload. Faithful console emulation is a single-thread CPU race, and the CPU is the one component that is a 2015 mid-range mobile part.</p>
+    <div class="tbl-scroll">
+      <table>
+        <caption>what each component does while the recomp runs</caption>
+        <thead><tr><th>Component</th><th>Role in this workload</th></tr></thead>
+        <tbody>
+          <tr><td>48&nbsp;GB RAM</td><td>Working set is ~1&ndash;2&nbsp;GB. Capacity does nothing for CPU-bound work.</td></tr>
+          <tr><td>GTX&nbsp;1070 (8&nbsp;GB)</td><td>~99% idle. PS1 graphics at native resolution are trivial &mdash; the GPU is never the limit.</td></tr>
+          <tr><td>Samsung 990&nbsp;PRO NVMe</td><td>Speeds the disc read and shard compiles. Zero effect on the per-frame simulation.</td></tr>
+          <tr><td><strong>i7-6700HQ</strong></td><td><strong>Does ~100% of the work, on roughly one core.</strong> The entire constraint.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The i7-6700HQ's gaming reputation came from the discrete GPU it was paired with. The CPU itself is a 4-core Skylake part from 2015, and Intel's mobile single-core performance barely moved for years afterward. Emulation lives or dies on exactly that number.</p>
+
+    <div class="finding">
+      <span class="tag">"but Task Manager only shows ~17% CPU"</span>
+      <p>Because it averages one saturated thread across eight logical cores. Thread-level, over a 4-minute session: the emulation thread burned <strong>215 CPU-seconds of 246 wall-seconds</strong> &mdash; ~90% of one core, continuously &mdash; while the whole process totalled 0.95 cores. Windows migrates that hot thread around all eight cores every few milliseconds, so no single core's graph ever reads 100%, but the critical path is one pegged core.</p>
+      <p>Pinning the process to 2 cores changed nothing (0.775&times; &rarr; 0.77&times;); pinning to 1 core made it <em>worse</em> (0.27&times;), because the present and audio threads need a second core to run alongside. There is no idle capacity to recruit and no migration cost to remove.</p>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <caption>single-core throughput &mdash; the only figure that matters here</caption>
+        <thead><tr><th>CPU</th><th class="num">Geekbench 6 single-core</th><th>Runs the recomp at</th></tr></thead>
+        <tbody>
+          <tr><td>i7-6700HQ &middot; 2015</td><td class="num">~1,200</td><td>~0.79&times; (this box)</td></tr>
+          <tr><td>Apple M1 &middot; 2020 (MacBook Air)</td><td class="num">~2,350</td><td>~1.6&times; &rarr; caps at 60</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Same single-threaded work, roughly 2&times; the core speed &mdash; so the fanless MacBook Air has headroom to spare and the 2016 gaming laptop does not. A Steam Deck, a recent phone, or any modern desktop CPU closes the same gap. The recompiled game code needs the equivalent of only ~1.3&ndash;1.5&nbsp;GHz sustained on a current core to lock 60; this CPU delivers about 0.8 of that.</p>
+  </section>
+
+  <footer>
+    Parasite Eve (USA) &middot; SLUS-00662 &middot; psxrecomp static recompilation<br>
+    Investigation 2026-09-09 / -10, through the overlay fix, OpenBIOS, force-interior, <span class="mono">-march=native</span> and PGO tests &middot;
+    instrumentation: <span class="mono">tools/stall_report.py</span> against a RelWithDebInfo runtime<br>
+    Full running log: <span class="mono">findings/perf-investigation-log.md</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
