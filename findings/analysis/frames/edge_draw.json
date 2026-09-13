@@ -1,0 +1,1910 @@
+{
+ "kind": "psx-gpu-frame",
+ "version": 1,
+ "label": "edge_draw",
+ "frame": 2700,
+ "source": {
+  "host": "127.0.0.1",
+  "port": 4370
+ },
+ "ring": null,
+ "raw_count": 36,
+ "requested": 65536,
+ "capped": false,
+ "max_words": 12,
+ "prims": [
+  {
+   "seq": 19960,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3304",
+   "ot": 65535,
+   "words": [
+    "0xE3000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19961,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3308",
+   "ot": 65535,
+   "words": [
+    "0xE4FFFFFF"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19962,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A330C",
+   "ot": 65535,
+   "words": [
+    "0xE5000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19963,
+   "op": 230,
+   "op_name": "mask_bit(E6)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3310",
+   "ot": 65535,
+   "words": [
+    "0xE6000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19964,
+   "op": 225,
+   "op_name": "draw_mode(E1)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3314",
+   "ot": 65535,
+   "words": [
+    "0xE100020A"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19965,
+   "op": 96,
+   "op_name": "Rect",
+   "kind": "rect",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3318",
+   "ot": 65535,
+   "words": [
+    "0x60000000",
+    "0x00000000",
+    "0x001401E0"
+   ],
+   "verts": [
+    [
+     0,
+     0
+    ]
+   ],
+   "colors": [
+    [
+     0,
+     0,
+     0
+    ]
+   ],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    480,
+    20
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19966,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A332C",
+   "ot": 65535,
+   "words": [
+    "0xE303C000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19967,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3330",
+   "ot": 65535,
+   "words": [
+    "0xE4077D3F"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19968,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3334",
+   "ot": 65535,
+   "words": [
+    "0xE5078000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19969,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3304",
+   "ot": 65535,
+   "words": [
+    "0xE3000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19970,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3308",
+   "ot": 65535,
+   "words": [
+    "0xE4FFFFFF"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19971,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A330C",
+   "ot": 65535,
+   "words": [
+    "0xE5000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19972,
+   "op": 230,
+   "op_name": "mask_bit(E6)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3310",
+   "ot": 65535,
+   "words": [
+    "0xE6000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19973,
+   "op": 225,
+   "op_name": "draw_mode(E1)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3314",
+   "ot": 65535,
+   "words": [
+    "0xE100020A"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19974,
+   "op": 96,
+   "op_name": "Rect",
+   "kind": "rect",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3318",
+   "ot": 65535,
+   "words": [
+    "0x60000000",
+    "0x00E00000",
+    "0x001001E0"
+   ],
+   "verts": [
+    [
+     0,
+     224
+    ]
+   ],
+   "colors": [
+    [
+     0,
+     0,
+     0
+    ]
+   ],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    480,
+    16
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19975,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A332C",
+   "ot": 65535,
+   "words": [
+    "0xE303C000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19976,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3330",
+   "ot": 65535,
+   "words": [
+    "0xE4077D3F"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19977,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3334",
+   "ot": 65535,
+   "words": [
+    "0xE5078000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19978,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3304",
+   "ot": 65535,
+   "words": [
+    "0xE3000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19979,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3308",
+   "ot": 65535,
+   "words": [
+    "0xE4FFFFFF"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19980,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A330C",
+   "ot": 65535,
+   "words": [
+    "0xE5000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19981,
+   "op": 230,
+   "op_name": "mask_bit(E6)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3310",
+   "ot": 65535,
+   "words": [
+    "0xE6000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19982,
+   "op": 225,
+   "op_name": "draw_mode(E1)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3314",
+   "ot": 65535,
+   "words": [
+    "0xE100020A"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19983,
+   "op": 96,
+   "op_name": "Rect",
+   "kind": "rect",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3318",
+   "ot": 65535,
+   "words": [
+    "0x60000000",
+    "0x00F00000",
+    "0x001401E0"
+   ],
+   "verts": [
+    [
+     0,
+     240
+    ]
+   ],
+   "colors": [
+    [
+     0,
+     0,
+     0
+    ]
+   ],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    480,
+    20
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19984,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A332C",
+   "ot": 65535,
+   "words": [
+    "0xE303C000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19985,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3330",
+   "ot": 65535,
+   "words": [
+    "0xE4077D3F"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19986,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3334",
+   "ot": 65535,
+   "words": [
+    "0xE5078000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19987,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3304",
+   "ot": 65535,
+   "words": [
+    "0xE3000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19988,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3308",
+   "ot": 65535,
+   "words": [
+    "0xE4FFFFFF"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19989,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A330C",
+   "ot": 65535,
+   "words": [
+    "0xE5000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19990,
+   "op": 230,
+   "op_name": "mask_bit(E6)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3310",
+   "ot": 65535,
+   "words": [
+    "0xE6000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19991,
+   "op": 225,
+   "op_name": "draw_mode(E1)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3314",
+   "ot": 65535,
+   "words": [
+    "0xE100020A"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19992,
+   "op": 96,
+   "op_name": "Rect",
+   "kind": "rect",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3318",
+   "ot": 65535,
+   "words": [
+    "0x60000000",
+    "0x01D00000",
+    "0x001001E0"
+   ],
+   "verts": [
+    [
+     0,
+     464
+    ]
+   ],
+   "colors": [
+    [
+     0,
+     0,
+     0
+    ]
+   ],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    480,
+    16
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19993,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A332C",
+   "ot": 65535,
+   "words": [
+    "0xE303C000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19994,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3330",
+   "ot": 65535,
+   "words": [
+    "0xE4077D3F"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 19995,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x000A3334",
+   "ot": 65535,
+   "words": [
+    "0xE5078000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  }
+ ],
+ "funcs": {
+  "0x00000F40": {
+   "func": "0x00000F40",
+   "packets": 36,
+   "drawing": 4,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "draw_area_tl(E3)": 8,
+    "draw_area_br(E4)": 8,
+    "draw_offset(E5)": 8,
+    "mask_bit(E6)": 4,
+    "draw_mode(E1)": 4,
+    "Rect": 4
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076D50"
+   ],
+   "bbox": [
+    0,
+    0,
+    479,
+    479
+   ]
+  }
+ }
+}

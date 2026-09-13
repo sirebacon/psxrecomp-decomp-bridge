@@ -1,0 +1,55 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "skip_bad",
+ "frame": 2715,
+ "dump": "skip_bad.json",
+ "packets": 8,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  320,
+  240
+ ],
+ "ops": {
+  "draw_area_tl(E3)": 1,
+  "draw_area_br(E4)": 1,
+  "draw_offset(E5)": 1,
+  "draw_mode(E1)": 1,
+  "tex_window(E2)": 1,
+  "mask_bit(E6)": 1,
+  "clear_cache": 1,
+  "copy_cpu_vram": 1
+ },
+ "modes": {},
+ "funcs": [
+  {
+   "func": "0x00000F40",
+   "packets": 8,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "draw_area_tl(E3)": 1,
+    "draw_area_br(E4)": 1,
+    "draw_offset(E5)": 1,
+    "draw_mode(E1)": 1,
+    "tex_window(E2)": 1,
+    "mask_bit(E6)": 1,
+    "clear_cache": 1,
+    "copy_cpu_vram": 1
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076D50",
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ ]
+}

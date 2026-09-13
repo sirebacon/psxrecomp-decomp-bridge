@@ -1,0 +1,95 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "wide-05",
+ "frame": 9891,
+ "dump": "wide-05.json",
+ "packets": 31,
+ "drawing": 1,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  240,
+  320,
+  480
+ ],
+ "ops": {
+  "draw_area_tl(E3)": 1,
+  "draw_area_br(E4)": 1,
+  "draw_offset(E5)": 1,
+  "draw_mode(E1)": 1,
+  "tex_window(E2)": 1,
+  "mask_bit(E6)": 1,
+  "fill_rect": 1,
+  "clear_cache": 12,
+  "copy_cpu_vram": 12
+ },
+ "modes": {},
+ "funcs": [
+  {
+   "func": "0x1FC02B80",
+   "packets": 7,
+   "drawing": 1,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "draw_area_tl(E3)": 1,
+    "draw_area_br(E4)": 1,
+    "draw_offset(E5)": 1,
+    "draw_mode(E1)": 1,
+    "tex_window(E2)": 1,
+    "mask_bit(E6)": 1,
+    "fill_rect": 1
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076D50"
+   ],
+   "bbox": [
+    0,
+    240,
+    319,
+    479
+   ]
+  },
+  {
+   "func": "0x00002494",
+   "packets": 2,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "clear_cache": 1,
+    "copy_cpu_vram": 1
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076690"
+   ],
+   "bbox": null
+  },
+  {
+   "func": "0x000026C4",
+   "packets": 22,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "clear_cache": 11,
+    "copy_cpu_vram": 11
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ ]
+}

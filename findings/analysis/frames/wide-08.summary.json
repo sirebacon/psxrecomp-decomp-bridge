@@ -1,0 +1,42 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "wide-08",
+ "frame": 9888,
+ "dump": "wide-08.json",
+ "packets": 16,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  1024,
+  512
+ ],
+ "ops": {
+  "clear_cache": 8,
+  "copy_cpu_vram": 8
+ },
+ "modes": {},
+ "funcs": [
+  {
+   "func": "0x000026C4",
+   "packets": 16,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "clear_cache": 8,
+    "copy_cpu_vram": 8
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ ]
+}

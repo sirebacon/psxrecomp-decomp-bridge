@@ -19,12 +19,29 @@ address list can be passed as `@somefile.args` instead of repeating
 `--force-interior 0x...` hundreds of times on one command line. Pure
 ergonomics — doesn't change what gets compiled.
 
-## What's *not* here: the clang `dllexport` fix
+## `02-pgo-train-clean-exit.patch` — fixed upstream, not by us
 
-`findings/framework-findings.md` finding #1 proposes a `PSX_OVERLAY_EXPORT`
-macro to fix the bundled clang toolchain's hard "cannot add 'dllexport'
-attribute" error on every overlay shard. That fix is **not included as a
-patch** — we worked around it by using real GCC instead of patching
-psxrecomp directly, so the macro fix has only been reasoned through, never
-compiled and verified against clang. Treat the candidate fix in the finding
-as a starting point for whoever picks it up, not a tested patch.
+**Landed in `RetroPortingToolKit/psxrecomp` PR #345** (2026-09-11), same day
+as this patch. No patch needed here for it anymore; kept for the record.
+
+**Verified working** — see `findings/pgo-train-fix.md` for the full writeup.
+Fixes PGO *training* on Windows: `rebuild --force-pgo` crashed with
+`[WinError 5] Access is denied` in the process-stop code (not the launch),
+and even a run that didn't crash produced a 0-byte `.profraw`, because a hard
+`TerminateProcess` (all a "SIGTERM" can be on Windows) never reaches LLVM's
+`atexit`-registered profile writer. Fix asks the runtime's debug server for a
+clean `exit(0)` instead. Tested end to end: real 6.1MB `.profraw` files, a
+1MB merged `default.profdata`, full instrument→train→optimize cycle
+completing.
+
+This one is against `2113defc` — i.e. **on top of** PR #344 ("Fix overlay
+Clang exports, PGO, and scaffold cache"), which fixed PGO's compile-time
+plumbing but didn't touch training.
+
+## Finding #1 (clang `dllexport`) — fixed upstream, not by us
+
+The `PSX_OVERLAY_EXPORT` macro fix for finding #1 in
+`findings/framework-findings.md` landed in mainline via PR #344, and per its
+description was tested there — we never patched or verified it ourselves
+(we'd worked around it with real GCC instead). No patch needed here for it
+anymore.

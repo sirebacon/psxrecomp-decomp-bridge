@@ -1,0 +1,17 @@
+{
+ "kind": "psx-gpu-frame",
+ "version": 1,
+ "label": "wide-06",
+ "frame": 9890,
+ "source": {
+  "host": "127.0.0.1",
+  "port": 4370
+ },
+ "ring": null,
+ "raw_count": 0,
+ "requested": 65536,
+ "capped": false,
+ "max_words": 12,
+ "prims": [],
+ "funcs": {}
+}

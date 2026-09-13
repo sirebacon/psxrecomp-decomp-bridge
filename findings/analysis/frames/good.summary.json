@@ -1,0 +1,42 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "good",
+ "frame": 5716,
+ "dump": "good.json",
+ "packets": 18,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  1024,
+  512
+ ],
+ "ops": {
+  "clear_cache": 9,
+  "copy_cpu_vram": 9
+ },
+ "modes": {},
+ "funcs": [
+  {
+   "func": "0x000026C4",
+   "packets": 18,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "clear_cache": 9,
+    "copy_cpu_vram": 9
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ ]
+}

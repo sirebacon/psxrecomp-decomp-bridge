@@ -1,0 +1,20 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "wide-11",
+ "frame": 9885,
+ "dump": "wide-11.json",
+ "packets": 0,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  320,
+  240
+ ],
+ "ops": {},
+ "modes": {},
+ "funcs": []
+}

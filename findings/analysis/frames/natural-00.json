@@ -1,0 +1,917 @@
+{
+ "kind": "psx-gpu-frame",
+ "version": 1,
+ "label": "natural-00",
+ "frame": 23548,
+ "source": {
+  "host": "127.0.0.1",
+  "port": 4370
+ },
+ "ring": null,
+ "raw_count": 16,
+ "requested": 65536,
+ "capped": false,
+ "max_words": 12,
+ "prims": [
+  {
+   "seq": 232831,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232832,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000120",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     288,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232833,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232834,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000138",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     312,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232835,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232836,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000150",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     336,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232837,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232838,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000168",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     360,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232839,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232840,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000180",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     384,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232841,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232842,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x00000198",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     408,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232843,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232844,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x000001B0",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     432,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232845,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 232846,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x000026C4",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x000001C8",
+    "0x00F00018"
+   ],
+   "verts": [
+    [
+     456,
+     0
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    24,
+    240
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     0,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  }
+ ],
+ "funcs": {
+  "0x000026C4": {
+   "func": "0x000026C4",
+   "packets": 16,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "clear_cache": 8,
+    "copy_cpu_vram": 8
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ }
+}

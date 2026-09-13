@@ -1,0 +1,20 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "wide-03",
+ "frame": 9893,
+ "dump": "wide-03.json",
+ "packets": 0,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  320,
+  240
+ ],
+ "ops": {},
+ "modes": {},
+ "funcs": []
+}

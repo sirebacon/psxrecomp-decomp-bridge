@@ -1,0 +1,55 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "edge_draw",
+ "frame": 2700,
+ "dump": "edge_draw.json",
+ "packets": 36,
+ "drawing": 4,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  240,
+  320,
+  480
+ ],
+ "ops": {
+  "draw_area_tl(E3)": 8,
+  "draw_area_br(E4)": 8,
+  "draw_offset(E5)": 8,
+  "mask_bit(E6)": 4,
+  "draw_mode(E1)": 4,
+  "Rect": 4
+ },
+ "modes": {},
+ "funcs": [
+  {
+   "func": "0x00000F40",
+   "packets": 36,
+   "drawing": 4,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "draw_area_tl(E3)": 8,
+    "draw_area_br(E4)": 8,
+    "draw_offset(E5)": 8,
+    "mask_bit(E6)": 4,
+    "draw_mode(E1)": 4,
+    "Rect": 4
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076D50"
+   ],
+   "bbox": [
+    0,
+    0,
+    479,
+    479
+   ]
+  }
+ ]
+}

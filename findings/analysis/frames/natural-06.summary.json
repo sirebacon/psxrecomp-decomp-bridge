@@ -1,0 +1,20 @@
+{
+ "kind": "psx-gpu-frame-summary",
+ "version": 1,
+ "label": "natural-06",
+ "frame": 23542,
+ "dump": "natural-06.json",
+ "packets": 0,
+ "drawing": 0,
+ "capped": false,
+ "truncated": 0,
+ "area": [
+  0,
+  0,
+  320,
+  240
+ ],
+ "ops": {},
+ "modes": {},
+ "funcs": []
+}

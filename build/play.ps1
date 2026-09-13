@@ -36,8 +36,13 @@ param(
     [int]$DebugPort = 0,                    # >0 => pass --debug-port (only the debug build listens)
     # Overlay PCs the capture classifier missed -> force compile_overlays to carve
     # them out as native fragments (stall_report [5] "HOTTEST INTERPRETED PCs").
-    # Default = the RoomLib hot set found 2026-09-09.
-    [string[]]$ForceInterior = @('0x80191B94','0x801927D0','0x80192E3C','0x801925D4'),
+    # Default = the RoomLib hot set found 2026-09-09, plus 0x80191200 found
+    # 2026-09-11 -- same shared RoomLib region, hot specifically at the idle
+    # title screen (201K insn/entry, ~87% of all interpreted instructions
+    # during an idle window). Confirmed force-interior carves it fine once
+    # added; it just hadn't been found yet. See findings/ in
+    # psxrecomp-decomp-bridge for the stall_report data behind this list.
+    [string[]]$ForceInterior = @('0x80191B94','0x801927D0','0x80192E3C','0x801925D4','0x80191200'),
     [switch]$AllInteriors,    # see the throw below -- kept as a documented dead end, not silently ignored
     [string]$Config = (Join-Path $PSScriptRoot '..\games\parasite-eve\config.toml')
 )

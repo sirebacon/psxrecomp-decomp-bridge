@@ -1,0 +1,454 @@
+{
+ "kind": "psx-gpu-frame",
+ "version": 1,
+ "label": "bad1",
+ "frame": 9600,
+ "source": {
+  "host": "127.0.0.1",
+  "port": 4370
+ },
+ "ring": null,
+ "raw_count": 8,
+ "requested": 65536,
+ "capped": false,
+ "max_words": 12,
+ "prims": [
+  {
+   "seq": 101634,
+   "op": 227,
+   "op_name": "draw_area_tl(E3)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDA0",
+   "ot": 65535,
+   "words": [
+    "0xE303C000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     1023,
+     511
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101635,
+   "op": 228,
+   "op_name": "draw_area_br(E4)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDA4",
+   "ot": 65535,
+   "words": [
+    "0xE4077D3F"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     0
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101636,
+   "op": 229,
+   "op_name": "draw_offset(E5)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDA8",
+   "ot": 65535,
+   "words": [
+    "0xE5078000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     0,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101637,
+   "op": 225,
+   "op_name": "draw_mode(E1)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDAC",
+   "ot": 65535,
+   "words": [
+    "0xE100020A"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101638,
+   "op": 226,
+   "op_name": "tex_window(E2)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDB0",
+   "ot": 65535,
+   "words": [
+    "0xE2000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101639,
+   "op": 230,
+   "op_name": "mask_bit(E6)",
+   "kind": "env",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x80076BDC",
+   "ra": "0x80076D50",
+   "src": "0x0013CDB4",
+   "ot": 65535,
+   "words": [
+    "0xE6000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101640,
+   "op": 1,
+   "op_name": "clear_cache",
+   "kind": "other",
+   "n_words": 1,
+   "have_words": 1,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x800767BC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0x01000000"
+   ],
+   "verts": [],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": null,
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  },
+  {
+   "seq": 101641,
+   "op": 160,
+   "op_name": "copy_cpu_vram",
+   "kind": "copy",
+   "n_words": 3,
+   "have_words": 3,
+   "truncated": false,
+   "func": "0x00000F40",
+   "pc": "0x800767FC",
+   "ra": "0x80076690",
+   "src": "0x1F801810",
+   "ot": 65535,
+   "words": [
+    "0xA0000000",
+    "0x01950084",
+    "0x001A00D8"
+   ],
+   "verts": [
+    [
+     132,
+     405
+    ]
+   ],
+   "colors": [],
+   "uvs": [],
+   "semi": false,
+   "stp": 0,
+   "textured": false,
+   "raw_tex": false,
+   "gouraud": false,
+   "size": [
+    216,
+    26
+   ],
+   "clut": null,
+   "tpage": null,
+   "state": {
+    "offset": [
+     0,
+     240
+    ],
+    "area": [
+     0,
+     240,
+     319,
+     479
+    ],
+    "stp": 0,
+    "texpage": [
+     10,
+     0,
+     0
+    ],
+    "mask": [
+     false,
+     false
+    ]
+   }
+  }
+ ],
+ "funcs": {
+  "0x00000F40": {
+   "func": "0x00000F40",
+   "packets": 8,
+   "drawing": 0,
+   "semi": 0,
+   "textured": 0,
+   "ops": {
+    "draw_area_tl(E3)": 1,
+    "draw_area_br(E4)": 1,
+    "draw_offset(E5)": 1,
+    "draw_mode(E1)": 1,
+    "tex_window(E2)": 1,
+    "mask_bit(E6)": 1,
+    "clear_cache": 1,
+    "copy_cpu_vram": 1
+   },
+   "stp_modes": {},
+   "ot_min": null,
+   "ot_max": null,
+   "ras": [
+    "0x80076D50",
+    "0x80076690"
+   ],
+   "bbox": null
+  }
+ }
+}

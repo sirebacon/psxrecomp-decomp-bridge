@@ -1,0 +1,167 @@
+﻿Against RetroPortingToolKit/psxrecomp @ 2113defc ("Fix overlay Clang exports,
+PGO, and scaffold cache", PR #344 / branch pe-feedback) -- i.e. on top of that
+PR, not the pre-#344 tree. Fixes the PGO *training* step, which #344 didn't
+touch: `rebuild --force-pgo` crashed with `[WinError 5] Access is denied` on
+Windows, and even on a run that didn't crash, the resulting .profraw was
+0 bytes. See findings/pgo-train-fix.md for the full writeup, root cause, and
+verification data (real diff, tested end-to-end: 6.1MB .profraw x2, merged to
+a 1MB default.profdata, full instrument->train->optimize cycle completing
+with exit 0).
+
+diff --git a/psxrecomp_cli.py b/psxrecomp_cli.py
+index 71942997..8e8d54a9 100755
+--- a/psxrecomp_cli.py
++++ b/psxrecomp_cli.py
+@@ -19,6 +19,7 @@ import hashlib
+ import os
+ import re
+ import shutil
++import socket
+ import subprocess
+ import sys
+ import time
+@@ -1475,23 +1476,66 @@ def _cmake_build(
+         raise RuntimeError(err)
+ 
+ 
++# Arbitrary, deliberately distinct from the runtime's normal debug-server
++# default port so a PGO train run never collides with an already-running
++# debug build someone has open.
++PGO_DEBUG_PORT = 45231
++
++
+ def _soft_stop(pid: int, timeout: int = 30) -> None:
++    # NOTE: on Windows there is no real SIGTERM -- os.kill(pid, 15) is already
++    # a hard TerminateProcess. The target can take a while to actually unwind
++    # (SDL/GL teardown), and if the fallback os.kill(pid, 9) below races the
++    # tail end of that teardown, OpenProcess can return ERROR_ACCESS_DENIED
++    # instead of "not found" -- that's not a real failure, the process is on
++    # its way out either way, so treat it the same as ProcessLookupError.
+     try:
+         os.kill(pid, 15)  # SIGTERM
+-    except ProcessLookupError:
++    except (ProcessLookupError, PermissionError):
+         return
+     for _ in range(timeout):
+         try:
+             os.kill(pid, 0)
+-        except ProcessLookupError:
++        except (ProcessLookupError, PermissionError):
+             return
+         time.sleep(1)
+     try:
+         os.kill(pid, 9)
+-    except ProcessLookupError:
++    except (ProcessLookupError, PermissionError):
+         pass
+ 
+ 
++def _debug_quit(pid: int, port: int, *, exit_timeout: int = 15) -> bool:
++    """Ask the runtime's debug server for a clean `exit(0)` instead of a hard
++    kill, so LLVM's atexit-registered profile writer actually runs (a
++    TerminateProcess -- which is all os.kill()/_soft_stop() can do on
++    Windows -- never reaches it, and PGO training silently produces empty
++    .profraw files). Requires the training build to have PSX_DEBUG_TOOLS=ON
++    (cmd_rebuild's PGO "generate" configure sets this).
++
++    Returns True if the process is confirmed gone afterward, so callers can
++    fall back to _soft_stop when the debug server isn't reachable (older
++    builds, or PSX_DEBUG_TOOLS off).
++    """
++    try:
++        with socket.create_connection(("127.0.0.1", port), timeout=5) as sock:
++            sock.sendall(b'{"id":1,"cmd":"quit"}\n')
++            try:
++                sock.settimeout(2)
++                sock.recv(256)
++            except OSError:
++                pass  # the process may exit before it gets a reply out; fine
++    except OSError:
++        return False
++    for _ in range(exit_timeout):
++        try:
++            os.kill(pid, 0)
++        except (ProcessLookupError, PermissionError):
++            return True
++        time.sleep(1)
++    return False
++
++
+ def _pgo_train_warning(*, hide_video: bool) -> str:
+     if hide_video:
+         return (
+@@ -1584,6 +1628,7 @@ def run_pgo_train(
+         ]
+         if hide_video:
+             cmd.append("--headless")
++        cmd.extend(["--debug-port", str(PGO_DEBUG_PORT)])
+         proc = subprocess.Popen(
+             cmd,
+             cwd=str(project_root),
+@@ -1593,7 +1638,12 @@ def run_pgo_train(
+         )
+         time.sleep(train_secs)
+         if proc.poll() is None:
+-            _soft_stop(proc.pid)
++            # Prefer a clean exit(0) via the debug server -- unlike a hard
++            # kill, that's the only way LLVM's profile writer actually runs.
++            # Falls back to the old hard-stop if the debug server isn't
++            # reachable (e.g. PSX_DEBUG_TOOLS wasn't enabled for this build).
++            if not _debug_quit(proc.pid, PGO_DEBUG_PORT):
++                _soft_stop(proc.pid)
+         try:
+             proc.wait(timeout=5)
+         except subprocess.TimeoutExpired:
+@@ -1737,8 +1787,15 @@ def cmd_rebuild(args: argparse.Namespace, progress: ProgressReporter) -> int:
+     try:
+         if not pgo_enabled:
+             progress.phase("build", pct=0.2, message="cmake Release build...")
++            # Explicitly OFF in case a prior --force-pgo run in this same
++            # build dir left PSX_DEBUG_TOOLS=ON cached (CMake cache entries
++            # persist across reconfigures unless overridden).
+             _cmake_configure(
+-                project_root, build_dir, pgo="", extra=cmake_extra, progress=progress
++                project_root,
++                build_dir,
++                pgo="",
++                extra=cmake_extra + ["-DPSX_DEBUG_TOOLS=OFF"],
++                progress=progress,
+             )
+             _cmake_build(build_dir, target, progress)
+         else:
+@@ -1754,11 +1811,17 @@ def cmd_rebuild(args: argparse.Namespace, progress: ProgressReporter) -> int:
+                 pct=0.1,
+                 message="PGO instrumented build...",
+             )
++            # PSX_DEBUG_TOOLS=ON for the instrumented build ONLY -- it turns on
++            # the debug server so run_pgo_train can ask for a clean exit(0)
++            # (see _debug_quit) instead of a hard TerminateProcess, which is
++            # all a "SIGTERM" can be on Windows and which never lets LLVM's
++            # atexit profile writer run. The optimized "use" build below does
++            # NOT get this, so the shipped/measured binary is unaffected.
+             _cmake_configure(
+                 project_root,
+                 build_dir,
+                 pgo="generate",
+-                extra=cmake_extra,
++                extra=cmake_extra + ["-DPSX_DEBUG_TOOLS=ON"],
+                 progress=progress,
+             )
+             _cmake_build(build_dir, target, progress)
+@@ -1781,11 +1844,15 @@ def cmd_rebuild(args: argparse.Namespace, progress: ProgressReporter) -> int:
+                 progress=progress,
+             )
+             progress.phase("pgo_use", pct=0.85, message="PGO optimized rebuild...")
++            # CMake cache entries persist across reconfigures -- PSX_DEBUG_TOOLS=ON
++            # from the instrumented configure above would otherwise silently
++            # leak into this, the actual shipped/measured build, unless it's
++            # explicitly turned back off here.
+             _cmake_configure(
+                 project_root,
+                 build_dir,
+                 pgo="use",
+-                extra=cmake_extra,
++                extra=cmake_extra + ["-DPSX_DEBUG_TOOLS=OFF"],
+                 progress=progress,
+             )
+             _cmake_build(build_dir, target, progress)
