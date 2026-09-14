@@ -5,12 +5,14 @@ a follow-up to the `FUNCTION_POINTER_TARGET` dead-code update.)
 
 ---
 
-## Follow-up: profiled the recovery slowness, tried batching, and it confirms your existing design boundary is correct
+## Follow-up: profiled the recovery slowness, and found a minimal, reproducible batching bug — not just a design boundary
 
 After posting the `FUNCTION_POINTER_TARGET` diagnosis above, I dug into
 *why* a naive fix (recovering these addresses via the existing
 `OBSERVED_PC_ONLY` fragment-demand path) isn't practical, since "it
 converges but too slowly" wasn't a satisfying enough answer on its own.
+What I found is smaller and more concrete than I expected — a minimal
+2-address reproduction, not just a scale problem.
 
 ### What's actually slow
 
@@ -22,7 +24,7 @@ That per-candidate subprocess spawn, repeated once per address, is the
 dominant cost. With ~175 addresses needing recovery in one region, that's
 ~175 separate recompiler-process launches done sequentially.
 
-### The natural fix already exists in the tool — but it's walled off from this exact case
+### The natural fix exists in the tool — but it's walled off from this exact case, for what turns out to be a good reason
 
 `compile_batched_fragment_roots` already implements a batch-then-bisect
 mechanism: compile multiple addresses in **one** recompiler invocation,
@@ -30,44 +32,106 @@ and only if the whole batch fails, recursively split it in half to
 isolate the bad root. That would eliminate almost all the subprocess-spawn
 overhead if it applied here.
 
-Tracing where it's actually wired up: `partition_strong_root_demands`
-explicitly puts `executed` addresses (the exact `OBSERVED_PC_ONLY`/orphan
-class this issue is about) into an `isolated` set that never reaches that
-batching path — only statically-verified `static_exact` roots get
-batched. There's no comment explaining why, so rather than assume it was
-just overcautious, I tested it.
+Tracing where it's wired up: `partition_strong_root_demands` explicitly
+puts `executed` addresses (the exact `OBSERVED_PC_ONLY`/orphan class this
+issue is about) into an `isolated` set that never reaches that batching
+path — only statically-verified `static_exact` roots get batched. No
+comment explains why, so rather than assume it was overcautious, I tested
+it.
 
-### Tried it anyway, on a disposable local copy — and the exclusion is correct
+### Minimal reproduction
 
-Rerouted orphan recovery through the existing `compile_batched_fragment_roots`
-mechanism instead of the singleton wrapper, grouping up to 16 addresses
-per recompiler invocation. Result: real, reproducible
-`undefined reference to 'psx_game_text_native_ok'` link failures across
-most of the batch.
+Patch (on top of an **otherwise-completely-stock** `compile_overlays.py`
+— no classifier changes at all, so this is independent of the
+`FUNCTION_POINTER_TARGET` finding above), in `_do_frags`'s orphan-fragment
+loop:
 
-Confirmed this is specifically caused by batching, not anything else about
-the capture or environment: ran the *exact same address*, completely
-**unmodified** `compile_overlays.py`, singleton `--force-interior` (no
-batching at all) — builds clean, no such error. Same address, same
-capture, same game state; the only variable was whether it was compiled
-alone or grouped with other orphan entries.
+```python
+# before: one compile_interior_fragment(a, ...) call per address, in a
+# `for a in orphans:` loop.
 
-### Conclusion
+# after: route the same orphan addresses through the tool's own existing
+# batch-then-bisect mechanism instead.
+def _orphan_compile_one(roots):
+    return compile_fragment_batch(
+        set(roots), data, load_addr, size, phys_addr, cache_dir,
+        args, frag_env, toml, job['producer_ranges'],
+        job['cross_call_allow'], manifest_provenance=ORPHAN_MANIFEST_PROVENANCE)
 
-Compiling multiple genuinely-uncertain interior entries together changes
-what code gets reached/linked in ways that don't happen compiling each
-one alone. Your existing exclusion of `executed`/orphan addresses from the
-batching path isn't overcautious — it's guarding against something real,
-now empirically confirmed rather than just inferred from the code
-structure. That closes off batching as a way to fix the per-candidate
-slowness without deeper changes to how the recompiler handles
-reachability/linkage for grouped uncertain roots — which is a much bigger
-piece of work than a `compile_overlays.py`-only patch, and squarely in
-the territory of whoever owns that codegen path.
+def _orphan_on_success(roots, frag_ids, status):
+    record_fragment_success(frag_ids, status, ORPHAN_MANIFEST_PROVENANCE)
 
-Passing this along mainly as independent confirmation of a design decision
-you already made, and so nobody re-discovers the same link failure by
-trying the "just batch them" idea themselves.
+def _orphan_on_singleton_failure(a, status):
+    record_fragment_failure(a, status)
+
+for offset in range(0, len(memo_filtered), BATCH_SIZE):
+    chunk = memo_filtered[offset:offset + BATCH_SIZE]
+    compile_batched_fragment_roots(
+        chunk, _orphan_compile_one, _orphan_on_success,
+        _orphan_on_singleton_failure,
+        should_bisect=fragment_batch_failure_is_partitionable)
+```
+
+Repro command (real addresses/capture from my checkout — obviously your
+own capture data will have different addresses, but the shape should
+carry over):
+
+```
+python compile_overlays_batching_only_test.py \
+  --game-toml game.toml --recompiler psxrecomp-game.exe \
+  --runtime-include runtime/include --cps --compiler gcc --gcc gcc.exe \
+  --check --captures overlay_captures.json \
+  --force-interior 0x80190B70 --force-interior 0x80190B74
+```
+
+**Result with `BATCH_SIZE=2`, forcing just these two addresses together**:
+
+```
+undefined reference to `psx_game_text_native_ok'
+SHARD FAIL [fragment] interior 0x80190B70 @region 0x00190000: compile-error
+SHARD FAIL [fragment] interior 0x80190B74 @region 0x00190000: compile-error
+```
+
+**Same two addresses, same capture, completely unmodified
+`compile_overlays.py`, each forced individually (no batching at all)**:
+both build clean, no such error.
+
+This isn't a large-batch/scale problem — it reproduces with the smallest
+possible batch, just two addresses compiled together in one recompiler
+invocation instead of two separate invocations. I also confirmed it at
+`BATCH_SIZE=16` (a bigger batch spanning more of the region) before
+narrowing it down to this 2-address minimal case.
+
+### Conclusion, and a guess at the mechanism (unverified)
+
+Compiling two genuinely-uncertain interior entries together in one
+recompiler invocation changes what code gets reached/linked, in a way
+that produces an unresolved symbol neither address's own code needs when
+compiled alone. Your existing exclusion of `executed`/orphan addresses
+from the batching path isn't overcautious — it's guarding against
+something real and easy to hit, now confirmed with a 2-address repro
+rather than just inferred from the code structure.
+
+Pure speculation on the actual cause, since I don't know the recompiler's
+codegen internals well enough to say for sure: `psx_game_text_native_ok`
+sounds like a text-rendering-related native/HLE helper. My guess is the
+recompiler's reachable-code discovery, when given multiple `dispatch_root`
+seeds in one job, ends up including a code path (reachable from one root
+but not the other) that calls this helper, without whatever normally
+guarantees that helper's declaration/import gets emitted for a
+single-root job. That's a guess, not something I traced into
+`code_generator.cpp` myself.
+
+### What I did *not* check
+
+Whether this is specific to these two addresses/this region, or general
+to any two orphan addresses batched together. Only tested one pair from
+one region in one title's capture.
+
+Passing this along mainly as independent, now-minimally-reproduced
+confirmation of a design decision you already made, and so nobody
+re-discovers the same link failure by trying the "just batch them" idea
+themselves.
 
 Same caveat as always: one local checkout, one title (Parasite Eve) — not
 independently verified against your own test corpus.

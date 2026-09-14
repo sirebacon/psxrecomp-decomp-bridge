@@ -641,6 +641,18 @@ exact same address, completely unmodified `compile_overlays.py`, singleton
 address, same capture, same game state; the only variable was whether it
 was compiled alone or grouped with other orphan entries.
 
+**Narrowed to a minimal 2-address reproduction, independent of any of
+tonight's classifier changes**: applied ONLY the batching-loop change to
+an otherwise completely stock `compile_overlays.py` (no
+`FUNCTION_POINTER_TARGET`-related edits at all), then used plain
+`--force-interior 0x80190B70 --force-interior 0x80190B74` (two adjacent
+addresses from the same failing batch) with `BATCH_SIZE=2`. Same failure,
+reproduced with just two addresses. Each of those same two addresses,
+forced individually against the unmodified tool, builds clean. This is a
+small, precise, upstream-shareable repro that doesn't require explaining
+or including any of my classifier patch at all — just the tool's own
+existing `--force-interior` flag plus a two-address batching change.
+
 **Conclusion: the tool's exclusion of orphan/`OBSERVED_PC_ONLY` addresses
 from the batching path is correct, not overcautious.** Compiling multiple
 genuinely-uncertain interior entries together in one recompiler invocation

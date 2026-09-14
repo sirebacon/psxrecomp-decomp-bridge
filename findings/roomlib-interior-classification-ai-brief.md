@@ -696,6 +696,14 @@ team's existing design boundary here is empirically correct, not
 conservative guesswork — worth mentioning if this comes up, as
 independent confirmation of a design decision rather than a new ask.
 
+Narrowed further: not a large-batch problem. A minimal patch (batching
+only — applied to an otherwise completely stock `compile_overlays.py`,
+no classifier edits) plus plain `--force-interior` on just **two**
+addresses reproduces the identical failure. Same two addresses, forced
+individually against the unmodified tool, build clean. A small, precise,
+independently-shareable repro that doesn't require any of tonight's other
+changes to demonstrate.
+
 ## Final correction (2026-09-14, later still): the "live failure" above was mostly a measurement confound — the real result is milder but still not a practical fix
 
 The live test just above was run on `build-dbg`. Redone properly with a
