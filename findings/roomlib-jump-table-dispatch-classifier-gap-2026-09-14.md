@@ -38,7 +38,7 @@ already in place, that they have not seen.
 | 21 addresses, `0x80191xxx` region (the one active during the intro FMV: `0x80191210`-`0x8019122C`, `0x80191230`, `0x801912A4`-`C8`, `0x80191318`/`8019131C`) | **FIXED.** Live in `build/play.ps1`'s `$ForceInterior` list right now. Verified with a real before/after: the 45M-instruction dirty-RAM spike this document opens with is gone (~450-2200x reduction, reproduced at two timestamps). |
 | 182 addresses, separate `0x8018F000` region (`0x8018F77C`-`0x8018F7EC` + `0x8018F95C`-`0x8018FBBC`) | **FIXED.** Also live in `play.ps1`'s `$ForceInterior` list now. Verified *safe* (healthy `autocompile_status`, no compile-storm symptoms) but its real-world performance impact was **not** separately measured — this overlay isn't loaded during the intro sequence the 45M-instruction number came from, so fixing it didn't (and wasn't expected to) move that specific number further. It's a real, directly-confirmed bug (99.5% of that region's executed code was excluded) — just for a different room/scene than the one this document's headline number is about. |
 | 640-address candidate list for the other 63 unique dispatcher addresses game-wide (companion file `analysis/roomlib-jump-table-2026-09-14/candidate-addresses.md`) | **NOT FIXED, NOT APPLIED.** This is a computed prediction only (one confirmed instance + a two-point size match, extrapolated). Nothing from this list has been added to `play.ps1`. Do not treat these 63 addresses as fixed — they're "check here first" candidates for whoever plays through those specific rooms/scenes, nothing more yet. |
-| The general classifier gap itself | **Root cause corrected (verified); the candidate fix is NOT safe as written — do not apply or propose it as-is.** The original framing on this line ("MIPS jump-table `switch` targets not recognized") is superseded — the actual, fully-verified cause is that `FUNCTION_POINTER_TARGET`, the classification meant to catch exactly this case, is unreachable dead code in the current tool (both its population paths are permanently inactive for real captures; this part is solid). A patch to a **copy** of `compile_overlays.py` (`compile_overlays_patched_test.py`, not the real file) tested clean offline (`built OK: 176, FAILED: 0`) but **failed badly live**: a real boot with the patch active and no `--force-interior` hit 988M+ cumulative interpreted instructions and climbing after 3+ minutes (vs. 45M unfixed, vs. 20K-101K with the existing manual list) — a compile-storm regression, because the patch recovers every `OBSERVED_PC_ONLY` address in every region it ever sees, unscoped. See the correction subsection near the end of this document. The real `compile_overlays.py` is unmodified; the manual `$ForceInterior` list remains the actual deployed fix. |
+| The general classifier gap itself | **Root cause verified and solid; the auto-recovery patch works correctly but is impractical, for reasons finally isolated with a clean control (see the final section of this document).** The original framing on this line ("MIPS jump-table `switch` targets not recognized") is superseded — the actual, fully-verified cause is that `FUNCTION_POINTER_TARGET`, the classification meant to catch exactly this case, is unreachable dead code in the current tool. A patch to a **copy** of `compile_overlays.py` (not the real file) tested clean offline and, once measured on the correct build (`build-release`, not the debug-instrumented `build-dbg` used in earlier live tests — that instrumentation was a confound, not the patch's fault) with a real cold-cache A/B, genuinely converges to a stable native 60fps state. It's just slower and more expensive than doing nothing for a first-time cold boot (~310s / ~1.18B instructions vs. stock's own ~100-130s / ~469-603M plateau) — not a "storm," but not a practical win either. The manual `$ForceInterior` list remains the actual deployed fix: it force-compiles everything in one pass with no throttling, reaching the good state far faster. |
 | The ~20K-100K post-fix residual (`20,304` at T+120s, `101,046` post-skip) | **Not a bug — investigated and ruled out.** Confirmed via `current_func` sampling to be genuine, architecturally-irreducible PS1 BIOS ROM/kernel interpretation during active CD-ROM/MDEC work, not a classifier exclusion. Nothing to fix here; don't spend more time chasing this specific number. |
 | Connection to `video-bleed-through-splash.md`'s visual bleed-through glitch | **Still unconfirmed, open question.** Attempted the same repro before and after the fixes above and got a clean result both times — that bug is independently documented as timing/race-sensitive, so this neither confirms nor rules out a relationship. |
 
@@ -516,3 +516,94 @@ classifier fix instead of a manual address list.
 - The currently-deployed fix for dirty RAM remains the manual 208-address
   `$ForceInterior` list in `play.ps1` — untouched by this test, still the
   actual working mitigation right now.
+
+## Final correction (2026-09-14, later still): the "storm" was a confounded measurement, and a proper A/B says the auto-recovery patch is real but impractical
+
+Everything in the correction directly above was measured on `build-dbg`.
+Going back to actually control the experiment (hold the *unrelated*,
+already-fixed WO-3 bug's 5 addresses constant across every run, rather
+than zeroing `--force-interior` entirely) surfaced something more
+important first: **every configuration tested on `build-dbg` — patched,
+capped-patched, and completely unmodified stock `compile_overlays.py` —
+showed the same runaway growth**, regardless of the classifier change.
+That meant the classifier patch was never the variable causing the bad
+numbers; `build-dbg` itself was the confound.
+
+Root cause, found in `psxrecomp/runtime/runtime.cmake`: `PSX_DEBUG_TOOLS`
+(the flag that builds in the TCP debug server needed for any of this live
+introspection) defaults ON for `build-dbg` (`RelWithDebInfo`) and OFF for
+`build-release` — and the CMake comment for it is explicit: *"PSX_COSIM
+activates the cosim engine/hooks; PSX_NO_DEBUG_TOOLS strips ALL the laggy
+[debug instrumentation]"*. Every one of tonight's earlier live tests used
+`build-dbg` because that's the only build with a listening debug port —
+which meant every number in the "correction" section above was measured
+through that same laggy instrumentation layer, on both sides of every
+comparison. Checking `build-release`'s own `CMakeCache.txt` found
+`PSX_DEBUG_TOOLS:BOOL=ON` already cached there too (from earlier,
+unrelated work) — so `build-release` *also* has a working debug port,
+without the confound. This should have been the test build from the very
+first live test tonight.
+
+**Redid the comparison properly, on `build-release`, with a real control:**
+`build-release`'s cache already held 354 previously-compiled fragments
+(24.3MB) from all of this project's earlier verified-good testing, which
+would have silently made *any* re-test of "zero force-interior" look
+fine regardless of what's actually broken (the compiled DLLs get reused
+by content hash regardless of the current run's flags). Backed up the
+real cache (`Move-Item cache cache.real-backup` — fully reversible, and
+restored immediately after each test; verified byte-identical after
+restore, 354 files), then ran three genuinely cold-cache configurations,
+all with only the 5 original WO-3 addresses forced (holding that
+unrelated bug's fix constant) and otherwise identical:
+
+| Configuration | Time to reach a stable 60fps plateau | Total interpreted instructions accumulated by then |
+|---|---|---|
+| Stock (unmodified) classifier | ~100-130s | ~469-603M |
+| Capped patch (max 8 new recoveries/region/pass) | ~310s (6 incremental passes, real `shard_ok` completions confirmed) | ~1.18B |
+| Uncapped patch (v1, the one that "failed" above) | **Still stuck on pass 1 at 210s+, zero `shard_ok`**, same shape as the `build-dbg` result | ~1.06B and still climbing |
+
+Two real findings here, not one:
+
+1. **The cap is genuinely necessary, independent of the `build-dbg`
+   confound.** Uncapped stays on a single pass with zero completions for
+   210+ seconds even on the clean `build-release` build — the per-candidate
+   overhead ahead of each `gcc.exe` invocation really is too expensive to
+   process ~175 addresses in one shot, on any build. The earlier "storm"
+   diagnosis was about the wrong *cause* (blamed the classifier logic
+   generally, when `build-dbg` overhead was the dominant factor), but the
+   underlying prescription — cap how much new recovery work one pass takes
+   on — turns out to be correct and necessary on its own merits.
+2. **Even correctly capped, the auto-recovery patch is slower and more
+   expensive than doing nothing at all, for a first-ever cold boot.** It
+   does converge to a genuine, stable, ~60fps native state (confirmed:
+   `dirty_ram_insns` frozen to +64 over 100+ seconds while `frame_count`
+   climbed at a real ~60.8fps) — the fix mechanism itself works — but by
+   the time it finishes its 6 incremental passes (~310s), the specific
+   intro-FMV window that needed those addresses has already mostly played
+   out in real time, so the recovery arrives too late to help *that*
+   playthrough. Stock reaches its own (worse, permanently-uncompiled)
+   plateau faster simply by not trying.
+
+**Verdict: the manual `$ForceInterior` list remains the correct, practical
+fix.** It force-compiles everything needed in the very first pass with no
+artificial throttling, reaching the good state far faster than either
+patch variant. The classifier-side auto-recovery idea is real (it does
+work, eventually, and would presumably keep paying off on every visit
+*after* the first, same as the manual list does once warm) but is not
+competitively practical as implemented — making it actually win would need
+real batching of multiple addresses into fewer compiler invocations
+(which conflicts with `compile_interior_fragment`'s own deliberate
+one-entry-per-DLL isolation design — see its docstring: *"one speculative
+entry cannot poison trusted roots"*) or some other way to cut the
+per-candidate overhead before it ever reaches `gcc`, neither of which
+exists yet.
+
+**What to actually report upstream, given all of the above**: the
+`FUNCTION_POINTER_TARGET`-is-dead-code diagnosis (verified, solid, useful
+on its own regardless of any patch). Not the patch itself, and not the
+original "MIPS jump-table" framing — both superseded. The honest framing
+for issue #365: *"here's a precise diagnosis of why these addresses are
+unclassified; a naive fix using existing recovery machinery works
+correctly but isn't practical because of real per-candidate cost in the
+live autocompile path — that's likely a separate, harder problem for
+whoever owns that code path to weigh in on."*

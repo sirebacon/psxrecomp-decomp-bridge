@@ -674,3 +674,47 @@ verified safe and should not be presented as a candidate fix without
 first adding real scoping (e.g. only recovering addresses hot across
 repeated visits rather than on first sight, a concurrency cap on isolated
 fragment compiles, or per-region opt-in) — none of which exists yet.
+
+## Final correction (2026-09-14, later still): the "live failure" above was mostly a measurement confound — the real result is milder but still not a practical fix
+
+The live test just above was run on `build-dbg`. Redone properly with a
+controlled A/B (see the matching final section in
+`roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md` for the full
+detail) and it turns out **every configuration tested on `build-dbg` —
+patched, capped, and completely unmodified stock `compile_overlays.py` —
+showed the same runaway growth.** The classifier patch was never the
+actual variable; `build-dbg`'s `PSX_DEBUG_TOOLS` build (needed for any
+live debug-port introspection) carries real always-on instrumentation
+overhead (`runtime.cmake`'s own comment: *"PSX_NO_DEBUG_TOOLS strips ALL
+the laggy [instrumentation]"*) that dominated every number on both sides
+of every comparison. `build-release` turned out to already have
+`PSX_DEBUG_TOOLS:BOOL=ON` cached from earlier work too, so it could have
+been (and should have been) the test build from the start.
+
+Redone on `build-release` with a real control (backed up and restored the
+354-fragment/24.3MB real cache around the test — verified byte-identical
+after; held the *unrelated*, already-fixed 5-address WO-3 bug's fix
+constant instead of zeroing `--force-interior` entirely, which is what
+conflated two different bugs in the test above):
+
+| Configuration | Time to stable 60fps | Total interpreted instructions by then |
+|---|---|---|
+| Stock classifier | ~100-130s | ~469-603M |
+| Capped patch (max 8 new recoveries/region/pass) | ~310s, real `shard_ok` completions confirmed | ~1.18B |
+| Uncapped patch | stuck on pass 1, zero completions, 210s+ | ~1.06B, still climbing |
+
+The corrected picture: the patch **does work** — it genuinely converges to
+a stable, confirmed-native 60fps state, and the per-pass cap really is
+necessary (uncapped stays stuck even on the clean build, not just on
+`build-dbg`) — but it's slower and costs more than simply doing nothing,
+because its incremental recovery passes don't finish before the intro-FMV
+window that needed those addresses has already mostly played out. This is
+a real negative result, just a much less dramatic one than "compile
+storm" — and it doesn't change the recommendation: **do not forward this
+patch upstream as a fix.** The manual `$ForceInterior` list remains
+correct and practical because it force-compiles everything in one pass
+with no throttling. What's still worth reporting to mstan's team on its
+own is the `FUNCTION_POINTER_TARGET`-is-dead-code diagnosis, framed
+honestly as "here's why the classifier can't do this today," not as "here's
+a fix" — because for this game, on this measurement, there isn't yet a
+version of the fix that beats doing nothing.
