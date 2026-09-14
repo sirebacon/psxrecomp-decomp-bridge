@@ -675,6 +675,27 @@ first adding real scoping (e.g. only recovering addresses hot across
 repeated visits rather than on first sight, a concurrency cap on isolated
 fragment compiles, or per-region opt-in) — none of which exists yet.
 
+## Profiled the slowness, tried batching, and it confirms their design is right
+
+Traced the per-candidate cost precisely: every singleton orphan recovery
+spawns a full separate recompiler subprocess that reparses the entire
+game config from scratch. The tool already has a batching-with-bisection
+mechanism for exactly this kind of throughput problem
+(`compile_batched_fragment_roots`) — but it's deliberately withheld from
+`executed`/orphan-class addresses (`partition_strong_root_demands` routes
+only statically-verified roots through it).
+
+Tried rerouting orphan recovery through that mechanism anyway, on a
+disposable test copy, to see empirically whether the exclusion was
+overcautious. It isn't: batching multiple orphan addresses into one
+recompiler invocation produced real, reproducible `undefined reference`
+link failures that do **not** occur compiling the same addresses one at a
+time (verified directly — same address, same capture, unmodified
+`compile_overlays.py`, singleton `--force-interior`: builds clean). Your
+team's existing design boundary here is empirically correct, not
+conservative guesswork — worth mentioning if this comes up, as
+independent confirmation of a design decision rather than a new ask.
+
 ## Final correction (2026-09-14, later still): the "live failure" above was mostly a measurement confound — the real result is milder but still not a practical fix
 
 The live test just above was run on `build-dbg`. Redone properly with a

@@ -607,3 +607,49 @@ unclassified; a naive fix using existing recovery machinery works
 correctly but isn't practical because of real per-candidate cost in the
 live autocompile path — that's likely a separate, harder problem for
 whoever owns that code path to weigh in on."*
+
+## Follow-up: profiled the slowness, tried batching, and confirmed the tool's existing design boundary is correct
+
+Profiled exactly what's slow about each singleton orphan recovery: every
+`compile_interior_fragment` call spawns a **full separate
+`psxrecomp-game.exe` recompiler subprocess** (not just `gcc`), which
+reparses the entire `game.toml` config from scratch for one address.
+That's the dominant per-candidate cost, confirmed by reading
+`compile_fragment_batch`'s `subprocess.run([args.recompiler, ...])` call
+directly.
+
+The tool already has a batching-with-bisection mechanism
+(`compile_batched_fragment_roots`: compile multiple addresses in one
+recompiler invocation, and only if the whole batch fails, recursively
+split it in half to isolate the bad one) — but tracing where it's used,
+`partition_strong_root_demands` explicitly puts `executed` addresses (our
+exact orphan/`OBSERVED_PC_ONLY` class) in an `isolated` set that never
+reaches that batching path. Only statically-verified `static_exact` roots
+get batched. No comment explains why, so this was tested empirically
+rather than assumed.
+
+**Experimentally rerouted orphan recovery through the existing batching
+mechanism** (on the same disposable test copy, never the real
+`compile_overlays.py`), grouping up to 16 addresses per recompiler
+invocation instead of one-per-invocation. Result: **real, reproducible
+compile failures** — `undefined reference to 'psx_game_text_native_ok'` —
+across most of a batch of previously-successfully-classified addresses.
+
+**Confirmed this is caused by batching, not by anything else**: ran the
+exact same address, completely unmodified `compile_overlays.py`, singleton
+`--force-interior` (no batching at all) — built clean, no such error. Same
+address, same capture, same game state; the only variable was whether it
+was compiled alone or grouped with other orphan entries.
+
+**Conclusion: the tool's exclusion of orphan/`OBSERVED_PC_ONLY` addresses
+from the batching path is correct, not overcautious.** Compiling multiple
+genuinely-uncertain interior entries together in one recompiler invocation
+changes what code gets reached/linked in ways that don't happen compiling
+each alone — exactly the kind of cross-contamination the "isolated" label
+was presumably guarding against, now empirically confirmed rather than
+just inferred from a design comment. This closes off batching as a way to
+fix the per-candidate slowness without deeper changes to the recompiler's
+own reachability/linkage handling for grouped uncertain roots — that's a
+harder problem than a `compile_overlays.py`-only patch can solve, and
+squarely in the territory of whoever owns the recompiler's codegen path,
+not something to keep chasing locally tonight.
