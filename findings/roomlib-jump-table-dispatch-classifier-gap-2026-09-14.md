@@ -38,7 +38,7 @@ already in place, that they have not seen.
 | 21 addresses, `0x80191xxx` region (the one active during the intro FMV: `0x80191210`-`0x8019122C`, `0x80191230`, `0x801912A4`-`C8`, `0x80191318`/`8019131C`) | **FIXED.** Live in `build/play.ps1`'s `$ForceInterior` list right now. Verified with a real before/after: the 45M-instruction dirty-RAM spike this document opens with is gone (~450-2200x reduction, reproduced at two timestamps). |
 | 182 addresses, separate `0x8018F000` region (`0x8018F77C`-`0x8018F7EC` + `0x8018F95C`-`0x8018FBBC`) | **FIXED.** Also live in `play.ps1`'s `$ForceInterior` list now. Verified *safe* (healthy `autocompile_status`, no compile-storm symptoms) but its real-world performance impact was **not** separately measured — this overlay isn't loaded during the intro sequence the 45M-instruction number came from, so fixing it didn't (and wasn't expected to) move that specific number further. It's a real, directly-confirmed bug (99.5% of that region's executed code was excluded) — just for a different room/scene than the one this document's headline number is about. |
 | 640-address candidate list for the other 63 unique dispatcher addresses game-wide (companion file `analysis/roomlib-jump-table-2026-09-14/candidate-addresses.md`) | **NOT FIXED, NOT APPLIED.** This is a computed prediction only (one confirmed instance + a two-point size match, extrapolated). Nothing from this list has been added to `play.ps1`. Do not treat these 63 addresses as fixed — they're "check here first" candidates for whoever plays through those specific rooms/scenes, nothing more yet. |
-| The general classifier gap itself | **Root cause corrected, and a working fix now exists and is tested (see final follow-up section).** The original framing on this line ("MIPS jump-table `switch` targets not recognized") is superseded — the actual, fully-verified cause is that `FUNCTION_POINTER_TARGET`, the classification meant to catch exactly this case, is unreachable dead code in the current tool (both its population paths are permanently inactive for real captures). A one-line-scale patch to a **copy** of `compile_overlays.py` (`compile_overlays_patched_test.py`, not the real file) was written and tested via an offline `--check` run with **no** `--force-interior` flags: it auto-recovered all 175 previously-stuck addresses across both captured overlay regions and compiled all of them successfully (`built OK: 176, FAILED: 0, skipped: 1`). The real `compile_overlays.py` is still unmodified; this is a tested candidate fix, not yet proposed upstream. |
+| The general classifier gap itself | **Root cause corrected (verified); the candidate fix is NOT safe as written — do not apply or propose it as-is.** The original framing on this line ("MIPS jump-table `switch` targets not recognized") is superseded — the actual, fully-verified cause is that `FUNCTION_POINTER_TARGET`, the classification meant to catch exactly this case, is unreachable dead code in the current tool (both its population paths are permanently inactive for real captures; this part is solid). A patch to a **copy** of `compile_overlays.py` (`compile_overlays_patched_test.py`, not the real file) tested clean offline (`built OK: 176, FAILED: 0`) but **failed badly live**: a real boot with the patch active and no `--force-interior` hit 988M+ cumulative interpreted instructions and climbing after 3+ minutes (vs. 45M unfixed, vs. 20K-101K with the existing manual list) — a compile-storm regression, because the patch recovers every `OBSERVED_PC_ONLY` address in every region it ever sees, unscoped. See the correction subsection near the end of this document. The real `compile_overlays.py` is unmodified; the manual `$ForceInterior` list remains the actual deployed fix. |
 | The ~20K-100K post-fix residual (`20,304` at T+120s, `101,046` post-skip) | **Not a bug — investigated and ruled out.** Confirmed via `current_func` sampling to be genuine, architecturally-irreducible PS1 BIOS ROM/kernel interpretation during active CD-ROM/MDEC work, not a classifier exclusion. Nothing to fix here; don't spend more time chasing this specific number. |
 | Connection to `video-bleed-through-splash.md`'s visual bleed-through glitch | **Still unconfirmed, open question.** Attempted the same repro before and after the fixes above and got a clean result both times — that bug is independently documented as timing/race-sensitive, so this neither confirms nor rules out a relationship. |
 
@@ -466,3 +466,53 @@ against real capture data" rather than "this is merged/validated," since
 mstan's team's own process for the original PR #349 fix involved broader
 synthetic tests and multi-title validation this local test doesn't
 replicate.
+
+### Correction, same day, a few minutes later — the patch is NOT safe live as written
+
+The offline `--check` result above is real but was misleading about
+real-world safety, and it's important this isn't taken further than it
+should be. Ran the actual patched classifier **live**, in a real game
+process (`build-dbg`, fresh boot, zero `--force-interior`), and watched
+`dirty_ram_insns` through the intro FMV:
+
+| Elapsed since boot | `dirty_ram_insns` | `autocompile_status.compile.state` |
+|---|---:|---|
+| ~15s | 2.4M | running |
+| ~53s | 85M | running |
+| 90s | 535M | running |
+| 195s (3.25 min) | **988M**, still climbing | still "running", `shard_ok: 0` |
+
+For contrast: the *original unfixed* bug topped out at 45M by this point;
+the *already-deployed* manual `$ForceInterior` list settles at
+20,304-101,046. This patched run blew past **988 million** and was still
+climbing with zero shards reported complete after over 3 minutes. Killed
+the process rather than let it run further.
+
+**Root cause of the discrepancy**: the offline `--check` only replayed the
+2 overlay regions already sitting in `overlay_captures.json`. Live, the
+game visits many more overlay regions during actual play — the compile
+log was caught mid-run building a fragment for `load=0x00052000`, a
+region never present in the offline capture file at all. The patch as
+written recovers *every* `OBSERVED_PC_ONLY` address in *every* region,
+unconditionally, each as its own separately-compiled DLL ("isolated
+island shard"). Live, each newly-visited area adds another batch of
+one-DLL-per-address compiles to an already-overloaded background queue
+that never catches up — this is the same compile-storm failure mode as
+the previously-rejected 1,131-address/237-DLL experiment
+(`roomlib-interior-classification-ai-brief.md`), just reached through the
+classifier fix instead of a manual address list.
+
+**What this does and does not change**:
+- Does not change: the `FUNCTION_POINTER_TARGET`-is-dead-code diagnosis.
+  That's verified against real data independent of whether this specific
+  patch is safe to ship.
+- Does change: **do not propose this patch upstream, or apply it locally,
+  as written.** It is not a ready fix — it needs real scoping before it's
+  anywhere close to safe: e.g. only recovering addresses observed hot
+  across repeated visits (not on first sight), a cap on concurrent
+  isolated-fragment compiles, per-region opt-in rather than global, or
+  batching multiple addresses into fewer DLLs instead of one-per-address.
+  None of that is implemented yet.
+- The currently-deployed fix for dirty RAM remains the manual 208-address
+  `$ForceInterior` list in `play.ps1` — untouched by this test, still the
+  actual working mitigation right now.

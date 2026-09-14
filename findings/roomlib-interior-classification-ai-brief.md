@@ -628,10 +628,49 @@ itself.
 **If sharing this with mstan's team, the accurate framing is:** "the
 follow-up gap reported above isn't a jump-table-specific miss — it's that
 `FUNCTION_POINTER_TARGET` itself is unreachable dead code in the shipped
-tool, verified against real capture data, and here's a small patch that
-tests clean by routing the same addresses through the existing
-`OBSERVED_PC_ONLY` recovery path instead" — not "PR #349 has a bug" (it
-doesn't; this is a separate classification that was already broken before
-PR #349 and that PR #349's fix does not touch), and not "this patch is
-validated" (it's a same-night, single-checkout offline test, not the kind
-of multi-title synthetic regression suite mstan's team built for PR #349).
+tool, verified against real capture data" — that part is solid and worth
+reporting. **Do not forward the patch itself as a fix** — see the
+correction immediately below, found minutes after the section above was
+written: it fails live.
+
+## Correction (2026-09-14, same day, minutes later): the patch above is not safe — do not use or forward it as written
+
+Tested the patch live (not just the offline `--check` above) in a fresh
+`build-dbg` boot with the classifier patch active and zero
+`--force-interior` addresses. Watched `dirty_ram_insns` through the intro
+FMV:
+
+| Elapsed since boot | `dirty_ram_insns` | compile state |
+|---|---:|---|
+| ~15s | 2.4M | running |
+| 90s | 535M | running |
+| 195s | **988M**, still climbing | still "running", `shard_ok: 0` |
+
+The *original unfixed* bug this brief documents topped out at
+`383,000,000` insns at one hot PC in the field report that opened this
+brief — comparable order of magnitude to what this patch produces, i.e.
+**no better than having no fix at all**, and far worse than this brief's
+own already-working PR #349 port (93.6%→7.9% `interp_share`) or the
+jump-table follow-up's manual list (settles at 20K-101K). Killed the
+process after 3+ minutes with zero shards reported complete.
+
+**Why the offline test looked clean but live failed**: the offline
+`--check` only replayed the 2 overlay regions already sitting in
+`overlay_captures.json`. Live, the game visits many more regions during
+real play, and the compile log was caught mid-run building a fragment for
+`load=0x00052000` — a region never present in the offline capture at all.
+The patch recovers *every* `OBSERVED_PC_ONLY` address in *every* region,
+unconditionally, each as its own separately-compiled DLL. Live, each newly
+visited area queues another batch of one-DLL-per-address compiles that
+never catches up — the same compile-storm shape as this brief's own
+rejected 1,131-address/237-DLL experiment, just triggered through the
+classifier instead of a manual list.
+
+**Bottom line for anything shared with mstan's team**: the
+`FUNCTION_POINTER_TARGET`-is-dead-code diagnosis is verified and worth
+reporting on its own. The specific patch that routes recovered addresses
+through `OBSERVED_PC_ONLY`'s existing fragment-demand path is **not**
+verified safe and should not be presented as a candidate fix without
+first adding real scoping (e.g. only recovering addresses hot across
+repeated visits rather than on first sight, a concurrency cap on isolated
+fragment compiles, or per-region opt-in) — none of which exists yet.
