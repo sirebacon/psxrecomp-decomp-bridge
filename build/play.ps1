@@ -42,7 +42,44 @@ param(
     # during an idle window). Confirmed force-interior carves it fine once
     # added; it just hadn't been found yet. See findings/ in
     # psxrecomp-decomp-bridge for the stall_report data behind this list.
-    [string[]]$ForceInterior = @('0x80191B94','0x801927D0','0x80192E3C','0x801925D4','0x80191200'),
+    [string[]]$ForceInterior = @('0x80191B94','0x801927D0','0x80192E3C','0x801925D4','0x80191200',
+        # Found 2026-09-13 during the intro-FMV dirty-RAM investigation: these
+        # showed up as "excluded: OBSERVED_PC_ONLY" in autocompile_status while
+        # the intro FMV was playing (dirty_ram_insns climbed from ~250 to 45M+
+        # over ~2 minutes of playback, then went flat the instant the menu
+        # settled) -- same failure mode as the 0x80191200 entry above, same
+        # 0x80191xxx RoomLib region, just not yet in this list. Not yet
+        # verified this actually reduces the interpreted count -- see
+        # pe-mod-movement-verification-2026-09-13.md's dirty-RAM follow-up.
+        # Found 2026-09-14: these 8 were missed the first time because the
+        # runtime's autocompile_status output_tail is capped and literally
+        # cut off mid-word ("uded: OBSERVED_PC_ONLY") right before them.
+        # Found by re-running compile_overlays.py --check --only-region
+        # 0x80191000 offline (uncapped output) against this session's real
+        # captures.
+        '0x80191210','0x80191214','0x80191218','0x8019121C','0x80191220',
+        '0x80191224','0x80191228','0x8019122C',
+        '0x80191230','0x801912A4','0x801912A8','0x801912AC','0x801912B0',
+        '0x801912B4','0x801912B8','0x801912BC','0x801912C0','0x801912C4',
+        '0x801912C8','0x80191318','0x8019131C',
+        # Found 2026-09-14, targeting the residual dirty-RAM count left
+        # after the fix above (20,304 -> 101,046, still ~80-400x the
+        # harmless BIOS baseline of ~257). Ran compile_overlays.py --check
+        # --only-region 0x8018F000 offline against this session's real
+        # overlay_captures.json (same method as the "Tested directly
+        # against Parasite Eve" section of roomlib-interior-classification
+        # -ai-brief.md) and got a stark result for that region:
+        # executed_pcs=183, function_entry_pcs=1 -- only the dispatch entry
+        # itself (0x8018F958) is classified; every other observed address
+        # in the region is excluded. These 182 addresses are DIRECTLY
+        # OBSERVED in real capture data, not a projection (contrast with
+        # the 64-address projected list in
+        # roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md's
+        # companion file, which is inference from this one). Two
+        # contiguous clusters: 0x8018F77C-0x8018F7EC (29 addrs) and
+        # 0x8018F95C-0x8018FBBC (153 addrs).
+        '0x8018F77C','0x8018F780','0x8018F784','0x8018F788','0x8018F78C','0x8018F790','0x8018F794','0x8018F798','0x8018F79C','0x8018F7A0','0x8018F7A4','0x8018F7A8','0x8018F7AC','0x8018F7B0','0x8018F7B4','0x8018F7B8','0x8018F7BC','0x8018F7C0','0x8018F7C4','0x8018F7C8','0x8018F7CC','0x8018F7D0','0x8018F7D4','0x8018F7D8','0x8018F7DC','0x8018F7E0','0x8018F7E4','0x8018F7E8','0x8018F7EC',
+        '0x8018F95C','0x8018F960','0x8018F964','0x8018F968','0x8018F96C','0x8018F970','0x8018F974','0x8018F978','0x8018F97C','0x8018F980','0x8018F984','0x8018F988','0x8018F98C','0x8018F990','0x8018F994','0x8018F998','0x8018F99C','0x8018F9A0','0x8018F9A4','0x8018F9A8','0x8018F9AC','0x8018F9B0','0x8018F9B4','0x8018F9B8','0x8018F9BC','0x8018F9C0','0x8018F9C4','0x8018F9C8','0x8018F9CC','0x8018F9D0','0x8018F9D4','0x8018F9D8','0x8018F9DC','0x8018F9E0','0x8018F9E4','0x8018F9E8','0x8018F9EC','0x8018F9F0','0x8018F9F4','0x8018F9F8','0x8018F9FC','0x8018FA00','0x8018FA04','0x8018FA08','0x8018FA0C','0x8018FA10','0x8018FA14','0x8018FA18','0x8018FA1C','0x8018FA20','0x8018FA24','0x8018FA28','0x8018FA2C','0x8018FA30','0x8018FA34','0x8018FA38','0x8018FA3C','0x8018FA40','0x8018FA44','0x8018FA48','0x8018FA4C','0x8018FA50','0x8018FA54','0x8018FA58','0x8018FA5C','0x8018FA60','0x8018FA64','0x8018FA68','0x8018FA6C','0x8018FA70','0x8018FA74','0x8018FA78','0x8018FA7C','0x8018FA80','0x8018FA84','0x8018FA88','0x8018FA8C','0x8018FA90','0x8018FA94','0x8018FA98','0x8018FA9C','0x8018FAA0','0x8018FAA4','0x8018FAA8','0x8018FAAC','0x8018FAB0','0x8018FAB4','0x8018FAB8','0x8018FABC','0x8018FAC0','0x8018FAC4','0x8018FAC8','0x8018FACC','0x8018FAD0','0x8018FAD4','0x8018FAD8','0x8018FADC','0x8018FAE0','0x8018FAE4','0x8018FAE8','0x8018FAEC','0x8018FAF0','0x8018FAF4','0x8018FAF8','0x8018FAFC','0x8018FB00','0x8018FB04','0x8018FB08','0x8018FB0C','0x8018FB10','0x8018FB14','0x8018FB18','0x8018FB1C','0x8018FB20','0x8018FB24','0x8018FB28','0x8018FB2C','0x8018FB30','0x8018FB34','0x8018FB38','0x8018FB3C','0x8018FB40','0x8018FB44','0x8018FB48','0x8018FB4C','0x8018FB50','0x8018FB54','0x8018FB58','0x8018FB5C','0x8018FB60','0x8018FB64','0x8018FB68','0x8018FB6C','0x8018FB70','0x8018FB74','0x8018FB78','0x8018FB7C','0x8018FB80','0x8018FB84','0x8018FB88','0x8018FB8C','0x8018FB90','0x8018FB94','0x8018FB98','0x8018FB9C','0x8018FBA0','0x8018FBA4','0x8018FBA8','0x8018FBAC','0x8018FBB0','0x8018FBB4','0x8018FBB8','0x8018FBBC'),
     [switch]$AllInteriors,    # see the throw below -- kept as a documented dead end, not silently ignored
     [string]$Config = (Join-Path $PSScriptRoot '..\games\parasite-eve\config.toml')
 )

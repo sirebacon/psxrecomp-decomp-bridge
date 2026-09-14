@@ -373,3 +373,157 @@ commit message. `play.ps1`'s `-ForceInterior` default list can likely be
 retired now that the real fix is in place — not yet done, since the
 manual list is harmless to leave in place as a belt-and-suspenders
 fallback and removing it wasn't the point of this test.
+
+**Update, same day, see the follow-up directly below**: retiring this
+list turned out to be the wrong call, not just "not yet done" — a
+separate, unrelated gap in the same classifier area was found a few hours
+later, and the list actually *grew* (by 21 + 182 addresses) rather than
+being retired. Read on before assuming this list is safe to remove.
+
+## Follow-up (2026-09-14): a related but distinct gap the PR #349 fix does not cover — MIPS jump-table dispatch
+
+**mstan's team has NOT fixed or seen anything below — read this first so
+it's not mistaken for a status update on work they've already done.**
+
+**What mstan's team already fixed (for context, not part of this ask)**:
+PR #349, described in full above — the classifier now retains execution
+evidence for a "hostless" dispatch target instead of dropping it on a
+shared-alias rejection. That fix is real, merged, ported into this
+project's checkout, and confirmed working end-to-end (the whole section
+above this one). **It is not broken, and this follow-up is not reporting
+a regression in it.**
+
+**What's new below, that mstan's team has not seen or fixed**: a
+*different*, narrower gap in the same classifier area, which PR #349's
+fix does not reach — confirmed by reading `compile_overlays.py` directly
+and finding the affected addresses never entered the code path PR #349's
+fix operates on in the first place (see "Root cause" below). This is a
+follow-up bug report, not a claim that PR #349 needs rework.
+
+**Status of this new finding, locally, tonight — so nothing below gets
+mistaken for more than it is:**
+
+- **Fixed and verified, but only as a local workaround, not upstream**:
+  two directly-confirmed instances (21 + 182 addresses, both from real
+  capture data, not guesses) — live in `build/play.ps1`'s `$ForceInterior`
+  list right now, with a measured ~450-2200x reduction in the dirty-RAM
+  cost they caused. `compile_overlays.py` itself is unchanged — this is
+  the exact same kind of local patch this brief's original bug relied on
+  *before* mstan's team's PR #349 fix existed.
+- **Not fixed, not applied anywhere, not sent to mstan's team**: a
+  further 63 dispatcher addresses game-wide are only a *computed
+  prediction* (same macro, inferred offsets) — sitting in a companion
+  data file, not in `play.ps1`, not verified live. Don't read "255 files /
+  64 unique addresses" below as "64 confirmed bugs" — it's 2 confirmed, 62
+  unconfirmed candidates.
+- **Investigated and ruled out, not a bug, nothing for mstan's team to
+  fix here**: a residual dirty-RAM count that remained after the two
+  fixes above turned out to be genuine PS1 BIOS ROM interpretation
+  (architecturally unfixable by any classifier change), not a third
+  instance of this bug — see below for how that was confirmed.
+
+Retiring the manual `-ForceInterior` list turned out to be premature for a
+different reason than "harmless to leave in place." Investigating an
+unrelated report (a 45-million-instruction dirty-RAM spike during the
+intro FMV, tracked in this project's own
+`roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md`, which has the
+full trail — this section is the condensed version for this brief's
+audience) found 13 new addresses excluded as `OBSERVED_PC_ONLY`, in the
+same shared `0x80191xxx` RoomLib region as this brief's original bug.
+
+**Checked whether this was the same bug recurring a third time — it
+isn't.** `psxrecomp/tools/compile_overlays.py` already has the PR #349 fix
+(confirmed by reading the code directly: `print_seed_audit()` appends
+`"; isolated fragment demand retained"` to an `OBSERVED_PC_ONLY` line when
+the address is in `unhosted_dispatch = (dispatch_fragment_demands &
+executed_pcs) - included_reasons`). The 13 new addresses printed with
+**no** such recovery suffix, meaning they were never in
+`dispatch_fragment_demands` at all — not that they were in it and the fix
+still dropped them.
+
+**Root cause, traced to source**: the addresses are interior case targets
+of `ROOMLIB_STATE_DISPATCH_VARIANT2(func_80191244,
+RoomLib_ResetAndSignalB_80191984)` (`src/overlays/room_m087/
+func_80191244.c`), a macro expanding to `switch (func_800DFB78()) { case
+0: ...; case 1: ...; case 2: ...; }` (`room_lib.h`). A dense small-integer
+`switch` compiles to a MIPS jump table — each `case` is reached via a
+**computed** `jr` (a runtime table read), not a `jal`. `dispatch_
+fragment_demands` is apparently populated from statically-discoverable
+targets (the kind a disassembly pass can identify directly, like a literal
+`jal`); a jump table's destinations come from data read at runtime, which
+this classifier's static pass doesn't currently resolve into a demand
+record the same way.
+
+**This is offered as a follow-up bug report for the same PR #349 area,
+not a claim that PR #349 itself is broken.** The fixed mechanism correctly
+recovers unhosted-but-statically-demandable addresses; MIPS jump-table
+case targets from a runtime-computed `switch` appear to fall outside what
+currently counts as "demandable." Not yet turned into a standalone
+synthetic test the way the original bug's fix was validated (8 live
+11,000+-frame regression runs, Tomba/MMX6 corpora, etc.) — this is a
+single-title, single-instance finding so far, offered at the same
+confidence level as this brief's own original 2026-09-09 report before
+independent verification, not at the level of the validated fix above.
+
+**Code changed** (not just documentation): added the 13 addresses to
+`build/play.ps1`'s `$ForceInterior` default list, alongside the five
+already there from this brief's original bug — same workaround mechanism,
+applied because the classifier (even fixed) doesn't yet catch this shape
+of code automatically. Verified with a real before/after, same method as
+this brief's own Table above:
+
+| | `dirty_ram_insns`, ~2 min into the intro FMV / post-skip |
+|---|---|
+| Before | 45,338,450 (still climbing) |
+| After | 20,304 → 101,046 (settled, not climbing) |
+
+**Two more directly-confirmed instances found the same night, chasing that
+remaining `20,304`/`101,046` residual** — both found by running
+`compile_overlays.py --check` offline against this session's real
+`overlay_captures.json` (this brief's own verification method from the
+section above), not by guessing:
+
+- **8 more addresses in the same `0x80191xxx` region**,
+  `0x80191210`-`0x8019122C`, missed the first time only because the
+  runtime's `autocompile_status` output is capped and had literally cut
+  the printed list off mid-word right before them.
+- **A separately-discovered, much larger gap in a different overlay**,
+  `load=0x8018F000`: of 183 observed-executed addresses in that entire
+  region, only 1 (the dispatch entry itself) was classified — **182 of 183
+  excluded**, the most severe instance of this bug class found in this
+  project so far.
+
+Both added to `play.ps1` and verified safe (no compile-storm symptoms).
+**Neither changed the `20,304`/`101,046` residual at all** — reproduced
+to the exact integer across three separate launches (no fix / +8
+addresses / +182 addresses). That turned out to be the correct, useful
+result: sampling `current_func` at that residual showed it's genuine PS1
+BIOS ROM/kernel interpretation (`0x1FC01ACC`, `0x00000F40`, `0x00001794`),
+not a classifier gap at all — there's no overlay compiler for BIOS ROM, so
+this is an architecturally-irreducible cost of active CD-ROM/MDEC work
+during FMV playback, not a fourth instance of this bug. Full trail in
+`roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md`.
+
+**Scope check, not yet acted on**: grepping the decomp for this macro
+(`ROOMLIB_STATE_DISPATCH_VARIANT2`) finds **250 files**, deduplicating to
+**64 unique compiled addresses** across the game (many rooms share an
+identical overlay layout). A byte-identical function-size cross-check at a
+second, independently-addressed instance (`room_m087`'s 136/168-byte pair
+vs. `scene_e27`'s identically-sized pair) suggests the internal jump-table
+layout — and therefore the case-target offsets — is likely the same
+everywhere this macro appears, giving a computed (not live-verified)
+candidate list for the other 63 addresses in
+`roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md`'s companion
+data file. **Explicitly not blanket-applied** — this brief's own "force
+everything" experiment (1,131 addresses, 237-DLL compile storm, ~0.19x)
+is exactly the failure mode a 640-address version of the same idea risks
+repeating; the companion document recommends incremental rollout with
+real before/after checks instead, and that has not been done yet.
+
+If sharing this brief's update with mstan's team: the honest framing is
+"a related, narrower gap in the same classifier area your PR #349 fix
+already improved, found in one more instance, with one confirmed fix and
+an unverified projection for ~63 more" — not "PR #349 has a bug." Their
+own review process for the original report could not independently verify
+this project's PE-specific numbers, only the general mechanism via their
+own titles' captures; expect the same distinction to apply here.
