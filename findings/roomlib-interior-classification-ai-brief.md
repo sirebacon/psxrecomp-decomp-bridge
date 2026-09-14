@@ -527,3 +527,111 @@ an unverified projection for ~63 more" — not "PR #349 has a bug." Their
 own review process for the original report could not independently verify
 this project's PE-specific numbers, only the general mechanism via their
 own titles' captures; expect the same distinction to apply here.
+
+**Update, same day, later — the "MIPS jump-table" framing throughout the
+section above is superseded.** Keep it for the historical trail (it's what
+was believed at the time and it's not unreasonable on its face), but do
+not forward it to mstan's team as the root cause — see the follow-up
+immediately below for the corrected, fully-verified explanation and a
+tested fix.
+
+## Follow-up (2026-09-14, continued): corrected root cause — `FUNCTION_POINTER_TARGET` is dead code — plus a tested fix
+
+Challenged to justify the "MIPS jump-table" claim directly rather than
+re-assert it, which led to actually reading `room_lib.h`'s full macro
+definition and `compile_overlays.py`'s classifier logic end-to-end, rather
+than inferring either from behavior. Two findings, the second superseding
+the first:
+
+**1. The dispatch mechanism may not be a jump table at all.**
+`ROOMLIB_STATE_DISPATCH_VARIANT2`'s `case 0` calls through `o->sub.cb`, a
+struct field assigned at runtime by a separate macro
+(`ROOMLIB_ARM_IF_WINDOW_VIA`, `o->sub.cb = handler;`) — a genuine runtime
+function-pointer callback, not a compile-time table. A 3-case `switch`
+is also smaller than what compilers typically turn into an actual jump
+table. This doesn't change the bottom line (still unclassified, still
+fixable the same way) but it means "MIPS jump-table" was probably the
+wrong mechanism name.
+
+**2. The real, fully-verified explanation: `FUNCTION_POINTER_TARGET` —
+the classification that exists specifically for function-pointer/jump
+targets like this — can never fire against any capture the current tool
+produces.** Read every place `compile_overlays.py` assigns this
+classification:
+
+- Path A: `for addr in captured_function_entries: include(addr,
+  'FUNCTION_POINTER_TARGET')`, where `captured_function_entries` comes
+  from `cap.get('function_entry_pcs', [])`. Checked the real
+  `overlay_captures.json` directly: **every capture has
+  `"function_entry_pcs": []`** — always empty by design, per this same
+  brief's own upstream-response section above ("Runtime capture JSON
+  deliberately writes `function_entry_pcs: []`. The offline classifier
+  derives entries later."). Path A can never run.
+- Path B is gated by `legacy_seed_mode = bool(legacy_seeds) and not
+  cap.get('schema')`. Every real capture has `"schema": "psxrecomp
+  overlay capture v2"` set, so `not cap.get('schema')` is always `False`.
+  Path B can never run either.
+- **Both of `FUNCTION_POINTER_TARGET`'s population paths are permanently
+  inactive for any current-format capture.** This is verified against
+  real data (the actual `overlay_captures.json` this project has been
+  using all along), not inferred from symptoms — and it explains why
+  *neither* a jump-table case target nor a runtime-callback target would
+  ever be classified correctly, without needing to settle which of the
+  two this specific macro actually compiles to.
+
+**A fix, written and tested against real capture data (not yet upstream,
+not yet touching the real `compile_overlays.py`):** reuse this brief's own
+PR #349 recovery mechanism (`dispatch_fragment_demands` /
+"isolated fragment demand retained") for addresses that fall through to
+`OBSERVED_PC_ONLY`, not only `DISPATCH_ENTRY`. Patch (on a copy,
+`compile_overlays_patched_test.py`), in the final classification pass:
+
+```python
+elif addr in executed_pcs or addr in legacy_seeds:
+    excluded[addr] = 'OBSERVED_PC_ONLY'
+    if addr in executed_pcs and addr + 4 <= fragment_hi:      # new
+        dispatch_fragment_demands.add(addr)                    # new
+```
+
+Ran offline via `--check` against this project's real
+`build-release/overlay_captures.json`, **with no `--force-interior` flags
+at all** (the manual list played no role):
+
+```
+=== SHARD BUILD SUMMARY ===
+  built OK : 176
+  skipped  : 1
+  FAILED   : 0
+```
+
+All 175 previously-`OBSERVED_PC_ONLY`-stuck addresses across both of this
+project's captured overlay regions (154 in the `0x8018F000` region, 21 in
+the `0x80191xxx` region — a superset of this brief's own originally
+reported addresses and the newer jump-table-region ones) were picked up
+automatically as "isolated fragment demand retained" and compiled without
+error. This supersedes the manually-maintained `$ForceInterior` address
+list for these regions — the classifier now finds and recovers them
+itself.
+
+**Scope of what this test actually proves, stated plainly:**
+- Proves: the classification logic can be fixed cheaply, reusing
+  already-shipped, already-runtime-validated recovery machinery (the same
+  isolated-fragment/CRC-guard path PR #349's own fix uses) rather than
+  inventing something new.
+- Does not prove: in-game runtime behavior beyond a clean offline
+  `--check` compile (no live soak test of this specific patch yet).
+  Generalization beyond the 2 overlay regions this project has ever
+  captured. Whether this exact patch shape (routing through
+  `OBSERVED_PC_ONLY`) is what mstan's team would want, versus properly
+  reviving `FUNCTION_POINTER_TARGET`'s own two population paths instead.
+
+**If sharing this with mstan's team, the accurate framing is:** "the
+follow-up gap reported above isn't a jump-table-specific miss — it's that
+`FUNCTION_POINTER_TARGET` itself is unreachable dead code in the shipped
+tool, verified against real capture data, and here's a small patch that
+tests clean by routing the same addresses through the existing
+`OBSERVED_PC_ONLY` recovery path instead" — not "PR #349 has a bug" (it
+doesn't; this is a separate classification that was already broken before
+PR #349 and that PR #349's fix does not touch), and not "this patch is
+validated" (it's a same-night, single-checkout offline test, not the kind
+of multi-title synthetic regression suite mstan's team built for PR #349).

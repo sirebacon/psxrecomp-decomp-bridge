@@ -11,6 +11,16 @@ a distinct, non-classifier BIOS-interpretation cost was found and ruled
 out along the way (see the second follow-up below). Not yet reported
 upstream.**
 
+**Update, same day, later: the root-cause framing below ("MIPS jump-table
+`switch` targets not recognized") has been superseded by a more precise,
+fully-verified finding, and a real candidate fix now exists and has been
+tested to work automatically (no manual address list needed). See "Follow-up
+(2026-09-14, continued): corrected root cause and a working automated fix"
+near the end of this document before reading the sections below at face
+value — they're kept as-written for the historical trail, but the "MIPS
+jump-table" explanation specifically should be read as superseded, not
+current.**
+
 ## Status at a glance — what's actually fixed vs. still open
 
 **None of this has been fixed by mstan's team, and none of it has been
@@ -28,7 +38,7 @@ already in place, that they have not seen.
 | 21 addresses, `0x80191xxx` region (the one active during the intro FMV: `0x80191210`-`0x8019122C`, `0x80191230`, `0x801912A4`-`C8`, `0x80191318`/`8019131C`) | **FIXED.** Live in `build/play.ps1`'s `$ForceInterior` list right now. Verified with a real before/after: the 45M-instruction dirty-RAM spike this document opens with is gone (~450-2200x reduction, reproduced at two timestamps). |
 | 182 addresses, separate `0x8018F000` region (`0x8018F77C`-`0x8018F7EC` + `0x8018F95C`-`0x8018FBBC`) | **FIXED.** Also live in `play.ps1`'s `$ForceInterior` list now. Verified *safe* (healthy `autocompile_status`, no compile-storm symptoms) but its real-world performance impact was **not** separately measured — this overlay isn't loaded during the intro sequence the 45M-instruction number came from, so fixing it didn't (and wasn't expected to) move that specific number further. It's a real, directly-confirmed bug (99.5% of that region's executed code was excluded) — just for a different room/scene than the one this document's headline number is about. |
 | 640-address candidate list for the other 63 unique dispatcher addresses game-wide (companion file `analysis/roomlib-jump-table-2026-09-14/candidate-addresses.md`) | **NOT FIXED, NOT APPLIED.** This is a computed prediction only (one confirmed instance + a two-point size match, extrapolated). Nothing from this list has been added to `play.ps1`. Do not treat these 63 addresses as fixed — they're "check here first" candidates for whoever plays through those specific rooms/scenes, nothing more yet. |
-| The general classifier gap itself (MIPS jump-table `switch` targets not recognized as "demandable" by `compile_overlays.py`) | **STILL OPEN at the tool level.** The two confirmed instances above are worked around locally (`--force-interior`), not fixed at the source. `compile_overlays.py` itself is unchanged. Not yet reported upstream — see "Recommended next steps." |
+| The general classifier gap itself | **Root cause corrected, and a working fix now exists and is tested (see final follow-up section).** The original framing on this line ("MIPS jump-table `switch` targets not recognized") is superseded — the actual, fully-verified cause is that `FUNCTION_POINTER_TARGET`, the classification meant to catch exactly this case, is unreachable dead code in the current tool (both its population paths are permanently inactive for real captures). A one-line-scale patch to a **copy** of `compile_overlays.py` (`compile_overlays_patched_test.py`, not the real file) was written and tested via an offline `--check` run with **no** `--force-interior` flags: it auto-recovered all 175 previously-stuck addresses across both captured overlay regions and compiled all of them successfully (`built OK: 176, FAILED: 0, skipped: 1`). The real `compile_overlays.py` is still unmodified; this is a tested candidate fix, not yet proposed upstream. |
 | The ~20K-100K post-fix residual (`20,304` at T+120s, `101,046` post-skip) | **Not a bug — investigated and ruled out.** Confirmed via `current_func` sampling to be genuine, architecturally-irreducible PS1 BIOS ROM/kernel interpretation during active CD-ROM/MDEC work, not a classifier exclusion. Nothing to fix here; don't spend more time chasing this specific number. |
 | Connection to `video-bleed-through-splash.md`'s visual bleed-through glitch | **Still unconfirmed, open question.** Attempted the same repro before and after the fixes above and got a clean result both times — that bug is independently documented as timing/race-sensitive, so this neither confirms nor rules out a relationship. |
 
@@ -334,3 +344,125 @@ entirely, not a further instance of the same bug to keep chasing.
    enough trials to say anything statistically meaningful about whether
    the bleed-through rate changed — a single clean/dirty result either way
    isn't enough given that bug's documented non-determinism.
+
+## Follow-up (2026-09-14, continued): corrected root cause and a working automated fix
+
+Re-examined the "MIPS jump-table `switch`" root-cause claim above after a
+direct challenge to justify it, by reading `room_lib.h`'s actual macro
+definition in full (not just the `switch` skeleton excerpted earlier) and
+by reading `compile_overlays.py`'s classifier logic directly rather than
+inferring it from behavior.
+
+**Two corrections, in order of how the investigation actually went:**
+
+1. **The dispatcher isn't necessarily a compile-time jump table at all.**
+   `ROOMLIB_STATE_DISPATCH_VARIANT2`'s `case 0` calls through
+   `o->sub.cb`, a struct field. Grepping `room_lib.h` further found a
+   *different* macro, `ROOMLIB_ARM_IF_WINDOW_VIA` (~line 2272-2284),
+   assigning `o->sub.cb = handler;` at runtime. So at least `case 0`'s
+   dispatch is a genuine runtime function-pointer callback — undiscoverable
+   by any static disassembly pass, not just this one. A 3-case `switch`
+   (`case 0/1/2`) is also below the size where compilers typically bother
+   building an actual jump table anyway. This cast real doubt on the
+   original framing but didn't yet explain *why* the classifier misses it.
+
+2. **The actual, fully-verified explanation: `FUNCTION_POINTER_TARGET` — the
+   classification that exists specifically to catch function-pointer/jump
+   targets like this — is dead code in the current tool.** Read
+   `compile_overlays.py` end to end for every place this classification is
+   assigned:
+   - `for addr in captured_function_entries: include(addr,
+     'FUNCTION_POINTER_TARGET')` — but `captured_function_entries` comes
+     from `cap.get('function_entry_pcs', [])`, and checking the real
+     `overlay_captures.json` directly: **every single capture has
+     `"function_entry_pcs": []`** — always empty, by design (the classifier
+     derives these itself elsewhere; this field was never meant to be the
+     source, per mstan's team's own prior note referenced in
+     `roomlib-interior-classification-ai-brief.md`).
+   - The second path is gated by `legacy_seed_mode = bool(legacy_seeds) and
+     not cap.get('schema')` — every real capture has
+     `"schema": "psxrecomp overlay capture v2"` set, so `not
+     cap.get('schema')` is always `False`. This path never runs either.
+   - **Net result, verified against real data, not inferred**: no capture
+     produced by the current tool can ever populate `FUNCTION_POINTER_TARGET`.
+     It's unreachable. This is *why* neither a jump-table case target nor a
+     runtime callback target ever gets classified as one — the mechanism
+     meant to catch both is switched off by construction, not failing to
+     recognize a specific instruction pattern.
+
+   This finding doesn't depend on resolving whether the dispatch mechanism
+   is a jump table or a callback — it explains why *neither* would ever
+   have been caught.
+
+### A working fix, written and tested (not yet upstream)
+
+Rather than reviving `FUNCTION_POINTER_TARGET`'s dead paths, the simpler
+fix reuses machinery that's already known-safe: PR #349's own
+`dispatch_fragment_demands` / "isolated fragment demand retained" recovery,
+today only fed by `DISPATCH_ENTRY`/`STATIC_DISPATCH_ENTRY` reasons. The
+patch adds the same treatment for addresses that fall through to
+`OBSERVED_PC_ONLY` in the final classification pass (`compile_overlays.py`
+~line 1783-1789):
+
+```python
+for addr in sorted(candidates - set(included)):
+    if addr in all_branch_targets or addr in jump_table_targets:
+        excluded[addr] = 'BRANCH_TARGET_ONLY'
+    elif addr in executed_pcs or addr in legacy_seeds:
+        excluded[addr] = 'OBSERVED_PC_ONLY'
+        if addr in executed_pcs and addr + 4 <= fragment_hi:      # <- new
+            dispatch_fragment_demands.add(addr)                    # <- new
+    else:
+        excluded[addr] = 'UNKNOWN'
+```
+
+Applied to a **copy** of the tool
+(`psxrecomp/tools/compile_overlays_patched_test.py` — the real
+`compile_overlays.py` was not touched) and run offline via `--check`
+against this session's real `build-release/overlay_captures.json`, with
+**no `--force-interior` flags at all**:
+
+```
+Overlay 8018F000_150BCC29: executed_pcs 183, unhosted_executed_dispatch_fragment_demands 154
+  → all 154 previously-OBSERVED_PC_ONLY addresses now show
+    "excluded: OBSERVED_PC_ONLY; isolated fragment demand retained"
+  interior fragments @0x0018F000: 154/154 exact-demand orphan interior(s) -> isolated island shards
+
+Overlay 80191000_91CA50B4: unhosted_executed_dispatch_fragment_demands 21
+  interior fragments @0x00191000: 21/21 exact-demand orphan interior(s) -> isolated island shards
+
+=== SHARD BUILD SUMMARY ===
+  built OK : 176
+  skipped  : 1  (cached / data-only / safe coverage loss)
+  FAILED   : 0
+```
+
+Every previously-stuck address across both captured overlay regions (175
+total: 154 + 21) was picked up automatically and compiled without error —
+**with the manual `$ForceInterior` list in `play.ps1` playing no role in
+this test run at all.** This is a stronger result than the 208-address
+manual list built up earlier tonight: it makes that manual list
+unnecessary going forward, for these regions and (by the same mechanism)
+any other region with the same shape of gap, without needing to
+individually discover and hand-add each address.
+
+**What this test does and doesn't establish:**
+- **Does establish**: the classifier logic itself can be fixed, cheaply,
+  in a way that reuses an already-shipped, already-safe recovery path —
+  not a new, unproven mechanism. Proven via real capture data, not
+  projection.
+- **Does not establish**: in-game runtime correctness beyond a clean
+  `--check` compile (no soak test done against this specific patch yet,
+  though the underlying fragment-recovery mechanism itself is the same one
+  PR #349 already validated at runtime). Generalization to overlay regions
+  never captured this session (the real game has far more than these 2).
+  Whether mstan's team would accept this exact patch shape or prefer a
+  different one (e.g. reviving `FUNCTION_POINTER_TARGET` properly instead
+  of routing through `OBSERVED_PC_ONLY`).
+
+**Recommended next step**: propose this as a candidate fix on issue #365
+(or a new PR) — framed explicitly as "here's a fix that tests clean
+against real capture data" rather than "this is merged/validated," since
+mstan's team's own process for the original PR #349 fix involved broader
+synthetic tests and multi-title validation this local test doesn't
+replicate.
