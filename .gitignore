@@ -4,6 +4,10 @@
 games/*/seeds.baseline.txt
 games/*/*.state
 
+# postman.py output -- generated .c files derived from CLI args, same
+# category as symbols.toml/seeds: regenerated on demand, not committed.
+generated/
+
 # Build/run logs
 build/*.log
 

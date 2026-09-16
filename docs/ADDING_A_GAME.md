@@ -58,3 +58,51 @@ def _parse_my_format(path: Path) -> list[tuple[str, int, bool]]:
 and register it in `SYMBOL_FORMATS` in `bridge/decomp_bridge.py`. Everything
 else in the engine (address filtering, manual-override merge, name-collision
 handling, output rendering) is format-agnostic and needs no changes.
+
+## Adding a confidence classifier (contract for the planned func_override generator)
+
+**Not built yet** — this section documents the extension point up front so
+the tool inherits genericity from day one instead of needing a retrofit,
+the same way `SYMBOL_FORMATS` did for `decomp_bridge.py` itself.
+
+The planned decomp-to-`func_override` generator (see
+`findings/c4-wave5-fps-regression-2026-09-15.md` and the design discussion
+that followed it) needs to know, per candidate function, whether a decomp's
+own C implementation is trustworthy enough to wire into a live game as a
+native replacement. That answer is decomp-specific: Parasite Eve's decomp
+tracks it via `tools/scripts/source_quality.py`'s `classify()` (per-file
+`semantic_c` / `asm_constrained` / `text_data` / `original_asm`) plus
+separate SHA-1/`make check` byte-verification — but a different decomp
+bridged in later may use a different convention, or none at all. The
+generator must never assume PE's semantics apply to a decomp that hasn't
+declared them.
+
+Same pattern as symbol formats: a registry the generator consults, keyed by
+a new optional `[decomp] confidence_classifier` config value, e.g.
+
+```toml
+[decomp]
+format = "splat"
+confidence_classifier = "source_quality"   # this decomp's own convention
+```
+
+```python
+def _classify_via_source_quality(cfg: GameConfig, func_addr: int) -> Confidence:
+    ...  # PE-specific adapter: locate the function's source file via the
+         # existing symbol table, shell out to or import that decomp's own
+         # source_quality.py, require semantic_c AND a passing byte-match
+         # check before returning "eligible"
+
+CONFIDENCE_CLASSIFIERS = {
+    "source_quality": _classify_via_source_quality,
+}
+```
+
+A decomp whose config doesn't set `confidence_classifier` must make the
+generator **refuse to run for that game**, with a clear message, rather than
+silently falling back to some generic heuristic — a tool that writes native
+code into a running game should fail closed on missing eligibility
+information, not guess. `_classify_via_source_quality` (or any other
+adapter) is the only place PE-specific (or any other decomp-specific)
+confidence semantics may live; `bridge/*.py`'s shared code stays as
+format-agnostic about confidence as it already is about symbol formats.

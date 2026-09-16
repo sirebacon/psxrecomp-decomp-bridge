@@ -51,8 +51,13 @@ bridge/           decomp_bridge.py — the generic engine, no game-specific code
                   classifier_gap_finder.py — turn a decomp + a compile_overlays.py
                   --check transcript into a named, actionable list of where the
                   overlay classifier is permanently stuck (docs/CLASSIFIER_GAP_FINDER.md)
+                  postman.py — generate an on-demand func_override invoker for
+                  one guest function, so a candidate address can be called
+                  directly instead of needing to reach it through live play
+                  (docs/POSTMAN.md — real unmerged-dependency warning inside)
 games/<name>/     one config.toml (+ manual overrides) per game bridged
-docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md, CLASSIFIER_GAP_FINDER.md
+docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md,
+                  CLASSIFIER_GAP_FINDER.md, POSTMAN.md
 build/            Parasite Eve's own sync/build/play scripts (PE-specific)
 patches/          verified + proposed patches against psxrecomp, with license notes
 findings/         the perf + framework-bug writeups, four formats for four audiences
@@ -62,7 +67,10 @@ findings/         the perf + framework-bug writeups, four formats for four audie
 
 Not Parasite Eve-specific by design. `docs/ADDING_A_GAME.md` walks through
 pointing the engine at a different decomp + psxrecomp-based recomp pair —
-normally just a new `games/<name>/config.toml`, no code changes.
+normally just a new `games/<name>/config.toml`, no code changes. It also
+documents the confidence-classifier extension point reserved for a planned
+decomp-to-`func_override` generator (not built yet), so that tool inherits
+the same per-game pluggability from day one instead of a later retrofit.
 
 ## Findings
 

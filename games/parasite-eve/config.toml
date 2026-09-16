@@ -32,6 +32,11 @@ seed_symbol_globs = [
     "configs/USA/sym.main.txt",
     "configs/USA/overlays/sym.*.txt",
 ]
+# Not consumed yet -- reserved for the planned func_override generator (see
+# ../../docs/ADDING_A_GAME.md, "Adding a confidence classifier"). Names this
+# decomp's own tools/scripts/source_quality.py as the eligibility source so
+# that tool never has to assume PE's confidence conventions apply elsewhere.
+confidence_classifier = "source_quality"
 
 [addresses]
 # Sane PS1 main-RAM code window. Anything outside is a data/HW/placeholder
