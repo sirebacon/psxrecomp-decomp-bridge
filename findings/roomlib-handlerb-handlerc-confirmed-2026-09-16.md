@@ -109,3 +109,47 @@ the full predicted list), add them to `build/play.ps1`'s `$ForceInterior`
 default the same incremental way the last two fixes were applied, and
 verify a real dirty-RAM before/after — the established, working pattern for
 every confirmed fix in this project so far.
+
+## Follow-up (same day): added the 22 directly-observed addresses to `play.ps1`; mechanical re-verification was inconclusive, not negative
+
+Added all 22 directly-observed addresses (19 `RoomLib_HandlerB` + 3
+`RoomLib_HandlerC`) to `build/play.ps1`'s `$ForceInterior` default.
+Attempted to mechanically confirm the fix works the same way
+`roomlib-0x80191200-interior.md` did — re-running `compile_overlays.py
+--check` with `--force-interior` set for these addresses and looking for
+the `"; isolated fragment demand retained"` success marker
+`classifier_gap_finder.py`'s own `parse_check_log` already knows to look
+for.
+
+**Result: inconclusive, not negative.** None of the 22 new addresses showed
+the `retained` marker on a second `--check` pass against this same
+capture — but neither did 23 of the 24 already-proven-working addresses
+already in `play.ps1` (only `0x80191B94` showed `retained`; the rest were
+completely absent from the transcript, not even listed as excluded). Ruled
+out two mundane explanations directly rather than assuming: not a
+PowerShell cross-process argument-passing bug (retried with proper
+`@()`-array splatting instead of a `cmd /c` string, same result), and not
+an interaction with `--only-region` (retried against the full unrestricted
+capture, same result).
+
+Since the SAME capture can't even re-confirm most of its own already-shipped
+fixes on a second pass, this points at the capture itself being too narrow
+for this kind of re-verification (`Captures: 4 overlay(s) to process` at
+the top of every run from this file — a short session, not a full
+playthrough) rather than anything specific to `RoomLib_HandlerB`/`HandlerC`.
+**The 22 addresses are still real** — they're the exact addresses this
+document's own cross-reference against the FIRST, unforced `--check` run
+found as genuinely excluded `OBSERVED_PC_ONLY` hits from actual gameplay.
+What's unconfirmed is specifically whether `--force-interior` successfully
+carves them into compiled fragments, which this particular capture can't
+settle either way.
+
+`play.ps1` keeps the 22 addresses, with a comment stating plainly that
+they're not yet live-verified — matching how this file has handled a
+"found but not yet confirmed" entry before (its 2026-09-13 FMV additions
+carried the same kind of caveat until a real play session confirmed them).
+**The reliable next step is what confirmed every entry already in this
+list**: an actual live launch, play through content that exercises
+`RoomLib_HandlerB`/`RoomLib_HandlerC`, and a real dirty-RAM before/after —
+not a second offline `--check` pass against a capture too narrow to
+re-prove its own already-shipped fixes.
