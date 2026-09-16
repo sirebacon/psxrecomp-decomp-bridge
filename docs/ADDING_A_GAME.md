@@ -59,26 +59,26 @@ and register it in `SYMBOL_FORMATS` in `bridge/decomp_bridge.py`. Everything
 else in the engine (address filtering, manual-override merge, name-collision
 handling, output rendering) is format-agnostic and needs no changes.
 
-## Adding a confidence classifier (contract for the planned func_override generator)
+## Adding a confidence classifier
 
-**Not built yet** — this section documents the extension point up front so
-the tool inherits genericity from day one instead of needing a retrofit,
-the same way `SYMBOL_FORMATS` did for `decomp_bridge.py` itself.
+Built in `bridge/confidence.py` (see `docs/POSTMAN.md`'s neighbor doc — this
+is the eligibility gate the planned decomp-to-`func_override` generator will
+consult; the generator itself isn't built yet, but the registry it depends
+on is real and tested, the same way `SYMBOL_FORMATS` predates every game
+that now uses it).
 
-The planned decomp-to-`func_override` generator (see
-`findings/c4-wave5-fps-regression-2026-09-15.md` and the design discussion
-that followed it) needs to know, per candidate function, whether a decomp's
-own C implementation is trustworthy enough to wire into a live game as a
-native replacement. That answer is decomp-specific: Parasite Eve's decomp
-tracks it via `tools/scripts/source_quality.py`'s `classify()` (per-file
-`semantic_c` / `asm_constrained` / `text_data` / `original_asm`) plus
-separate SHA-1/`make check` byte-verification — but a different decomp
-bridged in later may use a different convention, or none at all. The
-generator must never assume PE's semantics apply to a decomp that hasn't
-declared them.
+The generator needs to know, per candidate function, whether a decomp's own
+C implementation is trustworthy enough to wire into a live game as a native
+replacement. That answer is decomp-specific: Parasite Eve's decomp tracks it
+via `tools/scripts/source_quality.py`'s `classify()` (per-file `semantic_c`
+/ `asm_constrained` / `text_data` / `original_asm`) plus that decomp's own
+`objdiff.json` byte-match evidence (`make objdiff-config`) — but a different
+decomp bridged in later may use a different convention, or none at all.
+`bridge/confidence.py` never assumes PE's semantics apply to a decomp that
+hasn't declared them.
 
-Same pattern as symbol formats: a registry the generator consults, keyed by
-a new optional `[decomp] confidence_classifier` config value, e.g.
+Same pattern as symbol formats: a registry keyed by `[decomp]
+confidence_classifier` in that game's config.toml, e.g.
 
 ```toml
 [decomp]
@@ -87,22 +87,47 @@ confidence_classifier = "source_quality"   # this decomp's own convention
 ```
 
 ```python
-def _classify_via_source_quality(cfg: GameConfig, func_addr: int) -> Confidence:
-    ...  # PE-specific adapter: locate the function's source file via the
-         # existing symbol table, shell out to or import that decomp's own
-         # source_quality.py, require semantic_c AND a passing byte-match
-         # check before returning "eligible"
+def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> ConfidenceResult:
+    ...  # PE-specific adapter: import that decomp's own source_quality.py,
+         # require classify() == "semantic_c" AND a passing objdiff.json
+         # byte-match before returning ELIGIBLE
 
 CONFIDENCE_CLASSIFIERS = {
     "source_quality": _classify_via_source_quality,
 }
 ```
 
-A decomp whose config doesn't set `confidence_classifier` must make the
-generator **refuse to run for that game**, with a clear message, rather than
-silently falling back to some generic heuristic — a tool that writes native
-code into a running game should fail closed on missing eligibility
-information, not guess. `_classify_via_source_quality` (or any other
-adapter) is the only place PE-specific (or any other decomp-specific)
-confidence semantics may live; `bridge/*.py`'s shared code stays as
-format-agnostic about confidence as it already is about symbol formats.
+A decomp whose config doesn't set `confidence_classifier` gets `UNKNOWN`
+back, not a guess — confirmed by `bridge/confidence.py`'s own test run (see
+below), not just asserted here. `_classify_via_source_quality` (or any
+other adapter) is the only place decomp-specific confidence semantics may
+live; the rest of `bridge/confidence.py` stays as format-agnostic about
+confidence as `decomp_bridge.py` already is about symbol formats.
+
+One deliberate, documented divergence from Parasite Eve's own
+progress-reporting policy: that project's `audit_report.py` credits both
+`semantic_c` and `original_asm` as "done" for byte-match reporting (an
+`original_asm` BIOS trampoline is as complete as it'll ever get). This
+module's eligibility bar is narrower on purpose — `original_asm` means
+"this is raw assembly, not C," so there's no typed C for a `func_override`
+adapter to call no matter how well-verified the assembly is. Confirmed
+against real files in this project's own decomp: `Entity_ApplyCollisionResponse.c`
+and five other pin/barrier-bearing-but-ASM-free files all classify
+`semantic_c`; `Sys_HleJumpA0.c` and `psyq/libc/strcmp.c` (real BIOS
+trampolines) both classify `original_asm` — the two really are
+distinguishable in this decomp, not a hypothetical distinction.
+
+Try it:
+
+```
+python bridge/confidence.py check-file --config games/parasite-eve/config.toml \
+    --source src/main/field/Entity_ApplyCollisionResponse.c
+python bridge/confidence.py check-address --config games/parasite-eve/config.toml \
+    --address 0x8001D170
+```
+
+Both currently report `unknown` against a fresh Parasite Eve checkout with
+no `objdiff.json` generated yet — that's the fail-closed behavior working as
+designed, not a bug: run `make objdiff-config` (after a build) in the decomp
+to generate the byte-match evidence this module requires before it will
+ever report `eligible`.

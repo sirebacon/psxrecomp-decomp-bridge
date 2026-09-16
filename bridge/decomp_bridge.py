@@ -127,6 +127,11 @@ class GameConfig:
         self.symbol_format = fmt
         self.main_symbol_files = [self.decomp / p for p in decomp_cfg["main_symbol_files"]]
         self.seed_symbol_globs = list(decomp_cfg.get("seed_symbol_globs", decomp_cfg["main_symbol_files"]))
+        # Optional: which decomp-specific confidence convention bridge/confidence.py
+        # should use for this game (see docs/ADDING_A_GAME.md, "Adding a
+        # confidence classifier"). None means "not declared" -- confidence.py
+        # fails closed on that, it never assumes a default.
+        self.confidence_classifier: str | None = decomp_cfg.get("confidence_classifier")
 
         addrs = data.get("addresses", {})
         self.ram_lo = int(addrs.get("ram_lo", "0x80010000"), 0)
