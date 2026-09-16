@@ -499,3 +499,72 @@ in this section.
   only diff within it (frame *numbers* are globally monotonic and safe to
   use as dedup/sort keys across polls; the millisecond-ish `input`/`swap_*`
   values are not directly comparable across polls).
+
+## Follow-up (2026-09-16): still present, unaddressed, in the actual PGO+LTO build
+
+Revisited this while sanity-checking the user's original "menu and FMV are
+still slow" complaint against an entire day's worth of unrelated RoomLib
+gameplay-classifier-gap work (see `2026-09-16-session-summary.md` and
+`roomlib-giantworms-boundary-extension-and-inventory-gap-2026-09-16.md`)
+that had drifted away from that original question. Two things needed
+checking before trusting any assumption either way: is the already-shipped
+PGO+LTO fix actually in the build being played, and — separately — did it
+happen to help this specific function even though it was never targeted
+at it.
+
+**PGO + LTO confirmed active in `build-release`, not a stale/plain build.**
+`CMakeLists.txt` itself defaults to neither (no `CMAKE_INTERPROCEDURAL_
+OPTIMIZATION` or IPO flag anywhere in this fork's `runtime.cmake`, and the
+mstan/RTK fork's scoped `PSX_RUNTIME_IPO` flag was never ported here) — but
+`build-release\CMakeCache.txt` shows `CMAKE_INTERPROCEDURAL_OPTIMIZATION
+:UNINITIALIZED=ON` annotated "variable specified on the command line" (a
+manual `-D` override) and `PSX_PGO:STRING=use`. `build-release\pgo\
+default.profdata` is timestamped 2026-09-13 00:06 — the same day as this
+doc's own Follow-up 2 FMV-inclusive retrain (`fmv-irq-batch-prototype-ai-
+brief.md`) — and `Parasite_Eve.exe` was rebuilt 2026-09-15 23:47, after
+both the profile and the cache override. `build-dbg` has neither flag set
+at all (plain, no PGO, no LTO) — worth remembering since every debug-build
+measurement elsewhere in this project's history (including most of today's
+RoomLib work) runs under a materially different optimization profile than
+what a player actually gets.
+
+**Re-measured `0x0010C89C` live against `build-release` with both fixes
+active, using the same `latency raw=1` dispatch-timing method this doc
+already established** (`build/play.ps1 -DebugPort 4370`, no `-BuildDir`
+override needed since `build-release` is the default). A 91-frame sample
+during the rotating intro:
+
+- **`0x0010C89C` still fires every ~4th frame, with clockwork regularity**
+  (frames 2601, 2605, 2609, 2613, ... exactly 4 apart throughout the
+  sample) — consistent with the earlier per-entity-loop characterization,
+  unchanged.
+- **Typical cost per call: 6.5-13ms.** One real outlier in this short
+  window: **27.2ms** (frame 2665) — same magnitude class as the original
+  20-67ms finding, just not the very worst historical case in this
+  particular sample.
+- `frame_period.max_us` hit 57.3ms and 40.6ms across two summary polls in
+  the same session — real, visible stalls, still happening, today, in the
+  build a player actually runs.
+- `0x80191BB8` (adjacent to the long-since-fixed `RoomLib_InitC` region)
+  also still shows occasional multi-ms spikes (up to 3.6ms in this
+  sample) — consistent with it being real per-frame room-init work, not a
+  bug, exactly as this doc already concluded.
+
+**Conclusion: the PGO+LTO fix was never targeted at this function and
+doesn't fix it.** It's a general code-layout/inlining optimization that
+measurably helps overall FMV throughput (see `fmv-60fps-alex-briefing.md`),
+but `0x0010C89C`'s cost is a data-dependent per-call decompression cost —
+the kind of thing PGO/LTO doesn't restructure away. The structural finding
+from 2026-09-12 stands exactly as written: real, architectural, not a
+recompiler bug, and still not specifically addressed by anything shipped
+since.
+
+**Also checked, and still genuinely open**: the decomp project has no
+symbol anywhere at `0x8010C89C` — confirmed by a direct grep across
+`parasite-eve-decomp`, zero matches. Nobody has identified what asset type
+this function actually decompresses. The two concrete next steps from the
+original write-up (semantic identification via the decomp, or prototyping
+an off-thread/cached fix) are both still exactly where they were left —
+this follow-up only closes the "is it still real, in the build that
+matters" question, not the underlying stall itself.
+
