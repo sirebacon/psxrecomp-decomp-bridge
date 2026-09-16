@@ -49,6 +49,30 @@ not something reconstructed here. No objdiff.json on disk means "can't
 confirm a byte match", which this module reports as UNKNOWN, never as a
 silent pass.
 
+SHARED-LIBRARY .inc WRAPPERS (found running the real pipeline, see
+findings/func_override-toolkit-pipeline-run-2026-09-16.md): a name like
+`RoomLib_HandlerD` can exist as 100+ per-room `.c` files that are each a
+two-line wrapper -- a comment plus `#include "../room_lib/RoomLib_HandlerD.inc"`
+-- around ONE real, shared implementation. Naively, that's 100+ files with
+the same name, an unresolvable ambiguity by plain filename matching.
+`resolve_source_file` detects this specific shape (every candidate is a
+wrapper with no function body of its own, all pointing at the exact same
+`.inc` target) and resolves to the shared `.inc` directly instead of
+refusing -- there is genuinely one confidence question here (is the shared
+template semantic_c?), not one per room. Byte-match is a separate matter:
+objdiff.json's units are keyed by each room's own compiled object, never by
+the shared `.inc` itself (it's never independently compiled), so
+`_classify_via_source_quality` looks up ONE representative room's wrapper
+file for that half of the check and says so explicitly in the reported
+reason -- this confirms the template compiles byte-identical in that one
+room, not independently in every room that includes it. A name whose
+per-room copies are genuinely DIFFERENT, independently-written
+implementations that merely happen to share a PS1 overlay-reused address
+(confirmed to also be real: `func_8018F71C` has three real, distinct
+per-room bodies, not a wrapper) is correctly left ambiguous -- this
+detection only fires when every candidate is provably a pure wrapper
+pointing at the identical target.
+
 Usage (standalone diagnostic; the real consumer is the planned generator):
   python bridge/confidence.py check-file \\
       --config games/parasite-eve/config.toml \\
@@ -83,6 +107,9 @@ class ConfidenceResult:
     reason: str
     source_kind: str | None = None  # source_quality's classify() result, if reached
     source_path: str | None = None  # decomp-relative path, if resolved
+    shared_template_users: int | None = None  # set when source_path is a
+        # room_lib/*.inc resolved from N per-room wrapper files sharing it --
+        # None for an ordinary single-file resolution
 
 
 # ----------------------------------------------------------------------------
@@ -124,6 +151,66 @@ def _find_unit_for_source(objdiff_config: dict, source_rel: str) -> dict | None:
     return None
 
 
+# ----------------------------------------------------------------------------
+# Shared-library .inc wrapper detection -- see the module docstring's
+# "SHARED-LIBRARY .inc WRAPPERS" section for why this exists and what it
+# deliberately does NOT try to solve (per-room byte-match is still only
+# checked for one representative room, never claimed universal).
+# ----------------------------------------------------------------------------
+
+_WRAPPER_INCLUDE_RE = re.compile(r'#\s*include\s*"([^"]+\.inc)"')
+
+
+def _is_inc_wrapper(path: Path) -> Path | None:
+    """A "thin wrapper" .c file: any #define/comment lines plus exactly one
+    #include of a local .inc file, and NO function body of its own (no
+    braces at all -- conservative on purpose: a stray brace just falls back
+    to treating this as a real implementation, the safe failure direction).
+    Returns the resolved absolute .inc path, or None if this file isn't
+    shaped like a pure wrapper (e.g. func_8018F71C's real, independent
+    per-room implementations, confirmed by direct reading -- see
+    findings/func_override-toolkit-pipeline-run-2026-09-16.md)."""
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    if "{" in text:
+        return None
+    matches = _WRAPPER_INCLUDE_RE.findall(text)
+    if len(matches) != 1:
+        return None
+    target = (path.parent / matches[0]).resolve()
+    return target if target.is_file() else None
+
+
+def _resolve_via_shared_template(candidates: list[Path]) -> tuple[Path, Path] | None:
+    """If EVERY candidate .c file is a thin wrapper around the exact same
+    .inc target, return (representative_wrapper, shared_inc_path). None if
+    any candidate isn't a pure wrapper, or they don't all point at the same
+    target -- a real per-room difference, not just wrapper parameters."""
+    targets: set[Path] = set()
+    for c in candidates:
+        t = _is_inc_wrapper(c)
+        if t is None:
+            return None
+        targets.add(t)
+    if len(targets) != 1:
+        return None
+    return candidates[0], next(iter(targets))
+
+
+def _find_representative_wrapper(cfg: GameConfig, inc_abs_path: Path) -> Path | None:
+    """Reverse of the above: given a shared .inc's own path, find one real
+    per-room .c wrapper that includes it, for the objdiff.json byte-match
+    lookup (which is keyed by each room's own compiled .c, never by the
+    shared .inc itself -- it's never independently compiled). Deterministic
+    (sorted) so re-running gives the same representative room every time."""
+    for c_file in sorted(cfg.decomp.rglob("**/*.c")):
+        if _is_inc_wrapper(c_file) == inc_abs_path:
+            return c_file
+    return None
+
+
 def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> ConfidenceResult:
     sq = _load_source_quality(cfg)
     if sq is None:
@@ -148,33 +235,74 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
             "implementation for a func_override adapter to call",
             kind, source_rel)
 
+    # A shared room_lib/*.inc template is never itself an independently
+    # compiled unit -- objdiff.json only knows about the per-room wrapper
+    # .c files that #include it. Resolve ONE representative room's wrapper
+    # for the byte-match half of this check up front (regardless of whether
+    # objdiff.json exists yet), and say so explicitly in every branch below:
+    # this confirms the template compiles byte-identical in that one room,
+    # not independently re-verified in every room that shares it.
+    is_shared_template = abs_path.suffix == ".inc"
+    lookup_rel = source_rel
+    users = None
+    if is_shared_template:
+        resolved_inc = abs_path.resolve()
+        users = sum(
+            1 for c in cfg.decomp.rglob("**/*.c")
+            if _is_inc_wrapper(c) == resolved_inc)
+        rep = _find_representative_wrapper(cfg, resolved_inc)
+        if rep is None:
+            return ConfidenceResult(
+                UNKNOWN,
+                f"semantic_c (shared template {source_rel}, {users} "
+                "per-room user(s)), but couldn't find any per-room wrapper "
+                "file to check a byte-match against -- can't confirm a "
+                "byte match", kind, source_rel, shared_template_users=users)
+        lookup_rel = str(rep.relative_to(cfg.decomp)).replace("\\", "/")
+
     objdiff_config = _load_objdiff_config(cfg)
     if objdiff_config is None:
+        detail = (f"semantic_c (shared template {source_rel}, {users} "
+                   f"per-room user(s), representative room {lookup_rel})"
+                   if is_shared_template else "semantic_c")
         return ConfidenceResult(
             UNKNOWN,
-            "semantic_c, but this decomp's objdiff.json wasn't found -- run "
+            f"{detail}, but this decomp's objdiff.json wasn't found -- run "
             "`make objdiff-config` there (after a build) to generate the "
             "byte-match evidence this needs before calling anything eligible",
-            kind, source_rel)
+            kind, source_rel, shared_template_users=users)
 
-    unit = _find_unit_for_source(objdiff_config, source_rel)
+    unit = _find_unit_for_source(objdiff_config, lookup_rel)
     if unit is None:
+        detail = (f"semantic_c (shared template {source_rel}, {users} "
+                   f"per-room user(s)), but no objdiff.json unit references "
+                   f"its representative wrapper {lookup_rel}"
+                   if is_shared_template else
+                   f"semantic_c, but no objdiff.json unit references {source_rel}")
         return ConfidenceResult(
-            UNKNOWN,
-            f"semantic_c, but no objdiff.json unit references {source_rel} "
-            "-- can't confirm a byte match", kind, source_rel)
+            UNKNOWN, f"{detail} -- can't confirm a byte match",
+            kind, source_rel, shared_template_users=users)
 
     if unit.get("metadata", {}).get("complete") is True:
-        return ConfidenceResult(
-            ELIGIBLE,
+        reason = (
+            f"semantic_c, and objdiff.json marks representative room "
+            f"{lookup_rel}'s containing module byte-verified against retail "
+            f"-- confirmed for that one room, not independently re-checked "
+            f"for all {users} rooms sharing this template"
+            if is_shared_template else
             "semantic_c, and objdiff.json marks this unit's containing "
-            "module byte-verified against retail", kind, source_rel)
+            "module byte-verified against retail")
+        return ConfidenceResult(ELIGIBLE, reason, kind, source_rel,
+                                 shared_template_users=users)
 
+    detail = (f"semantic_c (shared template {source_rel}), but representative "
+               f"room {lookup_rel}'s objdiff.json unit isn't marked complete"
+               if is_shared_template else
+               "semantic_c, but objdiff.json does not mark this unit complete")
     return ConfidenceResult(
         INELIGIBLE,
-        "semantic_c, but objdiff.json does not mark this unit complete -- "
-        "its containing module hasn't been confirmed to build byte-identical "
-        "to retail", kind, source_rel)
+        f"{detail} -- its containing module hasn't been confirmed to build "
+        "byte-identical to retail", kind, source_rel, shared_template_users=users)
 
 
 CONFIDENCE_CLASSIFIERS = {
@@ -231,6 +359,16 @@ def resolve_source_file(cfg: GameConfig, name: str, addr: int) -> str | None:
     if len(exact) == 1:
         return str(exact[0].relative_to(cfg.decomp)).replace("\\", "/")
     if len(exact) > 1:
+        # Not necessarily unresolvable: if every candidate is a thin
+        # room_lib/*.inc wrapper around the exact same shared template
+        # (RoomLib_HandlerD-style, confirmed real -- see the module
+        # docstring), there is genuinely one file to classify, not one per
+        # room. A genuinely ambiguous name (independently-written per-room
+        # copies, like func_8018F71C) falls through to None as before.
+        via_template = _resolve_via_shared_template(exact)
+        if via_template is not None:
+            _, shared_inc = via_template
+            return str(shared_inc.relative_to(cfg.decomp)).replace("\\", "/")
         return None  # ambiguous -- let the caller see UNKNOWN rather than guess
 
     addr_named = list(cfg.decomp.rglob(f"*_{addr:08X}.c"))
@@ -317,6 +455,9 @@ def main() -> int:
         print(f"source_kind: {result.source_kind}")
     if result.source_path:
         print(f"source_path: {result.source_path}")
+    if result.shared_template_users:
+        print(f"shared_template_users: {result.shared_template_users} "
+              "(other per-room addresses sharing this same template)")
     return 0 if result.verdict == ELIGIBLE else 1
 
 

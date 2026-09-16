@@ -242,3 +242,56 @@ that would collapse the biggest remaining ambiguity bucket; it's a
 different and cheaper piece of work than either the interior-jump-table
 extension from Finding 1 or an overlay-aware resolver for the genuinely
 independent per-room case above.
+
+## Follow-up 2 (same day): built and verified the `room_lib/*.inc` resolver
+
+`resolve_source_file` now detects the exact shape confirmed above — every
+candidate `.c` file for a name is a thin wrapper (no function body of its
+own, exactly one `#include "*.inc"`) pointing at the identical target — and
+resolves to that shared `.inc` directly instead of giving up. Verified
+against the two real cases this session found:
+
+- `RoomLib_HandlerD` and `RoomLib_HandlerB` both now resolve cleanly to
+  `src/overlays/room_lib/RoomLib_HandlerD.inc` / `RoomLib_HandlerB.inc`,
+  both classify `semantic_c`, both correctly still report `unknown` (not
+  `eligible`) since `objdiff.json` doesn't exist yet — exercised the
+  `eligible` and `ineligible` branches too via a mocked `objdiff.json`, both
+  correct.
+- `func_8018F71C` (the confirmed genuinely-independent per-room case) is
+  still correctly left ambiguous — the detector requires every candidate to
+  be a provable pure wrapper, and these have real, different bodies.
+
+**A real surprise while counting usage**: a precise full-decomp-tree scan
+(does this `.c` file's own `#include` target equal the exact `.inc` in
+question, regardless of filename) found **125 real per-room users for
+*both* `RoomLib_HandlerD` and `RoomLib_HandlerB`** — not the 124 and 117
+this document counted earlier by filename. That's not a bug: filename-based
+counting misses instances where the same shared dispatcher is wrapped under
+a not-yet-renamed `func_XXXXXXXX` placeholder in a specific room (confirmed
+directly — e.g. `scene_e22/func_8018F690.c` wraps `RoomLib_HandlerD.inc`
+under a name that doesn't mention HandlerD at all). The two totals landing
+on the same number (125) is coincidence, not a shared miscount — verified
+independently for each template.
+
+**Found and scoped, not fixed, along the way**: this shared-library pattern
+has (at least) two real variants in this decomp, only one of which the new
+resolver covers. `RoomLib_HandlerD.c`/`RoomLib_HandlerB.c` are literal
+`#include "X.inc"` wrappers (covered). `RoomLib_FxNotify.c` and
+`RoomLib_Set3Reset_8018FAE4.c` — checked directly — instead do
+`#include "../room_lib/room_lib.h"` followed by a **macro invocation**
+(`ROOMLIB_FX_NOTIFY(RoomLib_FxNotify)`, `ROOMLIB_SET3_RESET(name, 0x100, 0x1)`)
+that expands to the real body from a definition in a header, not a file
+include. This is almost certainly the *more* common convention in this
+codebase (most of the remaining 18 unresolved dispatchers use it) and would
+need a different detector — finding and expanding the macro definition
+itself, and confirming its literal per-call arguments don't change the
+*shape* of the generated code (some do carry real per-instance constants,
+e.g. `0x100, 0x1` above) — genuinely more involved than the `.inc`-wrapper
+case, and deliberately not attempted in this pass. `resolve_source_file`
+correctly leaves these as ambiguous (`None`) rather than guessing.
+
+**Also hardened during this pass, not found broken but worth noting**: the
+wrapper-vs-target path comparison now explicitly `.resolve()`s both sides
+before comparing, rather than relying on `cfg.decomp`'s own path already
+being in resolved form — no observed failure on this filesystem, but cheap
+insurance against a subtly different failure on another one.
