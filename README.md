@@ -57,11 +57,15 @@ bridge/           decomp_bridge.py — the generic engine, no game-specific code
                   (docs/POSTMAN.md — real unmerged-dependency warning inside)
                   confidence.py — decides whether a decomp's C for a given
                   function is trustworthy enough to wire into func_override;
-                  the eligibility gate for the not-yet-built generator
+                  the eligibility gate generator.py consults
                   (docs/ADDING_A_GAME.md, "Adding a confidence classifier")
+                  generator.py — wires a decomp's own verified, SCALAR-ONLY
+                  C directly into func_override as a live replacement (see
+                  docs/GENERATOR.md for why it's scalar-only -- a real
+                  pointer-representation blocker, not a convenience limit)
 games/<name>/     one config.toml (+ manual overrides) per game bridged
 docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md,
-                  CLASSIFIER_GAP_FINDER.md, POSTMAN.md
+                  CLASSIFIER_GAP_FINDER.md, POSTMAN.md, GENERATOR.md
 build/            Parasite Eve's own sync/build/play scripts (PE-specific)
 patches/          verified + proposed patches against psxrecomp, with license notes
 findings/         the perf + framework-bug writeups, four formats for four audiences
