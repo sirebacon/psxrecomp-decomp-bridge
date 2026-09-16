@@ -26,6 +26,20 @@ hand across several nights:
      "here is everywhere this shape of bug can hide", without needing
      anyone to actually play through every one of those areas first.
 
+  3. `scan-shared-libs`: don't even need one confirmed bad instance to
+     start from -- auto-discover EVERY shared macro/.inc template reused
+     across many per-room files (the shape confidence.py's func_override
+     eligibility work characterized in detail, 2026-09-16), and filter to
+     the ones whose own body matches a risk pattern (a switch statement by
+     default, the confirmed real shape behind this project's own RoomLib
+     jump-table gap). Validated by independently rediscovering
+     ROOMLIB_STATE_DISPATCH_VARIANT2 -- the exact macro this project spent
+     real nights isolating by hand -- with zero prior knowledge, alongside
+     18 previously-uncatalogued at-risk templates (264 candidate addresses
+     total). Feeds naturally into (2): once a human confirms one of its
+     results against a real capture, scan-pattern computes candidates
+     across every user.
+
 GENERIC BY DESIGN: this reuses decomp_bridge.py's own GameConfig / symbol-
 format loading (the same games/<name>/config.toml every bridge-managed
 title already has), so it works for any decomp this bridge already
@@ -274,6 +288,133 @@ def cmd_scan_pattern(args: argparse.Namespace) -> int:
     return 0
 
 
+# ----------------------------------------------------------------------------
+# scan-shared-libs: auto-discover every shared macro/.inc template at risk
+# of the SAME bug class scan-pattern was built for, instead of requiring a
+# human to already know one bad template's name to start from.
+#
+# Built after confidence.py's func_override eligibility work (2026-09-16)
+# characterized this decomp's two shared-library shapes in detail: a
+# per-room .c file that's either a thin `#include "X.inc"` wrapper
+# (RoomLib_HandlerD-style) or a macro invocation (`ROOMLIB_FX_NOTIFY(name)`)
+# around ONE real, shared implementation reused across dozens to 100+
+# per-room copies. The confirmed root cause of this project's own RoomLib
+# jump-table classifier gap (roomlib-jump-table-dispatch-classifier-gap-
+# 2026-09-14.md) is exactly this shape: a shared template whose C compiles
+# to a MIPS jump table, so every address instantiating it inherits the same
+# risk. Reuses confidence.py's own wrapper-detection helpers (deferred
+# import -- confidence.py imports FROM this module already, so importing it
+# back at module load time would be circular) rather than a second,
+# drifting reimplementation of the same detection logic.
+# ----------------------------------------------------------------------------
+
+def cmd_scan_shared_libs(args: argparse.Namespace) -> int:
+    cfg = load_config(Path(args.config))
+    import confidence  # deferred -- see the module-level comment above
+        # (sys.path already has this dir, inserted at module load above)
+
+    addr_suffix_re = re.compile(r"_([0-9A-Fa-f]{8})$")
+    name_table = build_name_table(cfg)
+
+    def resolve_addr(stem: str) -> int | None:
+        m = addr_suffix_re.search(stem)
+        if m:
+            return int(m.group(1), 16)
+        return name_table.get(stem)
+
+    inc_groups: dict[Path, list[Path]] = {}
+    macro_groups: dict[tuple, list[Path]] = {}
+    for c_file in sorted(cfg.decomp.rglob(args.file_glob)):
+        t = confidence._is_inc_wrapper(c_file)
+        if t is not None:
+            inc_groups.setdefault(t, []).append(c_file)
+            continue
+        t2 = confidence._is_macro_wrapper(c_file)
+        if t2 is not None:
+            macro_groups.setdefault(t2, []).append(c_file)
+
+    risk_re = re.compile(args.risk_pattern)
+    # (kind, description, scan-pattern seed, body_text, wrapper_files)
+    templates: list[tuple[str, str, str, str, list[Path]]] = []
+
+    for inc_path, wrappers in inc_groups.items():
+        if len(wrappers) < args.min_users:
+            continue
+        try:
+            body = inc_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        rel = str(inc_path.relative_to(cfg.decomp)).replace("\\", "/")
+        templates.append(("inc", rel, re.escape(inc_path.stem), body, wrappers))
+
+    for (macro_name, header), wrappers in macro_groups.items():
+        if len(wrappers) < args.min_users:
+            continue
+        body = confidence._extract_macro_body(header, macro_name)
+        if body is None:
+            continue
+        rel = str(header.relative_to(cfg.decomp)).replace("\\", "/")
+        templates.append(("macro", f"{macro_name} ({rel})", macro_name, body, wrappers))
+
+    at_risk = [t for t in templates if risk_re.search(t[3])]
+
+    print(f"# Shared-library scan: {len(templates)} shared template(s) found "
+          f"(>= {args.min_users} per-room user(s) each across {args.file_glob}), "
+          f"{len(at_risk)} match risk pattern {args.risk_pattern!r}\n")
+
+    if not at_risk:
+        print("No shared template matched the risk pattern -- nothing to "
+              "report. Try a broader --risk-pattern or lower --min-users if "
+              "this looks wrong.")
+        return 0
+
+    print(
+        "**Why this matters**: this project's confirmed RoomLib jump-table "
+        "classifier gap (roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md) "
+        "traced back to exactly this shape -- a shared macro/`.inc` template "
+        "whose C body compiles to a MIPS jump table, so every address "
+        "instantiating that SAME template inherits the SAME risk. This "
+        "surfaces every such template automatically instead of needing a "
+        "human to already know one bad instance to start the search from.\n")
+
+    all_addrs: list[int] = []
+    for kind, desc, seed, _body, wrappers in at_risk:
+        names = sorted({w.stem for w in wrappers})
+        print(f"## {kind}: {desc}  ({len(wrappers)} per-room user(s), "
+              f"{len(names)} distinct name(s))\n")
+        print("| Name | Address |")
+        print("|---|---|")
+        for n in names:
+            addr = resolve_addr(n)
+            if addr is not None:
+                all_addrs.append(addr)
+            print(f"| {n} | {'0x%08X' % addr if addr is not None else '(unresolved)'} |")
+        print(f"\nNext step for this one: confirm it against a real "
+              f"`compile_overlays.py --check` transcript (this tool's own "
+              f"`annotate` command, or a live capture), then once you have "
+              f"ONE confirmed bad instance's own interior offsets, run:\n")
+        print(f"  python classifier_gap_finder.py scan-pattern "
+              f"--config {args.config} --pattern \"{seed}\" "
+              f"--known-offsets 0x..,0x..\n")
+
+    print(
+        f"# {len(set(all_addrs))} distinct address(es) worth investigating "
+        f"across {len(at_risk)} at-risk template(s)\n"
+        "**This is a triage list, not a verification, and NOT a "
+        "--force-interior list** -- matching `--risk-pattern` (a `switch` "
+        "statement, by default) in the shared template means the compiler "
+        "*can* produce a jump table there, not that it definitely did, or "
+        "that the classifier definitely mishandles it. This tool has no way "
+        "to know the actual interior offsets a jump table lands at -- those "
+        "only come from a real capture. Confirm each template against a "
+        "real `--check` transcript before trusting it, and never blanket-"
+        "apply anything to a live launch config -- see this project's own "
+        "\"Explicit warning\" section for why that caused a real "
+        "compile-storm regression once already."
+    )
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -309,6 +450,30 @@ def main() -> int:
                           "(e.g. 0x60,0x64,0x68). Omit to just list matches "
                           "without computing candidates.")
     p2.set_defaults(func=cmd_scan_pattern)
+
+    p3 = sub.add_parser(
+        "scan-shared-libs",
+        help="Auto-discover every shared macro/.inc template (reused across "
+             "many per-room files) whose body matches a risk pattern (a "
+             "switch statement, by default) -- the same shape confirmed to "
+             "cause this project's own RoomLib jump-table classifier gap, "
+             "found without already knowing one bad template's name.")
+    p3.add_argument("--config", required=True,
+                     help="games/<name>/config.toml for this title")
+    p3.add_argument("--file-glob", default="**/*.c",
+                     help="Glob (relative to [paths].decomp) restricting "
+                          "which per-room wrapper files are scanned "
+                          "(default: **/*.c)")
+    p3.add_argument("--risk-pattern", default=r"\bswitch\s*\(",
+                     help="Regex searched against each discovered shared "
+                          "template's own body text (default: a switch "
+                          "statement -- the confirmed real trigger shape "
+                          "for this project's own classifier-gap bug class)")
+    p3.add_argument("--min-users", type=int, default=2,
+                     help="Only report a template reused by at least this "
+                          "many per-room files (default: 2 -- a template "
+                          "used by exactly one file isn't 'shared')")
+    p3.set_defaults(func=cmd_scan_shared_libs)
 
     args = ap.parse_args()
     return args.func(args)

@@ -50,7 +50,9 @@ inputs, regenerated on demand.
 bridge/           decomp_bridge.py — the generic engine, no game-specific code
                   classifier_gap_finder.py — turn a decomp + a compile_overlays.py
                   --check transcript into a named, actionable list of where the
-                  overlay classifier is permanently stuck (docs/CLASSIFIER_GAP_FINDER.md)
+                  overlay classifier is permanently stuck, or auto-discover every
+                  AT-RISK shared macro/.inc template with no prior knowledge at all
+                  (docs/CLASSIFIER_GAP_FINDER.md)
                   postman.py — generate an on-demand func_override invoker for
                   one guest function, so a candidate address can be called
                   directly instead of needing to reach it through live play

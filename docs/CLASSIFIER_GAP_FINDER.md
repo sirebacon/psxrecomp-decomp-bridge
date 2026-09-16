@@ -16,7 +16,7 @@ Lives in `bridge/`, alongside `decomp_bridge.py`, and reuses its `GameConfig`
 already supports (not just Parasite Eve's), and picks up new decomp formats
 for free as they're added to `decomp_bridge.py`'s `SYMBOL_FORMATS`.
 
-## The two subcommands
+## The three subcommands
 
 ### `annotate` — name the addresses the classifier is stuck on
 
@@ -60,22 +60,62 @@ dispatcher addresses this project found by hand with a raw `grep` weeks
 ago (the exact count naturally grows as the decomp itself progresses —
 re-run any time to pick up newly-decompiled instances for free).
 
+### `scan-shared-libs` — find every AT-RISK pattern automatically, without already knowing one
+
+`scan-pattern` needs you to already know one bad macro's name to start
+from. `scan-shared-libs` doesn't: it auto-discovers every shared macro/`.inc`
+template reused across many per-room files (the exact shape
+`confidence.py`'s func_override eligibility work characterized in detail —
+see `findings/func_override-toolkit-pipeline-run-2026-09-16.md`), then
+filters to the ones whose own body matches a risk pattern (a `switch`
+statement, by default — the confirmed real shape that causes this
+project's own RoomLib jump-table classifier gap).
+
+```
+python bridge/classifier_gap_finder.py scan-shared-libs \
+    --config games/parasite-eve/config.toml
+```
+
+**Validated by independently rediscovering the known answer**: run with zero
+prior knowledge of which macro was already confirmed bad, this correctly
+found `ROOMLIB_STATE_DISPATCH_VARIANT2` (250 per-room users, 66 distinct
+names) among its 19 at-risk results — the exact macro
+`roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md` spent real
+investigation nights isolating by hand. Alongside it, it surfaced **18
+previously-uncatalogued at-risk templates** (`ROOMLIB_HANDLER_B_ARGS`,
+`ROOMLIB_HANDLER_C_ARGS`, `ROOMLIB_HANDLER_D_ARGS`, `ROOMLIB_HANDLER_E_ARGS`,
+`ROOMLIB_STATE_DISPATCH`, `ROOMLIB_MSG_DISPATCH`, four `RoomLib_ConfigureHandler*`
+`.inc` templates, `RoomLib_AdvanceArcToTarget`/`Y`, `RoomLib_HandlerB`/`C`,
+and three more), for **264 distinct candidate addresses** worth checking
+against a real `--check` transcript.
+
+Each result comes with a ready `scan-pattern --known-offsets` invocation to
+run once a human confirms one instance's actual interior offsets from a
+real capture — `scan-shared-libs` finds *what* to investigate, `scan-pattern`
+computes candidates once *one* instance is confirmed, matching the same
+"prediction, not verification" contract as everything else in this tool.
+
 ## What this deliberately does NOT do
 
-Both subcommands are pure, offline, read-only analysis over files you
-already have — a saved transcript, and the decomp source tree. Neither
+All three subcommands are pure, offline, read-only analysis over files you
+already have — a saved transcript, and the decomp source tree. None of them
 touches a live game, the recompiler, or `compile_overlays.py` itself, and
-neither applies anything automatically. The output is a **candidate list
+none applies anything automatically. The output is a **candidate list
 for a human to review and verify against real capture data**, not a
 verified fix — see the "Explicit warning" section of
 `findings/roomlib-jump-table-dispatch-classifier-gap-2026-09-14.md` for why
 skipping that verification step (and blanket-applying a large computed list
 in one step) caused a real compile-storm regression once already in this
 project's own history. Roll out in small batches, checked against real
-dirty-RAM behavior after each one — the tool's own `scan-pattern` output
-repeats this warning inline.
+dirty-RAM behavior after each one — `scan-pattern`'s and `scan-shared-libs`'
+own output repeats this warning inline. `scan-shared-libs` additionally
+never computes `--force-interior` values directly (unlike `scan-pattern`
+with `--known-offsets`) — it has no way to know a jump table's actual
+interior offsets without a real capture, so its output is deliberately
+just a list of functions worth investigating, not addresses ready to add to
+a launch config.
 
-## Known limitation
+## Known limitations
 
 `annotate`'s "which function contains this address" answer is a
 nearest-preceding-symbol heuristic — decomp symbol files generally carry
@@ -83,3 +123,11 @@ start addresses, not explicit sizes, so it can misattribute an address to
 an earlier function if something in between was never named. Good enough
 to turn a bare hex number into useful human context; not a substitute for
 checking the actual decompiled source at that offset yourself.
+
+`scan-shared-libs`' address column uses the same flat, global name→address
+table `scan-pattern` already relies on — for a name that's genuinely
+compiled to a different address per overlay (PS1 overlays can and do vary),
+this shows *an* address using that template, from whichever overlay's
+symbol file happened to be read last, not necessarily the one for the
+specific room you might have in mind. Treat it as "this template is used
+somewhere at roughly this address," not a per-room-precise answer.
