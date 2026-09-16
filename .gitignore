@@ -11,5 +11,8 @@ generated/
 # Build/run logs
 build/*.log
 
+# play.ps1's --force-interior @file (regenerated from $ForceInterior every launch)
+build/force-interior*.txt
+
 __pycache__/
 *.pyc

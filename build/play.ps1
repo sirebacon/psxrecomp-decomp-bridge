@@ -217,12 +217,23 @@ if (-not $NoAutocompile) {
     $env:PSX_MINGW_BIN = $mingwBin
     $env:PSX_OVERLAY_BACKEND = 'gcc'
     $env:PSX_OVERLAY_AUTOCOMPILE_CWD = $recomp
-    $fi = ($ForceInterior | ForEach-Object { "--force-interior $_" }) -join ' '
-    # -AllInteriors: force EVERY decomp-known overlay function via an argparse @-file
-    # (compile_overlays.py patched with fromfile_prefix_chars='@'). Off by default:
-    # ~1100 forced fragments is a background-compile storm that tanks speed for
-    # several minutes. The targeted -ForceInterior hot set is the working config.
-    $fiFile = ''
+    # Found 2026-09-16, third recurrence: the naive "one --force-interior flag
+    # per address, all inlined into one shell command" approach has a hard
+    # ceiling in autocompile.c's own command buffer (already bumped once
+    # this session, 4096->8192 bytes) -- and this project's own pipeline
+    # keeps finding MORE addresses each session (208 -> 230 -> 501), so any
+    # fixed buffer size just delays the next recurrence. Root-cause fix
+    # instead of another buffer bump: compile_overlays.py's ArgumentParser
+    # already has fromfile_prefix_chars='@' wired in (line ~5221) -- write
+    # the whole list to a file, one argv token per line, and pass a single
+    # "@file" token. This collapses ~500 flags into ~60 bytes regardless of
+    # how large -ForceInterior grows, permanently removing this class of
+    # bug rather than moving its trigger point.
+    $fiPath = Join-Path $PSScriptRoot ("force-interior" + ($(if ($BuildDir -ne 'build-release') { '-' + ($BuildDir -replace '^build-','') } else { '' })) + ".txt")
+    $fiLines = foreach ($addr in $ForceInterior) { '--force-interior'; $addr }
+    Set-Content -Path $fiPath -Value $fiLines -Encoding ascii
+    $fi = ''
+    $fiFile = '"@' + $fiPath + '"'
     if ($AllInteriors) {
         # This was a real experiment (force EVERY decomp-known overlay function via
         # an argparse @-file), and it was a failure -- ~1100 forced fragments is a
