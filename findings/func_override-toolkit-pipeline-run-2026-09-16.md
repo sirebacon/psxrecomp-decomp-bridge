@@ -295,3 +295,50 @@ wrapper-vs-target path comparison now explicitly `.resolve()`s both sides
 before comparing, rather than relying on `cfg.decomp`'s own path already
 being in resolved form — no observed failure on this filesystem, but cheap
 insurance against a subtly different failure on another one.
+
+## Follow-up 3 (same day): built the macro-invocation resolver — the bigger of the two patterns by far
+
+Extended `resolve_source_file` to also detect the macro-invocation shape:
+a per-room `.c` file with `#include "room_lib.h"` plus one function-like
+macro call (`ROOMLIB_FX_NOTIFY(name)`, `ROOMLIB_SET3_RESET(name, 0x100, 0x1)`).
+Read the real macro definitions directly in `room_lib.h` first rather than
+guessing — they use backslash line continuation and are genuinely
+pointer-heavy C (`*(short *)(rec + 0xA2)`, etc.), no raw ASM. Since
+`room_lib.h` holds dozens of unrelated macros in one file, classifying the
+whole header would let one macro's content wrongly taint another's verdict
+— so the new code isolates just the target macro's own `#define` through
+its last continued line, writes that extracted text to a throwaway temp
+file, and runs the real, unmodified `source_quality.classify()` against
+just that snippet. Resolved via a synthetic `"HEADER_REL::MACRO_NAME"`
+source_rel format, since there's no standalone file for a macro's own body
+the way there is for an `.inc` template.
+
+**Verified the classifier genuinely discriminates**, not just returning one
+default answer: built two synthetic macros (one clean, pointer-heavy C; one
+containing a real `__asm__` block) and confirmed the extraction+classify
+pipeline correctly returned `semantic_c` for the first and `asm_constrained`
+for the second. Confirmed zero temp-file leaks across repeated runs.
+
+**Final tally, re-checking all 22 dispatcher entry points**: **15 of 22 now
+resolve — up from 2 before this pass.** Every single *named* `RoomLib_*`
+dispatcher resolves cleanly (`RoomLib_MsgDispatch_8018F9F8`,
+`RoomLib_Set3Range_8018FA14`, `RoomLib_FxShimmer_8018FB58`, `RoomLib_FxNotify`
+(both addresses), `RoomLib_InitD_80190FE4`, `RoomLib_NotifyArmB_801911D8`,
+`RoomLib_Notify2ArmB_801912E0`, `RoomLib_ResetAndSignalB_801925D0`, plus
+the two `.inc`-wrapper cases from Follow-up 2). The macro-invocation
+pattern turned out to be the dominant one in this codebase by far, not a
+minor variant. **The 7 still unresolved are every remaining anonymous
+`func_XXXXXXXX` placeholder** — `func_8018F71C`, `func_8018F79C`,
+`func_8018FA2C`, `func_8018FACC`, `func_8018FAD4`, `func_8018FADC`,
+`func_8018FB44` — consistent with the earlier confirmed finding that these
+specific ones are genuinely independent, non-templated per-room C, not a
+naming gap in either resolver.
+
+This doesn't change confidence itself for any of these — every one still
+correctly reports `unknown` pending `objdiff.json`, since neither resolver
+was ever meant to invent byte-match evidence that doesn't exist. What it
+changes is that 13 additional real, currently-stuck dispatchers now have a
+single, well-defined confidence question to answer instead of an
+unresolvable per-room ambiguity — the moment `objdiff.json` exists, this
+pass's work is what turns those into real `eligible`/`ineligible` verdicts
+instead of leaving them stuck at `unknown` forever.

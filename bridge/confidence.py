@@ -73,6 +73,32 @@ per-room bodies, not a wrapper) is correctly left ambiguous -- this
 detection only fires when every candidate is provably a pure wrapper
 pointing at the identical target.
 
+SHARED-LIBRARY MACRO INVOCATIONS -- a second, distinct variant of the same
+idea, and confirmed to be the MORE common one in this decomp: instead of
+`#include "X.inc"`, a per-room `.c` file does `#include "room_lib.h"`
+followed by one function-like macro invocation, e.g.
+`ROOMLIB_SET3_RESET(RoomLib_Set3Reset_8018FAE4, 0x100, 0x1)`. The macro's
+own body (defined once in `room_lib.h` using backslash line continuation,
+confirmed real by reading it directly -- `ROOMLIB_FX_NOTIFY`'s body is
+heavy pointer-cast C, `*(short *)(rec + 0xA2)` and similar, no raw ASM) is
+the real shared implementation; the per-call arguments are just constants
+substituted into it, not different code. Classifying the WHOLE header
+would be wrong -- room_lib.h holds dozens of unrelated macros in one file,
+and an unrelated one's ASM content would wrongly taint this one's verdict
+-- so `_extract_macro_body` isolates just this macro's own `#define`
+through its last backslash-continued line, and `_classify_macro_body`
+writes that extracted text to a throwaway temp file and runs the REAL,
+unmodified `source_quality.classify()` on it (confirmed discriminating,
+not defaulting to one answer: a synthetic macro with a real `__asm__`
+block classifies `asm_constrained`, a clean one classifies `semantic_c`).
+Resolved via the synthetic `"HEADER_REL::MACRO_NAME"` source_rel format
+(`MACRO_SOURCE_SEP`) since there's no standalone file for the macro's own
+body the way there is for an `.inc` template -- `classify_source_file`
+transparently detects and unpacks this format; nothing else needs to know
+about it. Byte-match is checked the same way as the `.inc` case: against
+one representative room's real wrapper file, explicitly named as such in
+the reported reason, never claimed universal across every room sharing it.
+
 Usage (standalone diagnostic; the real consumer is the planned generator):
   python bridge/confidence.py check-file \\
       --config games/parasite-eve/config.toml \\
@@ -89,6 +115,7 @@ import importlib.util
 import json
 import re
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -211,6 +238,130 @@ def _find_representative_wrapper(cfg: GameConfig, inc_abs_path: Path) -> Path | 
     return None
 
 
+# ----------------------------------------------------------------------------
+# Shared-library MACRO-INVOCATION wrapper detection -- the second, more
+# common variant found while testing the .inc-wrapper case (RoomLib_FxNotify,
+# RoomLib_Set3Reset_8018FAE4, confirmed real by reading both the per-room
+# wrapper and the macro's own definition in room_lib.h directly): a per-room
+# .c file that #includes a local .h header and invokes one function-like
+# macro, e.g. `ROOMLIB_SET3_RESET(RoomLib_Set3Reset_8018FAE4, 0x100, 0x1)`.
+# The macro's own body (found in the header, using backslash line
+# continuation) is the real, shared C implementation -- the per-call
+# arguments are just constants substituted into it, not different code, so
+# classifying the macro's OWN definition once answers the same question the
+# .inc case answers, without re-deriving it per room.
+# ----------------------------------------------------------------------------
+
+_MACRO_HEADER_INCLUDE_RE = re.compile(r'#\s*include\s*"([^"]+\.h)"')
+_MACRO_INVOKE_RE = re.compile(r'^\s*([A-Z][A-Z0-9_]*)\s*\(', re.MULTILINE)
+_MACRO_DEFINE_RE_CACHE: dict[str, re.Pattern] = {}
+
+
+def _is_macro_wrapper(path: Path) -> tuple[str, Path] | None:
+    """A macro-invocation wrapper: any #define/comment lines plus exactly
+    one #include of a local .h header and exactly one macro-invocation-
+    shaped line (ALL_CAPS_NAME(...)), and NO function body of its own (no
+    braces -- the real body lives inside the macro's expansion in the
+    header, not literally in this file). Returns (macro_name,
+    header_abs_path), or None if this file isn't shaped like a pure macro
+    wrapper (e.g. func_8018F71C's real, independent per-room bodies)."""
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    if "{" in text:
+        return None
+    h_matches = _MACRO_HEADER_INCLUDE_RE.findall(text)
+    if len(h_matches) != 1:
+        return None
+    invoke_matches = _MACRO_INVOKE_RE.findall(text)
+    if len(invoke_matches) != 1:
+        return None
+    header = (path.parent / h_matches[0]).resolve()
+    if not header.is_file():
+        return None
+    return invoke_matches[0], header
+
+
+def _resolve_via_shared_macro(candidates: list[Path]) -> tuple[Path, str, Path] | None:
+    """If EVERY candidate .c file is a macro-invocation wrapper for the
+    exact same (macro name, header) pair, return (representative_wrapper,
+    macro_name, header_path). None if any candidate isn't a pure macro
+    wrapper, or they invoke different macros -- a real per-room
+    difference, not just call-argument parameters."""
+    found: set[tuple[str, Path]] = set()
+    for c in candidates:
+        t = _is_macro_wrapper(c)
+        if t is None:
+            return None
+        found.add(t)
+    if len(found) != 1:
+        return None
+    macro_name, header = next(iter(found))
+    return candidates[0], macro_name, header
+
+
+def _extract_macro_body(header_path: Path, macro_name: str) -> str | None:
+    """Extract one function-like macro's full definition text -- from its
+    `#define MACRO_NAME(` line through the last backslash-continued line
+    (inclusive) -- so it can be classified in isolation. Classifying the
+    WHOLE header would let some unrelated macro's ASM content wrongly taint
+    this one; every macro in room_lib.h shares one file."""
+    try:
+        text = header_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    pattern = _MACRO_DEFINE_RE_CACHE.setdefault(
+        macro_name,
+        re.compile(r"^[ \t]*#\s*define\s+" + re.escape(macro_name) + r"\s*\(",
+                   re.MULTILINE))
+    m = pattern.search(text)
+    if m is None:
+        return None
+    body_lines = []
+    for line in text[m.start():].splitlines(keepends=True):
+        body_lines.append(line)
+        if not line.rstrip("\r\n").endswith("\\"):
+            break
+    return "".join(body_lines)
+
+
+def _classify_macro_body(sq, body_text: str) -> str:
+    """Mirrors source_quality.classify()'s own logic exactly (reusing its
+    real regexes/helpers off the dynamically-imported module, never a
+    hardcoded copy that could drift from the decomp's current policy), but
+    against an in-memory macro-body string instead of a whole file -- a
+    temp file is the simplest way to run the REAL, unmodified classify()
+    without reimplementing it."""
+    with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".c", delete=False, encoding="utf-8") as f:
+        f.write(body_text)
+        tmp_path = Path(f.name)
+    try:
+        return sq.classify(tmp_path)
+    finally:
+        tmp_path.unlink(missing_ok=True)
+
+
+def _find_representative_macro_wrapper(
+        cfg: GameConfig, macro_name: str, header_abs_path: Path) -> Path | None:
+    """Same idea as _find_representative_wrapper, for the macro-invocation
+    case: find one real per-room .c file invoking this exact macro from
+    this exact header, for the objdiff.json byte-match lookup."""
+    target = (macro_name, header_abs_path)
+    for c_file in sorted(cfg.decomp.rglob("**/*.c")):
+        if _is_macro_wrapper(c_file) == target:
+            return c_file
+    return None
+
+
+MACRO_SOURCE_SEP = "::"  # synthetic source_rel format for the macro-invocation
+    # case: "HEADER_REL::MACRO_NAME" -- there's no real standalone file to
+    # name (the macro's body lives inside a larger header, alongside many
+    # unrelated macros), unlike the .inc case where the shared template IS
+    # a real file. Chosen because "::" can't appear in a real decomp path.
+
+
 def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> ConfidenceResult:
     sq = _load_source_quality(cfg)
     if sq is None:
@@ -219,13 +370,33 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
             "tools/scripts/source_quality.py not found in this decomp "
             "checkout -- cannot classify", source_path=source_rel)
 
-    abs_path = cfg.decomp / source_rel
-    if not abs_path.is_file():
-        return ConfidenceResult(
-            UNKNOWN, f"{source_rel} does not exist in this decomp checkout",
-            source_path=source_rel)
+    is_macro = MACRO_SOURCE_SEP in source_rel
+    header_abs = None
+    macro_name = None
+    if is_macro:
+        header_rel, macro_name = source_rel.rsplit(MACRO_SOURCE_SEP, 1)
+        header_abs = (cfg.decomp / header_rel).resolve()
+        if not header_abs.is_file():
+            return ConfidenceResult(
+                UNKNOWN, f"{header_rel} does not exist in this decomp checkout",
+                source_path=source_rel)
+        body = _extract_macro_body(header_abs, macro_name)
+        if body is None:
+            return ConfidenceResult(
+                UNKNOWN,
+                f"couldn't find macro {macro_name!r}'s own #define in "
+                f"{header_rel}", source_path=source_rel)
+        kind = _classify_macro_body(sq, body)
+        descriptor = f"shared macro {macro_name} in {header_rel}"
+    else:
+        abs_path = cfg.decomp / source_rel
+        if not abs_path.is_file():
+            return ConfidenceResult(
+                UNKNOWN, f"{source_rel} does not exist in this decomp checkout",
+                source_path=source_rel)
+        kind = sq.classify(abs_path)
+        descriptor = f"shared template {source_rel}" if abs_path.suffix == ".inc" else None
 
-    kind = sq.classify(abs_path)
     # Deliberately narrower than this decomp's OWN progress-credit policy --
     # see the module docstring's "WHAT ELIGIBLE ACTUALLY MEANS" section.
     if kind != "semantic_c":
@@ -235,17 +406,30 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
             "implementation for a func_override adapter to call",
             kind, source_rel)
 
-    # A shared room_lib/*.inc template is never itself an independently
-    # compiled unit -- objdiff.json only knows about the per-room wrapper
-    # .c files that #include it. Resolve ONE representative room's wrapper
-    # for the byte-match half of this check up front (regardless of whether
-    # objdiff.json exists yet), and say so explicitly in every branch below:
-    # this confirms the template compiles byte-identical in that one room,
+    # A shared template/macro is never itself an independently compiled
+    # unit -- objdiff.json only knows about the real per-room wrapper .c
+    # files. Resolve ONE representative room's wrapper for the byte-match
+    # half of this check up front (regardless of whether objdiff.json
+    # exists yet), and say so explicitly in every branch below: this
+    # confirms the shared logic compiles byte-identical in that one room,
     # not independently re-verified in every room that shares it.
-    is_shared_template = abs_path.suffix == ".inc"
+    is_shared = descriptor is not None
     lookup_rel = source_rel
     users = None
-    if is_shared_template:
+    if is_macro:
+        users = sum(
+            1 for c in cfg.decomp.rglob("**/*.c")
+            if _is_macro_wrapper(c) == (macro_name, header_abs))
+        rep = _find_representative_macro_wrapper(cfg, macro_name, header_abs)
+        if rep is None:
+            return ConfidenceResult(
+                UNKNOWN,
+                f"semantic_c ({descriptor}, {users} per-room user(s)), but "
+                "couldn't find any per-room wrapper file to check a "
+                "byte-match against -- can't confirm a byte match",
+                kind, source_rel, shared_template_users=users)
+        lookup_rel = str(rep.relative_to(cfg.decomp)).replace("\\", "/")
+    elif is_shared:  # .inc template
         resolved_inc = abs_path.resolve()
         users = sum(
             1 for c in cfg.decomp.rglob("**/*.c")
@@ -254,17 +438,17 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
         if rep is None:
             return ConfidenceResult(
                 UNKNOWN,
-                f"semantic_c (shared template {source_rel}, {users} "
-                "per-room user(s)), but couldn't find any per-room wrapper "
-                "file to check a byte-match against -- can't confirm a "
-                "byte match", kind, source_rel, shared_template_users=users)
+                f"semantic_c ({descriptor}, {users} per-room user(s)), but "
+                "couldn't find any per-room wrapper file to check a "
+                "byte-match against -- can't confirm a byte match",
+                kind, source_rel, shared_template_users=users)
         lookup_rel = str(rep.relative_to(cfg.decomp)).replace("\\", "/")
 
     objdiff_config = _load_objdiff_config(cfg)
     if objdiff_config is None:
-        detail = (f"semantic_c (shared template {source_rel}, {users} "
-                   f"per-room user(s), representative room {lookup_rel})"
-                   if is_shared_template else "semantic_c")
+        detail = (f"semantic_c ({descriptor}, {users} per-room user(s), "
+                   f"representative room {lookup_rel})"
+                   if is_shared else "semantic_c")
         return ConfidenceResult(
             UNKNOWN,
             f"{detail}, but this decomp's objdiff.json wasn't found -- run "
@@ -274,10 +458,10 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
 
     unit = _find_unit_for_source(objdiff_config, lookup_rel)
     if unit is None:
-        detail = (f"semantic_c (shared template {source_rel}, {users} "
-                   f"per-room user(s)), but no objdiff.json unit references "
-                   f"its representative wrapper {lookup_rel}"
-                   if is_shared_template else
+        detail = (f"semantic_c ({descriptor}, {users} per-room user(s)), but "
+                   f"no objdiff.json unit references its representative "
+                   f"wrapper {lookup_rel}"
+                   if is_shared else
                    f"semantic_c, but no objdiff.json unit references {source_rel}")
         return ConfidenceResult(
             UNKNOWN, f"{detail} -- can't confirm a byte match",
@@ -288,16 +472,17 @@ def _classify_via_source_quality(cfg: GameConfig, source_rel: str) -> Confidence
             f"semantic_c, and objdiff.json marks representative room "
             f"{lookup_rel}'s containing module byte-verified against retail "
             f"-- confirmed for that one room, not independently re-checked "
-            f"for all {users} rooms sharing this template"
-            if is_shared_template else
+            f"for all {users} rooms sharing this "
+            f"{'macro' if is_macro else 'template'}"
+            if is_shared else
             "semantic_c, and objdiff.json marks this unit's containing "
             "module byte-verified against retail")
         return ConfidenceResult(ELIGIBLE, reason, kind, source_rel,
                                  shared_template_users=users)
 
-    detail = (f"semantic_c (shared template {source_rel}), but representative "
-               f"room {lookup_rel}'s objdiff.json unit isn't marked complete"
-               if is_shared_template else
+    detail = (f"semantic_c ({descriptor}), but representative room "
+               f"{lookup_rel}'s objdiff.json unit isn't marked complete"
+               if is_shared else
                "semantic_c, but objdiff.json does not mark this unit complete")
     return ConfidenceResult(
         INELIGIBLE,
@@ -369,6 +554,17 @@ def resolve_source_file(cfg: GameConfig, name: str, addr: int) -> str | None:
         if via_template is not None:
             _, shared_inc = via_template
             return str(shared_inc.relative_to(cfg.decomp)).replace("\\", "/")
+        # Second shared-library shape, confirmed real (RoomLib_FxNotify,
+        # RoomLib_Set3Reset_8018FAE4): a macro invocation instead of a
+        # literal .inc include -- same "one real question, not one per
+        # room" logic, encoded as the synthetic "HEADER::MACRO" source_rel
+        # MACRO_SOURCE_SEP defines, since there's no standalone file for
+        # the macro's own body the way there is for an .inc template.
+        via_macro = _resolve_via_shared_macro(exact)
+        if via_macro is not None:
+            _, macro_name, header = via_macro
+            header_rel = str(header.relative_to(cfg.decomp)).replace("\\", "/")
+            return f"{header_rel}{MACRO_SOURCE_SEP}{macro_name}"
         return None  # ambiguous -- let the caller see UNKNOWN rather than guess
 
     addr_named = list(cfg.decomp.rglob(f"*_{addr:08X}.c"))
