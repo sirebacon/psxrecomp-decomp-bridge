@@ -146,3 +146,99 @@ python bridge/triage.py run --config games/parasite-eve/config.toml \
 `--verbose` prints the specific reason for every one of the 211 rows. Re-run
 any time `build/play.ps1`'s `$ForceInterior` list grows (it has grown twice
 already, per its own inline history) to get a fresh breakdown for free.
+
+## Follow-up (same day): checked the 21 containing dispatchers directly — found a much bigger structural lever than expected
+
+Acting on Finding 1's own suggestion — if a whole dispatcher function is
+confidently verified, `generator.py` could replace it at its own entry
+point and sidestep the interior-jump-table problem entirely, without
+needing any new interior/case-label machinery — recovered the containing
+functions' real *start* addresses (not their interior offsets: `start =
+interior_addr - offset`, computed from the same triage data above) and ran
+them through the pipeline directly.
+
+**Correction to Finding 1's count**: deduping by start address rather than
+by name found **22** distinct dispatchers, not 21 — `RoomLib_FxNotify`
+reuses the exact same symbol name at two different addresses
+(`0x8018FB78` and `0x8018FB90`), which a name-keyed count silently
+collapses into one.
+
+```
+python bridge/triage.py run --config games/parasite-eve/config.toml \
+    --addresses-file <a file listing the 22 dispatcher start addresses>
+```
+
+Result: only **2 of 22** (`RoomLib_Set3Reset_8018F920`,
+`func_8018FA84`) resolve to one source file — both `semantic_c`, both
+blocked purely on the same missing `objdiff.json`, same as Finding 3. The
+other **20 of 22** hit the exact same "ambiguous source file" reason as
+Finding 2 — but checking *why*, directly against the real decomp tree,
+turned up something more interesting than "more of the same ambiguity":
+
+**All 20 are fully decompiled. Zero are missing.** The ambiguity splits into
+two structurally different situations that call for different fixes:
+
+1. **Shared-library dispatchers reused via a thin per-room wrapper.**
+   `RoomLib_HandlerD` has **124** per-overlay copies, `RoomLib_HandlerB`
+   has **117**, `RoomLib_FxNotify` has **125** (counted directly via
+   `rglob`). Spot-checked one: `src/overlays/room_m014/RoomLib_HandlerD.c`
+   is **two lines** —
+   ```c
+   /* MASPSX_FLAGS: --expand-div */
+   #include "../room_lib/RoomLib_HandlerD.inc"
+   ```
+   The real, single, canonical implementation lives in
+   `src/overlays/room_lib/RoomLib_HandlerD.inc` (one of ~65 shared
+   templates in that directory); every room's own `.c` file is just a
+   parameter shim (some rooms additionally `#define` room-specific
+   constants before the `#include`, which is why two real copies compared
+   directly differ in byte length despite sharing the same underlying
+   logic). `resolve_source_file`'s per-address, per-`.c`-file model is
+   structurally the wrong level for this pattern: there's one real
+   confidence question here (**is `RoomLib_HandlerD.inc` itself
+   `semantic_c` and byte-matched?**), not 124 separate ambiguous ones. A
+   worthwhile, comparatively cheap extension: teach `confidence.py` to
+   recognize a thin `#include ".../room_lib/X.inc"`-only wrapper and
+   classify/resolve against the shared template directly — one check
+   covering up to 125 real addresses at once, instead of 125 ambiguous
+   per-room dead ends.
+
+2. **Genuinely independent per-room implementations that happen to reuse
+   the same address.** Checked `func_8018F71C` directly: its 3 per-room
+   copies (`room_m075`/`room_m080`/`room_m082`) are real, different,
+   fully-written-out C, not a template wrapper (confirmed by reading the
+   file — pointer params, array indexing, no shared `#include`). PS1
+   overlays reuse the same load address across independent rooms, so this
+   is a genuine, structural ambiguity, not an artifact of the resolver
+   being lazy: each of these really does need its own separate
+   verification, and `confidence.py` correctly can't and shouldn't guess
+   which room's copy an address means without also knowing which overlay
+   is actually resident.
+
+**A confirmed heuristic gap found while reading `func_8018F71C`, worth
+hardening even though it wasn't a live bug here**: its body dereferences
+memory via `state[0x33]`, `arg1[1]`, and `*(unsigned short *)(arg2 + 0x64)`
+— none of which contain `->`. `generator.py`'s body-level pointer check
+(`_ARROW_RE = re.compile(r'->')`) would not have caught this on its own;
+this specific function was still correctly rejected because its
+*signature* already has pointer parameters (`char *arg1, char *arg2`),
+caught by the earlier, separate scalar-type check. But the underlying gap
+is real: a function with a purely scalar *signature* that dereferences a
+pointer internally via `[]` indexing or an explicit cast instead of `->`
+would currently slip past the body check undetected. No such case has
+actually been found in real, would-be-accepted data yet — flagged here as
+a known limitation to hardening `generator.py`'s body scan before trusting
+it against a wider address set, not an active bug.
+
+### What this changes
+
+The original recommendation ("check whether whole dispatchers are
+eligible") was worth doing, but the real payoff isn't "2 more addresses
+unlocked" — it's discovering that most of this specific class of stuck
+dispatcher is a **shared-library reuse problem**, not 100+ independent
+verification problems. Extending `confidence.py` to resolve through
+`room_lib/*.inc` wrappers is a comparatively small, high-leverage change
+that would collapse the biggest remaining ambiguity bucket; it's a
+different and cheaper piece of work than either the interior-jump-table
+extension from Finding 1 or an overlay-aware resolver for the genuinely
+independent per-room case above.
