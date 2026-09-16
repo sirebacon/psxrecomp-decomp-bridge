@@ -568,3 +568,23 @@ an off-thread/cached fix) are both still exactly where they were left —
 this follow-up only closes the "is it still real, in the build that
 matters" question, not the underlying stall itself.
 
+## Follow-up (2026-09-16, same day): a caching fix was prototyped — real positive result, real negative result
+
+See `0010C89C-cache-fix-prototype-2026-09-16.md` for the full account.
+Short version: instrumented the live function to confirm `(a0=input ptr,
+a1=output cursor)` pairs genuinely repeat every 14 calls in the rotating
+intro (validating the caching idea from the paragraph above with real
+data), then implemented a cache-and-skip fix. The cache logic itself
+worked correctly — it found the exact predicted repeat — but the specific
+"skip via early `return`" implementation is **not safe**: it broke
+execution (`PC=0x00000000`, clean process exit) immediately after the
+first cache hit, in both test runs, while a byte-identical control run
+with the unpatched DLL ran past 1900 frames with no issue. Most likely
+cause: skipping the function's own per-block cycle-accounting on the way
+to its real exit points, which this project's cross-backend cycle-model
+unification depends on. The live build was fully restored and verified
+byte-identical via SHA-256 before/after. Next attempt should replace only
+the decompression loop's body with a cached `memcpy` (not the whole
+function via early return), so the function's normal exit-path
+bookkeeping still runs every time.
+
