@@ -100,11 +100,77 @@ _SCALAR_TYPES = {
 _DISQUALIFYING_SUBSTRINGS = ("*", "[", "float", "double", "long long", "struct", "union")
 
 _FUNC_SIG_RE = re.compile(
-    r'^(?P<ret>[A-Za-z_][\w\s\*]*?)\s+(?P<name>[A-Za-z_]\w*)\s*'
+    # Leading \s* (not just ^): plain decomp .c files put a definition at
+    # column 0, but a macro body extracted for signature parsing (see
+    # _resolve_macro_body_for_signature) is indented as it appeared inside
+    # the #define -- confirmed needed, not defensive-only: without it this
+    # regex never matched ROOMLIB_FX_NOTIFY's real, indented body text.
+    r'^\s*(?P<ret>[A-Za-z_][\w\s\*]*?)\s+(?P<name>[A-Za-z_]\w*)\s*'
     r'\((?P<params>[^;{}]*)\)\s*\{',
     re.MULTILINE,
 )
 _ARROW_RE = re.compile(r'->')
+
+# ----------------------------------------------------------------------------
+# Text resolution for confidence.py's two shared-library encodings, so THIS
+# generator's signature/body checks run against the real, expanded
+# implementation instead of failing outright. Neither of these changes what
+# gets ACCEPTED -- every real macro checked in this decomp's room_lib.h takes
+# a struct pointer, so they still correctly fail the scalar check below; this
+# only replaces a raw OS-level error (or a silent parse failure) with an
+# actual attempt, and a clear reason when that attempt still can't succeed.
+# ----------------------------------------------------------------------------
+
+_MACRO_DEF_HEADER_RE = re.compile(r'^\s*#\s*define\s+\w+\s*\(([^)]*)\)', re.DOTALL)
+_LOCAL_ALIAS_RE_CACHE: dict[str, re.Pattern] = {}
+
+
+def _resolve_macro_body_for_signature(header_abs: Path, macro_name: str,
+                                       real_name: str) -> str | None:
+    """confidence.py's MACRO_SOURCE_SEP case (e.g. RoomLib_FxNotify, invoked
+    as `ROOMLIB_FX_NOTIFY(RoomLib_FxNotify)`): extract the macro's own
+    #define body (confidence.py's _extract_macro_body -- the real,
+    unmodified logic, not a reimplementation), substitute its first
+    parameter (the function-naming one, confirmed the convention in every
+    real macro checked -- ROOMLIB_FX_NOTIFY(name), ROOMLIB_SET3_RESET(name,
+    v10, v12)) with the real target function name, and strip backslash line
+    continuations so parse_signature can search the result directly. None
+    if the macro can't be found or declares no parameters at all."""
+    body = confidence._extract_macro_body(header_abs, macro_name)
+    if body is None:
+        return None
+    m = _MACRO_DEF_HEADER_RE.match(body)
+    if m is None:
+        return None
+    params = [p.strip() for p in m.group(1).split(",") if p.strip()]
+    if not params:
+        return None
+    name_param = params[0]
+    rest = body[m.end():]
+    rest = re.sub(r"\\\r?\n", "\n", rest)  # join backslash-continued lines
+    rest = re.sub(r'\b' + re.escape(name_param) + r'\b', real_name, rest)
+    return rest
+
+
+def _find_local_name_alias(text: str, real_name: str) -> str | None:
+    """The OTHER shared-library shape, confirmed real in
+    RoomLib_HandlerD.inc: the whole implementation lives directly in the
+    file (not another macro layer), but written under a LOCAL symbolic
+    name -- `#define ROOMLIB_HANDLER_D_NAME RoomLib_HandlerD` (#ifndef-
+    guarded default) with the actual function defined as
+    `void ROOMLIB_HANDLER_D_NAME(...) { ... }`. If the target name never
+    appears as a literal `real_name(` call site but IS the right-hand side
+    of exactly one `#define ALIAS real_name` line, that alias is what
+    actually appears at the function definition -- search for that instead
+    of giving up."""
+    pattern = _LOCAL_ALIAS_RE_CACHE.setdefault(
+        real_name,
+        re.compile(r'^\s*#\s*define\s+(\w+)\s+' + re.escape(real_name) + r'\s*$',
+                   re.MULTILINE))
+    matches = pattern.findall(text)
+    if len(matches) == 1:
+        return matches[0]
+    return None
 
 
 @dataclass
@@ -175,18 +241,40 @@ def check_eligible_scalar(cfg: GameConfig, source_rel: str, func_name: str) -> G
     if conf.verdict != confidence.ELIGIBLE:
         return GeneratorResult(False, f"not eligible ({conf.verdict}): {conf.reason}")
 
-    abs_path = cfg.decomp / source_rel
-    try:
-        text = abs_path.read_text(encoding="utf-8", errors="replace")
-    except OSError as e:
-        return GeneratorResult(False, f"can't read {source_rel}: {e}")
+    # Resolve source_rel into searchable text, handling confidence.py's two
+    # shared-library encodings -- otherwise the macro-invocation case fails
+    # on a raw OS error (":: is not a valid path"), and the local-symbolic-
+    # name .inc case fails to find a signature that's genuinely there, just
+    # under an aliased name.
+    search_name = func_name
+    if confidence.MACRO_SOURCE_SEP in source_rel:
+        header_rel, macro_name = source_rel.rsplit(confidence.MACRO_SOURCE_SEP, 1)
+        header_abs = (cfg.decomp / header_rel).resolve()
+        text = _resolve_macro_body_for_signature(header_abs, macro_name, func_name)
+        if text is None:
+            return GeneratorResult(
+                False, f"couldn't extract or parse macro {macro_name!r} in "
+                f"{header_rel} for {func_name}")
+    else:
+        abs_path = cfg.decomp / source_rel
+        try:
+            text = abs_path.read_text(encoding="utf-8", errors="replace")
+        except OSError as e:
+            return GeneratorResult(False, f"can't read {source_rel}: {e}")
+        if parse_signature(text, func_name) is None:
+            alias = _find_local_name_alias(text, func_name)
+            if alias is not None:
+                search_name = alias
 
-    sig = parse_signature(text, func_name)
+    sig = parse_signature(text, search_name)
     if sig is None:
         return GeneratorResult(
             False, f"couldn't parse a signature for {func_name}() in "
             f"{source_rel} (or it uses a function-pointer parameter, which "
             "this generator doesn't support)")
+    sig.name = func_name  # always the real, extern-declarable target name,
+        # even when search_name was a local alias or a substituted macro
+        # placeholder
 
     if not _is_scalar(sig.return_type):
         return GeneratorResult(
@@ -209,7 +297,7 @@ def check_eligible_scalar(cfg: GameConfig, source_rel: str, func_name: str) -> G
     # checking would have wrongly accepted it. Conservative on purpose: any
     # `->` anywhere in the function body refuses the whole function, even if
     # it's inside a branch this generator can't prove is unreachable.
-    body_start = text.index("{", text.index(func_name))
+    body_start = text.index("{", text.index(search_name))
     body = text[body_start:]
     # crude but adequate brace matching for a single function body
     depth = 0

@@ -342,3 +342,80 @@ single, well-defined confidence question to answer instead of an
 unresolvable per-room ambiguity — the moment `objdiff.json` exists, this
 pass's work is what turns those into real `eligible`/`ineligible` verdicts
 instead of leaving them stuck at `unknown` forever.
+
+## Follow-up 4 (same day): closed generator.py's remaining parsing gaps — confirmed, definitively, that none of this is scalar-generatable
+
+Reading `RoomLib_HandlerD.inc` in full (not just its first few lines)
+surfaced a much stronger version of the earlier conclusion: this isn't a
+function with "one pointer parameter" — it pins raw MIPS registers by name
+(`register char *right asm("$16")`), uses empty inline-asm barriers, and
+directly drives GTE (PS1 geometry coprocessor) hardware
+(`gte_ldrotmatrix`/`gte_ldv0`/`gte_mvmva`/`gte_stmac`) on top of extensive
+pointer arithmetic. Checked the remaining 6 macro definitions directly too
+— every one takes a struct pointer (`RoomEnt*`, `M17Model*`, `RoomMsg*`,
+`RoomFxParams*`, `RoomStatePair*`). This RoomLib system is built around raw
+register/hardware access as a matter of course, not as an edge case.
+
+Given that, closing `generator.py`'s remaining parsing gaps was worth doing
+for correctness (a clean, specific rejection beats a raw Python exception
+or a silent parse failure) with the expectation, confirmed below, that it
+would not change which functions are actually generatable:
+
+- **Macro-invocation signature extraction**: `_resolve_macro_body_for_signature`
+  now extracts a macro's own `#define`, substitutes its first (function-
+  naming) parameter with the real target name, and strips backslash
+  continuations so `parse_signature` can search the result. Caught and
+  fixed a real bug in the process: `_FUNC_SIG_RE` required a function
+  definition to start at column 0 (true for a normal top-level `.c` file,
+  false for text extracted from inside an indented macro body) — without
+  a `\s*` after `^`, this silently never matched any macro-derived
+  signature at all. Fixed and verified: `ROOMLIB_FX_NOTIFY`'s real
+  3-parameter signature now parses correctly.
+- **Local symbolic-name indirection**: `_find_local_name_alias` handles
+  `RoomLib_HandlerD.inc`'s own shape — the real implementation is written
+  directly in the file, just under a local `#define ROOMLIB_HANDLER_D_NAME
+  RoomLib_HandlerD` (`#ifndef`-guarded default) rather than the literal
+  target name. Verified: `RoomLib_HandlerD` and `RoomLib_HandlerB` (the two
+  `.inc`-wrapper cases from Follow-up 2) now correctly parse their real
+  signatures instead of failing to find one.
+- **A real correctness gap in `confidence.py` itself, not just
+  `generator.py`**: `resolve_source_file`'s single-exact-match fast path
+  returned a matched file directly without ever checking whether it was
+  itself a wrapper. `RoomLib_Set3Reset_8018F920.c` is a macro invocation
+  that happens to be the only file with that exact name — the old code
+  handed `source_quality.classify()` the bare 3-line wrapper (no braces,
+  no ASM pattern to flag) instead of the real shared implementation, a
+  **latent false-clean-pass risk**, not just a missed resolution: nothing
+  observed it returning a wrong answer yet, but it was checking the wrong
+  text on every unique-filename macro invocation. Fixed by always running
+  wrapper detection first, regardless of match count.
+
+**Final, now-complete verification of all 22 dispatcher entry points**: every
+one that resolves (15 of 22) now produces a specific, correct, structural
+rejection reason (a named pointer parameter and its real type), not a
+parsing failure or a raw error. This closes the loop with high confidence:
+**none of RoomLib's dispatcher system can be handled by this generator as
+scoped**, for real, checked, structural reasons — not because the tooling
+couldn't parse it.
+
+### What this means for the dirty-RAM goal specifically
+
+This confirms, more strongly than before, that `confidence.py`/`generator.py`
+(the func_override *replacement* toolkit) is not a path to fixing dirty RAM
+for this codebase's actual hot dispatchers — they are pointer/register/GTE
+hardware-coupled by design, not a narrow gap away from scalar-only. The
+tools in this bridge that DO bear directly on dirty RAM are different ones:
+`classifier_gap_finder.py` (already the tool that found the real,
+currently-shipped 211-address `--force-interior` list) and, once
+`func_override` lands, `postman.py` specifically — because `postman.py`
+never inspects or replaces a function's internal implementation, it only
+marshals register arguments and invokes the function AS IT ALREADY EXISTS
+(compiled or interpreted). It is not blocked by the scalar-only body
+restriction that blocks `generator.py`, since it never generates a
+replacement body at all. That makes it a plausible tool for *safely
+verifying* a `scan-pattern`-computed candidate address (with real register
+arguments) before adding it to a live `--force-interior` list — directly
+addressing the "can't reach this via live play" and "blanket-applying an
+unverified list caused a real compile storm once" problems this project's
+own earlier RoomLib investigation documented, without needing the target
+function to be scalar or pointer-free at all.

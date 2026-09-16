@@ -541,30 +541,30 @@ def resolve_source_file(cfg: GameConfig, name: str, addr: int) -> str | None:
     generation on the answer.
     """
     exact = list(cfg.decomp.rglob(f"{name}.c"))
-    if len(exact) == 1:
-        return str(exact[0].relative_to(cfg.decomp)).replace("\\", "/")
-    if len(exact) > 1:
-        # Not necessarily unresolvable: if every candidate is a thin
-        # room_lib/*.inc wrapper around the exact same shared template
-        # (RoomLib_HandlerD-style, confirmed real -- see the module
-        # docstring), there is genuinely one file to classify, not one per
-        # room. A genuinely ambiguous name (independently-written per-room
-        # copies, like func_8018F71C) falls through to None as before.
+    if exact:
+        # Wrapper detection runs even for a SINGLE match, not just an
+        # ambiguous multi-match one -- a real gap caught while testing:
+        # RoomLib_Set3Reset_8018F920.c happens to be the only room using
+        # that exact filename, so the old len(exact) == 1 fast path
+        # returned the bare 3-line wrapper directly. source_quality's own
+        # classify() only expands `.inc` includes, not macro invocations,
+        # so handing it a wrapper whose real body lives behind
+        # ROOMLIB_SET3_RESET(...) would classify the WRAPPER TEXT (no
+        # braces, no ASM, nothing to flag) rather than the real shared
+        # implementation -- a latent false-clean-pass risk, not just a
+        # missed resolution. Always check for a wrapper shape first,
+        # whether len(exact) is 1 or many.
         via_template = _resolve_via_shared_template(exact)
         if via_template is not None:
             _, shared_inc = via_template
             return str(shared_inc.relative_to(cfg.decomp)).replace("\\", "/")
-        # Second shared-library shape, confirmed real (RoomLib_FxNotify,
-        # RoomLib_Set3Reset_8018FAE4): a macro invocation instead of a
-        # literal .inc include -- same "one real question, not one per
-        # room" logic, encoded as the synthetic "HEADER::MACRO" source_rel
-        # MACRO_SOURCE_SEP defines, since there's no standalone file for
-        # the macro's own body the way there is for an .inc template.
         via_macro = _resolve_via_shared_macro(exact)
         if via_macro is not None:
             _, macro_name, header = via_macro
             header_rel = str(header.relative_to(cfg.decomp)).replace("\\", "/")
             return f"{header_rel}{MACRO_SOURCE_SEP}{macro_name}"
+        if len(exact) == 1:
+            return str(exact[0].relative_to(cfg.decomp)).replace("\\", "/")
         return None  # ambiguous -- let the caller see UNKNOWN rather than guess
 
     addr_named = list(cfg.decomp.rglob(f"*_{addr:08X}.c"))
