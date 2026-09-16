@@ -48,8 +48,11 @@ inputs, regenerated on demand.
 
 ```
 bridge/           decomp_bridge.py — the generic engine, no game-specific code
+                  classifier_gap_finder.py — turn a decomp + a compile_overlays.py
+                  --check transcript into a named, actionable list of where the
+                  overlay classifier is permanently stuck (docs/CLASSIFIER_GAP_FINDER.md)
 games/<name>/     one config.toml (+ manual overrides) per game bridged
-docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md
+docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md, CLASSIFIER_GAP_FINDER.md
 build/            Parasite Eve's own sync/build/play scripts (PE-specific)
 patches/          verified + proposed patches against psxrecomp, with license notes
 findings/         the perf + framework-bug writeups, four formats for four audiences
