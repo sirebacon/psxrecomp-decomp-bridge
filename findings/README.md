@@ -15,7 +15,8 @@ doc for the caveat that this hasn't been confirmed against real hardware.
 
 | File | Audience / use |
 |---|---|
-| **`framework-findings.md`** | Start here. The most rigorously fact-checked version — a "not fork drift" verification table (checked against `mstan/psxrecomp` and `RetroPortingToolKit/psxrecomp`), then the five findings with repro/root-cause/candidate-fix/verify/risk for each. Written for the framework maintainers. |
+| **`2026-09-16-session-summary.md`** | **Start here for the 2026-09-16 dirty-RAM/func_override investigation specifically** — one page tying together five separate same-day findings docs: why the func_override toolkit can't replace RoomLib's dispatchers, the `scan-shared-libs` tool that replaced it (validated by blind rediscovery of `ROOMLIB_STATE_DISPATCH_VARIANT2`), two new classifier gaps confirmed against real gameplay data, and a live-verification session that fixed a real recurring bug along the way. Read this before the individual `*-2026-09-16.md` files below for the shape of the day. |
+| **`framework-findings.md`** | Start here for the original five-finding perf investigation. The most rigorously fact-checked version — a "not fork drift" verification table (checked against `mstan/psxrecomp` and `RetroPortingToolKit/psxrecomp`), then the five findings with repro/root-cause/candidate-fix/verify/risk for each. Written for the framework maintainers. |
 | `field-report.md` | Shorter, narrative version — TL;DR first, facts, then suggestions. Easier first read if `framework-findings.md` is more detail than you need. |
 | `field-report-technical.md` | Same five findings as AI work orders (WO-1..5) — objective/reproduce/root-cause/candidate-fix/verify/risk per item, meant to be handed to a coding agent with the psxrecomp repo checked out. |
 | `perf-report.html` | Visual version — charts, timeline. Open it directly in a browser. |
