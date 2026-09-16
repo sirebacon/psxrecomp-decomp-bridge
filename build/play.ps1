@@ -107,7 +107,63 @@ param(
         '0x80191EEC','0x80191EF0','0x80191EF4','0x80191EF8','0x80191EFC','0x80191F00',
         '0x801929BC','0x801929C0',
         # RoomLib_HandlerC (1 live instance, offsets 0x0/0x4/0x8 observed):
-        '0x801929EC','0x801929F0','0x801929F4'),
+        '0x801929EC','0x801929F0','0x801929F4',
+        # Found 2026-09-16 using a downloaded PS1 save file (GiantWorms boss
+        # fight, from the fantasyanime.com PE save collection) to reach a
+        # room this project could never navigate to blind before. A fresh
+        # compile_overlays.py --check against this exact session's real
+        # build-dbg/overlay_captures.json (confirmed updated at 12:21:49 PM)
+        # found 271 excluded OBSERVED_PC_ONLY addresses -- none overlapping
+        # any address already in this list. Two distinct discoveries:
+        #
+        # (1) The 2026-09-14 "182 addresses" RoomLib gap above (the
+        # 0x8018F77C-0x8018F7EC and 0x8018F95C-0x8018FBBC clusters) was
+        # itself known-incomplete -- that capture just didn't run long
+        # enough to observe past its edges. This richer capture shows the
+        # SAME contiguous gap extends both earlier (0x8018F2F4 onward) and
+        # later (0x8018F7F4 through 0x8018FD00, then 0x80191008 through
+        # 0x801911FC, stopping exactly at the already-known 0x80191200
+        # entry) -- i.e. this is the true extent of one shared RoomLib
+        # dispatch region, not several unrelated gaps. Includes interior
+        # offsets of RoomLib_HandlerD (0x80191068/0x8019106C/0x801910F0-FC)
+        # -- the same dispatcher confirmed earlier this session as
+        # structurally impossible to replace via the func_override toolkit
+        # (raw MIPS register pins, inline asm, direct GTE calls) -- force-
+        # interior is a different, already-proven mechanism and is not
+        # blocked by that finding. Also includes a brand-new named
+        # dispatcher, RoomLib_HandlerE (0x8019100C-0x80191024), never
+        # before identified in this project.
+        #
+        # (2) A structurally separate discovery: 9 addresses in
+        # Inv_RecalcSlotStats/Inv_GetAyaSlotLimit (0x800521B4-0x80052FC8).
+        # This is the INVENTORY subsystem, not RoomLib at all -- the first
+        # classifier gap this project has ever found outside the RoomLib
+        # dispatch system.
+        #
+        # NOT YET LIVE-VERIFIED, same caveat as the HandlerB/HandlerC block
+        # above: real, directly-observed addresses from a genuine gameplay
+        # capture, but no independent live before/after dirty-RAM
+        # confirmation yet. See psxrecomp-decomp-bridge/findings/
+        # roomlib-giantworms-boundary-extension-and-inventory-gap-2026-09-16.md.
+        # Inventory subsystem (Inv_RecalcSlotStats / Inv_GetAyaSlotLimit):
+        '0x800521B4','0x800521C0','0x80052204','0x800523F4','0x80052F7C','0x80052F9C','0x80052FA4','0x80052FB0','0x80052FC8',
+        # func_8018F2DC (standalone, immediately before the known cluster):
+        '0x8018F2F4','0x8018F2F8','0x8018F2FC',
+        # RoomLib_Spawn6/CloseTarget/WindowHandler/RegisterTable3 cluster:
+        '0x8018F300','0x8018F304','0x8018F308','0x8018F30C','0x8018F310','0x8018F314','0x8018F318','0x8018F31C','0x8018F320','0x8018F324','0x8018F328','0x8018F32C','0x8018F330','0x8018F334','0x8018F338','0x8018F33C','0x8018F344','0x8018F348','0x8018F34C','0x8018F350','0x8018F354',
+        # func_8018F358:
+        '0x8018F358','0x8018F35C','0x8018F360','0x8018F364','0x8018F368','0x8018F36C','0x8018F370',
+        # Extends the known gap past 0x8018F7EC (func_8018F79C onward
+        # through func_8018F7F8/8A0/8F4/8FC/904/908, RoomLib_Set3Reset x2,
+        # RoomLib_Set3Range/Set3Size, func_8018FBE8, RoomLib_FxNotify,
+        # func_8018FC2C, RoomLib_SetArgs3 x2, RoomLib_SetPair,
+        # RoomLib_FxShimmer):
+        '0x8018F7F4','0x8018F7F8','0x8018F7FC','0x8018F800','0x8018F804','0x8018F810','0x8018F814','0x8018F818','0x8018F81C','0x8018F820','0x8018F824','0x8018F82C','0x8018F834','0x8018F838','0x8018F83C','0x8018F844','0x8018F848','0x8018F84C','0x8018F850','0x8018F854','0x8018F858','0x8018F85C','0x8018F860','0x8018F864','0x8018F868','0x8018F874','0x8018F878','0x8018F87C','0x8018F880','0x8018F884','0x8018F888','0x8018F88C','0x8018F890','0x8018F894','0x8018F898','0x8018F89C','0x8018F8A0','0x8018F8AC','0x8018F8B0','0x8018F8B4','0x8018F8B8','0x8018F8BC','0x8018F8C0','0x8018F8C4','0x8018F8C8','0x8018F8CC','0x8018F8D0','0x8018F8D4','0x8018F8D8','0x8018F8E4','0x8018F8E8','0x8018F8EC','0x8018F8F0','0x8018F8F4','0x8018F8F8','0x8018F8FC','0x8018F900','0x8018F904','0x8018F908','0x8018F90C','0x8018F918','0x8018F920','0x8018F928','0x8018F92C','0x8018F930','0x8018F938','0x8018F93C','0x8018F940','0x8018F944','0x8018F948','0x8018F950','0x8018F954','0x8018FBC0','0x8018FBC4','0x8018FBC8','0x8018FBCC','0x8018FBD0','0x8018FBD4','0x8018FBD8','0x8018FBDC','0x8018FBE0','0x8018FBE4','0x8018FBE8','0x8018FBEC','0x8018FBF0','0x8018FBF4','0x8018FBF8','0x8018FBFC','0x8018FC14','0x8018FC18','0x8018FC1C','0x8018FC20','0x8018FC24','0x8018FC28','0x8018FC2C','0x8018FC30','0x8018FC34','0x8018FC38','0x8018FC3C','0x8018FC40','0x8018FC44','0x8018FC48','0x8018FC4C','0x8018FC50','0x8018FC54','0x8018FC58','0x8018FC5C','0x8018FC60','0x8018FC64','0x8018FC68','0x8018FC6C','0x8018FC70','0x8018FC74','0x8018FC78','0x8018FC7C','0x8018FC80','0x8018FC84','0x8018FC88','0x8018FC8C','0x8018FC90','0x8018FC94','0x8018FC98','0x8018FC9C','0x8018FCA0','0x8018FCA4','0x8018FCA8','0x8018FCAC','0x8018FCB0','0x8018FCB4','0x8018FCB8','0x8018FCBC','0x8018FCC0','0x8018FCC4','0x8018FCC8','0x8018FCCC','0x8018FCD0','0x8018FCD4','0x8018FCD8','0x8018FCDC','0x8018FCE0','0x8018FCE4','0x8018FCE8','0x8018FCEC','0x8018FCF0','0x8018FCF4','0x8018FCF8','0x8018FCFC','0x8018FD00',
+        # Extends the known gap up to (but not past) the already-established
+        # 0x80191200 entry -- includes RoomLib_NotifyArmB, the new
+        # RoomLib_HandlerE, RoomLib_FxShimmer_80191028, RoomLib_HandlerD
+        # interior offsets, and a run of small func_80191xxx handlers:
+        '0x80191008','0x8019100C','0x80191010','0x80191014','0x80191018','0x80191020','0x80191024','0x80191028','0x8019102C','0x80191030','0x80191034','0x80191038','0x8019103C','0x80191040','0x80191044','0x80191048','0x8019104C','0x80191050','0x80191058','0x8019105C','0x80191060','0x80191064','0x80191068','0x8019106C','0x801910F0','0x801910F4','0x801910FC','0x80191104','0x80191108','0x8019110C','0x80191114','0x80191118','0x8019111C','0x80191124','0x8019112C','0x80191134','0x8019113C','0x80191140','0x80191144','0x80191148','0x8019114C','0x80191150','0x80191154','0x80191158','0x8019115C','0x80191160','0x80191164','0x80191168','0x8019116C','0x80191170','0x80191174','0x80191178','0x8019117C','0x80191180','0x80191184','0x80191188','0x8019118C','0x80191190','0x80191194','0x80191198','0x8019119C','0x801911A0','0x801911A4','0x801911A8','0x801911AC','0x801911B0','0x801911B4','0x801911B8','0x801911BC','0x801911C4','0x801911C8','0x801911CC','0x801911D0','0x801911D4','0x801911D8','0x801911DC','0x801911E0','0x801911E4','0x801911E8','0x801911EC','0x801911F0','0x801911F4','0x801911FC'),
     [switch]$AllInteriors,    # see the throw below -- kept as a documented dead end, not silently ignored
     [string]$Config = (Join-Path $PSScriptRoot '..\games\parasite-eve\config.toml')
 )
