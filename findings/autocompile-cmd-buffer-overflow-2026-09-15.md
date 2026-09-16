@@ -198,3 +198,49 @@ title whose `PSX_OVERLAY_AUTOCOMPILE_CMD` (or configured
 silent-truncation failure. Worth upstreaming as its own small, self-contained
 fix (two buffer-size changes, no behavioral change otherwise) independent of
 anything else in tonight's framework-upgrade report.
+
+---
+
+## Follow-up (same night): fixing the buffer wasn't the whole story — a second, still-open regression in the c4/wave5 pin itself
+
+After the buffer fix above, gameplay speed recovered from 8fps to the
+30-45fps range — real progress, but never the expected ~60fps, even after
+letting the overlay cache fully warm (confirmed idle, 364 real DLLs built,
+nothing left queued). `dirty_ram_insns` kept climbing into the billions
+without ever settling, well past the point (by guest frame count) where
+every prior test this project has run settles cleanly.
+
+### Controlled A/B: isolated to the framework pin itself, not our own fixes
+
+Built and ran the exact same launch (`build/play.ps1`, same disc/BIOS,
+`-VsyncOff`, same debug port) three ways, back to back:
+
+| Configuration | Result |
+|---|---|
+| **Old pin** (`psxrecomp` `67a31460`, `recomp-ui` `4eda654` — pre-upgrade) | Clean: `dirty_ram_insns` flat at the harmless 257 baseline through frame 9,535, settles to **20,304** by frame 10,748 (t+140s) — exactly matching every prior measurement this project has ever taken |
+| **New pin** (`psxrecomp` c4/wave5 + buffer fix), full 208-address force-interior list | `dirty_ram_insns` still climbing at 1.3B+ past frame 35,000 (many minutes), never settles |
+| **New pin, zero force-interior addresses** (ruling out our own fix as the cause) | Still climbing (1.34B by frame 12,672) well past the frame count where the old pin cleanly settled — growth rate decelerating but not plateauing |
+
+**This rules out our own `--force-interior` list as the cause.** The
+original hypothesis — that the new jump-table classifier (`fe2c0046b`)
+handling some of our forced addresses differently than the old classifier
+might create a real correctness conflict — is refuted by the third row:
+the stuck/non-settling behavior happens on the new pin even with *zero*
+forced addresses. Something else in the `psxrecomp`/`recomp-ui` c4/wave5
+upgrade itself causes markedly heavier interpreter usage during the
+intro/FMV window, independent of anything this project has added locally.
+
+### Status: unresolved, not yet root-caused
+
+This is now a confirmed, real regression isolated to the framework pin
+itself (clean A/B, three configurations, same test harness) — but *why*
+is still open. Candidates not yet checked: something in the new BIOS HLE
+plan (`bios_hle_plan.c` appeared as a changed/new file in the c4 build
+output during compilation), a change in idle-skip or frame-pacing
+behavior, or something else entirely in the ~50 commits between the old
+pin and c4/wave5. Given the old pin is fully clean and working, and
+chasing this further live risked more inconclusive back-and-forth, the
+practical decision for tonight was to revert to the old, known-good pin
+for actual play and treat this as its own follow-up investigation with
+dedicated time later — not something to report to Alex as fixed, only as
+found and precisely isolated.
