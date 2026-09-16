@@ -25,12 +25,26 @@ bridge's old known-good psxrecomp pin nor its current c4/wave5 pin. Using the
 generated code means checking out that branch (or whatever it becomes once
 reviewed/merged) in a LOCAL psxrecomp checkout -- a real, currently-external
 dependency, not a guarantee this will compile against whatever pin your game
-repo happens to use today. Verify func_override.h's actual signatures against
-whatever commit you check out before trusting the generated call site
-verbatim; some details below (see "UNVERIFIED" markers in the generated
-output) are inferred from the PR's own description, not read from the header
-directly, because the header wasn't fetchable as raw source at generation
-time.
+repo happens to use today.
+
+The template below was written after actually reading func_override.h and
+func_override.c from that exact commit (6524ded0) -- not just the PR's own
+prose description -- and the generated .c file was test-compiled (syntax/
+type-check only, -c against runtime/include, not linked into a real game)
+against that checkout's real headers. Two non-obvious, easy-to-miss
+requirements that verification surfaced, both called out again in the
+generated file itself:
+  1. func_override_install() MUST be called once at startup, AFTER every
+     func_override_add() -- forgetting it leaves the dispatcher hook NULL,
+     so every registered override (including this one) silently never
+     fires. postman.py's own generated file cannot call this for you (it's
+     a once-per-program step, not once-per-override); your init must.
+  2. The override hook only consults on a genuine CALL (jal/jalr) to
+     --trigger-hook, never on a tail transfer (j/jr) into it -- see
+     func_override.h's "SCOPE" section. Pick a --trigger-hook address that
+     is actually CALLED somewhere, or the poll handler never runs.
+Still worth re-confirming against whatever commit you actually build
+against, since this is a live, unmerged branch that can change.
 
 GENERIC BY DESIGN, same contract as decomp_bridge.py / classifier_gap_finder.py:
 everything game-specific is a CLI argument (target address, trigger hook
@@ -96,41 +110,65 @@ HEADER_COMMENT = """\
  * behavior is completely unaffected -- it only piggybacks a poll on it, it
  * never blocks or replaces the function actually being overridden there.
  *
- * UNVERIFIED (confirm against your actual func_override.h before trusting):
- *   - func_override_guest_call's exact `site_ra` semantics. This generator
- *     passes {trigger_hex} (the piggyback hook's own address) as site_ra,
- *     assuming "resume at the hook's own dispatch site" is a valid/authentic
- *     return address -- the PR description says "authentic return addresses"
- *     but the exact contract (does it need to be a real call site already on
- *     the dispatch chokepoint, or is a synthetic pseudo-return-address
- *     acceptable?) was not confirmed against the real header source, only
- *     against the PR's own prose description, at generation time.
- *   - Whether func_override_guest_call expects gpr[4..7] pre-loaded by the
- *     caller (assumed here, matching o32 convention and the framework's own
- *     CPUState.gpr[32] layout confirmed in recompiler/include/code_generator.h)
- *     or takes arguments some other way.
+ * *** DO NOT FORGET (silent-failure risk, not a compile error) ***
+ * func_override_install() must be called ONCE at program startup, AFTER
+ * every func_override_add() call including this one's {id}_register() --
+ * omitting it leaves the dispatcher hook NULL and NOTHING registered ever
+ * fires, with no error, no log, nothing. This file cannot call it for you
+ * (it's a once-per-program step, not once-per-override).
+ *
+ * {trigger_hex} must be reached via a genuine CALL (jal/jalr) somewhere in
+ * this game's code -- a tail transfer (j/jr) into it does NOT consult the
+ * override hook at all (func_override.h's own "SCOPE" section). If you pick
+ * a trigger-hook that's only ever tail-jumped to, this handler never runs.
+ *
+ * CONFIRMED against RetroPortingToolKit/psxrecomp @ 6524ded0 (PR #174's
+ * feat/func-override-tier, read directly -- func_override.h/.c, cpu_state.h,
+ * memory.c -- not just the PR's own prose description) and test-compiled
+ * (syntax/type-check, -c against runtime/include) at generation time:
+ *   - func_override_guest_call(cpu, target, site_ra): args go in
+ *     cpu->gpr[4..7] before the call (o32 convention, CPUState.gpr[32]
+ *     confirmed in runtime/include/cpu_state.h), result comes back in
+ *     cpu->gpr[2]. site_ra is a STOP-PC sentinel for the internal dispatch
+ *     loop (func_override.c: psx_dispatch_call runs target "to completion,
+ *     pc == site_ra") -- it does not need to be a real pre-existing call
+ *     site for the mechanism to work, though func_override.h recommends an
+ *     authentic return address for fntrace/crash-forensics readability.
+ *     This generator passes {trigger_hex} itself. EDGE CASE worth knowing:
+ *     if {trigger_hex} ever appears as an internal branch target inside
+ *     {target_hex}'s own instruction stream, the dispatch loop could stop
+ *     early -- vanishingly unlikely for two unrelated functions, but a real
+ *     failure mode if target and trigger-hook happen to sit close together.
+ *   - Guest memory access inside an override goes through the CPUState's
+ *     own read_word/write_word function-pointer members (cpu_state.h:
+ *     "wired at init to psx_read/psx_write"), not a free function you must
+ *     declare yourself -- this template uses cpu->read_word/cpu->write_word.
+ *   - credit=FO_CREDIT_SELF at registration is inert for this specific
+ *     pattern: func_override.c only charges the declared credit when an
+ *     override HANDLES a call (returns nonzero); this handler always
+ *     declines, so its own credit is never consulted. The guest call this
+ *     handler makes to {target_hex} self-charges normally through the
+ *     ordinary dispatch backends regardless.
  *   - Stack-passed arguments (5th+) are UNIMPLEMENTED -- this generator
  *     refuses more than {max_args} arg-types for exactly that reason.
+ *
+ * Still worth re-confirming against whatever commit you actually build
+ * against -- this is a live, unmerged branch that can change.
  */
 
 """
 
 C_TEMPLATE = """\
 #include <stdint.h>
+#include "cpu_state.h"      /* full CPUState definition -- func_override.h only
+                                forward-declares it, but this handler dereferences
+                                cpu->gpr[]/cpu->read_word/cpu->write_word below,
+                                which needs the real struct layout in scope */
 #include "func_override.h"  /* from RetroPortingToolKit/psxrecomp PR #174 --
                                 path may need adjusting to match your checkout */
 
-struct CPUState;  /* full definition not needed here; func_override.h's own
-                      declarations are what actually get used below */
-
-static int {id}_handler(struct CPUState* cpu) {{
-    extern uint32_t psx_read_u32(uint32_t addr);   /* UNVERIFIED name -- use
-        whatever guest-memory-read helper your psxrecomp pin actually exposes;
-        this project's own runtime almost certainly already has one under a
-        different name (see runtime/include/*.h for the real symbol). */
-    extern void     psx_write_u32(uint32_t addr, uint32_t value);  /* ditto */
-
-    if (psx_read_u32({flag_hex}u) != 1u) {{
+static int {id}_handler(CPUState* cpu) {{
+    if (cpu->read_word({flag_hex}u) != 1u) {{
         return 0;  /* no request pending -- decline, let the original run */
     }}
 
@@ -138,16 +176,18 @@ static int {id}_handler(struct CPUState* cpu) {{
     func_override_guest_call(cpu, {target_hex}u, {trigger_hex}u);
 
 {ret_write}
-    psx_write_u32({flag_hex}u, 2u);  /* mark result ready */
+    cpu->write_word({flag_hex}u, 2u);  /* mark result ready */
     return 0;  /* never blocks the piggybacked hook's own original behavior */
 }}
 
 void {id}_register(void) {{
-    /* credit=FO_CREDIT_SELF: this override manages its own timing (a poll +
-       occasional guest call), not a fixed per-call cycle cost. Confirm this
-       is the right choice for your case -- see func_override.h's own
-       comments on FO_CREDIT_SELF vs. a fixed integer credit. */
+    /* credit=FO_CREDIT_SELF: inert here since this handler always declines
+       (see the header comment above) -- kept for an honest registration
+       rather than claiming a fixed replaced-code cost that doesn't apply. */
     func_override_add("{id}", {trigger_hex}u, {id}_handler, FO_CREDIT_SELF);
+    /* REMINDER: func_override_install() must ALSO be called once, after
+       every override (including this one) is registered -- NOT from here.
+       See this file's header comment. */
 }}
 """
 
@@ -158,7 +198,7 @@ def emit_arg_reads(arg_types: list[str], args_hex: str) -> str:
         c_type, _ = ARG_TYPES[t]
         addr_expr = f"({args_hex}u + {i * 4}u)"
         lines.append(
-            f"    cpu->gpr[4 + {i}] = ({c_type})psx_read_u32({addr_expr});"
+            f"    cpu->gpr[4 + {i}] = ({c_type})cpu->read_word({addr_expr});"
             f"  /* arg{i}: {t} */"
         )
     return "\n".join(lines)
@@ -169,7 +209,7 @@ def emit_ret_write(ret_type: str, result_hex: str) -> str:
         return "    /* no return value declared -- result scratch word left untouched */"
     c_type, _ = ARG_TYPES.get(ret_type, RET_TYPES[ret_type])
     return (
-        f"    psx_write_u32({result_hex}u, ({c_type})cpu->gpr[2]);"
+        f"    cpu->write_word({result_hex}u, ({c_type})cpu->gpr[2]);"
         f"  /* $v0 -> result: {ret_type} */"
     )
 
@@ -219,7 +259,7 @@ def cmd_generate(args: argparse.Namespace) -> int:
         target_hex=target_hex, trigger_hex=trigger_hex, flag_hex=flag_hex,
         args_hex=args_hex, result_hex=result_hex, argc=len(arg_types) or 0,
         plural="" if len(arg_types) == 1 else "s",
-        argc_m1=max(len(arg_types) - 1, 0), max_args=MAX_REG_ARGS,
+        argc_m1=max(len(arg_types) - 1, 0), max_args=MAX_REG_ARGS, id=args.id,
     )
     body = C_TEMPLATE.format(
         id=args.id,
@@ -245,13 +285,19 @@ def cmd_generate(args: argparse.Namespace) -> int:
         "\nNext steps (all manual, none of this touches your build):\n"
         "  1. Pull RetroPortingToolKit/psxrecomp PR #174's branch "
         "(feat/func-override-tier) into a psxrecomp checkout your game can "
-        "build against -- it is NOT in your current pin.\n"
-        "  2. Read the real func_override.h from that checkout and fix the "
-        "UNVERIFIED items noted in the generated file's header comment "
-        "(guest-memory read/write helper names, site_ra semantics).\n"
-        f"  3. Add {out_path.name} to your build and call "
+        "build against -- it is NOT in your current pin. Re-confirm the "
+        "generated file's header comment against whatever commit you "
+        "actually check out; it's a live, unmerged branch that can change.\n"
+        f"  2. Add {out_path.name} to your build and call "
         f"{args.id}_register() from your game's own override/mod init.\n"
-        f"  4. To invoke: write arg words to {args_hex}, then write 1 to "
+        "  3. *** Also call func_override_install() once, AFTER every "
+        "override (including this one) is registered *** -- this is a "
+        "silent-failure trap, not a compile error: skip it and nothing "
+        "registered ever fires, with no diagnostic at all.\n"
+        f"  4. Confirm {trigger_hex} is reached via a genuine CALL "
+        "(jal/jalr) somewhere in this game -- a tail-jump-only target never "
+        "consults the override hook, so the poll handler would never run.\n"
+        f"  5. To invoke: write arg words to {args_hex}, then write 1 to "
         f"{flag_hex}; poll it for 2; read the result from {result_hex}."
     )
     return 0
@@ -274,8 +320,12 @@ def main() -> int:
                          "function to piggyback the poll on (e.g. a per-frame "
                          "tick or main-loop function this game's own "
                          "dirty-RAM/capture data already shows executing "
-                         "constantly). This override always declines, so the "
-                         "hooked function's own behavior is unaffected.")
+                         "constantly). Must be reached via a genuine CALL "
+                         "(jal/jalr) somewhere -- a tail-jump-only (j/jr) "
+                         "target never consults the override hook at all, so "
+                         "the poll handler would never run. This override "
+                         "always declines, so the hooked function's own "
+                         "behavior is unaffected.")
     p.add_argument("--trigger-addr", required=True,
                     help="Scratch guest RAM word (hex) used as the "
                          "request/ready flag. Must be an address the game "

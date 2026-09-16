@@ -63,25 +63,57 @@ once reviewed/merged) into a psxrecomp checkout your game can actually build
 against — a real, currently-external dependency, not something already
 available in a stock checkout.
 
-The generated file marks several details **UNVERIFIED** in its own header
-comment, because they were confirmed only against the PR's own prose
-description, not against the real `func_override.h` source (it wasn't
-fetchable as raw text at generation time):
+### What's actually been verified (2026-09-16, against 6524ded0)
 
-- `func_override_guest_call`'s exact `site_ra` contract — the generator
-  passes the piggyback hook's own address, assuming that's an accepted
-  "authentic" return site, but the real requirement isn't confirmed.
-- The exact guest-memory read/write helper names the generated code calls
-  (`psx_read_u32`/`psx_write_u32` are placeholders — this project's own
-  runtime almost certainly already exposes equivalents under different
-  names; check `runtime/include/*.h` in your actual checkout).
-- Whether `func_override_guest_call` expects `cpu->gpr[4..7]` pre-loaded by
-  the caller (assumed here, matching MIPS o32 convention and the framework's
-  own `CPUState.gpr[32]` layout — that struct layout itself **was** confirmed
-  directly, from `psxrecomp/recompiler/include/code_generator.h`).
+Earlier drafts of this tool guessed at several details from the PR's own
+prose description. Those guesses have since been checked against the real
+source — `func_override.h`/`.c`, `cpu_state.h`, `memory.c` — by cloning that
+exact commit into a scratch checkout and reading it directly, and the
+generated `.c` file was test-compiled (`-c -Wall -Wextra -Wpedantic` against
+that checkout's real `runtime/include`, not linked into a full game) with
+zero warnings. Confirmed:
 
-Read the real header from whatever commit you check out and fix these before
-trusting the generated call site verbatim.
+- `func_override_guest_call(cpu, target, site_ra)`: arguments go in
+  `cpu->gpr[4..7]` before the call, result comes back in `cpu->gpr[2]` —
+  exactly the o32 convention this tool assumed. `site_ra` turned out to be a
+  **stop-PC sentinel** for an internal dispatch loop (`psx_dispatch_call`
+  runs the target "to completion, `pc == site_ra`"), not a value that needs
+  to already exist as a real call site — so passing the piggyback hook's own
+  address works mechanically. The one real edge case: if that address ever
+  appears as an internal branch target *inside* the target function's own
+  body, the dispatch loop could stop early. Vanishingly unlikely for two
+  unrelated functions, but worth knowing if target and trigger-hook end up
+  close together in the same code region.
+- Guest memory access inside an override goes through **`cpu->read_word`/
+  `cpu->write_word`** — function-pointer members already on `CPUState`
+  itself ("wired at init to psx_read/psx_write" per `cpu_state.h`), not a
+  free function you declare yourself. The generated code now uses these
+  directly instead of the earlier invented `psx_read_u32`/`psx_write_u32`
+  placeholders.
+- `CPUState.gpr[32]`'s layout was independently confirmed twice — once from
+  `psxrecomp/recompiler/include/code_generator.h` (the recompiler's own
+  copy) and again from this PR branch's own `runtime/include/cpu_state.h`.
+
+### Two non-obvious requirements this verification surfaced
+
+Both are called out again, loudly, in the generated file's own header
+comment — they're easy to miss because neither one is a compile error:
+
+1. **`func_override_install()` must be called once at startup, AFTER every
+   `func_override_add()`** (including this generator's own
+   `<id>_register()`). Skip it and the dispatcher hook stays `NULL` forever
+   — every registered override, this one included, silently never fires.
+   No error, no log. `postman.py`'s output can't call this for you since
+   it's a once-per-program step, not once-per-override.
+2. **The override hook only consults on a genuine CALL** (`jal`/`jalr`) to
+   `--trigger-hook` — a tail transfer (`j`/`jr`) into that address does not
+   consult it at all (`func_override.h`'s own "SCOPE" section). Pick a
+   trigger-hook address that's actually *called* somewhere, or the poll
+   handler never runs.
+
+This is still a live, unmerged branch that can change — re-confirm against
+whatever commit you actually build against, don't assume 6524ded0's
+behavior is permanent.
 
 ## Known limitations
 
