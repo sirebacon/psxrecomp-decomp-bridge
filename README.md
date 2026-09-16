@@ -63,9 +63,14 @@ bridge/           decomp_bridge.py — the generic engine, no game-specific code
                   C directly into func_override as a live replacement (see
                   docs/GENERATOR.md for why it's scalar-only -- a real
                   pointer-representation blocker, not a convenience limit)
+                  triage.py — batch-runs a candidate address list (e.g.
+                  classifier_gap_finder.py's own output) through confidence.py
+                  and generator.py, reporting eligible vs. generator-ready
+                  per address instead of 640 individual manual checks
 games/<name>/     one config.toml (+ manual overrides) per game bridged
 docs/             ADDING_A_GAME.md, SYMBOL_FORMATS.md, SETUP.md,
-                  CLASSIFIER_GAP_FINDER.md, POSTMAN.md, GENERATOR.md
+                  CLASSIFIER_GAP_FINDER.md, POSTMAN.md, GENERATOR.md,
+                  TRIAGE.md
 build/            Parasite Eve's own sync/build/play scripts (PE-specific)
 patches/          verified + proposed patches against psxrecomp, with license notes
 findings/         the perf + framework-bug writeups, four formats for four audiences
