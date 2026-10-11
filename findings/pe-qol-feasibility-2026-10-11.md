@@ -173,7 +173,7 @@ for example an extra row in an existing game menu.
 | Easier mods / permits | ✅ Done | Item editor sets mods directly; give item gives Tool Kits / Mod Permit |
 | Dismantle unwanted gear | 🟢 Doable | Remove the item in the editor and grant its mods/bonuses elsewhere |
 | Improved enemy drops | 🟢 bonus drops / 🟡 real drop rates | Our own "bonus item after a win" is easy; changing the game's own item gains needs the battle data mapped |
-| Stat / DPS transparency | 🟡 Research | F1 can show read-only numbers; the damage formula needs mapping |
+| Stat / DPS transparency | ✅ First version done (PE `7c9a068`) | Highlighting a gun in the game's own menu shows "PWR n" (power per turn, from the decomp's damage formula) in the title bar, through a build-time hook on `Draw_PrintRawText` |
 | Skip FMVs | 🟡 Research | Engine has FMV skip; PE needs its skip configuration found |
 | Faster or skippable dialogue | 🟡 Research | Text speed is probably a variable; skipping scripted scenes is hard |
 | Skip real-time cutscenes | 🔴 Hard (one experiment) | Scripted events; but the game may have its own debug event skip (see "More ideas") |
@@ -274,11 +274,29 @@ uses. Settings would be a chance per win and an item pool (healing only, ammo, o
 It doesn't need the game's drop logic at all. The one thing to handle is a full bag: skip the
 drop, or show a footer note.
 
-### Stat / DPS transparency — 🟡 Research
-**Display is easy:** F1 can show read-only rows such as "Shots per turn", "Damage per shot"
-or "Est. damage per turn" for the equipped gun. **The work** is mapping the damage formula
-from the battle code (`Battle_ApplyDamage` and friends) so the numbers are right. Showing it
-in the game's own equip screen (instead of F1) would be 🔴. (Possible ingame DPS in the in-game menu)
+### Stat / DPS transparency — ✅ first version done (PE `7c9a068`, verified live)
+Highlight a gun in the game's own menu (for example Change Weapon) and the title bar reads
+"Handgun  PWR 20". The number is **power per turn before enemy defense**, from the decomp's
+damage code (`Battle_StepEnemyMovement.c`, despite the name):
+
+- per shot = (Aya attack ÷ 5 + gun attack) × shot% ÷ 100, where shot% depends on shots per
+  turn: 1 → 100, 2 → 60, 3 → 41, 5 → 25, 7 → 18, 10 → 13;
+- per turn = shots × per shot. In battle each shot then loses enemy defense ÷ shots and is
+  scaled by weaknesses or resistances;
+- Aya attack = her `stat1E` (player → core + 0x1E); gun attack = base + bonus (max 999),
+  halved by mod effect 16; shots = 1, or 2/3/5/7/10 for the group-1 mods (table at
+  `0x800923D0`).
+
+How it's shown: a build-time hook on `Draw_PrintRawText` swaps the text pointer for a copy
+with " PWR n" appended. It does this only when the call comes from the title-bar function
+`Menu_DrawContextHelpText` and the text is a gun's (table C). Toggle: `Weapon power`.
+Checked by hand on two weapons: M84F 20, Club 16.
+
+**Next improvements:**
+- with two copies of the same gun, show the highlighted copy (it currently uses the
+  equipped one or the first match);
+- show per-shot damage against the current enemy during battle;
+- add the same text in other screens.
 
 ## Pacing
 
