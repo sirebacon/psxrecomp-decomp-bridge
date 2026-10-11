@@ -48,8 +48,9 @@ These limits decide most of the verdicts below.
 - **Build-time code changes:** patch the EXE and regenerate the recompiled C. Permanent (no
   live toggle) and slow to iterate. An earlier attempt "had no effect", but it patched the
   wrong function, so this lever is untested rather than ruled out.
-- **Function-entry hooks:** the engine can call a mod when a game function starts, but only
-  for functions listed in the game config at build time; PE lists none yet.
+- **Function-entry hooks (verified 2026-10-11, test B):** the engine calls a mod's C code
+  when a listed game function starts. The functions are listed in the game config at build
+  time; PE lists none in its normal build yet.
 - **Patching overlay code:** rooms, battles and menus are code overlays loaded at runtime.
   Changes to *their* code in memory might take effect (they're run from memory, not
   precompiled into the EXE), but that's untested.
@@ -77,12 +78,13 @@ live and works (test A).** The routes, cheapest first:
    for a different reason: calls to precompiled functions go straight to the native version
    and never look at RAM. **So mods can add new behaviour to the game's own menus on this
    engine.**
-3. **Build-time function hooks. 🟢 mechanism exists.** Our engine can call a mod at the start
-   of chosen game functions (`mod_function_entry_funcs` in the game config, then a rebuild).
-   The mod sees the CPU registers and memory and can change them before the function runs.
-   Hooking, say, `MenuWidget_UpdateAndDraw` would let us run code every time the game draws
-   a menu: insert a window, adjust a list, or draw extra text such as DPS on the equip
-   screen. It can't skip the original function, and it costs a rebuild per new hook.
+3. **Build-time function hooks. ✅ verified 2026-10-11 (test B, below).** Our engine can call
+   a mod's C code at the start of chosen game functions (`mod_function_entry_funcs` in the
+   game config, then regenerate and rebuild). The mod sees the CPU registers and memory and
+   can change them before the function runs. Hooking `MenuWidget_UpdateAndDraw` runs our C
+   every frame a menu is drawn: insert a window, adjust a list, or draw extra text such as
+   DPS on the equip screen. It can't skip the original function, and each new hook address
+   costs a regenerate and rebuild (about 2 minutes).
 4. **A mod-drawn screen in the game's style. 🟢 proven.** An early version of our menu drew
    its own boxes and text into the frame and read the pad. A shop or map screen can be built
    this way, looking like the game but entirely run by the mod. Pausing the game underneath
@@ -116,9 +118,39 @@ on it:
   the mod build (or keep them tiny and let the C plugin do the heavy lifting through
   shared memory).
 
-**Test B (still to do):** add one hook address (`MenuWidget_UpdateAndDraw`) to the PE
-config, rebuild, and count calls from a plugin. It's a cleaner way to run C code at menu
-time. With A working it's optional rather than required.
+**Test B — passed (2026-10-11, live, slot 2 save, game's Triangle menu open).**
+
+- I added `mod_function_entry_funcs = ["0x80062FEC", "0x80063E0C"]` to `game.toml`
+  `[recompiler]` (`MenuWidget_UpdateAndDraw` and `Menu_StepScrollCursor`; the first
+  address comes from the seed list between `MenuWidget_InitPool` and
+  `MenuWidget_OffsetPosition`). Then I ran `build-recompiler\psxrecomp-game.exe --config
+  game.toml` (7 s) and rebuilt (about 2 min).
+- Regenerating changed exactly two lines in one shard (`SLUS_006.62_full_28.c`): a
+  `psx_mod_function_entry(cpu, addr)` call at the top of each function, before the body
+  reads any register.
+- A probe plugin (`psx_mod_register_function_entry_plugin`, no manifest or activation
+  needed) logged:
+  - `MenuWidget_UpdateAndDraw` about once per frame while the menu was open (120 calls in
+    a few seconds);
+  - `Menu_StepScrollCursor` once per input, with the game's real arguments: window
+    `0x800A2370`, flags `0x10` when the menu opened and `0x4000` for each DOWN.
+- The menu behaved normally. Afterwards I removed the config line and probe, restored the
+  shard and rebuilt; `generated/` matches the pre-test backup byte for byte.
+
+### Which lever for what
+
+| | Redirect a pointer (A) | Build-time hook (B) |
+|---|---|---|
+| Language | MIPS machine code | C, in the mod plugin |
+| Rebuild needed | No, works live | Yes, per new hook address (~2 min) |
+| Where it works | Anywhere the game calls through a pointer (menu windows, many callbacks) | Start of any precompiled game function |
+| Replace the game's code | Yes | No: runs first, then the original always runs (it can change the arguments) |
+| Speed | Interpreted | Native |
+| Best for | Swapping a window's behaviour, adding new handlers | Running C at a known moment: per-frame menu work, reading or tweaking arguments |
+
+They combine well: a hook (B) on a menu-building function can set a window's pointer (A)
+at exactly the right moment, and the MIPS part can stay a few instructions that call back
+into the game.
 
 Now that A works, the 🔴 "needs a new game screen" items drop to 🟡: a shop for junk, DPS
 in the equip screen, storage from anywhere. Next step: build one small real feature on it,
