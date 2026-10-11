@@ -359,6 +359,11 @@ the equipment record correctly and never removing the equipped item.
 - **already dismantled items should be re-acquired somehow** either by buying it via junk or random drop chance from enemy if the item was already destroyed.
 
 ### Improved enemy drops — 🟢 bonus drops, 🟡 the game's own drops
+
+> **Superseded by the loot-overhaul design:**
+> [pe-loot-overhaul-design-2026-10-11.md](pe-loot-overhaul-design-2026-10-11.md). The real
+> drop is each enemy's `rewardSlotId` (+0x9E), handed out through a 10-slot reward list. The
+> "reward queue" below is actually the battle command queue.
 What the decomp shows about items changing hands in battle (from reading the code; nothing
 tested live yet):
 
