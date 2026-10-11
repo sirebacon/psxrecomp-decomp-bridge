@@ -51,6 +51,30 @@ items when the mod is disabled (hide rather than delete, and warn). The game's s
 has not been inspected and might offer headroom without a side store. The retired `pe.enhancement.increased-storage`
 package stays an empty placeholder; nothing about storage should be re-enabled until that design exists.
 
+## Cleanup done (2026-10-10, same day)
+
+Extracted `SLUS_006.62` straight from the disc image (read-only ISO9660 walk of the Disc 1 BIN) and compared it with the
+four copies in `disc/`:
+
+- `SLUS_006.62.original-backup` is byte-identical to the disc's file (sha256 `5d94938e...351b`). That is also exactly
+  the `executable_sha256` pinned in `project-manifest.toml`, so the patched file had been violating the project's own pin.
+- The working `SLUS_006.62` (and `.patched`) differed in **7 words**, not the 5 first suspected:
+  `0x800185C0` (movement 20x), `0x800523B8` and `0x800523C0` (the personal-inventory capacity lookup replaced by a
+  hard-coded 40), and the four clamps `0x80052F28`, `0x80052F34`, `0x80052F94`, `0x80052FB4`.
+
+Restored the retail bytes (the modified file is kept as `disc/SLUS_006.62.baked-7-words-2026-10-10`), regenerated the
+game C and rebuilt (`build_recomp.ps1 -SkipSync`). Only three generated shards changed (`full_02`, `full_22`,
+`full_23`); the generated code at `0x800185C0` is now the retail `3C040005`. Verified in the running game:
+
+- live `0x800185C0` = `3C040014`: 20x still active, now only through the live patch
+- live capacity words and clamp words are retail
+- `text_diverged_pages` 1 (was 2; the one left is the page the live movement patch deliberately changes)
+- zero interpreted instructions, steady 60 fps, autocompile idle (the overlay cache survived)
+
+The two retired packages' descriptions, which still claimed the values were "baked into the executable", were rewritten
+in the Parasite Eve repo. Rule going forward: never edit `disc/SLUS_006.62`; every mod is a live `[[patch]]` or a
+plugin, checked against the retail bytes.
+
 ## What this means for the work
 
 1. Do not ship or re-enable an Increased Storage mod based on the clamp values. Redefine the goal first.
