@@ -35,9 +35,13 @@ These limits decide most of the verdicts below.
   with the mod API's code-write call). Anything that needs a *code* change in the main EXE
   must either be done by changing the *data* that code reads, or as a build-time change
   (below).
-- **Call a game function from a mod** (for example "open the storage menu" or "warp to a
-  room"). Our engine version has no such call; newer upstream psxrecomp does
-  (`psx_mod_call_guest`), so this becomes possible if we move to a newer engine.
+  **But (verified 2026-10-11):** *new* code we write into memory does run when the game
+  reaches it through a function pointer, for example a menu window's callback. See "Can we
+  add to the game's own menus?" below.
+- **Call a game function directly from the C plugin** (for example "open the storage menu"
+  or "warp to a room"). Our engine version has no such call; newer upstream psxrecomp does
+  (`psx_mod_call_guest`). *Likely workaround, untested:* injected code running from a game
+  callback (above) can itself call any game function with an ordinary MIPS `jal`.
 
 **Possible but not set up / unverified**
 
@@ -55,24 +59,24 @@ These limits decide most of the verdicts below.
 ### Can we add to the game's own menus? Five levers to test
 
 Several items above are 🔴 only because they'd need a new screen or row in the *game's*
-menus (a junk shop, DPS on the equip screen, a map). That isn't ruled out. Reading the decomp
-and our engine source (2026-10-11, nothing tested yet) turned up these routes, cheapest first:
+menus (a junk shop, DPS on the equip screen, a map). **It's possible: lever 2 was tested
+live and works (test A).** The routes, cheapest first:
 
 1. **Change the data the menus are built from. 🟡 likely.** PE's menus are a widget system
    (`MenuWidget_Lifecycle.c`). Each window is built from a *grid descriptor* (position,
    width, visible rows, row limit), and its text comes from the game's string tables. Both
    are data, so a mod can resize windows or change their text. Adding real behaviour needs
    one of the levers below.
-2. **Redirect a menu's callback. 🟡 the key experiment.** Every live menu window stores its
-   update, draw and item-action routines as *function pointers in RAM* (for example
-   `node->update = Menu_StepScrollCursor`). Changing a pointer is a data write. Pointing it
-   at a *different game routine* should just work. Pointing it at *new code* we place in
-   memory (the engine can give mods spare RAM, `psx_mod_alloc_guest_memory`) might work too.
-   The engine has an interpreter for code it didn't precompile; that's how room and battle
-   overlays run. Patching existing code failed because calls to precompiled functions go
-   straight to the native version and never look at RAM. A call through a pointer to a new
-   address is different: it has to be dispatched, and the interpreter should pick it up. If
-   that holds, mods can add new behaviour to the game's menus without a newer engine.
+2. **Redirect a menu's callback. ✅ verified 2026-10-11 (test A, below).** Every live menu
+   window stores its update, draw and item-action routines as *function pointers in RAM*
+   (for example `node->update = Menu_StepScrollCursor`). Changing a pointer is a data write.
+   Pointing it at *new MIPS code we write into memory* works. The game reaches the pointer
+   through the engine's dispatcher, which finds no precompiled function at that address and
+   hands it to the engine's interpreter, the same path room and battle overlays use. Our code
+   can then jump on to the original routine, or replace it. Patching *existing* code fails
+   for a different reason: calls to precompiled functions go straight to the native version
+   and never look at RAM. **So mods can add new behaviour to the game's own menus on this
+   engine.**
 3. **Build-time function hooks. 🟢 mechanism exists.** Our engine can call a mod at the start
    of chosen game functions (`mod_function_entry_funcs` in the game config, then a rebuild).
    The mod sees the CPU registers and memory and can change them before the function runs.
@@ -86,16 +90,39 @@ and our engine source (2026-10-11, nothing tested yet) turned up these routes, c
 5. **Newer engine: call game functions (`psx_mod_call_guest`). 🟢 later.** Lets a mod open the
    storage menu or run any game routine directly.
 
-**First tests (an hour or two each, from a save state):**
+**Test A — passed (2026-10-11, live, slot 2 save, game's Triangle menu open).**
 
-- **A.** With the item menu open, point one window's `update` pointer at a tiny routine in
-  mod-allocated memory that sets a marker and then jumps to the original routine. If the
-  marker changes and the menu still works, lever 2 is real.
-- **B.** Add one hook address (`MenuWidget_UpdateAndDraw`) to the PE config, rebuild, and
-  count calls from a plugin. If it fires once per menu frame, lever 3 is ready.
+- The menu's current window (`0x800A2370`, the left icon column) had
+  `update = 0x80063E0C` (`Menu_StepScrollCursor`) at node `+0x2C`, as the decomp says
+  (active-window list head `0x8009D154`, current window `0x8009D15C`).
+- I wrote 7 MIPS instructions into unused RAM at `0x801E8000` (a 45 KB block that stayed
+  zero across three RAM dumps): add 1 to a counter at `0x801E8100`, then `j 0x80063E0C`.
+  Then I set the window's `update` to `0x801E8000`.
+- **Pressing DOWN twice took the counter 0 → 1 → 2, and the cursor still moved** (Use
+  Item → Change Weapon). The engine's interpreter stats list our addresses as executed.
+- **Replacing the behaviour works too.** A routine that just returns "handled"
+  (`li v0,1; jr ra`) made DOWN do nothing. Restoring the original pointer brought the menu
+  back to normal.
 
-If A works, most of the 🔴 "needs a new game screen" items drop to 🟡: shop for junk, DPS
-in the equip screen, storage from anywhere.
+What this means: the game's menus can run mod-written code, both *added to* and *instead of*
+the game's own. This doesn't need a rebuild or a newer engine. Practical notes for building
+on it:
+- Mod code should live in memory the engine gives the mod (`psx_mod_alloc_guest_memory`),
+  not in "free-looking" RAM like the test used.
+- Pointers must be re-applied whenever the game rebuilds a window (each menu open), so a
+  per-frame plugin watches the window list.
+- Our routines are interpreted, so they're slower than native, but fine for menu logic.
+- The routines are written as MIPS machine code, so we'd want a small assembler step in
+  the mod build (or keep them tiny and let the C plugin do the heavy lifting through
+  shared memory).
+
+**Test B (still to do):** add one hook address (`MenuWidget_UpdateAndDraw`) to the PE
+config, rebuild, and count calls from a plugin. It's a cleaner way to run C code at menu
+time. With A working it's optional rather than required.
+
+Now that A works, the 🔴 "needs a new game screen" items drop to 🟡: a shop for junk, DPS
+in the equip screen, storage from anywhere. Next step: build one small real feature on it,
+for example an extra row in an existing game menu.
 
 ---
 
