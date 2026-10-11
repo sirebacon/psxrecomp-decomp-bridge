@@ -512,9 +512,34 @@ bag for his menu to pick. Two ways to connect them:
 | **W1. Deposit action** (recommended) | An F1 Workshop row "Give Junk to Wayne" moves N from the mod's counter into `0x800A78B0` | His script reads the variable, so his 300 milestone should keep working untouched. Junk you spend in the shop never reaches Wayne, so the player chooses between shop and milestone |
 | **W2. One counter** | The mod's counter *is* `0x800A78B0`: every pickup goes straight to Wayne | Simplest, and the game saves it for free. But shop spending would lower Wayne's progress, so the 300 milestone and the shop fight over one number |
 
-- **Still to check live:** what Wayne's script does at 300. Does it subtract 300 (Junk as
-  a currency) or keep counting? Test: stand next to Wayne, set `0x800A78B0` to 299 or
-  300, talk to him, watch the variable.
+- **Live test, Day 3 NYPD (precinct under attack), 2026-10-11:**
+  - Wayne's menu is Store equipment / Store item / **Discard junk** / Cancel.
+  - "Discard junk" has **no pick menu**. The counter goes up first, then the Junk leaves
+    the bag (299 → 300 with 1 Junk; 300 → 301 with 1 more).
+  - **No craft offer**: not at 300, not past it, not on later talks, not after leaving
+    and re-entering the room. On this day the counter only accumulates.
+- **Live test, Day 4 NYPD (Day 4 Beginning save), 2026-10-11, answered:**
+  - Full menu: Tune up weapon / Store equipment / Store item / Discard junk / Rare T
+    Card collection / Cancel.
+  - Talking at 300 does nothing. **The craft fires only inside "Discard junk", when the
+    hand-in takes the counter to 300 or more.** The script adds 1 and removes one Junk per
+    step, then Wayne makes a gun.
+  - **He subtracts 300:** 299 + 1 Junk → 300 → gun → **0**, and 299 + 2 Junk → 301 →
+    gun (AK-47) → **1**. So Wayne's Junk is a **currency at 300 per gun**, and the excess
+    carries over. Matches the guides' "every 300".
+  - Day 3 (attack) never crafts, even past 300: that version of his menu only stores
+    Junk.
+- **Design consequences:**
+  - A counter written straight into `0x800A78B0` does **not** craft by itself. The craft
+    needs a hand-in that crosses 300 while the player is at Wayne on a full-menu day.
+  - **W1 refined (recommended):** when the player picks "Discard junk", the mod puts Junk
+    from its counter into the bag (up to the free slots), so Wayne's vanilla script
+    counts, removes and crafts exactly as it does today. Candidate hook: the count opcode
+    `Task_CountItemsByValue` (0x800194F8) when its item is Junk, or the discard step
+    itself (still to pin down).
+  - **Alternative:** the F1 Workshop does Wayne's craft itself (spend 300 from the
+    counter, give one of his six guns or a "leave it to Wayne" roll). Simpler to build,
+    but it copies his gun table instead of reusing his script.
 
 **Where to override drops.**
 - **Spawn:** each enemy's battle script writes its drop (`rewardSlotId` +0x9E) from a
