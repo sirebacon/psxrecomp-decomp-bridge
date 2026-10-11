@@ -352,6 +352,39 @@ progress toward 300 from it (Workshop display, milestone rewards).
 - **Junk pace:** about 1 per 3 kills overall, about 1 per kill in the best room, so Wayne's
   300 is roughly 300–900 kills.
 
+**Gear progression and enemy names** (GameFAQs guide by mysticcat, tables extracted
+2026-10-11). [data/pe-gear-locations-2026-10-11.csv](data/pe-gear-locations-2026-10-11.csv)
+lists every gun and armor with its stats, special effect and **where it's found**. A few
+cells the guide garbled are marked `?`. In story order, the best base attack Aya can find:
+
+| Area (day) | Notable finds | Best attack so far |
+|---|---|---|
+| Start / Carnegie Hall (1) | M84F 12, P220 15, M1911A1 17; N Protector, Kv Vest 1 | ~17 |
+| Central Park (2) | M9 17, P8 19, M203 27; Sp/Sv Vest 1 | ~27 |
+| NYPD (2–3) | M92F 29, M9-2 39, M16A1 35, SG550 40, MP5K 36; N Jacket, Cm Vest 1/2 | ~40 |
+| Soho (3) | G19 32, M11 33, **Club 2 (Steal)**; Cr Vest 1 | ~40 |
+| Hospital (4) | G23 48, G3A3 44, M10/Micro/Mini UZ 38–49, M79 45; B Vest 1, Sp Jacket | ~49 |
+| Day 5 (Chinatown, Warehouse, Sewer, Subway, Museum) | M1911A2 48, PPK 47, MA10 49, M500 59, M8000 57, M9-3 55, MP5PDW 53, **AT4 128**; N Suit, Sv/Cr/B armors | ~59 (128 rocket) |
+| Wayne, 300 Junk | DE50AE7 125, M10B 121, P90 122, MAG 152, HK40 115, LAW80 220 | 115–220 |
+| Chrysler (EX Game) | most guns and armor at 60–120 | ~120 |
+
+So Wayne's 300-Junk guns are worth about **2× anything the main story hands out**. That's
+why the 300-Junk grind matters, and why the overhaul's crafting must not let early grinding
+skip that curve.
+
+**Enemy names for the logger's species ids**, matched by HP to the guide's monster list:
+
+| Id | Enemy | Notes |
+|---|---|---|
+| 0x02 | Red Rat | 12–21 HP, Carnegie Hall |
+| 0x08 | Bird | 35–62 HP, Central Park / NYPD; the Junk droppers |
+| 0x0A | Monkey | 57–102 HP, Central Park |
+| 0x0C | Bear | 75–134 HP, Central Park |
+| 0x11 | Dog-Men | 98–176 HP, NYPD |
+
+The guide gives each monster's HP range, weaknesses and locations for all 29 regular
+enemies. The same species shows different HP in different rooms, which matches the logger.
+
 **Resolved from guides:** Super/Duper Junk are worthless "Leave it to Wayne" results; vanilla
 Tool supply is about 17 in the main story (48 total); trading cards pay for mod-slot tune-ups
 (section 1).
@@ -410,6 +443,8 @@ Settle these after the baseline:
 Sources: decomp `Battle_StepEntityAnimState.c`, `Battle_ResolveHitOnTimer.c`,
 `Menu_MainUpdate.c`, `Menu_LevelUpFlow.c`, `Inv_ItemActions.c`, `Inv_ArmorCapacity.c`,
 `include/pe1/item_ids.h`; guides:
+[GameFAQs — Guide and Walkthrough by mysticcat](https://gamefaqs.gamespot.com/ps/198265-parasite-eve/faqs/13947),
+[GameFAQs — Walkthrough by _Young-Gamer_](https://gamefaqs.gamespot.com/ps/198265-parasite-eve/faqs/80267),
 [RPGClassics — Junk](https://shrines.rpgclassics.com/psx/pe/junk.shtml),
 [RPGClassics — Items](https://shrines.rpgclassics.com/psx/pe/items.shtml),
 [Almar's Guides — Weapons from Junk](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/weaponsfromjunk/),

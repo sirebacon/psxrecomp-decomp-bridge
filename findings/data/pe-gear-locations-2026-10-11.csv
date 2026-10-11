@@ -1,0 +1,127 @@
+type,name,attack_or_defense,range_or_pe_defense,capacity_or_cr_evade,rate_of_fire,location,special
+melee,Club 1,10,10,0,,Initial,None
+melee,Club 2,26,10,0,,Soho,Item (Steal)
+melee,Club 3,38,10,0,,Chinatown,Item + Quickdraw
+melee,Club 4,80,10,0,,Chrysler Building,Item + Critical Bonus + Counter Attack
+melee,Club 5,102,10,0,,Chrysler Building,Item + Quickdraw
+handgun,M84F,12,51,6,2,Initial,None
+handgun,P220,15,55,5,2,Carnegie Hall,None
+handgun,M1911A1,17,60,6,3,Carnegie Hall Sewer,None
+handgun,M9,17,54,9,3,Central Park,None
+handgun,P8,19,56,7,1,Central Park,None
+handgun,M92F,29,51,11,3,NYPD 17th Precinct,None
+handgun,M9-2,39,55,11,3,NYPD 17th Precinct,None
+handgun,G19,32,58,10,3,Soho,None
+handgun,G23,48,60,10,3,Hospital,None
+handgun,M1911A2,48,61,10,3,Chinatown,None
+handgun,PPK,47,49,12,5,Warehouse,Quickdraw
+handgun,G22,51,60,11,2,Museum,None
+handgun,P220-2,48,55,12,3,Museum,None
+handgun,M9-3,55,58,13,3,Museum,Command x2
+handgun,M8000,57,58,12,1,Museum,Command x2
+handgun,AM444,78,58,13,5,Chrysler Building,None
+handgun,G20,65,62,14,1,Chrysler Building,Counter Attack
+handgun,M1911A3,50,62,9,5,Chrysler Building,None
+handgun,M1911A4,68,63,9,1,Chrysler Building,None
+handgun,M1911A5,86,63,11,1,Chrysler Building,None
+handgun,M712,?,64,11,1,Chrysler Building,Counter Attack
+handgun,M96,77,59,16,1,Chrysler Building,None
+handgun,M96R,89,59,20,2,Chrysler Building,Command x3
+handgun,Mark 23,82,61,13,3,Chrysler Building,Quickdraw
+handgun,P226,63,57,12,2,Chrysler Building,None
+handgun,P228,59,56,13,5,Chrysler Building,Counter Attack
+handgun,P229,71,56,13,3,Chrysler Building,None
+handgun,USP,52,56,10,3,Chrysler Building,None
+handgun,USP-2,58,59,11,1,Chrysler Building,None
+handgun,USP-3,76,58,13,2,Chrysler Building,Quickdraw
+handgun,Maeda's Gun,1,60,15,2,From Maeda,None
+handgun,DE50AE7,125,56,17,2,From Wayne (300 Junk),None
+handgun,SP1C,120,69,20,2,From Wayne (random),None
+handgun,USP-TU,116,?,31,5,From Wayne (random),Counter Attack
+shotgun,MA10,49,60,7,2,Chinatown Sewer,Burst
+shotgun,M500,59,63,7,2,Museum,Burst
+shotgun,M500-2,76,67,6,3,Chrysler Building,Burst
+shotgun,MA10-2,63,64,5,1,Chrysler Building,Burst
+shotgun,Maverick,82,71,7,1,Chrysler Building,Burst
+shotgun,S12,98,72,9,1,Chrysler Building,Burst
+shotgun,M10B,121,70,7,3,From Wayne (300 Junk),Burst
+grenade,M203,27,60,5,1,Central Park,Explosive
+grenade,M79,45,67,5,2,Hospital,Tranquilizer
+grenade,M79-2,46,68,6,3,Chinatown,Acid
+grenade,M203-2,49,65,7,6,Warehouse,Explosive
+grenade,M203-3,50,71,7,3,Chinatown Sewer,Acid
+grenade,M79-3,54,69,6,2,Subway,Freeze
+grenade,M203-4,58,67,8,2,Museum,Freeze
+grenade,M203-5,68,65,7,1,Chrysler Building,None
+grenade,M203-6,81,68,8,1,Chrysler Building,Cyanide
+grenade,M79-4,61,65,10,1,Chrysler Building,None
+grenade,M79-5,75,69,8,1,Chrysler Building,None
+grenade,M79-6,94,69,11,1,Chrysler Building,None
+rifle,M16A1,35,112,16,2,NYPD 17th Precinct,None
+rifle,SG550,40,110,21,2,NYPD 17th Precinct,None
+rifle,G3A3,44,123,19,1,Hospital,None
+rifle,M16A2,55,124,19,3,Chrysler Building,None
+rifle,PSG-1,75,120,19,2,Chrysler Building,None
+rifle,SAR,86,136,16,1,Chrysler Building,None
+rifle,XM177E2,99,159,17,1,Chrysler Building,Critical Bonus
+rifle,FA-MAS,119,169,26,3,Chrysler Building,None
+rifle,AK-47,115,154,25,5,From Wayne (random),Counter Attack
+rifle,MAG,152,185,21,2,From Wayne (300 Junk),Critical Bonus
+machinegun,M11,33,42,21,5,Soho,Random Shot
+machinegun,MP5K,36,43,24,3,NYPD 17th Precinct,None
+machinegun,M10,38,45,24,7,Hospital,Random Shot
+machinegun,Micro UZ,40,43,19,5,Hospital,Random Shot
+machinegun,Mini UZ,49,46,20,5,Hospital,Random Shot
+machinegun,MP5PDW,53,46,25,7,Museum,Random Shot
+machinegun,Full UZ,68,50,43,10,Chrysler Building,Random Shot
+machinegun,MP5A5,68,48,29,2,Chrysler Building,Random Shot
+machinegun,MP5SD6,89,52,32,3,Chrysler Building,Random Shot
+machinegun,P90,122,53,201,10,From Wayne (300 Junk),Random Shot
+machinegun,PPSH41,80,76,71,10,From Wayne (random),None
+rocket,AT4,128,202,1,1,Warehouse,None
+rocket,AT4-1,186,232,1,1,Chrysler Building,None
+rocket,LAW80,220,210,1,1,From Wayne (300 Junk),None
+armor,N Vest,10,8,13,,Initial,None
+armor,N Protector,12,9,18,,Carnegie Hall,None
+armor,Kv Vest 1,20,12,15,,Carnegie Hall Sewer,None
+armor,Sp Vest 1,22,50,19,,Central Park,None
+armor,Sv Vest 1,19,16,19,,Central Park,Inventory Slot+1
+armor,N Jacket,35,29,19,,NYPD 17th Precinct,None
+armor,Cm Vest 1,16,16,11,,NYPD 17th Precinct,Auto-heal
+armor,Cm Vest 2,31,23,35,,NYPD 17th Precinct,Auto-heal
+armor,Cr Vest 1,29,24,30,,Soho,None
+armor,B Vest 1,30,35,20,,Hospital,Anti-poison
+armor,Sp Jacket,35,30,26,,Hospital,None
+armor,Cm Protector,37,48,31,,Warehouse,Auto-heal
+armor,Sp Protector,39,23,26,,Warehouse,None
+armor,Cr Protector,41,43,26,,Chinatown Sewer,HP Up + Active Time slow
+armor,B Protector,33,38,23,,Subway,Anti-stiffness
+armor,N Suit,44,36,23,,Museum,None
+armor,Sv Protector,39,36,30,,Museum,Inventory Slot+1
+armor,B Jacket 1,44,49,28,,Museum,Anti-poison
+armor,Cr Vest 2,46,43,31,,Museum,None
+armor,Kv Protector,41,33,20,,Chrysler Building,None
+armor,Kv Jacket,46,45,21,,Chrysler Building,None
+armor,Kv Suit 1,56,56,28,,Chrysler Building,None
+armor,Kv Armor 1,70,68,32,,Chrysler Building,None
+armor,Cm Jacket,42,50,33,,Chrysler Building,Auto-heal
+armor,Cm Suit 1,52,58,35,,Chrysler Building,Auto-cure
+armor,Cm Armor 1,52,56,38,,Chrysler Building,Auto-heal + Auto-cure
+armor,Cm Armor 2,89,97,41,,Chrysler Building,PE Light + Attack down
+armor,Sp Vest 2,50,41,25,,Chrysler Building,None
+armor,Sp Suit 1,60,52,29,,Chrysler Building,None
+armor,Sp Armor 1,75,70,33,,Chrysler Building,None
+armor,Sp Armor 2,?,80,40,,Chrysler Building,Attack Up
+armor,Sv Jacket,42,40,33,,Chrysler Building,Inventory Slot+1
+armor,Sv Suit 1,47,42,40,,Chrysler Building,Inventory Slot+2
+armor,Sv Suit 2,52,45,41,,Chrysler Building,Inventory Slot+2
+armor,Sv Armor 1,66,62,47,,Chrysler Building,Inventory Slot+4
+armor,Sv Armor 2,79,70,49,,Chrysler Building,Inventory Slot+4
+armor,B Jacket 2,55,62,32,,Chrysler Building,Anti-darkness
+armor,B Suit 1,48,55,27,,Chrysler Building,Anti-poison + Anti-darkness + Anti-stiffness
+armor,B Suit 2,70,76,34,,Chrysler Building,Anti-confusion + Attack down
+armor,B Armor,85,86,45,,Chrysler Building,Anti-poison + Anti-stiffness + Attack down
+armor,Cr Jacket,44,45,34,,Chrysler Building,None
+armor,Cr Suit 1,65,68,39,,Chrysler Building,HP Up + Active Time slow
+armor,Cr Armor 1,92,90,43,,Chrysler Building,HP Up + Active Time slow + Attack Up
+armor,Cr Armor 2,107,104,51,,Chrysler Building,HP Up
