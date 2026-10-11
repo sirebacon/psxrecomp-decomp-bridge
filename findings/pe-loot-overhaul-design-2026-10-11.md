@@ -394,6 +394,86 @@ Tool supply is about 17 in the main story (48 total); trading cards pay for mod-
 - chest Tool locations and counts per day (guides);
 - battles per area (the logger will give this).
 
+### 6.1b Mod effects in numbers (decomp, 2026-10-11)
+
+Names are the game's own (mod string table: entries 0–19 = gun effects 1–20, entries 20–34 =
+armor effects 1–15, 35–39 "dummy"). Numbers come from `Inv_BuildWeaponList`, `Battle_Init`,
+the damage code (`Battle_StepEnemyMovement.c`) and `BattleCmd_LoadWeaponModifiers`.
+
+**Gun effects**
+
+| # | Name | What it does (numbers) |
+|---|---|---|
+| 1–5 | Rate of Fire 2 / 3 / 5 / 7 / 10 | Shots per command 2/3/5/7/10 at 60/41/25/18/13% each, so **×1.20 / ×1.23 / ×1.25 / ×1.26 / ×1.30 raw damage per turn**. Uses that many bullets. Enemy defense ÷ shots comes off each shot, so about one full defense per volley |
+| 6 | Random Rate of Fire 1–5 | Volley of shots×1.5 hits on **random** targets |
+| 7 | Burst: spray multiple targets | Cone of hits on nearby targets |
+| 8 | Attack All Enemies w/ ROF | One hit on **every** target; defense isn't divided |
+| 9 / 10 | Heat / Frost | Element: **×1.5** on weak enemies, **÷5** on resistant ones |
+| 11 / 12 / 13 | Cyanide / Acid / Tranquilizer | Status on hit: **50%** on normal enemies, 100% on vulnerable ones, 0 on immune ones |
+| 14 | Counterattack | Counter flag |
+| 15 | Quickdraw | First-attack flag |
+| 16 | Steal Items, but halves attack | Steal on hit; **attack ÷2** |
+| 17 | Steal During Attack | Steal on hit, no attack penalty |
+| 18 | Critical Percentage Increases | Critical-up flag |
+| 19 / 20 | Enter 2 / 3 Commands | **2 / 3 full volleys per turn** (`Battle_Init`: commands = effect bits 4–5), so **×2 / ×3 damage and ammo per turn**, the strongest effects |
+
+**Armor effects**
+
+| # | Name | Numbers |
+|---|---|---|
+| 1–4 | Resist Poison / Stiffness / Darkness / Confusion | status immunity flags |
+| 5 | Decreases Items Stolen | flag |
+| 6 / 7 | Uses Medicine when HP low / Use Cures to remove status | automatic item use |
+| 8 / 9 / 10 | Item Capacity +1 / +2 / +4 | bag slots |
+| 11 | Increases Max HP | ×23/20, i.e. **+15% max HP** |
+| 12 | Increases Attack Power | **+2 offense levels** |
+| 13 | Active Time Recharges Slower | **−2 Active Time levels** |
+| 14 | PE Light | lowers PE cost |
+| 15 | Decreases Attack Power | **−2 offense levels** |
+
+**Value ranking for pricing:** Command ×3 > Command ×2 > Attack All > ROF and element
+mods > status mods > utility flags. Pricing ideas for chips or upgrades should follow that
+order. Also, **the Weapon power (PWR) feature must multiply by commands per turn**: it
+currently ignores effects 19/20 (to fix).
+
+### 6.4 Saving the mod's own data (decomp + the 26 downloaded saves, 2026-10-11)
+
+**Save layout** (one 8 KB memory-card block, `Save_BuildCardFile` /
+`Save_LoadCardFileIntoRuntime`):
+
+| Offset | Contents |
+|---|---|
+| `0x0000` | card header: title, icon (0x100) |
+| `0x0100` | `g_SaveRuntimeState` (0x12E4): Aya, bag, equipment records, Wayne's storage, … |
+| `0x13E4` | script variables (0x800), including Wayne's Junk counter at +0xC0 |
+| `…` | small state blocks (about 0x9C) |
+| `0x1C8C` | **CRC-16** (CCITT, init 0xFFFF, inverted) over the whole 0x2000 block with this field zeroed |
+| `0x1C90–0x1FFF` | **880 bytes: always zero in all 26 saves (Day 1 to Day 6)** |
+
+**Plan: keep the mod's data in that free tail.**
+
+- **Save:** a build-time hook on `Save_SerializeTail` runs after the game has zeroed the
+  save buffer (`D_8009EED0`) and before it computes the CRC. The mod writes its block (magic
+  + version + data) at `+0x1C90`, and the game's own CRC then covers it, so the save stays
+  valid.
+- **Load:** the game reads the whole block into `g_MemCardFileBuffer` and checks the CRC
+  over all of it. A hook on the load path (`Save_LoadCardFileIntoRuntime` /
+  `Save_DeserializeTail`) copies the mod block back out. No magic → no mod data (a vanilla
+  save) → start fresh.
+- **Properties:**
+  - travels with each save, including copied memory cards;
+  - carries into EX Game, because that save is built the same way;
+  - the vanilla game ignores it, and a vanilla re-save clears it;
+  - 880 bytes is plenty: Junk counter, pity timers, a 40-entry chip library, purchase
+    counts and room to spare.
+- **Save states (F7) are a gap:** the engine's mod memory (`mod_memory[]` in `memory.c`)
+  isn't in save states. Either patch our engine fork to include it (small and clean), or
+  mirror the mod's live data into guest RAM that save states do capture. **Recommended:
+  the engine patch.**
+
+This also answers part of decision 3: **option A (virtual chip library) is technically
+sound**. Its data can live in the save's free tail.
+
 ### 6.2 Mod chips: UX options to compare (decision 3)
 
 | Option | How it plays | Pros | Cons |
