@@ -163,7 +163,7 @@ for example an extra row in an existing game menu.
 | Wish | Verdict | Short reason |
 |---|---|---|
 | Visible invisible walls (battle) | 🔴 Hard | Need the arena boundary data *and* 3D drawing in the world |
-| Items on one ATB segment | ✅ Done (PE `c3feba9`) | `Half-bar items`: items usable from half a bar and cost half; the bar turns gold when items are usable. Verified in a battle |
+| Items on one ATB segment | ✅ Done (PE `c3feba9`, `d5980d7`) | `Half-bar ATB` submenu: Items (default), PE, Change weapon/armor and Escape can each be allowed from a half bar at half cost; the others' tabs are removed on a half bar; the bar turns gold. Verified in a battle |
 | Modern controls: analog | ✅ Already in the game | The field code already supports free analog movement |
 | Modern controls: always run | ✅ Done | Always run toggle + hold-to-walk |
 | Modern controls: quick turn | 🟢 Doable | Write the facing angle on a button press |
@@ -208,6 +208,46 @@ taken mid-fight. Toggle: `PE Enhancements > Half-bar items` (default off).
   `0x800B00E8 + slot×0x24`, offsets +4/+0xC/+0x14/+0x1C), is normal blue below half, and
   shows the game's own full-bar colours at full.
 - In the battle menus, Circle is cancel and Square is not.
+
+**Per-action version (PE `d5980d7`, verified in battle 2026-10-11).**
+`PE Enhancements > Half-bar ATB ›` submenu:
+
+| Row | Default |
+|---|---|
+| Enabled | off |
+| Items | on |
+| Parasite Energy | off |
+| Change weapon | off |
+| Change armor | off |
+| Escape | off |
+
+- **Tabs:** the battle menu's tabs come from `g_MenuItemContextFlag` (`0x8009CEF0`), bits
+  0–4 = Use Item / PE / Change Weapon / Change Armor / Escape. Bit order was confirmed by
+  allowing PE: the tab reappeared. On a half-bar borrow the mod clears the bits of actions
+  that aren't allowed, so those tabs aren't in the menu at all, and puts the flag back when
+  the turn ends.
+- **What the turn did** is read from the battle queue (`Battle_StepScriptEntry`: 1–2
+  shots, 3–0x182 item, 0x183–0x196 PE, 0x197–0x198 equipment, 0x199+ escape), plus
+  equipment-slot and item-count changes. Move doesn't count.
+- **Cost:**
+
+  | Turn | Gauge after |
+  |---|---|
+  | Borrowed, allowed action | saved − 4500 |
+  | Borrowed, nothing done | saved |
+  | Borrowed, anything else | 0 (no free actions) |
+  | Full bar, allowed action | 4500 (half cost) |
+  | Full bar, attack | 0, as vanilla |
+
+- **Checked live:**
+  - half-bar menu with only Use Item (flags `0x7F` → `0x61`);
+  - Use Item + PE once PE is allowed (`0x63`);
+  - backing out restores tabs and gauge;
+  - the full-bar menu keeps all five tabs;
+  - Medicine from about 7100 left 2600;
+  - Heal (PE) from a full bar left 4500.
+- **Not yet checked:** weapon/armor change and escape on a half bar (same code path,
+  classified by queue command or slot change).
 
 Original research and design below.
 **Idea:** let Aya use an item once her turn gauge is **half** full, and have an item cost
