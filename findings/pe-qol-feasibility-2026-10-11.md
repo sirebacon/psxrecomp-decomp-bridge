@@ -292,6 +292,28 @@ with " PWR n" appended. It does this only when the call comes from the title-bar
 `Menu_DrawContextHelpText` and the text is a gun's (table C). Toggle: `Weapon power`.
 Checked by hand on two weapons: M84F 20, Club 16.
 
+**PWR is per turn, not per second.** Aya's turn gauge fills at a rate set only by her
+Active Time stat and haste/slow (`Menu_MainUpdate.c`, the ATB fill), never by the gun. So a
+per-second figure is PWR × the same factor for every gun, and the ranking doesn't change.
+PWR leaves out enemy defense, weaknesses and range (all per enemy), and also magazine size
+and reloading. That last one *can* change the ranking: a big-burst gun with a small
+magazine reloads more often.
+
+**To do later (true DPS, two steps):**
+1. **Turns per minute from the ATB code.** Compute Aya's time between turns from her stats
+   using the fill math in `Menu_MainUpdate.c`:
+   - each frame `exp_or_acc += atbStep` until it reaches `maxAtk`;
+   - `atbRate` drops by 3 a frame (minimum 1);
+   - `atbStep` shrinks by `maxAtk / (atbRate × 100)` a frame (minimum `0x1999`);
+   - haste/slow come from the state flags.
+
+   This shows how much Active Time matters, but doesn't change how guns rank.
+2. **Sustained power with magazine size and reloads.** This is the part that changes the
+   ranking. First confirm in the decomp how battle reloading works and what it costs (time
+   or a turn; see `Inv_DrawSlotItemIcon` / `BattleCmd_CommitAmmoAndUpdate`). Also check
+   whether a burst larger than the loaded rounds fires fewer shots. Then show it next to
+   PWR, for example "Handgun  PWR 20 (18)".
+
 **Next improvements:**
 - with two copies of the same gun, show the highlighted copy (it currently uses the
   equipped one or the first match);
