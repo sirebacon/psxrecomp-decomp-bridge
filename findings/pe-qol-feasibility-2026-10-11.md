@@ -335,11 +335,11 @@ has been tried as a mod yet.
 
 | Idea | Verdict | Basis |
 |---|---|---|
-| Random battles on/off | 🟢 Likely easy | Code `800A781A 8000` sets a flag bit (reads `0x0000` in play) |
+| Random battles on/off | ✅ Done (PE `556805b`) | `No random battles` row: a live view of the game's own switch, bit `0x8000` at `0x800A781A` (`g_BattleSkip`). It's in the script-variable area the game **saves**, so a save made with it on keeps battles off until the row is turned off. Bit set/clear verified live; stopping encounters still needs a playtest |
 | Encounter-rate slider | 🟡 Research | Only on/off is known; a rate needs the encounter-chance variable |
 | Event skip | 🟢 Try it | Code `800A77F0 0004` turns on what looks like a built-in debug "event skip"; how it's triggered needs finding out |
 | Faster door transitions | 🟡 Try it | Code zeroes `0x800BCFBC..CE`, which hold a dark semi-transparent rectangle (GPU command `0x62090909`): that removes the fade *visual*, maybe not the wait |
-| Infinite / refill ammo | 🟢 Easy | Code writes `0x800A1E6E`, the ammo pool our give-item code already uses |
+| Infinite / refill ammo | ✅ Done (PE `556805b`) | `Infinite ammo` row: Refill spares (the gun's pool, capacity 999) or Never reload (also keeps the loaded rounds full, in battle via Aya's action `attackWord`). Verified in the field (3 → 6 loaded, pool 6 → 999); battle side still needs a playtest |
 | Outfit picker | 🟢 Easy (cosmetic) | Code writes the costume byte `0x800B0CE2` (reads `0x0A` in play). The "liberated" outfit freezes the game in battle, so it must be blocked or field-only |
 | Warp to any room | 🟢 Try it | Debug-room code writes `0x8009D280 = 0x6048` (reads `0x2048` in play), which looks like "change room" + a room number. Data, so no engine change needed; needs a room list |
 | Debug room / hidden options | 🟡 Research | Codes reach the developers' debug room and two hidden option chests; what they offer is unknown |
@@ -388,8 +388,8 @@ points, max EXP (Stats > Level), save states, and modern analog controls.
 
 ## Suggested next steps
 
-1. **Cheat-code toggles first** (cheapest, high demand): random battles on/off, infinite
-   ammo, outfit picker. Each is a known address and a data write.
+1. **Cheat-code toggles first** (cheapest, high demand): random battles on/off and infinite
+   ammo are ✅ done; the outfit picker is left.
 2. **Faster loading** toggle: the engine switches exist; mostly testing.
 3. **Warp and event skip experiments**: try the debug-room warp's room-change write and the
    debug event skip; if they work, fast travel and cutscene skipping become real options.
