@@ -212,16 +212,38 @@ Sources: player and reviewer complaints from
 
 ---
 
+## Ideas from the Parasite Eve 2 HD Remaster
+
+What the PE2 native port has that PE1 lacks *and that we could do as a mod*. Engine and
+HD-art items (resolution, PGXP, 60 fps, widescreen, HD assets, texture packs, languages)
+belong to mstan/Alex or an art project; see
+[pe1-vs-pe2-native-features-2026-10-11.md](pe1-vs-pe2-native-features-2026-10-11.md).
+
+| Idea | Verdict | How |
+|---|---|---|
+| Faster loading (doors, "Now Loading") | 🟢 Doable | The engine already gives mods `psx_mod_set_load_acceleration` (faster wall-clock loads, same game timing) and `psx_mod_set_disc_speed` (faster emulated CD). A `Faster loading` row turns them on; test music/FMV sync |
+| Infinite Parasite Energy | 🟢 Doable | Same pattern as God mode: keep Aya's battle PE value full each frame. The PE field needs finding in the battle data first |
+| Booster hotkeys | 🟢 Doable | Toggle God mode / infinite PE / run speed with button combos instead of opening F1 (we already read the pad). On-screen status icons would need drawing into the frame: 🟡 |
+| Single-disc play | 🟡 Research (+ engine) | PE1's discs differ only in FMVs. Find when the game asks for disc 2, then swap automatically or serve disc 2's FMVs from disc 1, using the engine's multi-disc support |
+
+Already matched in PE1: hold-Tab turbo (PE2's Speed x4), God mode (infinite HP), max bonus
+points, max EXP (Stats > Level), save states, and modern analog controls.
+
+---
+
 ## Suggested next steps
 
 1. **Cheat-code toggles first** (cheapest, high demand): random battles on/off, infinite
    ammo, outfit picker. Each is a known address and a data write.
-2. **Warp and event skip experiments**: try the debug-room warp's room-change write and the
+2. **Faster loading** toggle: the engine switches exist; mostly testing.
+3. **Warp and event skip experiments**: try the debug-room warp's room-change write and the
    debug event skip; if they work, fast travel and cutscene skipping become real options.
-3. **Quick turn** and **Dismantle gear**: small, clear, data-only.
-4. **FMV skip**: find PE's movie-player variables; the engine work already exists.
-5. **Faster text**: check the textbox engine for a speed variable.
-6. **Research pass on battle data**: action/ATB costs, arena boundary, damage formula.
-   This unlocks the ATB, invisible-walls and DPS items.
-7. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
+4. **Infinite Parasite Energy**, **booster hotkeys**, **quick turn**, **dismantle gear**:
+   small, data-only.
+5. **FMV skip**: find PE's movie-player variables; the engine work already exists.
+6. **Faster text**: check the textbox engine for a speed variable.
+7. **Research pass on battle data**: action/ATB costs, arena boundary, damage formula, the PE
+   field. This unlocks the ATB, invisible-walls, DPS and infinite-PE items.
+8. **Single-disc play** research: when PE1 asks for disc 2, and how the engine swaps.
+9. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
    storage-anywhere and makes code-level changes easier.
