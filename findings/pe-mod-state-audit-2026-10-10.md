@@ -43,6 +43,14 @@ fit the card format. The only reason this never corrupted anything is that the c
 A real storage increase needs a different design (a relocated or separate inventory, with every access and the save
 format accounted for, or a new storage chest in a separate system), not a clamp edit.
 
+## Decision (2026-10-10): Increased Storage is parked
+
+The user chose not to pursue extra storage for now. If it is revisited, the viable shape is a plugin-held side store
+outside the save structures (not a raised clamp), with a separate persistence story, and a rule for what happens to its
+items when the mod is disabled (hide rather than delete, and warn). The game's separate NYPD/warehouse storage system
+has not been inspected and might offer headroom without a side store. The retired `pe.enhancement.increased-storage`
+package stays an empty placeholder; nothing about storage should be re-enabled until that design exists.
+
 ## What this means for the work
 
 1. Do not ship or re-enable an Increased Storage mod based on the clamp values. Redefine the goal first.
