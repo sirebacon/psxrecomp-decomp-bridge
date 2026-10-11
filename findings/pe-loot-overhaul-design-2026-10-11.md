@@ -423,7 +423,7 @@ the damage code (`Battle_StepEnemyMovement.c`) and `BattleCmd_LoadWeaponModifier
 |---|---|---|
 | 1–4 | Resist Poison / Stiffness / Darkness / Confusion | a **chance** to ignore the attack, not immunity: poison 70%, stiffness 50% (lock) / 70% (slow), darkness 60%, confusion 60% (decomp `battle_ailment.h`, added 2026-10-11) |
 | 5 | Decreases Items Stolen | 60% chance an enemy steal fails |
-| 6 / 7 | Uses Medicine when HP low / Use Cures to remove status | automatic item use (flags 0x4000 / 0x8000; HP threshold not pinned down yet) |
+| 6 / 7 | Uses Medicine when HP low / Use Cures to remove status | automatic item use (flags 0x4000 / 0x8000). Medicine fires below **20% of max HP**, best first (Full Recover, Medicine 4 → 1), repeating until HP is back above 20% (`Entity_UpdateTimers`) |
 | 8 / 9 / 10 | Item Capacity +1 / +2 / +4 | bag slots |
 | 11 | Increases Max HP | ×23/20, i.e. **+15% max HP** |
 | 12 | Increases Attack Power | **+2 offense levels** |
@@ -481,6 +481,63 @@ currently ignores effects 19/20 (to fix).
 
 This also answers part of decision 3: **option A (virtual chip library) is technically
 sound**. Its data can live in the save's free tail.
+
+### 6.5 Handing Junk to Wayne, and where to override drops (decomp, 2026-10-11)
+
+**How Wayne takes Junk today.** No game code mentions Junk. Wayne's room script does it
+with generic field-script opcodes (`Task_LoadWaitAndItemOps.c`):
+
+| Opcode handler | Does |
+|---|---|
+| `Task_CountItemsByValue` (0x800194F8) | count an item id in the bag, into a script variable |
+| `Task_GiveItem` (0x800194B0) | add an item to the bag |
+| `Entity_InitWithTimeout` (0x80019540) | open the **"pick an item from your bag"** menu (`Menu_OpenEquipSlotSwap`) and wait; returns the choice, or −1 on cancel |
+
+In that menu (`Menu_InventoryInputHandler`, mode `D_8009CF00`), confirming removes the
+chosen item (`Inv_RemoveActiveListItem`). If the script passed an item id, it is handed
+back in exchange. The script then does its own bookkeeping: Wayne's counter
+`0x800A78B0` +1 per Junk.
+
+- Precedent: `Inv_CountByValue` already treats three item ids as **counters, not bag
+  slots** (the ammo pools, `g_InvCategoryItemTable[].count`). A Junk counter follows a
+  pattern the game itself uses.
+- `Inv_FindItemById` is misnamed: it **removes** the first bag slot holding an id. Only
+  battle code calls it (auto-medicine, auto-cure, enemy item steals), never scripts.
+
+**What a Junk counter means for Wayne.** With Junk in a counter there is nothing in the
+bag for his menu to pick. Two ways to connect them:
+
+| Option | How | Notes |
+|---|---|---|
+| **W1. Deposit action** (recommended) | An F1 Workshop row "Give Junk to Wayne" moves N from the mod's counter into `0x800A78B0` | His script reads the variable, so his 300 milestone should keep working untouched. Junk you spend in the shop never reaches Wayne, so the player chooses between shop and milestone |
+| **W2. One counter** | The mod's counter *is* `0x800A78B0`: every pickup goes straight to Wayne | Simplest, and the game saves it for free. But shop spending would lower Wayne's progress, so the 300 milestone and the shop fight over one number |
+
+- **Still to check live:** what Wayne's script does at 300. Does it subtract 300 (Junk as
+  a currency) or keep counting? Test: stand next to Wayne, set `0x800A78B0` to 299 or
+  300, talk to him, watch the variable.
+
+**Where to override drops.**
+- **Spawn:** each enemy's battle script writes its drop (`rewardSlotId` +0x9E) from a
+  per-room random pool when the battle starts.
+- **Each death:** `Battle_StepEntityAnimState` case 3 appends +0x9E, then any item that
+  enemy stole from Aya (+0xA0), to the reward list `0x800A7FF0` (10 × {u16 id, s16 extra}).
+- **Battle end, recommended:** `Battle_StepLevelUp` calls **`Aya_SetTotalExp(exp, bp,
+  list)` (0x8004B70C) once**, after every death. It passes the list to
+  `Inv_LoadWayneItemsAsOverride`, which builds the "items found" screen.
+  - A build-time hook on `Aya_SetTotalExp` (like Half-bar's on `Battle_Update`) sees
+    the final list in `a2`, plus EXP in `a0` and BP in `a1`. It can strip Junk into the
+    counter, add crafted materials, or scale EXP/BP for difficulty presets, all once,
+    before anything is shown or added to the bag.
+  - List rules: entries are read until the first id 0, at most 10. Ammo ids (the three
+    pool ids) carry their amount in `extra`; other items ignore it. The hook must keep
+    the list contiguous and within 10.
+  - Per-enemy decisions (for example "Junk from this species") need the loot mod to
+    track enemies during the battle, as the loot logger already does. Slots are freed
+    by the time the hook runs.
+  - Fleeing never calls `Aya_SetTotalExp`, so there are no rewards, matching vanilla.
+- **Field pickups** (chests, story gifts) come through `Task_GiveItem` → `Inv_AddItem`,
+  not the reward list. A Junk counter needs a second path for them: hook `Inv_AddItem`,
+  or sweep Junk out of the bag each frame while Wayne's pick menu isn't open.
 
 ### 6.2 Mod chips: UX options to compare (decision 3)
 
