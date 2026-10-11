@@ -163,7 +163,7 @@ for example an extra row in an existing game menu.
 | Wish | Verdict | Short reason |
 |---|---|---|
 | Visible invisible walls (battle) | 🔴 Hard | Need the arena boundary data *and* 3D drawing in the world |
-| Items on one ATB segment | 🟢 Likely (researched) | "Half bar for items": the only gate is one `gauge >= 9000` check on a data field, so a mod can borrow a full bar for an item turn and refund half; needs a battle test |
+| Items on one ATB segment | ✅ Done (PE `c3feba9`) | `Half-bar items`: items usable from half a bar and cost half; the bar turns gold when items are usable. Verified in a battle |
 | Modern controls: analog | ✅ Already in the game | The field code already supports free analog movement |
 | Modern controls: always run | ✅ Done | Always run toggle + hold-to-walk |
 | Modern controls: quick turn | 🟢 Doable | Write the facing angle on a button press |
@@ -194,7 +194,22 @@ their own.
 **Cheaper alternative (🟡):** if the boundary is data, *enlarging* it might be possible
 without drawing anything. Needs the battle-area research first.
 
-### Streamlined ATB items — 🟢 Likely doable: "half bar for items" (researched 2026-10-11, not built)
+### Streamlined ATB items — ✅ Done: "half bar for items" (PE `c3feba9`, verified in battle 2026-10-11)
+
+**Built and tested** with a build-time hook on `Battle_Update` (0x800299CC), in a save state
+taken mid-fight. Toggle: `PE Enhancements > Half-bar items` (default off).
+
+- Triangle at a half-full gauge opened the item list.
+- Medicine used from a gauge of about 7650 left **3150** (= − 4500; vanilla leaves 0), and
+  HP went 41 → 45.
+- Backing out with Circle put the gauge back (about 7600). The item stayed in the bag and no
+  attack was possible.
+- **Indicator:** the ATB bar turns **gold** between half and full (its four vertex colours,
+  `0x800B00E8 + slot×0x24`, offsets +4/+0xC/+0x14/+0x1C), is normal blue below half, and
+  shows the game's own full-bar colours at full.
+- In the battle menus, Circle is cancel and Square is not.
+
+Original research and design below.
 **Idea:** let Aya use an item once her turn gauge is **half** full, and have an item cost
 **half** a bar instead of a whole turn. Attacks and Parasite Energy still need a full bar.
 
