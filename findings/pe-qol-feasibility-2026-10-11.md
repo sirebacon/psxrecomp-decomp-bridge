@@ -163,7 +163,7 @@ for example an extra row in an existing game menu.
 | Wish | Verdict | Short reason |
 |---|---|---|
 | Visible invisible walls (battle) | 🔴 Hard | Need the arena boundary data *and* 3D drawing in the world |
-| Items on one ATB segment | 🟡 Research | Depends on whether action costs are data or main-EXE code |
+| Items on one ATB segment | 🟢 Likely (researched) | "Half bar for items": the only gate is one `gauge >= 9000` check on a data field, so a mod can borrow a full bar for an item turn and refund half; needs a battle test |
 | Modern controls: analog | ✅ Already in the game | The field code already supports free analog movement |
 | Modern controls: always run | ✅ Done | Always run toggle + hold-to-walk |
 | Modern controls: quick turn | 🟢 Doable | Write the facing angle on a button press |
@@ -194,12 +194,66 @@ their own.
 **Cheaper alternative (🟡):** if the boundary is data, *enlarging* it might be possible
 without drawing anything. Needs the battle-area research first.
 
-### Streamlined ATB items — 🟡 Research
-If the "needs a full gauge" rule is a constant in main-EXE code, we can't change it live
-(it could be a build-time change). If it's a per-command cost in a table, it's a data write
-and becomes 🟢.
-**Already possible:** faster ATB overall, via the **Active time** stat in the Stats page
-(the level drives the gauge's fill rate).
+### Streamlined ATB items — 🟢 Likely doable: "half bar for items" (researched 2026-10-11, not built)
+**Idea:** let Aya use an item once her turn gauge is **half** full, and have an item cost
+**half** a bar instead of a whole turn. Attacks and Parasite Energy still need a full bar.
+
+**How the game's turn works (decomp, read 2026-10-11; nothing tested in battle yet):**
+- **The turn gauge** is the field the decomp calls `hpAlive` in Aya's battle record
+  (`Combatant +0x10`, u16, **0..9000**). The HUD draws the ATB bar from it
+  (`Battle_ActiveAndEnemyStatusFlow.c`: width = gauge × 56 / 9000). It fills each frame by
+  `scaledOffense` (`+0x24`, from the Active Time stat); slow costs 2/5 of that and haste adds
+  half (`Menu_MainUpdate.c`).
+  **Naming trap:** the fields called `exp_or_acc` / `maxAtk` (`+0x08` / `+0x28`, 16.16) are
+  **Parasite Energy**, the PE bar, not the turn gauge.
+- **The only gate is one check in main-EXE code.** `Battle_Update.c` (phase `D_8009D28C`
+  == 0) does `if (gauge >= 9000)`. Then a press of the attack button (pressed bits
+  `D_8009D1F4 & 0x200`) starts targeting, and a press of the item button (`& 0x80`) opens
+  Aya's item list (`Inventory_OpenAyaItemList`; item-menu state `0x8009D1F0` = 1). Either way
+  the battle moves to phase 1, handled by `Battle_HandleItemMenu`
+  (`Battle_TargetAndEnemyTurnFlow.c`).
+- **A finished action empties the gauge.** `FinishAction()` sets it to 0. That happens when
+  the item is used (menu state −1), and also when the player backs out of the turn.
+- **Items are queued battle commands** (queue `0x800BE830`; a command value of 3..0x182 means
+  "item value − 3"). Unexecuted item commands go back to the bag (`Battle_FlushScriptSounds`).
+  So a mod can see from data whether the turn used an item.
+- The item rows are only dimmed while another action is queued or the battle is ending
+  (`Pad_IsMenuConfirmAvailable`). The gauge isn't re-checked inside the menu.
+
+**Why it's doable without patching code ("borrow and refund"):** the gate reads a data
+field, so a mod can make the check pass, then fix the gauge afterwards.
+
+1. **Borrow (start of the item turn).** In battle phase 0, if Aya's gauge is between 4500 and
+   9000 and the item button is pressed this frame (and attack isn't), the mod saves the
+   gauge, a copy of Aya's bag, and then sets the gauge to 9000. The game's own check then
+   opens the item list exactly as it would on a full bar.
+   - **Best timing:** a build-time hook (lever B) on `Battle_Update` runs our C code right
+     before the check, in the same frame as the press. Only the item button is pressed, so
+     the borrowed full bar can't be spent on an attack.
+   - **Without a hook:** do it from the per-frame plugin. That leaves a one-frame window
+     where the attack button would also work, plus the "gauge full" chime and flash. Fine for
+     a prototype.
+2. **Refund (end of the turn).** When the battle returns to phase 0, the mod compares Aya's bag
+   with the saved copy:
+   - an item was used → gauge = saved − 4500;
+   - nothing changed (backed out) → gauge = saved.
+3. **Same rule from a full bar (optional):** an item turn started at 9000 leaves 4500, so
+   "items cost half a bar" holds everywhere.
+
+**Half-bar indicator (optional):** the bar's colours are plain HUD data (`D_800B00EC..`,
+rewritten by the game every frame). A mod or hook could tint the bar once it passes half, as
+the game does for a full bar. Not needed for the mechanic.
+
+**Open questions for the first battle test:**
+- which pad buttons bits `0x80` / `0x200` are (Triangle / Cross expected);
+- whether the full-bar chime or flash appears when borrowing without the hook;
+- what backing out of the item menu does in vanilla (it may already cost the turn);
+- that enemies' timing isn't affected.
+
+Testing needs a save state just before a fight.
+
+**Already possible:** a faster turn gauge overall, via the **Active time** stat on the Stats
+page.
 
 ### Modern controls
 - **Analog movement — ✅ in the game already.** The field movement code reads the analog
@@ -293,19 +347,21 @@ with " PWR n" appended. It does this only when the call comes from the title-bar
 Checked by hand on two weapons: M84F 20, Club 16.
 
 **PWR is per turn, not per second.** Aya's turn gauge fills at a rate set only by her
-Active Time stat and haste/slow (`Menu_MainUpdate.c`, the ATB fill), never by the gun. So a
+Active Time stat and haste/slow (`Menu_MainUpdate.c`, start of the battle update), never by
+the gun. So a
 per-second figure is PWR × the same factor for every gun, and the ranking doesn't change.
 PWR leaves out enemy defense, weaknesses and range (all per enemy), and also magazine size
 and reloading. That last one *can* change the ranking: a big-burst gun with a small
 magazine reloads more often.
 
 **To do later (true DPS, two steps):**
-1. **Turns per minute from the ATB code.** Compute Aya's time between turns from her stats
-   using the fill math in `Menu_MainUpdate.c`:
-   - each frame `exp_or_acc += atbStep` until it reaches `maxAtk`;
-   - `atbRate` drops by 3 a frame (minimum 1);
-   - `atbStep` shrinks by `maxAtk / (atbRate × 100)` a frame (minimum `0x1999`);
-   - haste/slow come from the state flags.
+1. **Turns per minute from the ATB code.** Compute Aya's time between turns from her stats.
+   *Corrected 2026-10-11:* the turn gauge is the Combatant field the decomp calls
+   `hpAlive` (+0x10, 0..9000; the HUD draws the ATB bar from it). It fills each frame by
+   `scaledOffense` (+0x24, derived from the Active Time stat). Slow costs 2/5 of that and
+   haste adds half (`Menu_MainUpdate.c`, start of the battle update). So a turn takes about
+   `9000 / scaledOffense` frames. The `exp_or_acc` / `atbStep` math nearby is **Parasite
+   Energy** regeneration, not the turn gauge (see "Streamlined ATB items").
 
    This shows how much Active Time matters, but doesn't change how guns rank.
 2. **Sustained power with magazine size and reloads.** This is the part that changes the
