@@ -63,16 +63,18 @@ These limits decide most of the verdicts below.
 | Modern controls: analog | ✅ Already in the game | The field code already supports free analog movement |
 | Modern controls: always run | ✅ Done | Always run toggle + hold-to-walk |
 | Modern controls: quick turn | 🟢 Doable | Write the facing angle on a button press |
+| Combat pacing with faster Aya | 🟡 Research | Speed mods should be field-only (check why combat feels faster); an enemy-speed slider needs battle data |
 | Expanded inventory | ✅ Done | Inventory-floor mod raises bag size; editor bag mods |
 | Storage from anywhere | 🔴 Hard (🟢 on a newer engine) | Needs "call game function"; give item covers most needs meanwhile |
 | Easier mods / permits | ✅ Done | Item editor sets mods directly; give item gives Tool Kits / Mod Permit |
 | Dismantle unwanted gear | 🟢 Doable | Remove the item in the editor and grant its mods/bonuses elsewhere |
+| Improved enemy drops | 🟢 bonus drops / 🟡 real drop rates | Our own "bonus item after a win" is easy; changing the game's own item gains needs the battle data mapped |
 | Stat / DPS transparency | 🟡 Research | F1 can show read-only numbers; the damage formula needs mapping |
 | Skip FMVs | 🟡 Research | Engine has FMV skip; PE needs its skip configuration found |
 | Faster or skippable dialogue | 🟡 Research | Text speed is probably a variable; skipping scripted scenes is hard |
 | Skip real-time cutscenes | 🔴 Hard (one experiment) | Scripted events; but the game may have its own debug event skip (see "More ideas") |
 | Extra healing / early checkpoints | ✅ Covered differently | God mode, give item; placing new pickups in rooms is 🔴 |
-| Fast travel / warp | 🟢 Try it (see "More ideas") | An old debug-warp cheat code suggests room changes are a data write |
+| Fast travel / warp | 🟢 Try it (see "More ideas") | An old debug-warp cheat code suggests room changes are a data write; phone-to-phone warp for visited places |
 | Clearer map | 🔴 Hard | New map UI; the F1 menu is text-only |
 
 ---
@@ -105,6 +107,21 @@ and becomes 🟢.
   flip it 180° on a button combo while she's standing. Needs a free button and a check that
   the game doesn't overwrite it the same frame.
 
+### Combat pacing with faster Aya — 🟡 Research
+Playtest note: with the speed mods on, Aya feels faster in combat as well as outside it.
+That makes battles easier, but also much more fun and active. Two ways to balance it:
+
+1. **Keep battles at stock speed.** Our `Run speed` / `Walk speed` / `Always run` code is
+   meant to be field-only: it switches off while the battle flag (`0x8009D1A0 & 2`) is set,
+   and battle movement uses its own constants. So the first step is to check *what* is fast
+   in combat: our mod (a bug in the battle gate), or the engine's turbo key (Tab speeds up
+   *everything*, enemies included). If it's ours, fixing the gate restores stock battles. 🟢
+2. **Speed enemies up to match.** Keeps the more active feel without making fights easier.
+   Needs the enemy movement and ATB speed in the battle data mapped (`Battle_StepEnemyMovement`,
+   enemy `Combatant` fields). If they're per-enemy values in memory, an "Enemy speed" slider
+   is a data write. 🟡 It could also come with an "Aya battle speed" slider, if the battle
+   movement constants turn out to be data too.
+
 ## Inventory & gear
 
 ### Expanded inventory — ✅ Done
@@ -126,6 +143,31 @@ The game already has the logic to move bonuses/mods between items and delete the
 (`Inv_TransferItemBetweenLists`). A mod can do the same with data writes: remove an item
 from the bag and add its +N bonuses or mods to the equipped gear. Main care point: freeing
 the equipment record correctly and never removing the equipped item.
+
+### Improved enemy drops — 🟢 bonus drops, 🟡 the game's own drops
+What the decomp shows about items changing hands in battle (from reading the code; nothing
+tested live yet):
+
+- **Taking items from enemies.** Each enemy has a takeable item, `stealItemId`
+  (`EnemyCombatant+0x9F`), and a chance mode in bits 12–13 of `statusFlags2` (`+0xCC`):
+  mode 0 is a coin flip, mode 2 always succeeds (`Battle_ResolveHitOnTimer.c`). Both live in
+  the enemy's battle record in RAM, so a mod could raise the chance or swap in a better
+  item when a battle starts. That's a data write. 🟡 What still needs confirming in the game:
+  which of Aya's actions triggers it, and where the enemy records sit in memory.
+- **Battle reward queue.** At the end of a battle the game adds every queued entry with a
+  value of 3–0x182 to the inventory as an item (`Battle_FlushScriptSounds.c`,
+  `Battle_PhaseAndEnemyEffectFlow.c`; queue at `0x800BE830`). That looks like the game's own
+  drop delivery. Finding what fills the queue, and from which per-enemy data, is the research
+  that would let us raise real drop rates or improve the item pool. 🟡
+- **Not drops:** `Entity_HitAndDropTable.c` is misnamed. It computes enemy attack damage.
+  The "loot" fields (`lootItemId` `+0xA0`) are enemies *stealing* Aya's items or ammo, which
+  she gets back when the thief dies.
+
+**Doable now (🟢): our own bonus drops.** The mod can spot a won battle (the battle flag
+clears without a game over) and give a random item through the same path `Debug > Give item`
+uses. Settings would be a chance per win and an item pool (healing only, ammo, or anything).
+It doesn't need the game's drop logic at all. The one thing to handle is a full bag: skip the
+drop, or show a footer note.
 
 ### Stat / DPS transparency — 🟡 Research
 **Display is easy:** F1 can show read-only rows such as "Shots per turn", "Damage per shot"
@@ -166,6 +208,13 @@ number. Still to do: confirm it in our build, then build a list of room numbers 
 entry points (the decomp's room overlays and `Task_BeginSceneTransition` help). Warping
 mid-story can break progression, so it belongs in the Debug page. A redesigned map UI is
 🔴; the F1 menu is text-only.
+
+**Player-friendly version: warp between save phones.** Instead of any room, offer only the
+save phones, and only ones in places Aya has already visited. Phones are safe entry points
+(the game already expects you to arrive and leave there), and the list is short, so it fits
+an F1 choice row. Extra research: a "visited" check, either a story/room-visited flag in the
+save data or our own record of rooms Aya has entered (the mod can log the current room
+every frame). That version can sit on the main page rather than in Debug.
 
 ---
 
@@ -239,11 +288,13 @@ points, max EXP (Stats > Level), save states, and modern analog controls.
 2. **Faster loading** toggle: the engine switches exist; mostly testing.
 3. **Warp and event skip experiments**: try the debug-room warp's room-change write and the
    debug event skip; if they work, fast travel and cutscene skipping become real options.
-4. **Infinite Parasite Energy**, **booster hotkeys**, **quick turn**, **dismantle gear**:
-   small, data-only.
-5. **FMV skip**: find PE's movie-player variables; the engine work already exists.
-6. **Faster text**: check the textbox engine for a speed variable.
-7. **Research pass on battle data**: action/ATB costs, arena boundary, damage formula, the PE
-   field. This unlocks the ATB, invisible-walls, DPS and infinite-PE items.
-8. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
+4. **Infinite Parasite Energy**, **booster hotkeys**, **quick turn**, **dismantle gear**,
+   **bonus drops after a win**: small, data-only.
+5. **Check why combat feels faster with the speed mods** (our battle gate or the turbo key).
+6. **FMV skip**: find PE's movie-player variables; the engine work already exists.
+7. **Faster text**: check the textbox engine for a speed variable.
+8. **Research pass on battle data**: action/ATB costs, arena boundary, damage formula, the PE
+   field, enemy speed, and the reward queue. This unlocks the ATB, invisible-walls, DPS,
+   infinite-PE, enemy-speed and real drop-rate items.
+9. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
    storage-anywhere and makes code-level changes easier.
