@@ -84,8 +84,24 @@ guaranteed drop, which suggests a roll somewhere in the encounter data.
   such as burst fire or steal; one per exclusivity group).
 - A **Tool** moves either *all* of a donor's +N bonuses (added together, capped at 999) or
   **one mod** (replacing a same-group mod or filling an empty slot) onto another item.
-  - With a Tool the donor is destroyed.
-  - A **Super Tool** can move more than one attribute, and the donor survives at +0.
+  - **Confirmed in the decomp** (`Inv_TransferItemBetweenLists`, the `!(flags & 1)` branch):
+    a plain **Tool deletes the donor item** (its loaded rounds go back to the ammo pool). A
+    **Super Tool keeps the donor**, which only loses what was moved.
+  - Each use spends one Tool (kind 12) or Super Tool (kind 13), taken from the bag or from
+    Wayne's storage.
+  - Because a same-group mod on the target is **overwritten**, a Super Tool doubles as
+    "remove a mod": move the unwanted mod onto a throwaway gun and the main gun keeps an
+    empty slot. A forum answer describes exactly this for removing ROF×10 from a P90.
+- **Where it happens:** in Aya's own menu ("Tune Up Weapon/Armor"), not at Wayne's. Wayne
+  only **adds slots** (trading-card tune-ups). Players find this confusing: Wayne talks about
+  upgrades, his "Slot is full" message reads like a bug, and nothing in the game explains
+  Tools, Super Tools or why ROF×10 lowers damage per shot (our damage formula: shot% 13 at
+  10 shots).
+
+**UX lessons for the overhaul** (from forum complaints): every action should say in plain
+words what it costs and what it destroys; show the effect of a mod (for example damage per
+turn, as Weapon power does) before applying it; give "remove a mod" its own clear action
+instead of a Super Tool trick; and have Wayne's screen explain what he does and doesn't do.
 - **Tool Kit / Super Tool Kit** are the unlimited versions (count 999 in the game's table).
 - The **Mod Permit** (2 from Baker on Day 2) is needed to ask Torres or Wayne for a tune-up.
 - **Vanilla Tool supply** (RPGClassics item list):
@@ -342,7 +358,6 @@ Tool supply is about 17 in the main story (48 total); trading cards pay for mod-
 
 **Still to find:**
 
-- the exact donor rule for Tool vs Super Tool (rest of `Inv_TransferItemBetweenLists`);
 - chest Tool locations and counts per day (guides);
 - battles per area (the logger will give this).
 
