@@ -52,6 +52,51 @@ These limits decide most of the verdicts below.
 - **Drawing over the game:** an early mod drew its own boxes and text into the frame. That
   works for simple 2D shapes; 3D outlines in the world would need the camera maths too.
 
+### Can we add to the game's own menus? Five levers to test
+
+Several items above are 🔴 only because they'd need a new screen or row in the *game's*
+menus (a junk shop, DPS on the equip screen, a map). That isn't ruled out. Reading the decomp
+and our engine source (2026-10-11, nothing tested yet) turned up these routes, cheapest first:
+
+1. **Change the data the menus are built from. 🟡 likely.** PE's menus are a widget system
+   (`MenuWidget_Lifecycle.c`). Each window is built from a *grid descriptor* (position,
+   width, visible rows, row limit), and its text comes from the game's string tables. Both
+   are data, so a mod can resize windows or change their text. Adding real behaviour needs
+   one of the levers below.
+2. **Redirect a menu's callback. 🟡 the key experiment.** Every live menu window stores its
+   update, draw and item-action routines as *function pointers in RAM* (for example
+   `node->update = Menu_StepScrollCursor`). Changing a pointer is a data write. Pointing it
+   at a *different game routine* should just work. Pointing it at *new code* we place in
+   memory (the engine can give mods spare RAM, `psx_mod_alloc_guest_memory`) might work too.
+   The engine has an interpreter for code it didn't precompile; that's how room and battle
+   overlays run. Patching existing code failed because calls to precompiled functions go
+   straight to the native version and never look at RAM. A call through a pointer to a new
+   address is different: it has to be dispatched, and the interpreter should pick it up. If
+   that holds, mods can add new behaviour to the game's menus without a newer engine.
+3. **Build-time function hooks. 🟢 mechanism exists.** Our engine can call a mod at the start
+   of chosen game functions (`mod_function_entry_funcs` in the game config, then a rebuild).
+   The mod sees the CPU registers and memory and can change them before the function runs.
+   Hooking, say, `MenuWidget_UpdateAndDraw` would let us run code every time the game draws
+   a menu: insert a window, adjust a list, or draw extra text such as DPS on the equip
+   screen. It can't skip the original function, and it costs a rebuild per new hook.
+4. **A mod-drawn screen in the game's style. 🟢 proven.** An early version of our menu drew
+   its own boxes and text into the frame and read the pad. A shop or map screen can be built
+   this way, looking like the game but entirely run by the mod. Pausing the game underneath
+   it still needs working out (for example by opening the game's own menu first).
+5. **Newer engine: call game functions (`psx_mod_call_guest`). 🟢 later.** Lets a mod open the
+   storage menu or run any game routine directly.
+
+**First tests (an hour or two each, from a save state):**
+
+- **A.** With the item menu open, point one window's `update` pointer at a tiny routine in
+  mod-allocated memory that sets a marker and then jumps to the original routine. If the
+  marker changes and the menu still works, lever 2 is real.
+- **B.** Add one hook address (`MenuWidget_UpdateAndDraw`) to the PE config, rebuild, and
+  count calls from a plugin. If it fires once per menu frame, lever 3 is ready.
+
+If A works, most of the 🔴 "needs a new game screen" items drop to 🟡: shop for junk, DPS
+in the equip screen, storage from anywhere.
+
 ---
 
 ## Summary
@@ -136,13 +181,14 @@ an F1 action. **Meanwhile:** `Debug > Give item` gets you any item without a tri
 ### Easier mods / permits — ✅ Done
 The **Item Editor** sets any mod on the equipped gun or armor directly (game names, one per
 kind, bag-safety guard). **Give item** hands out Tool Kits, Super Tool Kits and the Mod
-Permit.
+Permit.(maybe in game buy mods based off the number of junk given in. new ingame menu might be required to create a shop)
 
 ### Dismantle gear — 🟢 Doable
 The game already has the logic to move bonuses/mods between items and delete the donor
 (`Inv_TransferItemBetweenLists`). A mod can do the same with data writes: remove an item
 from the bag and add its +N bonuses or mods to the equipped gear. Main care point: freeing
 the equipment record correctly and never removing the equipped item.
+- **already dismantled items should be re-acquired somehow** either by buying it via junk or random drop chance from enemy if the item was already destroyed.
 
 ### Improved enemy drops — 🟢 bonus drops, 🟡 the game's own drops
 What the decomp shows about items changing hands in battle (from reading the code; nothing
@@ -173,7 +219,7 @@ drop, or show a footer note.
 **Display is easy:** F1 can show read-only rows such as "Shots per turn", "Damage per shot"
 or "Est. damage per turn" for the equipped gun. **The work** is mapping the damage formula
 from the battle code (`Battle_ApplyDamage` and friends) so the numbers are right. Showing it
-in the game's own equip screen (instead of F1) would be 🔴.
+in the game's own equip screen (instead of F1) would be 🔴. (Possible ingame DPS in the in-game menu)
 
 ## Pacing
 
