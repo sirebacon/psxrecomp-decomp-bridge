@@ -5,6 +5,10 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
+**Status (2026-10-11):** decisions recorded in section 5. Next is the **research pass**
+(section 6) before building. Junk keeps its name and becomes a counter; the shop goes in
+F1 first, then Wayne's screen; vanilla rewards stay.
+
 **Goals (from the discussion):**
 
 - Craft the gear and mods you actually want, but it costs effort.
@@ -101,9 +105,9 @@ delivers our drops, and the menus can host our shop.
 | **Mod chips** (new, virtual) | dismantling an item that has mods; rare drops | installing that mod on any compatible item at the workshop |
 | **Blueprints** (optional) | trading cards, story progress, bosses | unlock crafting a specific weapon or armor |
 
-**Scrap doesn't take bag slots.** The mod keeps it as a counter: picked-up Junk is turned
-straight into the counter. That fixes the clutter complaint and lets numbers grow without
-inventory pain.
+**Junk doesn't take bag slots** (decided: keep the name "Junk", make it a counter). The mod
+keeps a count, and picked-up Junk goes straight into it. That fixes the clutter complaint
+and lets numbers grow without inventory pain. In this doc "Scrap" just means Junk.
 
 ### 3.2 Drops: never pointless, never frustrating
 
@@ -170,16 +174,90 @@ Escalating costs keep Scrap meaningful all game. Milestones turn the 300-Junk cl
 
 ---
 
-## 5. Decisions needed
+## 5. Decisions (answered 2026-10-11)
 
-1. Keep the name "Junk", or rename it to "Scrap" in the game's text?
-2. Should Scrap live **only as a counter** (no bag item), or as stackable bag items?
-3. Should mod chips be **virtual** (stored by the mod), or real bag items we invent?
-4. Where does the shop live first: **F1 only**, or straight into Wayne's armory?
-5. How hard should the curve be? Pick one target, for example "one Tool every ~2 areas"
-   or "a top-tier gun by Day 5 with focused grinding".
-6. Keep vanilla's fixed chest Tools and trading-card rewards alongside the new economy?
-7. Separate difficulty presets (Relaxed / Normal / Grind) on the Workshop page?
+| # | Question | Decision |
+|---|---|---|
+| 1 | Rename Junk to Scrap? | **No, keep "Junk".** It's the game's own name. "Scrap" elsewhere in this doc means Junk |
+| 2 | Junk as a counter or bag items? | **Counter.** Picked-up Junk becomes a count, which frees bag space |
+| 3 | Mod chips virtual or real items? | **Open: needs UX research** (section 6) |
+| 4 | Where does the shop live first? | **F1 first**, then move to Wayne's screen |
+| 5 | How hard is the curve? | **Open: needs balance research** (section 6) |
+| 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
+| 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
+
+Overall direction: **research the loot economy before building** any of the economy
+features. The Junk counter and the F1 shop shell can come later, once the numbers are
+grounded.
+
+---
+
+## 6. Research plan (before building)
+
+### 6.1 Vanilla baseline: what the game gives a player today
+
+Balance needs a baseline, so measure vanilla first.
+
+| Question | How |
+|---|---|
+| Does an enemy roll a drop chance at spawn, or always drop its item? | Decomp: where enemy records are filled at battle start. Live: watch `+0x9E` across many fresh encounters, not save-state reloads |
+| What does each enemy drop and carry for Steal, and what EXP/BP does it give? | Read the enemy records in each area live; check if the decomp/disc has an enemy table to dump in one go |
+| How much Junk does a normal playthrough produce? How many Tools and Super Tools (chests), and trading cards? | Chest and pickup lists (guides + room data); Junk per fight × fights per area |
+| How many battles per area or day? What are the encounter rates? | Encounter data + guides; a live count on one route |
+| What do Super Junk and Duper Junk do? | Decomp: item handlers for `0x0B` / `0x0C` |
+| Where is Wayne's Junk count (carries into EX Game) and trading-card progress stored? | Decomp: Wayne's script/menu; the save data |
+| Tool vs Super Tool: exact donor and slot rules | Decomp: the rest of `Inv_TransferItemBetweenLists` and its callers |
+| How strong are guns per day: base stats, +N, mod slots? | The item base table (already readable) |
+
+The output is a **baseline sheet**: per day or area, the Junk, Tools, cards and gear power
+available in vanilla. Every new number is then set relative to it, for example "about 1.5×
+vanilla Junk, with a Tool every N fights".
+
+### 6.2 Mod chips: UX options to compare (decision 3)
+
+| Option | How it plays | Pros | Cons |
+|---|---|---|---|
+| **A. Virtual chip library** (stored by the mod, shown on the Workshop page) | Dismantling files the mod into a library; install it later on any compatible item | No bag clutter, easy to browse, matches the counter approach for Junk | Invisible outside F1 until the Wayne UI exists; needs save-file handling (see below) |
+| **B. Real bag items** (reuse spare item IDs such as `ITEM24/25`) | A chip is an item you carry and use, like a Tool | Feels native, lives in the game's own save, visible in the bag | Takes bag slots (the clutter we're removing); limited spare IDs; needs names and icons |
+| **C. No chips: keep vanilla's donor → target transfer, made cheaper** | Dismantle gives Junk only; moving mods still needs a donor, but Tools are easier to get | Closest to vanilla, least new UI | Doesn't fix "old gear is useless"; the donor pairing stays fiddly |
+| **D. Hybrid: chips stored in Wayne's storage as items** | Chips are items, but they go straight to storage instead of the bag | Native and saved, no bag clutter | Depends on Wayne's storage capacity; only usable at Wayne's |
+
+Research questions:
+
+- **Where would A's data persist?** Plugin memory isn't saved with the game. It would need
+  a small save area of its own, or spare bytes in the game's save that we can verify are
+  unused.
+- **Are `ITEM24/25` really unused?** Can chip names be drawn from the mod table, as Weapon
+  power does?
+- **What does a good loop look like?** Look at how other games handle "salvage → reusable
+  upgrade": FF7 materia, FF8 refine/junction, Resident Evil 4 upgrades, Borderlands/Diablo
+  salvage. The target feel: one action to dismantle, one action to install, always shown
+  in the game's own words.
+
+### 6.3 Balance targets (decision 5)
+
+Settle these after the baseline:
+
+- **Pace:** how many fights per Tool, per +1 upgrade, and per crafted top-tier gun, at each
+  stage of the game.
+- **Never pointless:** every fight should give at least some Junk. The test: no fight in a
+  normal route gives zero progress.
+- **Never frustrating:** the longest dry streak for a rare drop is capped (pity timer); no
+  random failure in crafting.
+- **No trivialising:** escalating costs and per-area drop tiers, so early grinding can't
+  buy late-game power.
+- **True to vanilla:** vanilla chest Tools, trading cards and the 300-Junk gun stay as they
+  are, and the new economy adds on top (decision 6). Junk spent at the workshop shouldn't
+  undercut Wayne's 300 milestone. One question to settle: is there a separate workshop
+  balance, or do both draw from one Junk count?
+
+---
+
+## 7. Possible features (not committed)
+
+- **Difficulty presets on the Workshop page** (decision 7): *Relaxed / Normal / Grind*.
+  Each scales Junk per kill, rare-drop chance, pity length and workshop prices together, so
+  players pick a pace without touching individual numbers.
 
 Sources: decomp `Battle_StepEntityAnimState.c`, `Battle_ResolveHitOnTimer.c`,
 `Menu_MainUpdate.c`, `Menu_LevelUpFlow.c`, `Inv_ItemActions.c`, `Inv_ArmorCapacity.c`,
