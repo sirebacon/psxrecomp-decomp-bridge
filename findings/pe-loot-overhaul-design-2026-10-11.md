@@ -38,7 +38,8 @@ what fits in her bag. No dice are rolled at death or on the results screen. Ever
 simply hands over its one `rewardSlotId` item.
 
 **Live example:** the two rat enemies in the slot 4 battle save each have drop item `0x01`
-(a medicine), steal item `0x01`, and BP `5 − 2 × hits taken`.
+(**AMMO 6**, a 6-round handgun box, not a medicine as first written), steal item `0x01`,
+and BP `5 − 2 × hits taken`.
 
 **Still to check:** whether the game rolls a *drop chance* when an enemy spawns, which would
 set `rewardSlotId` to 0 most of the time. Guides describe Junk as a common but not
@@ -212,6 +213,82 @@ Balance needs a baseline, so measure vanilla first.
 The output is a **baseline sheet**: per day or area, the Junk, Tools, cards and gear power
 available in vanilla. Every new number is then set relative to it, for example "about 1.5×
 vanilla Junk, with a Tool every N fights".
+
+### 6.1a Baseline results so far (2026-10-11)
+
+**Confirmed (decomp, plus live checks in the slot 4 battle save):**
+
+- **Who sets an enemy's rewards:** each enemy's **battle script**, through the "write
+  field" command (`Entity_SetField` → `Entity_WriteFieldByCmd`):
+
+  | Command | Field |
+  |---|---|
+  | `0x28` | EXP value (+0x0E) |
+  | `0x5A` | BP base (+0x98) |
+  | `0x5B` | BP factor (+0x9A) |
+  | `0x5C` | **drop item** (+0x9E) |
+  | `0x5D` | **steal item** (+0x9F) |
+  | `0x7B`/`0x7C` | loot id / amount |
+
+  Every enemy starts from a blank template (`Entity_AllocSlot`). So drops are **defined per
+  enemy by script**, and any drop chance would live in those scripts. The decomp's symbol
+  list names `g_DropItem1/2 = 0x800A5DFA / 0x800A5ED6` (slot 0/1 drop fields) with the tag
+  "rando": **the PE randomizer already rewrites drops this way**, which is the same lever
+  we'd use.
+- **EXP vs BP (checked live):**
+  - **EXP** per battle = the sum of each enemy's +0x0E value. In the rat fight: 2 + 2 → Aya
+    2 → 6 EXP, reaching level 1.
+  - **BP** = Σ (`base − factor × hits that enemy landed`), here 3 + 3 = 6. It's **banked**
+    (`pe_bonus_pool`, save +0x1E) and paid into bonus points **only on level-up**: 999 + 5
+    already banked + 6 = 1010.
+
+  The results screen's "EXP" line shows Aya's new total, not the gain.
+- **The results screen** lists the reward list (up to 10 drops) and has ALL / SEL / END for
+  taking items. Ammo drops go into the ammo pool (6 + 2×6 = 18 rounds).
+- **Item kinds** (from the dumped item table):
+
+  | Kind | Items |
+  |---|---|
+  | 10 | consumables: medicine, Junk, Super/Duper Junk, trading cards, Mod Permit |
+  | 12 | Tool |
+  | 13 | Super Tool |
+  | 14 | Tool Kit |
+  | 15 | Super Tool Kit |
+  | 16–18 | ammo |
+  | 1–8 | guns / melee |
+  | 9 | armor |
+
+  Tool transfers consume kind 12 or 13 from the bag or from Wayne's storage (100 slots at
+  `0x800C1EB8`). The kits count as 999 (unlimited).
+- **Gear power range** (base attack): handguns up to 123 (DE50AE7), machine guns 122 (P90),
+  rifles 34–155 (AK 47), shotguns 48–120 (M10B), grenade launchers 25–115 (HK40), rockets
+  128–200 (LAW80), melee 9–100 (Club 1–5). Four of Wayne's 300-Junk guns (DE50AE7, P90, M10B,
+  HK40) are their class's strongest by base attack; LAW80 has the highest base attack of
+  anything.
+- **Full item table:** [data/pe-items-baseline-2026-10-11.csv](data/pe-items-baseline-2026-10-11.csv)
+  lists all 235 items with base stats, built-in +N, mod-slot count (`mod_count`) and the mods
+  they ship with.
+
+**Loot logger (research tool, PE build):** `Mods > PE Enhancements > Debug > Loot logger`.
+When on, it appends to `pe_loot_log.csv` next to the game exe:
+
+- one **enemy** row per enemy: room, identity, start HP, defense, EXP, BP fields, hits it
+  landed, drop, steal, whether it died;
+- one **battle** row per fight: room, length, EXP and BP totals, rewards;
+- **pickup** rows when Aya's count of Junk, Tools, kits, trading cards or the Mod Permit
+  changes in the field.
+
+Tested on the rat fight. **Playing normally with it on builds the vanilla baseline sheet**,
+and it will show whether the same enemy sometimes drops nothing (the "drop chance" question).
+
+**Still to find:**
+
+- what Super Junk / Duper Junk do;
+- where Wayne keeps his Junk count (an event-script variable; check live by handing him
+  Junk);
+- the exact donor rule for Tool vs Super Tool (rest of `Inv_TransferItemBetweenLists`);
+- chest Tool locations and counts per day (guides);
+- battles per area (the logger will give this).
 
 ### 6.2 Mod chips: UX options to compare (decision 3)
 
