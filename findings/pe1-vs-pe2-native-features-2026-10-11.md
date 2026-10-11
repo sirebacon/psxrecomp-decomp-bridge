@@ -35,7 +35,7 @@ about PE2 here comes from its README.
 | Max BP / max EXP | ✅ Add bonus points, bonus-points floor, Stats level | Game |
 | Booster hotkeys with on-screen icons | ❌ ours are F1 rows | Game |
 | Save-state menu, 12 slots, thumbnails | ✅ same engine feature (F7 / Select+R1) | Engine |
-| Single-disc play (auto disc swap) | 🟡 PE1 discs differ only in FMVs; multi-disc support exists | Engine + Game |
+| Single-disc play (auto disc swap) | 🟡 PE1 discs differ only in FMVs; multi-disc support exists | Engine |
 | Exit in the pause menu | ⚙️ newer recomp-ui adds standard Quit / Return-to-launcher items | Engine |
 | Faster door / camera loads, shorter "Now Loading" | 🟢 engine has load-acceleration and disc-speed switches for mods | Game |
 | Remaster options menu | ✅ launcher + F1 runtime menu (different design) | Engine |
@@ -91,10 +91,11 @@ Hotkeys are possible (we read the pad), but on-screen icons would mean drawing i
 ## Saves, discs and menus
 
 - **Save states:** same engine feature in both: 12 slots, thumbnails, Select+R1 (F7 on keyboard).
-- **Single-disc play:** 🟡 PE2 swaps discs automatically. PE1's two discs are identical except
-  for FMVs (per the decomp developer), so the same is plausible: mount the right disc, or
-  serve disc 2's FMVs from disc 1. Needs the engine's multi-disc support plus game knowledge of
-  when PE1 asks for disc 2.
+- **Single-disc play:** 🟡 engine. PE2 swaps discs automatically. PE1's two discs are identical
+  except for FMVs (per the decomp developer), so the same is plausible: mount the right disc, or
+  serve disc 2's FMVs from disc 1. That's disc handling in the engine and launcher (which
+  already have multi-disc support), not a mod. Useful input from our side: the disc facts
+  above, in [pe-disc-layout-2026-10-10.md](pe-disc-layout-2026-10-10.md).
 - **Exit from the pause menu:** newer recomp-ui adds standard "Quit" / "Return to launcher"
   items with a confirm press; they arrive with an engine update. (We dropped our own exit rows.)
 
@@ -121,7 +122,7 @@ Game-side items worth doing, in order:
 1. **Faster loading** toggle (engine pieces exist; needs sync testing).
 2. **Infinite Parasite Energy** (find the PE field; same pattern as God mode).
 3. **Booster hotkeys** for God mode / PE / speed, as an alternative to opening F1.
-4. **Single-disc play** research: when PE1 asks for disc 2, and how the engine swaps.
 
 Engine items to *test and report* rather than build: higher `supersampling`,
-`geometry_correction` / `perspective_texturing`, `frame_interpolation`.
+`geometry_correction` / `perspective_texturing`, `frame_interpolation`. Engine items to
+*hand over*: single-disc play (with our disc-layout findings).

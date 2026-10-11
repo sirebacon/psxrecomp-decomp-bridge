@@ -215,8 +215,8 @@ Sources: player and reviewer complaints from
 ## Ideas from the Parasite Eve 2 HD Remaster
 
 What the PE2 native port has that PE1 lacks *and that we could do as a mod*. Engine and
-HD-art items (resolution, PGXP, 60 fps, widescreen, HD assets, texture packs, languages)
-belong to mstan/Alex or an art project; see
+HD-art items (resolution, PGXP, 60 fps, widescreen, single-disc play, HD assets, texture
+packs, languages) belong to mstan/Alex or an art project; see
 [pe1-vs-pe2-native-features-2026-10-11.md](pe1-vs-pe2-native-features-2026-10-11.md).
 
 | Idea | Verdict | How |
@@ -224,7 +224,8 @@ belong to mstan/Alex or an art project; see
 | Faster loading (doors, "Now Loading") | 🟢 Doable | The engine already gives mods `psx_mod_set_load_acceleration` (faster wall-clock loads, same game timing) and `psx_mod_set_disc_speed` (faster emulated CD). A `Faster loading` row turns them on; test music/FMV sync |
 | Infinite Parasite Energy | 🟢 Doable | Same pattern as God mode: keep Aya's battle PE value full each frame. The PE field needs finding in the battle data first |
 | Booster hotkeys | 🟢 Doable | Toggle God mode / infinite PE / run speed with button combos instead of opening F1 (we already read the pad). On-screen status icons would need drawing into the frame: 🟡 |
-| Single-disc play | 🟡 Research (+ engine) | PE1's discs differ only in FMVs. Find when the game asks for disc 2, then swap automatically or serve disc 2's FMVs from disc 1, using the engine's multi-disc support |
+Single-disc play (no disc swap) is left out on purpose: swapping or merging discs is engine
+and launcher work, not a mod.
 
 Already matched in PE1: hold-Tab turbo (PE2's Speed x4), God mode (infinite HP), max bonus
 points, max EXP (Stats > Level), save states, and modern analog controls.
@@ -244,6 +245,5 @@ points, max EXP (Stats > Level), save states, and modern analog controls.
 6. **Faster text**: check the textbox engine for a speed variable.
 7. **Research pass on battle data**: action/ATB costs, arena boundary, damage formula, the PE
    field. This unlocks the ATB, invisible-walls, DPS and infinite-PE items.
-8. **Single-disc play** research: when PE1 asks for disc 2, and how the engine swaps.
-9. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
+8. **Move to a newer engine** when Alex's line is ready. "Call game function" unlocks
    storage-anywhere and makes code-level changes easier.
