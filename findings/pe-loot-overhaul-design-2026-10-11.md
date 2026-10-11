@@ -52,10 +52,31 @@ guaranteed drop, which suggests a roll somewhere in the encounter data.
 - **Wayne**, in the NYPD armory, takes Junk. At **300** he crafts one top-tier gun of your
   choice (DE50AE7, HK40, LAW80, MAG, P90 or M10B). The count carries over into EX Game.
 - Farming spots: Police Station on Day 3, Museum on Day 5, Chrysler Building in EX Game.
-- The item list also has **Super Junk** (`0x0B`) and **Duper Junk** (`0x0C`), "Helps Item".
-  What they do in vanilla is unknown (to check).
-- **Trading cards:** each named card (GSP, P38, BHAWK…, 14 in all) gets a specific gun from
-  Wayne. All 14 earn the **Super Tool Box**, an unlimited Super Tool.
+- **Super Junk** (`0x0B`) and **Duper Junk** (`0x0C`) are **worthless** consolation results:
+  choosing "Leave it to Wayne" at 300 Junk can hand you one of these instead of a gun
+  (RPGClassics).
+- **Wayne's 300-Junk guns** (RPGClassics). Ask for a type:
+
+  | Type | Gun | Attack / range / bullets / slots / effects |
+  |---|---|---|
+  | Pistol | DE50AE7 | 123+2 / 55+1 / 15+2 / 10 / ROF×2 |
+  | Shotgun | M10B | 120+1 / 70 / 6+1 / 4 / Burst, ROF×3 |
+  | Machine gun | P90 | 122 / 51+2 / 200+1 / 5 / ROF×10, Attack All |
+  | Rifle | MAG | 151+1 / 185 / 20+1 / 4 / ROF×2, Critical Up |
+  | Grenade launcher | HK40 | 115+1 / 70 / 8+1 / 8 |
+  | Rocket launcher | LAW80 | 200+20 / 210 / 1 / 8 |
+
+  "Leave it to Wayne" rolls AK-47, PPsh41, SP1C, USP-TU, or Super/Duper Junk.
+- **Best Junk sources:** birds in Central Park and Chrysler floors 2–10 (high drop rate, in
+  packs), slimes on Chrysler 61+ (tougher). Frogs (Chinatown sewers) and lizards (Museum) drop
+  it too rarely to farm.
+- **Trading cards** (corrected; RPGClassics):
+  - a **Trading Card** pays for a weapon **tune-up** with Wayne (an extra mod slot), with 2
+    in the game (NYPD Day 3, Hospital);
+  - a **Rare Trading Card** (the named GSP/P38/… cards, 14 in the Chrysler Building) pays
+    for a tune-up worth **two** extra slots;
+  - showing Wayne 10 rare cards earns the **Tool Kit** (unlimited Tools), 14 earn the
+    **Super Tool Kit** (unlimited Super Tools).
 
 ### Tools and modding (decomp `Inv_TransferItemBetweenLists`, guides)
 
@@ -66,8 +87,23 @@ guaranteed drop, which suggests a roll somewhere in the encounter data.
   - With a Tool the donor is destroyed.
   - A **Super Tool** can move more than one attribute, and the donor survives at +0.
 - **Tool Kit / Super Tool Kit** are the unlimited versions (count 999 in the game's table).
-- The **Mod Permit** (from Baker on Day 2) unlocks modding.
-- Tools come from **chests**, a fixed supply. Enemies don't drop them.
+- The **Mod Permit** (2 from Baker on Day 2) is needed to ask Torres or Wayne for a tune-up.
+- **Vanilla Tool supply** (RPGClassics item list):
+
+  | Item | Total | Where |
+  |---|---|---|
+  | Tool | **48** | 31 in the Chrysler Building (post-game), so **about 17 in the main story**: Hospital 4, Museum 4, Warehouse 2, 1 each in NYPD Day 2, NYPD Day 3, Central Park, Soho Gun Store, Soho Pharmacy, Chinatown Sewers, Subway |
+  | Super Tool | **8** | 6 in Chrysler, 1 Subway, 1 Museum |
+
+  Tools also **drop** from the Yellow Rat (NYPD) and can be **stolen** from several bosses
+  and big enemies (Worm, Giant Slime/Spider, Alligator, Centipede head, Triceratops,
+  Tyrannosaur). A Super Tool can be stolen from the final boss's third form.
+- **Stat boosters** (Offense / Range / Bullet Cap / Defense / CR Evade / PE, +1 to +4) are
+  mostly in Chrysler. A few are in story areas; Monkey, Dogman and Centipede tail drop some,
+  and several bosses can be stolen from.
+
+So in the main story a player gets **about 17 Tools and 2 Super Tools for the whole game**,
+which is why people hoard them. The overhaul's Tool pacing should be set against that number.
 
 ### What players find frustrating
 
@@ -300,9 +336,12 @@ progress toward 300 from it (Workshop display, milestone rewards).
 - **Junk pace:** about 1 per 3 kills overall, about 1 per kill in the best room, so Wayne's
   300 is roughly 300–900 kills.
 
+**Resolved from guides:** Super/Duper Junk are worthless "Leave it to Wayne" results; vanilla
+Tool supply is about 17 in the main story (48 total); trading cards pay for mod-slot tune-ups
+(section 1).
+
 **Still to find:**
 
-- what Super Junk / Duper Junk do;
 - the exact donor rule for Tool vs Super Tool (rest of `Inv_TransferItemBetweenLists`);
 - chest Tool locations and counts per day (guides);
 - battles per area (the logger will give this).
@@ -356,6 +395,8 @@ Settle these after the baseline:
 Sources: decomp `Battle_StepEntityAnimState.c`, `Battle_ResolveHitOnTimer.c`,
 `Menu_MainUpdate.c`, `Menu_LevelUpFlow.c`, `Inv_ItemActions.c`, `Inv_ArmorCapacity.c`,
 `include/pe1/item_ids.h`; guides:
+[RPGClassics — Junk](https://shrines.rpgclassics.com/psx/pe/junk.shtml),
+[RPGClassics — Items](https://shrines.rpgclassics.com/psx/pe/items.shtml),
 [Almar's Guides — Weapons from Junk](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/weaponsfromjunk/),
 [Almar's Guides — Day 3](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/fullplaythrough/day3/),
 [Almar's Guides — EX Game](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/fullplaythrough/exgame/),
