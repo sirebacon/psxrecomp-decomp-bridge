@@ -1,4 +1,4 @@
-# Parasite Eve loot overhaul: drops, scrap, tools, dismantle and shop (design draft, 2026-10-11)
+# Parasite Eve loot overhaul: drops, Junk, tools, dismantle and shop (design draft, 2026-10-11)
 
 A discussion document for reworking Parasite Eve's loot loop into a "craft what you want,
 but earn it" system. It covers how the game works today (decomp + guides), what our mod
@@ -15,7 +15,7 @@ F1 first, then Wayne's screen; vanilla rewards stay.
 - Grinding must never feel **pointless** (every fight pays something useful) or
   **frustrating** (no long dry streaks, no all-or-nothing gambles).
 - Old gear shouldn't be dead weight. Today it only matters if it carries mods you can move.
-- A clear economy for **Scrap** (dropped by enemies) and **Tools** (spent on mods).
+- A clear economy for **Junk** (dropped by enemies) and **Tools** (spent on mods).
 
 ---
 
@@ -135,9 +135,9 @@ which is why people hoard them. The overhaul's Tool pacing should be set against
 | Lever | Status | Used for |
 |---|---|---|
 | Enemy records in RAM at battle start (`+0x98..0xA2`) | data write ✅ | our own **loot tables**: drop item, steal item, BP formula |
-| Battle reward list (10 slots) | data write ✅ | add extra drops (Scrap bundles, Tools) at battle end |
-| Aya's bag, Wayne's storage, equipment records | data write ✅ (give-item, Item Editor) | dismantle, crafting results, a Scrap counter |
-| Item names / descriptions (string tables) | data ✅ | relabel Junk as Scrap, describe new uses |
+| Battle reward list (10 slots) | data write ✅ | add extra drops (Junk bundles, Tools) at battle end |
+| Aya's bag, Wayne's storage, equipment records | data write ✅ (give-item, Item Editor) | dismantle, crafting results, a Junk counter |
+| Item names / descriptions (string tables) | data ✅ | relabel Junk as Junk, describe new uses |
 | Build-time hooks + pointer redirects | ✅ (tests A/B, Weapon power, Half-bar ATB) | new rows and actions **inside the game's own menus** (Wayne's armory, item menu) |
 | F1 mod menu | ✅ | fast prototype UI for shop and dismantle before the in-game UI exists |
 | Turn-gauge / battle state | ✅ | optional: reward speed or few hits taken |
@@ -153,20 +153,20 @@ delivers our drops, and the menus can host our shop.
 
 | Currency | Source | Spent on |
 |---|---|---|
-| **Scrap** (Junk renamed, or kept as "Junk") | every enemy, more from stronger ones; dismantling | crafting, upgrades, buying Tools |
-| **Tools** | rare drops, crafting from Scrap, dismantling modded gear | moving or installing mods, +N transfers |
+| **Junk** (Junk renamed, or kept as "Junk") | every enemy, more from stronger ones; dismantling | crafting, upgrades, buying Tools |
+| **Tools** | rare drops, crafting from Junk, dismantling modded gear | moving or installing mods, +N transfers |
 | **Mod chips** (new, virtual) | dismantling an item that has mods; rare drops | installing that mod on any compatible item at the workshop |
 | **Blueprints** (optional) | trading cards, story progress, bosses | unlock crafting a specific weapon or armor |
 
 **Junk doesn't take bag slots** (decided: keep the name "Junk", make it a counter). The mod
 keeps a count, and picked-up Junk goes straight into it. That fixes the clutter complaint
-and lets numbers grow without inventory pain. In this doc "Scrap" just means Junk.
+and lets numbers grow without inventory pain. In this doc "Junk" just means Junk.
 
 ### 3.2 Drops: never pointless, never frustrating
 
-- **Guaranteed base Scrap per kill**, scaled by enemy strength (the enemy's EXP value makes
+- **Guaranteed base Junk per kill**, scaled by enemy strength (the enemy's EXP value makes
   a natural yardstick).
-- **Skill bonus:** extra Scrap for taking few hits, reusing the game's own BP rule
+- **Skill bonus:** extra Junk for taking few hits, reusing the game's own BP rule
   (`base − A × hits`).
 - **Rare drops** (Tools, mod chips, ammo, consumables) on **tiered tables by area/day**, so
   late areas drop late-game value.
@@ -179,7 +179,7 @@ and lets numbers grow without inventory pain. In this doc "Scrap" just means Jun
 
 Break down any unequipped gun or armor at the workshop for:
 
-- Scrap, based on the item's tier and its +N bonus;
+- Junk, based on the item's tier and its +N bonus;
 - a **mod chip** for each mod it carries, so you no longer need to find the right donor and
   target pairing at that moment;
 - a chance at a Tool for heavily modded items.
@@ -190,20 +190,20 @@ Rule: never the equipped item. Bag-capacity mods are guarded, like the Item Edit
 
 | Offer | Cost idea |
 |---|---|
-| Buy a Tool | flat Scrap price, rising slowly with each purchase |
-| Install a mod chip on an item | 1 Tool (or Scrap at a higher rate) |
-| +1 to a stat on an item | Scrap, rising with the current +N (soft cap so it stays a sink) |
-| Craft a weapon or armor from a blueprint | Scrap + Tools, tiered by item |
+| Buy a Tool | flat Junk price, rising slowly with each purchase |
+| Install a mod chip on an item | 1 Tool (or Junk at a higher rate) |
+| +1 to a stat on an item | Junk, rising with the current +N (soft cap so it stays a sink) |
+| Craft a weapon or armor from a blueprint | Junk + Tools, tiered by item |
 | Wayne's 300-Junk reward | kept as a **milestone track** with smaller rewards along the way (100, 200, 300) |
 
-Escalating costs keep Scrap meaningful all game. Milestones turn the 300-Junk cliff into steps.
+Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cliff into steps.
 
 ### 3.5 Example numbers (placeholders only, to tune by playtest)
 
-- Kill: 1–3 Scrap early, 5–10 late; +50% for taking no hits.
-- Tool: 40 Scrap.
-- +1 attack: 10 × (current +N + 1) Scrap.
-- Dismantle: 5 + 2 × (total +N) Scrap, plus chips.
+- Kill: 1–3 Junk early, 5–10 late; +50% for taking no hits.
+- Tool: 40 Junk.
+- +1 attack: 10 × (current +N + 1) Junk.
+- Dismantle: 5 + 2 × (total +N) Junk, plus chips.
 - Pity timer for a Tool drop: guaranteed by about 25 kills.
 
 ---
@@ -216,9 +216,9 @@ Escalating costs keep Scrap meaningful all game. Milestones turn the 300-Junk cl
    - find where Wayne's Junk count and trading-card progress are stored;
    - confirm the donor rule for Tool vs Super Tool (`Inv_TransferItemBetweenLists`, rest of
      the function).
-2. **Loot tables + Scrap counter** (data only, battle-start hook): our drop and steal items
-   per enemy and area, base Scrap per kill, pity timers, Junk auto-converted to the counter.
-   F1 shows Scrap.
+2. **Loot tables + Junk counter** (data only, battle-start hook): our drop and steal items
+   per enemy and area, base Junk per kill, pity timers, Junk auto-converted to the counter.
+   F1 shows Junk.
 3. **F1 Workshop page** (prototype): dismantle, buy Tool, install chip, +N upgrade, craft.
    Same building blocks as the Item Editor, now with costs.
 4. **In-game UI:** move the Workshop into the game's own menus (Wayne's armory screen or an
@@ -231,7 +231,7 @@ Escalating costs keep Scrap meaningful all game. Milestones turn the 300-Junk cl
 
 | # | Question | Decision |
 |---|---|---|
-| 1 | Rename Junk to Scrap? | **No, keep "Junk".** It's the game's own name. "Scrap" elsewhere in this doc means Junk |
+| 1 | Rename Scrap to Junk? | **No, keep "Junk".** It's the game's own name. "Junk" elsewhere in this doc means Junk |
 | 2 | Junk as a counter or bag items? | **Counter.** Picked-up Junk becomes a count, which frees bag space |
 | 3 | Mod chips virtual or real items? | **Open: needs UX research** (section 6) |
 | 4 | Where does the shop live first? | **F1 first**, then move to Wayne's screen |
@@ -421,9 +421,9 @@ the damage code (`Battle_StepEnemyMovement.c`) and `BattleCmd_LoadWeaponModifier
 
 | # | Name | Numbers |
 |---|---|---|
-| 1–4 | Resist Poison / Stiffness / Darkness / Confusion | status immunity flags |
-| 5 | Decreases Items Stolen | flag |
-| 6 / 7 | Uses Medicine when HP low / Use Cures to remove status | automatic item use |
+| 1–4 | Resist Poison / Stiffness / Darkness / Confusion | a **chance** to ignore the attack, not immunity: poison 70%, stiffness 50% (lock) / 70% (slow), darkness 60%, confusion 60% (decomp `battle_ailment.h`, added 2026-10-11) |
+| 5 | Decreases Items Stolen | 60% chance an enemy steal fails |
+| 6 / 7 | Uses Medicine when HP low / Use Cures to remove status | automatic item use (flags 0x4000 / 0x8000; HP threshold not pinned down yet) |
 | 8 / 9 / 10 | Item Capacity +1 / +2 / +4 | bag slots |
 | 11 | Increases Max HP | ×23/20, i.e. **+15% max HP** |
 | 12 | Increases Attack Power | **+2 offense levels** |
@@ -466,10 +466,18 @@ currently ignores effects 19/20 (to fix).
   - the vanilla game ignores it, and a vanilla re-save clears it;
   - 880 bytes is plenty: Junk counter, pity timers, a 40-entry chip library, purchase
     counts and room to spare.
-- **Save states (F7) are a gap:** the engine's mod memory (`mod_memory[]` in `memory.c`)
-  isn't in save states. Either patch our engine fork to include it (small and clean), or
-  mirror the mod's live data into guest RAM that save states do capture. **Recommended:
-  the engine patch.**
+- **Save states (F7): fixed (psxrecomp `6cb1d104`, PE `fe00ce3`, 2026-10-11).** Plugins
+  register a static block by id and version (`psx_mod_register_state`); every snapshot
+  (F7, rewind, netplay rollback, fast boot) stores it in a new optional section 0x12.
+  On load each block is restored, reported absent (the mod resets) or reported as a
+  version mismatch (old bytes passed for migration). Blocks of a mod that isn't
+  running are kept and written into the next snapshot. Half-bar ATB is the first user,
+  verified live with a state saved mid-borrow. The loot mod's Junk counter will
+  register the same way, and also write the save's free tail for memory-card saves.
+  - Rule for mods: keep data that must follow the game in a registered block, and
+    reset short-lived state in `psx_mod_register_restore_callback`.
+  - Known leftover: No random battles writes the game's own saved bit, so it persists
+    in a save even with the mod removed.
 
 This also answers part of decision 3: **option A (virtual chip library) is technically
 sound**. Its data can live in the save's free tail.
