@@ -281,11 +281,28 @@ When on, it appends to `pe_loot_log.csv` next to the game exe:
 Tested on the rat fight. **Playing normally with it on builds the vanilla baseline sheet**,
 and it will show whether the same enemy sometimes drops nothing (the "drop chance" question).
 
+**Wayne's Junk counter (found live 2026-10-11):** script variable **`0x800A78B0`**
+(`g_EntityWorkBuffer + 0xC0`, a halfword). Handing Wayne 1 Junk in the Day 3 NYPD save took
+it from 0 to 1. Nothing else changed apart from the bag slot. It lives in the saved
+script-variable area, which fits it carrying over into EX Game. The mod can read Wayne's
+progress toward 300 from it (Workshop display, milestone rewards).
+
+**Logger data so far** (your play sessions, about 17 battles, 40+ real enemies):
+
+- **Every enemy has a drop, picked at random from a per-room pool.** The same 5-enemy fight
+  in room 0x80C8 dropped Junk ×5 once and Junk ×3 + Medicine 1 ×2 the next time. **"Nothing"
+  is in some pools**: 1 rat out of about 40 enemies dropped nothing.
+- **Overall drops:** AMMO 6 about 40%, Junk about 35%, Medicine 1 about 15%, AMMO 15 about
+  8%. One room (0x80C8) gives about 80% Junk. **Steal pools are a step up** (Medicine 2,
+  Cure P, Junk).
+- **Per-enemy values:** about 1–12 EXP for early enemies, 39 for the police-station brute
+  (species 0x11, 98 HP, BP 15 − 10 per hit).
+- **Junk pace:** about 1 per 3 kills overall, about 1 per kill in the best room, so Wayne's
+  300 is roughly 300–900 kills.
+
 **Still to find:**
 
 - what Super Junk / Duper Junk do;
-- where Wayne keeps his Junk count (an event-script variable; check live by handing him
-  Junk);
 - the exact donor rule for Tool vs Super Tool (rest of `Inv_TransferItemBetweenLists`);
 - chest Tool locations and counts per day (guides);
 - battles per area (the logger will give this).
