@@ -89,25 +89,29 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Tuning rows: base chance, step, guarantee, table shares
 - [ ] Live test, including a save/load mid-streak
 
-## Phase 3: Codex (decisions 9–12, 26)
+## Phase 3: Codex / Mod Catalog (decisions 9–12, 26) — done (PE `f3ebb08`, `90e011f`, `a375eed`)
 
-- [ ] Codex storage: unlocked effects (save-state block + save tail)
-- [ ] Dismantle (F1 row for now): item → its effects into the Codex, item → Junk
+- [x] Codex storage: unlocked effects (save-state block + save tail)
+- [x] Dismantle (F1 row for now): item → its effects into the Codex, item → Junk
       (scaled by tier and +bonus, max 150); duplicates → extra Junk
-- [ ] Dismantle guards: never the equipped gun or armor; armor with bag-capacity mods only
+- [x] Dismantle guards: never the equipped gun or armor; armor with bag-capacity mods only
       when the bag would still fit its items (the Item Editor's existing check)
-- [ ] Dismantle guard: never the last Club (36); warn before dismantling the last gun for
+- [x] Dismantle guard: never the last Club (36); warn before dismantling the last gun for
       an ammo type you carry (36)
-- [ ] Codex list on the Workshop page: unlocked effects, greyed "dismantle to unlock" for
+- [x] Codex list on the Workshop page: unlocked effects, greyed "dismantle to unlock" for
       effects on carried gear, names from the game's mod text
-- [ ] Install: pick item + free slot + effect; price by value ranking; premium effects
+- [x] Install: pick item + free slot + effect; price by value ranking; premium effects
       (Command ×2/×3, Attack All, maybe ROF ×10) also cost a Tool (9); game group rules
-- [ ] Remove / replace installed effects freely
-- [ ] Buy-back list (~30 entries): item id, +bonuses, slot count; returns with empty mod
+- [x] Remove / replace installed effects freely
+- [x] Buy-back list (~30 entries): item id, +bonuses, slot count; returns with empty mod
       slots; price = min(payout × 1.5, 150) (12)
-- [ ] Every cost shown before confirming; no random failure
-- [ ] Tuning rows: install price bands, dismantle payouts, buy-back markup
-- [ ] Live test
+- [x] Every cost shown before confirming; no random failure
+- [x] Tuning rows: install price bands and rebuild markup (dismantle payout formula is fixed
+      for now: 5 + 2/+bonus + 3/mod + 5/duplicate, max 150)
+- [x] Shop-style live rows: Your Junk, Pays, New effects, Cost; Item row names the
+      equipped gear
+- [x] Debug: Give 100/1000 Junk, Unlock all effects, Clear catalog, fixed test gun/armor
+- [x] Live test (2026-10-12, user: works; F1 pausing makes it a bit janky)
 
 ## Phase 4: shop (decision 14)
 
