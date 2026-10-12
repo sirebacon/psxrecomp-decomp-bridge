@@ -244,7 +244,7 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 11 | Where do Codex installs work? | **Anywhere** (Aya's menu / F1), like vanilla tune-ups; Days 5–6 and the Chrysler Building keep you away from the precinct for long stretches. **Wayne stays the gunsmith:** Junk hand-ins, 300-Junk guns, trading-card slot tune-ups, later a Workshop front end in his menu |
 | 12 | Can a dismantled gun be bought back? | **Yes, for Junk** (user's request, 2026-10-11). Rules proposed in 6.2b: the gun returns with its stats and +bonuses but **empty mod slots** (its effects already sit in the Codex, and reinstalling costs the normal price), and the buy-back price is above what dismantling paid, so dismantle-and-buy-back is never a profit loop. **Capped at 150 Junk** (user) so buying back always stays worth it |
 | 13 | One Junk counter or two? | **One shared counter** (user, 2026-10-11). The mod's counter is the only spending pool. Junk reaches Wayne only when you hand it in ("Discard junk", through the hand-in hook in 6.5), so every Junk is either progress toward his 300 gun or Codex/shop spending, like vanilla where handed-in Junk is gone |
-| 14 | What does the F1 shop sell? | **Consumables + ammo + Tools** (user). Tools at a steep, rising price (start around 40 Junk, more each purchase), so premium installs are never hard-capped before the trading-card Tool Kit. **Not sold:** Super Tools (the Super Tool Kit stays special), guns and armor (finds and Wayne) |
+| 14 | What does the F1 shop sell? | **Consumables + ammo + Tools** (user). Tools at a steep, rising price (start around 40 Junk, more each purchase), so premium installs are never hard-capped before the trading-card Tool Kit. **Tool price is capped** (user, 2026-10-11): proposed 40 Junk, +10 per purchase, **never above 100 Junk** (a third of a Wayne gun), so a premium install stays at roughly 200 Junk or less, all in. Numbers tuned in 6.3. **Not sold:** Super Tools (the Super Tool Kit stays special), guns and armor (finds and Wayne) |
 | 15 | What carries into EX Game? | **Everything** (user): the Junk counter, the Codex and the buy-back list, as vanilla carries Wayne's count and storage. To verify in testing: the EX Game save goes through `Save_BuildCardFile`, so the save-tail data rides along | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
@@ -697,6 +697,8 @@ Settle these after the baseline:
   are, and the new economy adds on top (decision 6). Junk spent at the workshop shouldn't
   undercut Wayne's 300 milestone. Settled by decision 13: both draw from **one** Junk
   count, so prices must leave a Wayne gun reachable at a normal pace.
+- **Price caps already fixed by the user:** buy-back ≤ 150 Junk (decision 12), Tools ≤ 100
+  Junk (decision 14). Everything else is tuned under them.
 
 ---
 
