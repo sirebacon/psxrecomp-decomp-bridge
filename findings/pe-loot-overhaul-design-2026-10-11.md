@@ -473,6 +473,27 @@ Tool supply is about 17 in the main story (48 total); trading cards pay for mod-
 - chest Tool locations and counts per day (guides);
 - battles per area (the logger will give this).
 
+### 6.1a Boss steals (Shotgunnova's GameFAQs walkthrough, 2026-10-12)
+
+Summarised from Shotgunnova's Parasite Eve FAQ (private copy, not in this repo; the FAQ
+forbids redistribution). Every enemy has one steal slot (`stealItemId`, +0x9F); the guide
+notes what bosses yield:
+
+| Boss | Steal | Notes |
+|---|---|---|
+| Giant Worms (Day 2) | Tool or Ammo +15 | needs a steal weapon, so in practice EX Game only |
+| Eve, carriage (Day 2) | **PE +3** | same; the only PE +3 the guide mentions |
+| Giant Slime (Day 4, hospital nitrogen room) | Defense +1 (common), Tool (rare) | respawns, a known farming spot |
+| Black Widow (Day 4) | Tool, rarely **Super Tool** | second half of the fight |
+| Ultimate Being, final form (Day 6) | **Super Tool** ("apparently") | |
+
+Not steals but worth knowing: boss **drops** are fixed rewards (Sheeva M9-2, Black Widow G23,
+Centipede M79-3, Crustacean AT4, T-Rex M8000, Alligator Kv Vest 1, Giant Slime B Vest 1).
+Steal weapons are clubs only: Club 2 (½ ATK Steal, Day 3 Soho gun shop), Club 3 (½ ATK
+Steal, Day 5 Chinatown sewers), Clubs 4–5 (Steal, Chrysler F11–20 / F61–70). The two "common
+/ rare" pairs suggest the steal item is picked per battle from two choices. To confirm in
+play: record every enemy's steal item at battle start (proposed logger addition).
+
 ### 6.1b Mod effects in numbers (decomp, 2026-10-11)
 
 Names are the game's own (mod string table: entries 0–19 = gun effects 1–20, entries 20–34 =
