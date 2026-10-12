@@ -1,12 +1,12 @@
 # Parasite Eve loot overhaul: build checklist
 
 Tick items off as they land. Design and decision numbers:
-[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–30) and
+[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–35) and
 [custom items](pe-custom-items-design-2026-10-11.md) (C1–C11). Started 2026-10-11.
 
 ## Done before the build
 
-- [x] Design discussion complete: decisions 1–30, C1–C11
+- [x] Design discussion complete: decisions 1–35, C1–C11 (review 2026-10-11 added 31–35)
 - [x] Save-state API for plugin data (`psx_mod_register_state`, psxrecomp `6cb1d104`), first
       user Half-bar ATB (PE `fe00ce3`), verified live
 - [x] Research: drop flow, Wayne's counter and crafting (live: crafts on a hand-in that

@@ -5,7 +5,7 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** design complete: decisions 1–30 in section 5 (custom items in
+**Status (2026-10-11):** design complete: decisions 1–35 in section 5 (custom items in
 their own doc). Build order in section 4, progress in
 [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
 draft and is superseded where the decisions differ.
