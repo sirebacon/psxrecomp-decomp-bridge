@@ -242,7 +242,7 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 9 | What do vanilla Tools become? | **Keep their vanilla job** (moving an effect or a stat bonus; the Codex covers effects only, so stat bonuses still need Tools, and Super Tools keep their "donor survives" niche). **Premium Codex installs** (Command ×2/×3, Attack All, maybe ROF ×10) cost Junk **plus one Tool**; all other installs cost Junk only |
 | 10 | How does the Codex fill? | **Dismantling only**, so "keep the gun or bank its effect" stays a real choice. Effects on gear you carry show **greyed out** in the Codex ("dismantle to unlock"), so nothing is a surprise |
 | 11 | Where do Codex installs work? | **Anywhere** (Aya's menu / F1), like vanilla tune-ups; Days 5–6 and the Chrysler Building keep you away from the precinct for long stretches. **Wayne stays the gunsmith:** Junk hand-ins, 300-Junk guns, trading-card slot tune-ups, later a Workshop front end in his menu |
-| 12 | Can a dismantled gun be bought back? | **Yes, for Junk** (user's request, 2026-10-11). Rules proposed in 6.2b: the gun returns with its stats and +bonuses but **empty mod slots** (its effects already sit in the Codex, and reinstalling costs the normal price), and the buy-back price is above what dismantling paid, so dismantle-and-buy-back is never a profit loop | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 12 | Can a dismantled gun be bought back? | **Yes, for Junk** (user's request, 2026-10-11). Rules proposed in 6.2b: the gun returns with its stats and +bonuses but **empty mod slots** (its effects already sit in the Codex, and reinstalling costs the normal price), and the buy-back price is above what dismantling paid, so dismantle-and-buy-back is never a profit loop. **Capped at 150 Junk** (user) so buying back always stays worth it | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
@@ -664,6 +664,11 @@ you broke down, you can get it back by spending Junk.
 - **Price:** the Junk that dismantling paid out, plus a markup (start at ×1.5, tune in 6.3).
   It's never cheaper than what you got, so there's no Junk loop. The price is shown before
   you confirm.
+- **Price cap (user, 2026-10-11): buy-back never costs more than 150 Junk**, half of one of
+  Wayne's 300-Junk guns. Price = min(payout × 1.5, 150). Getting an old gun back is always
+  clearly cheaper than crafting a new top-tier one, so it stays worth doing. To keep the
+  no-loop rule, **no dismantle pays out more than 150 Junk**, so even a capped price is at
+  least what you got. Exact numbers are tuned in 6.3.
 - **List:** the Workshop keeps a buy-back list of dismantled gear, newest first. It stores
   item id, +bonuses and slot count (about 8 bytes each), so the save's free tail holds
   ~30 entries easily. When it's full, the oldest entry drops off (or the list is capped and
