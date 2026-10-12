@@ -208,23 +208,29 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 
 ---
 
-## 4. Build plan (phased)
+## 4. Build plan (decided 2026-10-11, decisions 29–30)
 
-1. **Research pass (small):**
-   - check whether a drop chance is rolled at spawn;
-   - find what Super/Duper Junk do;
-   - find where Wayne's Junk count and trading-card progress are stored;
-   - confirm the donor rule for Tool vs Super Tool (`Inv_TransferItemBetweenLists`, rest of
-     the function).
-2. **Loot tables + Junk counter** (data only, battle-start hook): our drop and steal items
-   per enemy and area, base Junk per kill, pity timers, Junk auto-converted to the counter.
-   F1 shows Junk.
-3. **F1 Workshop page** (prototype): dismantle, buy Tool, install chip, +N upgrade, craft.
-   Same building blocks as the Item Editor, now with costs.
-4. **In-game UI:** move the Workshop into the game's own menus (Wayne's armory screen or an
-   item-menu "Dismantle" action) using the hook + pointer levers.
-5. **Tuning + EX Game:** numbers from playtests; decide what carries over.
+The earlier draft plan is replaced by this order. The research it listed is done (sections
+6.1–6.7): no spawn-time roll, Super/Duper Junk restore PE, Wayne's counter is
+`0x800A78B0`, and the Tool donor rule.
 
+Each phase is playable on its own; numbers are placeholders until phase 7.
+
+| Phase | What gets built | Playable result | Needs first |
+|---|---|---|---|
+| **0. Prep** | Test the Wayne refund (`pe_wayne_refund.c`). Temporary log of `Inv_DispatchCommand` during a hand-in. Logger fixes: session marker, skip identity-0 rows, steal logging | Refund verified, Junk-counter hook confirmed, clean data | One build with the game closed |
+| **1. Junk counter** | Master switch, on by default (28). Junk counter saved in the save tail and a save-state block (6.4). `Aya_SetTotalExp` hook: vanilla Junk + floor + EXP-scaled Junk, toast (16, 17, 21, 24). Chest Junk → counter (20). Wayne hand-in through `Inv_DispatchCommand` (6.5). F1 Workshop page with the Junk total. **Debug → Loot tuning page** (30) | Junk never takes bag space; Wayne's 300 gun works from the counter | New `game.toml` hooks: 0x8004B70C, 0x8005D2B4, 0x80053D2C, save/load |
+| **2. Rare drops** | Rare roll with soft pity, rare table on the "items found" screen, pity in F1 (18, 23) | Lucky drops | Phase 1 |
+| **3. Codex** | Dismantle (F1 row first), Codex with greyed previews, installs priced in Junk/Tools, buy-back with the 150 cap (9–12, 26) | Craft what you want | Phase 1 |
+| **4. Shop** | F1 shop: consumables, ammo, Tools 40 → 100 cap (14) | Junk always has a use | Phase 1 |
+| **5. Native menus** | Aya's item menu: Dismantle + Combine actions, Junk in the title (25, C10, 22). Wayne: "Discard junk (N)", Shop and Buy-back rows (22, 27). Later the native "items found" Junk line (21) | Feels part of the game | Menu research: item action list, Wayne's choice list |
+| **6. Custom content** | Scavenger, Lucky Find, Salvager, Bargain; Smoke Grenade; Lucky Charm (custom items doc); empty-steal Junk (19) | The extras | Research: dummy effects, escape, steals |
+| **7. Balance** | All numbers from logger data, set as defaults; difficulty presets if wanted (7) | Tuned pace | A logged play session |
+
+**Debug → Loot tuning (decision 30):** number rows for Junk per EXP, the floor, the
+per-battle cap, pity base chance, step and guarantee, rare table shares, and prices. They
+can be changed live during playtests (F1 pauses the game). The settled values become the
+code defaults in phase 7.
 ---
 
 ## 5. Decisions (answered 2026-10-11)
@@ -259,6 +265,8 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 26 | Where does the Codex live? | **The F1 Workshop page** (user). F1's list rows handle 35+ effects, greyed previews and prices, and work anywhere (decision 11). No new game screen |
 | 27 | Final home for the shop and buy-back? | **Both move to Wayne's menu** (user), after starting in F1 (decision 4) |
 | 28 | Is the overhaul on by default? | **On by default for a new playthrough** (user), with one master switch on the Workshop page. Switching mid-playthrough is not encouraged (Junk counter conversion), so the choice is made at the start |
+| 29 | Build order? | **Phases 0–7 as in section 4** (user, 2026-10-11): prep, Junk counter, rare drops, Codex, shop, native menus, custom content, balance |
+| 30 | Live tuning? | **Yes: a Debug → Loot tuning page from phase 1** (user), so playtests can change the numbers without rebuilding |
 
 **Resulting layout:**
 
