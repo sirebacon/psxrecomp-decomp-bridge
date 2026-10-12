@@ -116,8 +116,11 @@ Tick items off as they land. Design and decision numbers:
       dismantle Junk for what's left and goes on the Rebuild list (hook on
       `Inv_TransferItemBetweenLists` 0x8005A318); Super Tool keeps the donor; a target mod overwritten by a same-group move
       unlocks in the Catalog (any Tool)
-- [ ] Live test Tool salvage: plain Tool moving one mod off the test gun; plain Tool moving
-      the + bonuses; Super Tool (no salvage); a move that overwrites a same-group mod
+- [x] Live test Tool salvage (2026-10-12, user: "it all seems to work well")
+- [x] F1 Mod Catalog as an effect board (grid rows added to recomp-ui 9f09f0a and psxrecomp
+      c80e0189; PE cb5f51d): blue unlocked, grey seen, "?" unknown, gold premium, mark =
+      on the equipped item; auto slot; accept twice installs; Selected / Replaces / Result
+      rows. Live-tested 2026-10-12 (user: works well)
 
 ## Phase 4: shop (decision 14)
 
