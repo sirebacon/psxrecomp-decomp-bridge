@@ -1,12 +1,12 @@
 # Parasite Eve loot overhaul: build checklist
 
 Tick items off as they land. Design and decision numbers:
-[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–35) and
+[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–36) and
 [custom items](pe-custom-items-design-2026-10-11.md) (C1–C11). Started 2026-10-11.
 
 ## Done before the build
 
-- [x] Design discussion complete: decisions 1–35, C1–C11 (review 2026-10-11 added 31–35)
+- [x] Design discussion complete: decisions 1–36, C1–C11 (review 2026-10-11 added 31–36)
 - [x] Save-state API for plugin data (`psx_mod_register_state`, psxrecomp `6cb1d104`), first
       user Half-bar ATB (PE `fe00ce3`), verified live
 - [x] Research: drop flow, Wayne's counter and crafting (live: crafts on a hand-in that
@@ -76,6 +76,8 @@ Tick items off as they land. Design and decision numbers:
       (scaled by tier and +bonus, max 150); duplicates → extra Junk
 - [ ] Dismantle guards: never the equipped gun or armor; armor with bag-capacity mods only
       when the bag would still fit its items (the Item Editor's existing check)
+- [ ] Dismantle guard: never the last Club (36); warn before dismantling the last gun for
+      an ammo type you carry (36)
 - [ ] Codex list on the Workshop page: unlocked effects, greyed "dismantle to unlock" for
       effects on carried gear, names from the game's mod text
 - [ ] Install: pick item + free slot + effect; price by value ranking; premium effects
@@ -92,6 +94,11 @@ Tick items off as they land. Design and decision numbers:
 - [ ] F1 shop page: consumables, ammo, Tools
 - [ ] Tool price 40, +10 per purchase, capped at 100; purchase count saved
 - [ ] Not sold: Super Tools, guns, armor
+- [ ] Soft-lock rescue (36): detect "can't attack" (no melee weapon, no gun with loaded
+      rounds or spare ammo of its type); then offer a free Club 1 on the Workshop page, make
+      the basic handgun ammo box cost 0 Junk until she has ammo, and show a toast
+- [ ] Soft-lock test: dismantle every gun but the equipped one, empty all ammo, discard
+      the Club → rescue appears; repeat from a save state saved mid-battle
 - [ ] Tuning rows: shop prices
 - [ ] Live test (full bag, ammo pools at cap)
 

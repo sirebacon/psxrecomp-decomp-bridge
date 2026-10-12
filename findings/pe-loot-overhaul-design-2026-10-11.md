@@ -5,7 +5,7 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** design complete: decisions 1–35 in section 5 (custom items in
+**Status (2026-10-11):** design complete: decisions 1–36 in section 5 (custom items in
 their own doc). Build order in section 4, progress in
 [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
 draft and is superseded where the decisions differ.
@@ -295,6 +295,7 @@ code defaults in phase 7.
 | 33 | Can Junk buy +1 stat upgrades? | **No** (user). Stat bonuses stay with stat boosters (rare table, vanilla) and Tools moving +N, so both stay valuable |
 | 34 | Pace target for Wayne's guns? | **Vanilla's Day 4 gate stays the ceiling** (Wayne can't craft before he takes over Torres's job: live test, Day 3 never crafts). On the **normal route, without exploits**, the first Wayne gun should be affordable **around Day 4–5 with roughly 1–2 hours of optional fighting** (user). Today it takes 2–6 hours even with the steal-and-flee exploit, and "real days" without it |
 | 35 | Steal Junk vs steal-and-flee? | **Banked, paid only on a win** (user). Empty-steal Junk (decision 19) is held during the battle and added at the battle-end hook; fleeing forfeits it, consistent with "fleeing gives nothing". Vanilla steal items are unchanged (decision 6). Closes an infinite-Junk loop (see 1, "Encounters and the steal-and-flee exploit") |
+| 36 | How do we prevent soft-locks (no ammo, everything dismantled)? | **Guards plus a rescue** (user, 2026-10-11). **Dismantle guards:** never the equipped gun or armor; never the **last Club** (melee, needs no ammo); a warning (not a block) before dismantling the last gun for an ammo type you carry. **Rescue:** when Aya can't attack (no melee weapon, and no gun with loaded rounds or spare ammo of its type), the Workshop offers a **free Club 1** ("NYPD service baton") and the shop's **basic handgun ammo box costs 0 Junk** until she has ammo again, with a toast pointing to it. Breaks the no ammo → no wins → no Junk → no ammo loop, including vanilla routes into it (e.g. a discarded Club) |
 
 **Resulting layout:**
 
