@@ -254,7 +254,22 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 21 | How is Junk earned in battle shown? | **An engine toast first** ("+3 Junk · 147"), **later a native line** on the game's "items found" screen (one Junk entry relabelled "Junk ×3", picked up into the counter) as polish (user, 2026-10-11) |
 | 22 | Where is the Junk total shown? | **All three** (user): a "Junk" row at the top of the F1 Workshop page; Wayne's menu relabels "Discard junk" as **"Discard junk (147)"**; and Aya's item menu title bar shows the total |
 | 23 | Is Tool pity progress visible? | **Yes, on the F1 Workshop page** ("Tool guaranteed within N battles") (user) |
-| 24 | How often do Junk toasts appear? | **After every won battle**, plus Tool drops and steal Junk (user) | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 24 | How often do Junk toasts appear? | **After every won battle**, plus Tool drops and steal Junk (user) |
+| 25 | Where does Dismantle live? | **Aya's item menu**: a "Dismantle" action on a selected gun or armor, with a confirm prompt (user, 2026-10-11). Fits the character: an NYPD officer field-strips guns, and vanilla already has Aya do her own tune-ups with Tools in her menu. F1 row until the menu action exists |
+| 26 | Where does the Codex live? | **The F1 Workshop page** (user). F1's list rows handle 35+ effects, greyed previews and prices, and work anywhere (decision 11). No new game screen |
+| 27 | Final home for the shop and buy-back? | **Both move to Wayne's menu** (user), after starting in F1 (decision 4) |
+| 28 | Is the overhaul on by default? | **On by default for a new playthrough** (user), with one master switch on the Workshop page. Switching mid-playthrough is not encouraged (Junk counter conversion), so the choice is made at the start |
+
+**Resulting layout:**
+
+- **Aya's item menu:** Combine (C10), Dismantle (25), Junk total in the title bar (22).
+- **Wayne's menu:** "Discard junk (147)" (22), Shop and Buy-back rows (27, after F1).
+- **F1 → PE Enhancements → Workshop:**
+  - the master switch (28);
+  - Junk total and Tool pity (22, 23);
+  - **Codex** (26);
+  - **Shop** and **Buy-back** until they move to Wayne (27);
+  - the Dismantle row until the Aya's menu action exists (25). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
