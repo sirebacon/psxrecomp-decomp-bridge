@@ -5,9 +5,10 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** decisions recorded in section 5. Next is the **research pass**
-(section 6) before building. Junk keeps its name and becomes a counter; the shop goes in
-F1 first, then Wayne's screen; vanilla rewards stay.
+**Status (2026-10-11):** design complete: decisions 1–30 in section 5 (custom items in
+their own doc). Build order in section 4, progress in
+[`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
+draft and is superseded where the decisions differ.
 
 **Goals (from the discussion):**
 
@@ -41,9 +42,8 @@ simply hands over its one `rewardSlotId` item.
 (**AMMO 6**, a 6-round handgun box, not a medicine as first written), steal item `0x01`,
 and BP `5 − 2 × hits taken`.
 
-**Still to check:** whether the game rolls a *drop chance* when an enemy spawns, which would
-set `rewardSlotId` to 0 most of the time. Guides describe Junk as a common but not
-guaranteed drop, which suggests a roll somewhere in the encounter data.
+**Resolved (6.1a):** each enemy's battle script picks its drop from a **per-room random
+pool** when the battle starts, and some pools include "nothing". Death itself rolls nothing.
 
 ### Junk and Wayne (guides: Almar's Guides)
 
@@ -147,7 +147,13 @@ delivers our drops, and the menus can host our shop.
 
 ---
 
-## 3. Proposed economy (draft for discussion)
+## 3. Proposed economy (early draft, superseded where the decisions differ)
+
+> **Read section 5 first.** Differences from this draft: no "mod chips" items or
+> blueprints (the Mod Codex replaced them); **Wayne's 300 gun stays vanilla** (no 100/200
+> milestone track); Junk per battle uses the battle's EXP plus a floor (16, 17); the
+> "skill bonus" Junk and "+1 stat for Junk" offers below were **never decided**; the pity
+> timer covers a rare table, not just Tools (18).
 
 ### 3.1 Currencies
 
@@ -213,8 +219,8 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 Progress is tracked in [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md).
 
 The earlier draft plan is replaced by this order. The research it listed is done (sections
-6.1–6.7): no spawn-time roll, Super/Duper Junk restore PE, Wayne's counter is
-`0x800A78B0`, and the Tool donor rule.
+6.1–6.7): drops come from per-room random pools picked at battle start, Super/Duper Junk
+restore PE, Wayne's counter is `0x800A78B0`, and the Tool donor rule.
 
 Each phase is playable on its own; numbers are placeholders until phase 7.
 
@@ -241,12 +247,12 @@ code defaults in phase 7.
 |---|---|---|
 | 1 | Rename Scrap to Junk? | **No, keep "Junk".** It's the game's own name. "Junk" elsewhere in this doc means Junk |
 | 2 | Junk as a counter or bag items? | **Counter.** Picked-up Junk becomes a count, which frees bag space |
-| 3 | Mod chips virtual or real items? | **Open: needs UX research** (section 6) |
+| 3 | Mod chips virtual or real items? | **Resolved: virtual, the "Mod Codex"** (option A, section 6.2a), shaped by decisions 9–12 and 26 |
 | 4 | Where does the shop live first? | **F1 first**, then move to Wayne's screen |
-| 5 | How hard is the curve? | **Open: needs balance research** (section 6) |
+| 5 | How hard is the curve? | **Set in phase 7 from logger data** (section 6.3), under the user's caps (buy-back ≤ 150, Tools ≤ 100) |
 | 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
 | 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
-| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE).
+| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 | 9 | What do vanilla Tools become? | **Keep their vanilla job** (moving an effect or a stat bonus; the Codex covers effects only, so stat bonuses still need Tools, and Super Tools keep their "donor survives" niche). **Premium Codex installs** (Command ×2/×3, Attack All, maybe ROF ×10) cost Junk **plus one Tool**; all other installs cost Junk only |
 | 10 | How does the Codex fill? | **Dismantling only**, so "keep the gun or bank its effect" stays a real choice. Effects on gear you carry show **greyed out** in the Codex ("dismantle to unlock"), so nothing is a surprise |
 | 11 | Where do Codex installs work? | **Anywhere** (Aya's menu / F1), like vanilla tune-ups; Days 5–6 and the Chrysler Building keep you away from the precinct for long stretches. **Wayne stays the gunsmith:** Junk hand-ins, 300-Junk guns, trading-card slot tune-ups, later a Workshop front end in his menu |
@@ -279,11 +285,10 @@ code defaults in phase 7.
   - Junk total and Tool pity (22, 23);
   - **Codex** (26);
   - **Shop** and **Buy-back** until they move to Wayne (27);
-  - the Dismantle row until the Aya's menu action exists (25). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+  - the Dismantle row until the Aya's menu action exists (25).
 
-Overall direction: **research the loot economy before building** any of the economy
-features. The Junk counter and the F1 shop shell can come later, once the numbers are
-grounded.
+Overall direction: build in the phase order of section 4, with placeholder numbers that are
+tuned live (decision 30) and settled in phase 7.
 
 ---
 

@@ -43,6 +43,12 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Chest / story Junk → counter (20), through `Inv_AddItem` or a per-frame sweep
 - [ ] Wayne hand-in: on count-Junk (1102) with no Junk in the bag, place one Junk from
       the counter (needs one free slot); sweep back any unused placed Junk
+- [ ] First load of an existing save with the overhaul on: move Junk already in the bag
+      and in Wayne's storage into the counter (one-time, with a toast)
+- [ ] Master switch turned off mid-playthrough: the counter freezes (kept, not converted
+      back), new Junk goes to the bag again, Codex/shop rows are disabled; turning it on
+      resumes (proposed default; switching isn't encouraged, decision 28)
+- [ ] Wayne hand-in with a full bag: toast "Free one bag slot to hand Junk to Wayne"
 - [ ] Junk total row on the Workshop page (22)
 - [ ] Debug → Loot tuning page: Junk per EXP, floor, per-battle cap (30)
 - [ ] Live test: battles, a chest, a full Wayne hand-in that crafts, F7 save/load, a
@@ -66,6 +72,8 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Codex storage: unlocked effects (save-state block + save tail)
 - [ ] Dismantle (F1 row for now): item → its effects into the Codex, item → Junk
       (scaled by tier and +bonus, max 150); duplicates → extra Junk
+- [ ] Dismantle guards: never the equipped gun or armor; armor with bag-capacity mods only
+      when the bag would still fit its items (the Item Editor's existing check)
 - [ ] Codex list on the Workshop page: unlocked effects, greyed "dismantle to unlock" for
       effects on carried gear, names from the game's mod text
 - [ ] Install: pick item + free slot + effect; price by value ranking; premium effects
