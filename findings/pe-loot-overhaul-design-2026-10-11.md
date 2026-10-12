@@ -238,7 +238,11 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 5 | How hard is the curve? | **Open: needs balance research** (section 6) |
 | 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
 | 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
-| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE).
+| 9 | What do vanilla Tools become? | **Keep their vanilla job** (moving an effect or a stat bonus; the Codex covers effects only, so stat bonuses still need Tools, and Super Tools keep their "donor survives" niche). **Premium Codex installs** (Command ×2/×3, Attack All, maybe ROF ×10) cost Junk **plus one Tool**; all other installs cost Junk only |
+| 10 | How does the Codex fill? | **Dismantling only**, so "keep the gun or bank its effect" stays a real choice. Effects on gear you carry show **greyed out** in the Codex ("dismantle to unlock"), so nothing is a surprise |
+| 11 | Where do Codex installs work? | **Anywhere** (Aya's menu / F1), like vanilla tune-ups; Days 5–6 and the Chrysler Building keep you away from the precinct for long stretches. **Wayne stays the gunsmith:** Junk hand-ins, 300-Junk guns, trading-card slot tune-ups, later a Workshop front end in his menu |
+| 12 | Can a dismantled gun be bought back? | **Yes, for Junk** (user's request, 2026-10-11). Rules proposed in 6.2b: the gun returns with its stats and +bonuses but **empty mod slots** (its effects already sit in the Codex, and reinstalling costs the normal price), and the buy-back price is above what dismantling paid, so dismantle-and-buy-back is never a profit loop | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
@@ -646,6 +650,28 @@ storage slots and to his room.
   Dismantle-only keeps the choice meaningful (Diablo 4).
 - **Codex reach:** should installs need Wayne's room once his menu has a Workshop row, or
   work anywhere from F1?
+
+### 6.2b Buy-back of dismantled gear (decision 12)
+
+**Why:** dismantling is meant to be a choice, not a trap. If a later fight calls for a gun
+you broke down, you can get it back by spending Junk.
+
+**Proposed rules:**
+- **What comes back:** the same base item, with its stat +bonuses (attack, range,
+  capacity) and its tune-up slot count, but **no installed effects**. Its effects stayed in
+  the Codex when you dismantled it, and putting them back costs the normal install price.
+  Otherwise dismantle + buy back would hand you the effect twice for free.
+- **Price:** the Junk that dismantling paid out, plus a markup (start at ×1.5, tune in 6.3).
+  It's never cheaper than what you got, so there's no Junk loop. The price is shown before
+  you confirm.
+- **List:** the Workshop keeps a buy-back list of dismantled gear, newest first. It stores
+  item id, +bonuses and slot count (about 8 bytes each), so the save's free tail holds
+  ~30 entries easily. When it's full, the oldest entry drops off (or the list is capped and
+  shown; to settle in the UI pass).
+- **Vanilla-only items** (Maeda's Gun, story weapons) follow the same rule. Wayne's
+  300-Junk guns can also be bought back this way, at their dismantle price plus the
+  markup, not 300 again (to settle in balance).
+- **Where:** same as installs (decision 11): anywhere, from the Workshop page.
 
 ### 6.3 Balance targets (decision 5)
 
