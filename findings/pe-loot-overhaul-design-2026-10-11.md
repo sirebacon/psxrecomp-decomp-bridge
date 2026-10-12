@@ -620,8 +620,12 @@ bag for his menu to pick. Two ways to connect them:
     Wayne's crafting at 300 and his gun choices stay vanilla.
   - Guard: other scripts may count Junk too. The per-frame sweep that pulls bag Junk into
     the counter puts back any Junk the hook placed that wasn't taken.
-  - Live check still to do (one build): log `Inv_DispatchCommand` calls during a
-    hand-in to confirm the 1102/1112 sequence.
+  - **Live check done (phase 0, 2026-10-11):** the removal is `Inv_DispatchCommand`
+    1112 (value Junk), but the **count is not 1102**: the script counts with its own
+    opcode `Task_CountItemsByValue` (0x800194F8) → `Inv_CountByValue` (0x80053E6C). The
+    "place one Junk" hook therefore goes on `Task_CountItemsByValue` (args: `a0` = int**,
+    `*a0[0]` = item id). Placed Junk must sit inside the bag's current limit
+    (`g_InvSlotLimit`, 0x8009D050): slots past it are invisible to the count.
   - **Alternative:** the F1 Workshop does Wayne's craft itself (spend 300 from the
     counter, give one of his six guns or a "leave it to Wayne" roll). Simpler to build,
     but it copies his gun table instead of reusing his script.

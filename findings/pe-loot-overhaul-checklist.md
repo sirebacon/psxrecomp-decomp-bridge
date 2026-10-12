@@ -16,16 +16,22 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 0: prep (one build, game closed)
 
-- [ ] Build with `pe_wayne_refund.c`
-- [ ] Test the refund on save state slot 6 (Day 4 at Wayne): counter 299 → 300, put a
-      Super Junk in the bag, drop the counter by 300 → expect 300 back and the item kept
-- [ ] Refund toast wording: "Wayne refunds 300 Junk" (37)
-- [ ] Commit the refund mod
-- [ ] Temporary hook on `Inv_DispatchCommand` (0x8005D2B4): log command/value during a
-      "Discard junk" hand-in; confirm the 1102 (count) / 1112 (remove) loop
-- [ ] Loot logger: session marker per launch
-- [ ] Loot logger: skip identity-0 rows (and the 1-frame "battle" after a load)
-- [ ] Loot logger: steal logging (what was stolen, empty steals)
+- [x] Build with `pe_wayne_refund.c` (PE `b833f6f`)
+- [x] Test the refund on save state slot 6 (Day 4 at Wayne; debug slot 5): counter → 300,
+      Super Junk in the bag, counter −300 → 300 back, item kept, toast shown; a normal craft
+      is not refunded (verified 2026-10-11)
+- [x] Refund toast wording: "Wayne refunds 300 Junk" (37)
+- [x] Commit the refund mod (PE `b833f6f`)
+- [x] Hook on `Inv_DispatchCommand` (0x8005D2B4), logged during a "Discard junk" hand-in
+      (kept, gated by the logger). **Result:** removal is 1112 (value Junk); the count is
+      NOT 1102 but the script's own count opcode `Task_CountItemsByValue` (0x800194F8) →
+      `Inv_CountByValue` (0x80053E6C). Phase 1's "place one Junk" hook moves there
+- [x] Loot logger: session marker per launch (verified)
+- [x] Loot logger: skip identity-0 rows (and the 1-frame "battle" after a load) (coded;
+      shows up in the play session)
+- [x] Loot logger: steal logging (what was stolen, empty steals = item 0x00) and "add"
+      rows for other `Inv_AddItem` calls (add verified with Wayne's gun; steals show up in
+      the play session)
 - [ ] User plays a normal stretch with the logger on (baseline data for phase 7)
 
 ## Phase 1: Junk counter (decisions 2, 13, 16, 17, 20, 21, 22, 24, 28, 30)
@@ -47,8 +53,11 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Stolen Junk (an `Inv_AddItem` call from `Battle_ResolveHitOnTimer`, ra 0x800236E8–
       0x80023E14): don't put it in the bag; bank it and pay it at battle end only on a win
       (41); test steal-and-flee adds nothing
-- [ ] Wayne hand-in: on count-Junk (1102) with no Junk in the bag, place one Junk from
-      the counter (needs one free slot); sweep back any unused placed Junk
+- [ ] Add the `Task_CountItemsByValue` hook (0x800194F8) to `game.toml`
+- [ ] Wayne hand-in: when the script counts Junk (`Task_CountItemsByValue`, item 0x14)
+      and the bag has none, place one Junk from the counter in a free slot **inside the
+      bag's current limit** (`0x8009D050`; slots past it are invisible to the game);
+      removal is `Inv_DispatchCommand` 1112; sweep back any unused placed Junk
 - [ ] First load of an existing save with the overhaul on: move Junk already in the bag
       and in Wayne's storage into the counter (one-time, with a toast)
 - [ ] Master switch turned off mid-playthrough: the counter freezes (kept, not converted
