@@ -602,6 +602,51 @@ Research questions:
   salvage. The target feel: one action to dismantle, one action to install, always shown
   in the game's own words.
 
+### 6.2a How other games handle salvage → upgrades (2026-10-11)
+
+| Game | Salvage | What you get / how you upgrade | Lesson for PE |
+|---|---|---|---|
+| **Diablo 4** (Codex of Power, since Season 4 "Loot Reborn") | Salvaging a legendary **unlocks its aspect permanently** in a codex. A duplicate only counts if its roll is better | Imprint any unlocked aspect onto gear, for gold plus salvage materials | The closest model to option A. Find once, reuse forever; each application costs common currency, so grinding stays useful. Discovery stays meaningful because you can only use what you've found |
+| **Destiny 2** | Older one-use mod items, later replaced by a mod collection | Mods became unlocks you socket freely, limited by an energy budget | Players disliked consumable mods that vanish when moved. A collection plus a slot budget replaced them |
+| **Warframe** | Duplicate mods and junk become **Endo** (currency) | Mods live in their own inventory; Endo ranks them up; slots are limited by capacity | Duplicates are never wasted, and mods never take normal inventory space |
+| **Final Fantasy VII** (materia) | None | Materia moves freely between slotted gear | Moving an effect should be free and painless; spend the effort on getting it |
+| **Mass Effect 1** | Excess items become omni-gel | Weapon and armor mods were bag items | A known UX failure: endless mod items clogged the inventory, and ME2 dropped the system. The case against option B |
+| **Fallout 4** | Junk breaks into components **automatically, when a recipe needs them** | Weapon mods are crafted at a workbench, and swapped-out mods go to storage | Junk shouldn't need managing: count it only when it's spent. That's our Junk counter |
+| **Resident Evil 4** | None (money from treasure) | Pay the merchant to upgrade a gun's stats in steps | One clear place and price per upgrade; the game's own menu shows the next step's cost |
+| **Final Fantasy VIII** (refine/junction) | Refine items into magic and abilities | Junction magic onto stats | Powerful but opaque: players miss it. Keep each step one obvious action |
+
+**What PE already has that fits.** Its 35 effects come in natural tiers (Rate of Fire
+×2 → ×10, capacity +1 / +2 / +4, 2 / 3 commands), belong to exclusivity groups that
+overwrite each other, and fill a limited number of mod slots per item (tune-ups add
+slots). That is the same shape as Destiny's or Warframe's "collection plus slot budget".
+
+**Recommendation: option A as a "Mod Codex", built on Diablo 4's loop.**
+1. **Dismantle** (Workshop): the item's effects are added to the Codex (each tier kept
+   separately, since a lower tier is cheaper and can still be useful), and the item turns
+   into Junk scaled by its tier and +bonus.
+2. **Duplicates** of an effect you already have give extra Junk instead, so every dismantle
+   pays something (Warframe).
+3. **Install** any unlocked effect into a free slot of any compatible item, priced by the
+   value ranking in 6.1b (Command ×3 most expensive). The game's group rules still apply.
+4. **Remove or replace** installed effects freely, since they stay in the Codex (FF7).
+5. **No random failure** anywhere, and every cost is shown before you confirm (RE4).
+6. **Words and place:** effect names come from the game's own mod text (table 3). It's a
+   page in F1 first, then a Wayne menu row.
+7. **Saved** in the save's free tail and in a save-state block (6.4).
+
+Why not the others: B gets only two spare item ids and brings back the clutter (Mass
+Effect 1). C doesn't fix "old gear is useless". D ties chips to Wayne's 100 shared
+storage slots and to his room.
+
+**Open questions for the user:**
+- **What do vanilla Tools become?** Either (a) they keep their vanilla job and the Codex
+  costs Junk only, or (b) they also become the price of premium installs (Command ×2/×3,
+  Attack All), which keeps the ~17 story Tools valuable.
+- **Does the Codex fill only from dismantling,** or also from mods on gear you own?
+  Dismantle-only keeps the choice meaningful (Diablo 4).
+- **Codex reach:** should installs need Wayne's room once his menu has a Workshop row, or
+  work anywhere from F1?
+
 ### 6.3 Balance targets (decision 5)
 
 Settle these after the baseline:
@@ -635,6 +680,9 @@ Sources: decomp `Battle_StepEntityAnimState.c`, `Battle_ResolveHitOnTimer.c`,
 [RPGClassics — Junk](https://shrines.rpgclassics.com/psx/pe/junk.shtml),
 [RPGClassics — Items](https://shrines.rpgclassics.com/psx/pe/items.shtml),
 [Almar's Guides — Weapons from Junk](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/weaponsfromjunk/),
+[Icy Veins — Diablo 4 Codex of Power](https://www.icy-veins.com/d4/guides/legendary-aspects-codex-of-power-guide/),
+[Icy Veins — Aspects extract directly to the Codex (Season 4)](https://www.icy-veins.com/d4/news/all-legendary-aspects-extract-directly-to-codex-in-diablo-4-season-4/),
+[PCGamesN — Destiny 2 armor mods unlocked](https://www.pcgamesn.com/destiny-2/armor-mods-unlocked),
 [Almar's Guides — Day 3](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/fullplaythrough/day3/),
 [Almar's Guides — EX Game](https://almarsguides.com/retro/walkthroughs/ps1/games/parasiteeve/fullplaythrough/exgame/),
 [Parasite Eve Wiki — Weapons](https://parasiteeve.fandom.com/wiki/Parasite_Eve_Weapons).
