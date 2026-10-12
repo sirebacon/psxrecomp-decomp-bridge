@@ -112,6 +112,11 @@ Tick items off as they land. Design and decision numbers:
       equipped gear
 - [x] Debug: Give 100/1000 Junk, Unlock all effects, Clear catalog, fixed test gun/armor
 - [x] Live test (2026-10-12, user: works; F1 pausing makes it a bit janky)
+- [x] Tool salvage (42): a plain Tool's donor unlocks its remaining effects, pays
+      dismantle Junk for what's left and goes on the Rebuild list (hook on
+      `Inv_TransferItemBetweenLists` 0x8005A318); Super Tool unchanged
+- [ ] Live test Tool salvage: plain Tool moving one mod off the test gun; plain Tool moving
+      the + bonuses; Super Tool (no salvage)
 
 ## Phase 4: shop (decision 14)
 
