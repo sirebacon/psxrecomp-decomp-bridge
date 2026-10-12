@@ -36,36 +36,43 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 1: Junk counter (decisions 2, 13, 16, 17, 20, 21, 22, 24, 28, 30)
 
-- [ ] New `game.toml` hooks: `Aya_SetTotalExp` 0x8004B70C, `Inv_DispatchCommand`
-      0x8005D2B4, `Inv_AddItem` 0x80053D2C, save build/load (`Save_SerializeTail` and the
-      load path)
-- [ ] Loot mod skeleton: master switch, on by default (28), F1 → PE Enhancements →
-      Workshop page
-- [ ] Junk counter storage: save-state block (`pe.loot`) + save-tail block (magic,
-      version) written on save and read on load; absent → start at 0
+- [x] New `game.toml` hooks: `Aya_SetTotalExp` 0x8004B70C, `Inv_DispatchCommand`
+      0x8005D2B4, `Inv_AddItem` 0x80053D2C, `Save_SerializeTail` 0x8003F800,
+      `Save_DeserializeTail` 0x8003FBD8 (PE `b833f6f`)
+- [x] Loot mod skeleton `src/mods/pe_loot.c`: master switch "Junk economy", on by default
+      (28), F1 → PE Enhancements → Workshop page (PE `c0060dc`)
+- [x] Junk counter storage: save-state block (`pe.loot`) **verified** (F7 save at 35, load
+      → 35); save-tail block ("PELT", version, junk, check) **coded, memory-card test
+      pending**; absent → start at 0
 - [ ] Battle end: move vanilla Junk entries out of the reward list into the counter,
-      keep the list contiguous
-- [ ] Battle end: floor of 1 + EXP-scaled Junk, with a per-battle cap (16, 17)
+      keep the list contiguous (coded; battle test pending)
+- [ ] Battle end: floor of 1 + EXP-scaled Junk, with a per-battle cap (16, 17) (coded:
+      1 + EXP/8, cap 30; battle test pending)
 - [ ] Skill bonus: up to +25% battle Junk for a no-hit battle, from the enemies' "hits on
-      Aya" counts (`+0x9C`), tracked during the battle (32)
-- [ ] Toast after every won battle: "+N Junk · total" (21, 24)
-- [ ] Chest / story Junk → counter (20), through `Inv_AddItem` or a per-frame sweep
+      Aya" counts (`+0x9C`), tracked during the battle (32) (coded; battle test pending)
+- [ ] Toast after every won battle: "+N Junk (total T)" (21, 24, 37) (coded; battle test
+      pending)
+- [ ] Chest / story Junk → counter (20): `Inv_AddItem(Junk)` rewritten to `Inv_AddItem(0)`
+      and counted (coded; chest test pending)
 - [ ] Stolen Junk (an `Inv_AddItem` call from `Battle_ResolveHitOnTimer`, ra 0x800236E8–
       0x80023E14): don't put it in the bag; bank it and pay it at battle end only on a win
-      (41); test steal-and-flee adds nothing
-- [ ] Add the `Task_CountItemsByValue` hook (0x800194F8) to `game.toml`
-- [ ] Wayne hand-in: when the script counts Junk (`Task_CountItemsByValue`, item 0x14)
-      and the bag has none, place one Junk from the counter in a free slot **inside the
-      bag's current limit** (`0x8009D050`; slots past it are invisible to the game);
-      removal is `Inv_DispatchCommand` 1112; sweep back any unused placed Junk
-- [ ] First load of an existing save with the overhaul on: move Junk already in the bag
-      and in Wayne's storage into the counter (one-time, with a toast)
+      (41); test steal-and-flee adds nothing (coded; steal test pending)
+- [x] Add the `Task_CountItemsByValue` hook (0x800194F8) to `game.toml` (PE `c0060dc`)
+- [x] Wayne hand-in (PE `c0060dc`, **verified**: 50 Junk, Wayne at 280 → 20 handed, gun,
+      30 left). The script counts ONCE then removes that many: the count reads a scratch
+      list of N Junk, each 1112 removal gets one Junk placed just in time (needs one free
+      slot inside the bag limit); the hand-in stays open across his dialogue, since his
+      script adds even for failed removals. Workshop choice "Wayne hand-in": Next gun
+      (default) / All Junk
+- [x] Junk found in the bag or Wayne's storage moves into the counter in free movement,
+      with a toast (a sweep, not one-time; verified with 50 Junk in storage)
 - [ ] Master switch turned off mid-playthrough: the counter freezes (kept, not converted
       back), new Junk goes to the bag again, Codex/shop rows are disabled; turning it on
       resumes (proposed default; switching isn't encouraged, decision 28)
 - [ ] Wayne hand-in with a full bag: toast "Free one bag slot to hand Junk to Wayne"
-- [ ] Junk total row on the Workshop page (22)
-- [ ] Debug → Loot tuning page: Junk per EXP, floor, per-battle cap (30)
+- [x] Junk total row on the Workshop page (22) (verified)
+- [x] Debug → Loot tuning page: floor, EXP per Junk, per-battle cap, no-hit bonus %, Set Junk
+      (30)
 - [ ] Live test: battles, a chest, a full Wayne hand-in that crafts, F7 save/load, a
       memory-card save/load, a vanilla save without the block
 - [ ] Verify the EX Game save carries the save-tail block (15)
