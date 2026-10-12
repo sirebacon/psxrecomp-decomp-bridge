@@ -39,6 +39,8 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Battle end: move vanilla Junk entries out of the reward list into the counter,
       keep the list contiguous
 - [ ] Battle end: floor of 1 + EXP-scaled Junk, with a per-battle cap (16, 17)
+- [ ] Skill bonus: up to +25% battle Junk for a no-hit battle, from the enemies' "hits on
+      Aya" counts (`+0x9C`), tracked during the battle (32)
 - [ ] Toast after every won battle: "+N Junk · total" (21, 24)
 - [ ] Chest / story Junk → counter (20), through `Inv_AddItem` or a per-frame sweep
 - [ ] Wayne hand-in: on count-Junk (1102) with no Junk in the bag, place one Junk from
@@ -102,7 +104,7 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Aya's item menu: "Combine" on Medicine 1–3 when you hold two (2× → next tier) (C10)
 - [ ] Aya's item menu title: Junk total (22)
 - [ ] Research: which code draws Wayne's choice list and the "Discard junk" string
-- [ ] Wayne's menu: "Discard junk (N)" (22)
+- [ ] Wayne's menu: "Discard junk (147 · 120/300)": your Junk and Wayne's progress (22, 31)
 - [ ] Wayne's menu: Shop and Buy-back rows; remove them from F1 (27)
 - [ ] Later: native "items found" line for Junk ("Junk ×3") (21)
 - [ ] Live test
@@ -119,13 +121,14 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Research: where battle escape is decided; Smoke Grenade = guaranteed escape,
       sold in the shop (C6)
 - [ ] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7)
-- [ ] Research: where Aya's steal resolves; empty steal → a little Junk (19)
+- [ ] Research: where Aya's steal resolves; empty steal → a little Junk (19), **banked and
+      paid at the battle-end hook only on a win** (35); test steal-and-flee gives nothing
 - [ ] Live test
 
 ## Phase 7: balance (decisions 5, 7)
 
-- [ ] Fit Junk per EXP and the floor to the logged pace; leave a Wayne gun reachable at
-      a normal pace (13)
+- [ ] Fit Junk per EXP and the floor to the logged pace: first Wayne gun around Day 4–5
+      on the normal route with ~1–2 h of optional fighting (13, 34)
 - [ ] Set pity chance, step and guarantee
 - [ ] Set install bands, dismantle payouts, buy-back markup, shop prices under the caps
       (buy-back ≤ 150, Tools ≤ 100)

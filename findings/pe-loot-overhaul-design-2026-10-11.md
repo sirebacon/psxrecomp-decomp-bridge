@@ -121,6 +121,21 @@ instead of a Super Tool trick; and have Wayne's screen explain what he does and 
 So in the main story a player gets **about 17 Tools and 2 Super Tools for the whole game**,
 which is why people hoard them. The overhaul's Tool pacing should be set against that number.
 
+### Encounters and the steal-and-flee exploit (community, r/ParasiteEve guide by GF_Eden, 2024)
+
+- **Encounter rate per trigger spot** (from the official Japanese guide): 100% the first time,
+  then 45%, 20%, and 10% after that. **Winning** a fight lowers the rate; **fleeing** leaves
+  it "unresolved", so a first-time fight stays at 100%.
+- **The exploit:** steal Junk from crows with Club 2, flee, step back on the trigger, repeat.
+  The Day 3 precinct corridor fight near Wayne's stairs makes an infinite Junk tap (one crow
+  in a first playthrough, two in EX Game). Players get the AK at the start of Day 4 in
+  **2–6 hours** and call it "game-breaking"; without it, the grind takes "real days" and many
+  never get a Wayne gun.
+- **Wayne crafts only from Day 4**, after he takes over Torres's job; Junk handed in earlier
+  counts, and the next hand-in from Day 4 triggers the craft (matches our live tests).
+- For the overhaul: normal-route battles get scarcer as fights are won, which bounds Junk
+  from EXP; and any Junk paid during a battle must not survive a flee (decision 35).
+
 ### What players find frustrating
 
 - Junk clutters the bag, and the 300-Junk payoff is one big cliff with nothing along the way.
@@ -275,6 +290,11 @@ code defaults in phase 7.
 | 28 | Is the overhaul on by default? | **On by default for a new playthrough** (user), with one master switch on the Workshop page. Switching mid-playthrough is not encouraged (Junk counter conversion), so the choice is made at the start |
 | 29 | Build order? | **Phases 0–7 as in section 4** (user, 2026-10-11): prep, Junk counter, rare drops, Codex, shop, native menus, custom content, balance |
 | 30 | Live tuning? | **Yes: a Debug → Loot tuning page from phase 1** (user), so playtests can change the numbers without rebuilding |
+| 31 | What does Wayne's label show? | **Both numbers** (user, review 2026-10-11): **"Discard junk (147 · 120/300)"**, your Junk and Wayne's progress toward his next gun. Refines decision 22 |
+| 32 | A skill bonus for taking few hits? | **Yes, small** (user): e.g. +25% battle Junk for a no-hit battle, scaled down with hits taken. Reuses the game's own "hits that enemy landed on Aya" count (`+0x9C`, the bonus-point rule), summed over the battle's enemies |
+| 33 | Can Junk buy +1 stat upgrades? | **No** (user). Stat bonuses stay with stat boosters (rare table, vanilla) and Tools moving +N, so both stay valuable |
+| 34 | Pace target for Wayne's guns? | **Vanilla's Day 4 gate stays the ceiling** (Wayne can't craft before he takes over Torres's job: live test, Day 3 never crafts). On the **normal route, without exploits**, the first Wayne gun should be affordable **around Day 4–5 with roughly 1–2 hours of optional fighting** (user). Today it takes 2–6 hours even with the steal-and-flee exploit, and "real days" without it |
+| 35 | Steal Junk vs steal-and-flee? | **Banked, paid only on a win** (user). Empty-steal Junk (decision 19) is held during the battle and added at the battle-end hook; fleeing forfeits it, consistent with "fleeing gives nothing". Vanilla steal items are unchanged (decision 6). Closes an infinite-Junk loop (see 1, "Encounters and the steal-and-flee exploit") |
 
 **Resulting layout:**
 
@@ -779,6 +799,10 @@ Settle these after the baseline:
   count, so prices must leave a Wayne gun reachable at a normal pace.
 - **Price caps already fixed by the user:** buy-back ≤ 150 Junk (decision 12), Tools ≤ 100
   Junk (decision 14). Everything else is tuned under them.
+- **Wayne pace target (decision 34):** first gun affordable around Day 4–5 on the normal
+  route with ~1–2 hours of optional fighting; vanilla's Day 4 gate is the hard ceiling.
+  Measure: Junk earned per hour on the normal route (logger), minus typical Codex/shop
+  spending.
 
 ---
 
