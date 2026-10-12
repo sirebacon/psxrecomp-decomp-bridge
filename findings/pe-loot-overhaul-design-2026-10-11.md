@@ -752,6 +752,10 @@ Settle these after the baseline:
 
 ---
 
+**Custom items and mods** (Scavenger, Lucky Find, Salvager, Bargain, Smoke Grenade,
+Lucky Charm) have their own decisions document:
+[`pe-custom-items-design-2026-10-11.md`](pe-custom-items-design-2026-10-11.md).
+
 ## 7. Possible features (not committed)
 
 - **Difficulty presets on the Workshop page** (decision 7): *Relaxed / Normal / Grind*.
