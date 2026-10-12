@@ -153,22 +153,25 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Later: native "items found" line for Junk ("Junk ×3") (21)
 - [ ] Live test
 
-## Phase 6: custom content (C1–C7, decision 19)
+## Phase 6: custom content (C1–C7, decision 19) — built (PE `a3a57f2`), not live-tested
 
-- [ ] Research: the game ignores the "dummy" effect numbers safely; group bits
-- [ ] Research: relabel "dummy" and `ITEM24/25` names everywhere they're shown
-- [ ] Scavenger (+50% battle Junk) (C1)
-- [ ] Lucky Find (faster soft pity) (C2)
-- [ ] Salvager (+25% dismantle Junk) (C3)
-- [ ] Bargain (shop −15%, caps still apply) (C4)
-- [ ] The four mods come only from the rare table or Wayne (C5)
-- [ ] Research: where battle escape is decided; Smoke Grenade = guaranteed escape,
-      sold in the shop (C6)
-- [ ] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7)
-- [ ] Research: where Aya's steal resolves; empty steal → a little Junk (19), **banked and
+- [x] Research: the game ignores the "dummy" effect numbers safely; group bits (C13: armor
+      17–20, no group; 16 avoided for its icon)
+- [x] Research: relabel "dummy" and `ITEM24/25` names everywhere they're shown (text tables
+      +0x08 / +0x0C / +0x10 swapped in the `Draw_PrintRawText` hook, `pe_custom.c`; glyph
+      codes A=0x10, a=0x30, 0=0x00, space 0x0F, end 0xFF)
+- [x] Scavenger (+50% battle Junk) (C1)
+- [x] Lucky Find (faster soft pity) (C2)
+- [x] Salvager (+25% dismantle Junk) (C3)
+- [x] Bargain (shop −15%, caps still apply) (C4)
+- [x] The four mods come only from the rare table (straight into the Catalog, C13); Wayne
+      source not built (his 300-Junk roll is the game's script)
+- [x] Research: where battle escape is decided; Smoke Grenade = guaranteed escape,
+      sold in the shop (C6, C15)
+- [x] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7, C14)
+- [x] Research: where Aya's steal resolves; empty steal → a little Junk (19), **banked and
       paid at the battle-end hook only on a win** (35); test steal-and-flee gives nothing
-- [ ] Live test
-
+- [ ] Live test (also: what sprites 0x47–0x4A look like for the new mods' icons)
 ## Phase 7: balance (decisions 5, 7)
 
 - [ ] Fit Junk per EXP and the floor to the logged pace: first Wayne gun around Day 4–5
@@ -177,6 +180,7 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Set install bands, dismantle payouts, buy-back markup, shop prices under the caps
       (buy-back ≤ 150, Tools ≤ 100)
 - [ ] Make the tuned values the code defaults
-- [ ] Difficulty presets Relaxed / Normal / Grind on the Workshop page, switchable any
-      time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40)
+- [x] Difficulty presets Relaxed / Normal / Grind on the Workshop page, switchable any
+      time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40) — built
+      early (PE `a3a57f2`): Junk x1.5/x1/x0.75, guarantee x0.7/x1/x1.3, prices -25%/0/+25%
 - [ ] Full playthrough check, into EX Game
