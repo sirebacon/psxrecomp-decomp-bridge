@@ -5,7 +5,7 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** design complete: decisions 1–37 in section 5 (custom items in
+**Status (2026-10-11):** design complete: decisions 1–40 in section 5 (custom items in
 their own doc). Build order in section 4, progress in
 [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
 draft and is superseded where the decisions differ.
@@ -266,7 +266,7 @@ code defaults in phase 7.
 | 4 | Where does the shop live first? | **F1 first**, then move to Wayne's screen |
 | 5 | How hard is the curve? | **Set in phase 7 from logger data** (section 6.3), under the user's caps (buy-back ≤ 150, Tools ≤ 100) |
 | 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
-| 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
+| 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7. **Superseded by decision 39: presets are in** |
 | 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 | 9 | What do vanilla Tools become? | **Keep their vanilla job** (moving an effect or a stat bonus; the Codex covers effects only, so stat bonuses still need Tools, and Super Tools keep their "donor survives" niche). **Premium Codex installs** (Command ×2/×3, Attack All, maybe ROF ×10) cost Junk **plus one Tool**; all other installs cost Junk only |
 | 10 | How does the Codex fill? | **Dismantling only**, so "keep the gun or bank its effect" stays a real choice. Effects on gear you carry show **greyed out** in the Codex ("dismantle to unlock"), so nothing is a surprise |
@@ -297,6 +297,9 @@ code defaults in phase 7.
 | 35 | Steal Junk vs steal-and-flee? | **Banked, paid only on a win** (user). Empty-steal Junk (decision 19) is held during the battle and added at the battle-end hook; fleeing forfeits it, consistent with "fleeing gives nothing". Vanilla steal items are unchanged (decision 6). Closes an infinite-Junk loop (see 1, "Encounters and the steal-and-flee exploit") |
 | 36 | How do we prevent soft-locks (no ammo, everything dismantled)? | **Guards plus a rescue** (user, 2026-10-11). **Dismantle guards:** never the equipped gun or armor; never the **last Club** (melee, needs no ammo); a warning (not a block) before dismantling the last gun for an ammo type you carry. **Rescue:** when Aya can't attack (no melee weapon, and no gun with loaded rounds or spare ammo of its type), the Workshop offers a **free Club 1** ("NYPD service baton") and the shop's **basic handgun ammo box costs 0 Junk** until she has ammo again, with a toast pointing to it. Breaks the no ammo → no wins → no Junk → no ammo loop, including vanilla routes into it (e.g. a discarded Club) |
 | 37 | Names and wording? | **As in section 6.8** (user, 2026-10-11): the Codex is the **Mod Catalog**, buy-back is **Rebuild**, the shop is **Requisition**, and the custom mods use **PE-style descriptions** in game. The working names (Codex, buy-back, shop) stay in these docs |
+| 38 | The Item Editor with the overhaul on? | **Unchanged, a debug tool** (user, 2026-10-11). It can install mods for free, around the Mod Catalog; no note, no hiding. The other cheats (Infinite ammo, God mode, No random battles) also stay as they are |
+| 39 | Difficulty presets? | **Yes: Relaxed / Normal / Grind** (user), one row on the Workshop page, **switchable at any time**: the player decides how they want to play, e.g. Normal but harder or easier for a stretch. Presets only scale numbers (Junk per battle, rare-drop pity length, Requisition / Mod Catalog / Rebuild prices), so switching converts nothing. **Not touched:** Wayne's 300, vanilla drops and chests. Default **Normal**. No Custom preset (the Debug tuning page covers that). Example values in 6.3, set in phase 7. Replaces decision 7's "possible feature" |
+| 40 | Do the price caps change with the preset? | **No: fixed on every preset** (user). Tools ≤ 100 and Rebuild ≤ 150 everywhere, so Grind can't get crazy; Relaxed can go below them |
 
 **Resulting layout:**
 
@@ -827,6 +830,9 @@ Settle these after the baseline:
   count, so prices must leave a Wayne gun reachable at a normal pace.
 - **Price caps already fixed by the user:** buy-back ≤ 150 Junk (decision 12), Tools ≤ 100
   Junk (decision 14). Everything else is tuned under them.
+- **Difficulty presets (decisions 39, 40):** starting multipliers to tune: Relaxed = Junk
+  ×1.5, pity ×0.7, prices −25%; Normal = ×1 (the target above); Grind = Junk ×0.75,
+  pity ×1.3, prices +25%. Caps stay fixed on every preset.
 - **Wayne pace target (decision 34):** first gun affordable around Day 4–5 on the normal
   route with ~1–2 hours of optional fighting; vanilla's Day 4 gate is the hard ceiling.
   Measure: Junk earned per hour on the normal route (logger), minus typical Codex/shop
@@ -840,9 +846,7 @@ Lucky Charm) have their own decisions document:
 
 ## 7. Possible features (not committed)
 
-- **Difficulty presets on the Workshop page** (decision 7): *Relaxed / Normal / Grind*.
-  Each scales Junk per kill, rare-drop chance, pity length and workshop prices together, so
-  players pick a pace without touching individual numbers.
+- *(Difficulty presets moved into the plan: decisions 39 and 40.)*
 
 Sources: decomp `Battle_StepEntityAnimState.c`, `Battle_ResolveHitOnTimer.c`,
 `Menu_MainUpdate.c`, `Menu_LevelUpFlow.c`, `Inv_ItemActions.c`, `Inv_ArmorCapacity.c`,

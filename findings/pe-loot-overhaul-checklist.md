@@ -1,12 +1,12 @@
 # Parasite Eve loot overhaul: build checklist
 
 Tick items off as they land. Design and decision numbers:
-[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–37) and
+[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–40) and
 [custom items](pe-custom-items-design-2026-10-11.md) (C1–C11). Started 2026-10-11.
 
 ## Done before the build
 
-- [x] Design discussion complete: decisions 1–37, C1–C11 (review 2026-10-11 added 31–37)
+- [x] Design discussion complete: decisions 1–40, C1–C12 (review 2026-10-11 added 31–40)
 - [x] Save-state API for plugin data (`psx_mod_register_state`, psxrecomp `6cb1d104`), first
       user Half-bar ATB (PE `fe00ce3`), verified live
 - [x] Research: drop flow, Wayne's counter and crafting (live: crafts on a hand-in that
@@ -143,5 +143,6 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Set install bands, dismantle payouts, buy-back markup, shop prices under the caps
       (buy-back ≤ 150, Tools ≤ 100)
 - [ ] Make the tuned values the code defaults
-- [ ] Decide on difficulty presets (Relaxed / Normal / Grind) (7)
+- [ ] Difficulty presets Relaxed / Normal / Grind on the Workshop page, switchable any
+      time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40)
 - [ ] Full playthrough check, into EX Game
