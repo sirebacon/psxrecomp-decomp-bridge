@@ -137,15 +137,16 @@ Tick items off as they land. Design and decision numbers:
 - [x] Tuning rows: Shop price %, Tool price start / step / cap, Tools bought
 - [ ] Live test (full bag, ammo pools at cap)
 
-## Phase 5: native menus (decisions 21, 22, 25, 27, C10)
+## Phase 5: native menus (decisions 21, 22, 25, 27, C10) — partly built (PE `e052f22`, decision 44)
 
 - [ ] Research: which punctuation PE's font has ("·", "/", "(") for Wayne's label and
       other in-game text; adapt the wording in 6.8 (37)
-- [ ] Research: how selecting an item opens its action list
+- [x] Research: how selecting an item opens its action list
       (`Menu_OpenItemActionSubmenu` → `Menu_CreateUsableItemActionView`)
-- [ ] Aya's item menu: "Dismantle" action on a gun/armor, with confirm (25); remove the
-      F1 Dismantle row
-- [ ] Aya's item menu: "Combine" on Medicine 1–3 when you hold two (2× → next tier) (C10)
+- [x] Aya's item menu: Dismantle on a gun/armor, with confirm (25) — via Discard (44); the F1
+      Dismantle row stays for now
+- [x] Aya's item menu: Combine on Medicine 1–3 when you hold two (2× → next tier) (C10) — via
+      Discard (44)
 - [ ] Aya's item menu title: Junk total (22)
 - [ ] Research: which code draws Wayne's choice list and the "Discard junk" string
 - [ ] Wayne's menu: "Discard junk (147 · 120/300)": your Junk and Wayne's progress (22, 31)
