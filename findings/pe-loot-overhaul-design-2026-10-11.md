@@ -250,7 +250,11 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 17 | What decides how much Junk? | **The enemies' EXP** (user). Tougher and later enemies already give more EXP, so Junk scales by area and toughness with no per-species table; bosses pay a big chunk. Formula and divisor tuned in 6.3 |
 | 18 | Can enemies drop Tools? | **Yes, rarely, with a pity timer** (user): a small chance per won battle, guaranteed after N battles without one. Chance and N tuned in 6.3 |
 | 19 | What does an empty steal give? | **A little Junk** (user). Vanilla steal items stay; when the enemy has nothing to steal, a steal gives a small Junk amount so steal builds are never wasted |
-| 20 | Junk from chests and story pickups? | **Straight into the counter** (follows from decision 2) | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 20 | Junk from chests and story pickups? | **Straight into the counter** (follows from decision 2) |
+| 21 | How is Junk earned in battle shown? | **An engine toast first** ("+3 Junk · 147"), **later a native line** on the game's "items found" screen (one Junk entry relabelled "Junk ×3", picked up into the counter) as polish (user, 2026-10-11) |
+| 22 | Where is the Junk total shown? | **All three** (user): a "Junk" row at the top of the F1 Workshop page; Wayne's menu relabels "Discard junk" as **"Discard junk (147)"**; and Aya's item menu title bar shows the total |
+| 23 | Is Tool pity progress visible? | **Yes, on the F1 Workshop page** ("Tool guaranteed within N battles") (user) |
+| 24 | How often do Junk toasts appear? | **After every won battle**, plus Tool drops and steal Junk (user) | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
@@ -612,6 +616,23 @@ bag for his menu to pick. Two ways to connect them:
   state block (F7) and the save tail (memory card), like the Junk counter.
 - **Logger:** already records per-battle EXP and the reward list, which is enough to fit
   f(EXP) against today's Junk pace. Steal logging is still to add.
+
+### 6.7 Junk feedback (decisions 21–24): how it maps onto the game
+
+- **Toasts:** `psx_mod_osd_message`, already used by the Wayne refund. The text is plain ASCII
+  in the engine's font. One toast per battle end comes from the `Aya_SetTotalExp` hook
+  (6.6), plus one for a steal.
+- **"Discard junk (147)" and Aya's item-menu title:** draw-time relabels through the
+  existing `Draw_PrintRawText` hook (0x8005F27C), the trick Weapon power uses: match the
+  string and the calling menu (`ra` range), then swap `a0` for a guest buffer.
+  - Research: which function draws Wayne's choice list (the `ra` range) and the exact
+    "Discard junk" string, and which call draws Aya's item-menu title.
+- **Native "items found" line (later):** leave one Junk entry in the reward list, relabel
+  it at draw time, and let the sweep move it into the counter when it's picked up.
+  Research: how `Inv_LoadWayneItemsAsOverride` and the pickup screen draw entries, and
+  what happens if the player leaves the entry behind.
+- **F1 Workshop page:** live rows (`psx_mod_menu_add_live_int` / read-only actions) for
+  the Junk total and the Tool pity progress.
 
 ### 6.2 Mod chips: UX options to compare (decision 3)
 
