@@ -1,7 +1,7 @@
 # Parasite Eve loot overhaul: build checklist
 
 Tick items off as they land. Design and decision numbers:
-[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–40) and
+[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–41) and
 [custom items](pe-custom-items-design-2026-10-11.md) (C1–C11). Started 2026-10-11.
 
 ## Done before the build
@@ -44,6 +44,9 @@ Tick items off as they land. Design and decision numbers:
       Aya" counts (`+0x9C`), tracked during the battle (32)
 - [ ] Toast after every won battle: "+N Junk · total" (21, 24)
 - [ ] Chest / story Junk → counter (20), through `Inv_AddItem` or a per-frame sweep
+- [ ] Stolen Junk (an `Inv_AddItem` call from `Battle_ResolveHitOnTimer`, ra 0x800236E8–
+      0x80023E14): don't put it in the bag; bank it and pay it at battle end only on a win
+      (41); test steal-and-flee adds nothing
 - [ ] Wayne hand-in: on count-Junk (1102) with no Junk in the bag, place one Junk from
       the counter (needs one free slot); sweep back any unused placed Junk
 - [ ] First load of an existing save with the overhaul on: move Junk already in the bag

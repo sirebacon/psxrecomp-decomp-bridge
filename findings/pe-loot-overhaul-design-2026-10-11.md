@@ -5,7 +5,7 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** design complete: decisions 1–40 in section 5 (custom items in
+**Status (2026-10-11):** design complete: decisions 1–41 in section 5 (custom items in
 their own doc). Build order in section 4, progress in
 [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
 draft and is superseded where the decisions differ.
@@ -299,6 +299,7 @@ code defaults in phase 7.
 | 37 | Names and wording? | **As in section 6.8** (user, 2026-10-11): the Codex is the **Mod Catalog**, buy-back is **Rebuild**, the shop is **Requisition**, and the custom mods use **PE-style descriptions** in game. The working names (Codex, buy-back, shop) stay in these docs |
 | 38 | The Item Editor with the overhaul on? | **Unchanged, a debug tool** (user, 2026-10-11). It can install mods for free, around the Mod Catalog; no note, no hiding. The other cheats (Infinite ammo, God mode, No random battles) also stay as they are |
 | 39 | Difficulty presets? | **Yes: Relaxed / Normal / Grind** (user), one row on the Workshop page, **switchable at any time**: the player decides how they want to play, e.g. Normal but harder or easier for a stretch. Presets only scale numbers (Junk per battle, rare-drop pity length, Requisition / Mod Catalog / Rebuild prices), so switching converts nothing. **Not touched:** Wayne's 300, vanilla drops and chests. Default **Normal**. No Custom preset (the Debug tuning page covers that). Example values in 6.3, set in phase 7. Replaces decision 7's "possible feature" |
+| 41 | Stolen Junk with the counter? | **Banked until a win** (user, 2026-10-11, found while building phase 0). A steal adds its item mid-battle through `Inv_AddItem` (from `Battle_ResolveHitOnTimer`). Stolen **Junk** is held and added to the counter at the battle-end hook only on a win; fleeing forfeits it. Other stolen items stay vanilla. Without this, the counter would remove the bag limit that slows vanilla's steal-and-flee loop |
 | 40 | Do the price caps change with the preset? | **No: fixed on every preset** (user). Tools ≤ 100 and Rebuild ≤ 150 everywhere, so Grind can't get crazy; Relaxed can go below them |
 
 **Resulting layout:**
