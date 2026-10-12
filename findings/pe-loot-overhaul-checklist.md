@@ -124,15 +124,17 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 4: shop (decision 14)
 
-- [ ] F1 shop page: consumables, ammo, Tools
-- [ ] Tool price 40, +10 per purchase, capped at 100; purchase count saved
-- [ ] Not sold: Super Tools, guns, armor
-- [ ] Soft-lock rescue (36): detect "can't attack" (no melee weapon, no gun with loaded
+- [x] F1 shop page (Workshop > Requisition, `pe_loot_shop.c`): goods board with medicine,
+      cures, bullets, rockets, Tools; list and prices in decision 43
+- [x] Tool price 40, +10 per purchase, capped at 100; purchase count saved (save-state
+      block "pe.loot.shop" + save tail "PESH" at 0x1C90 + 0x1C0)
+- [x] Not sold: Super Tools, guns, armor (and Revive, Full Recover, Maeda's, boosters: 43)
+- [x] Soft-lock rescue (36): detect "can't attack" (no melee weapon, no gun with loaded
       rounds or spare ammo of its type); then offer a free Club 1 on the Workshop page, make
       the basic handgun ammo box cost 0 Junk until she has ammo, and show a toast
 - [ ] Soft-lock test: dismantle every gun but the equipped one, empty all ammo, discard
       the Club → rescue appears; repeat from a save state saved mid-battle
-- [ ] Tuning rows: shop prices
+- [x] Tuning rows: Shop price %, Tool price start / step / cap, Tools bought
 - [ ] Live test (full bag, ammo pools at cap)
 
 ## Phase 5: native menus (decisions 21, 22, 25, 27, C10)
