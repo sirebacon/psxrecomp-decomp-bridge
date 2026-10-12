@@ -45,15 +45,15 @@ Tick items off as they land. Design and decision numbers:
       → 35); save-tail block ("PELT", version, junk, check) **coded, memory-card test
       pending**; absent → start at 0
 - [ ] Battle end: move vanilla Junk entries out of the reward list into the counter,
-      keep the list contiguous (coded; battle test pending)
-- [ ] Battle end: floor of 1 + EXP-scaled Junk, with a per-battle cap (16, 17) (coded:
-      1 + EXP/8, cap 30; battle test pending)
+      keep the list contiguous (coded; needs a battle that drops Junk, e.g. Day 3 precinct)
+- [x] Battle end: floor of 1 + EXP-scaled Junk, with a per-battle cap (16, 17) (1 + EXP/8,
+      cap 30; verified in play 2026-10-12: a toast after every won battle)
 - [ ] Skill bonus: up to +25% battle Junk for a no-hit battle, from the enemies' "hits on
       Aya" counts (`+0x9C`), tracked during the battle (32) (coded; battle test pending)
-- [ ] Toast after every won battle: "+N Junk (total T)" (21, 24, 37) (coded; battle test
-      pending)
+- [x] Toast after every won battle: "+N Junk (total T)" (21, 24, 37) (verified in play)
 - [ ] Chest / story Junk → counter (20): `Inv_AddItem(Junk)` rewritten to `Inv_AddItem(0)`
-      and counted (coded; chest test pending)
+      and counted (coded; the add-item hook sees every chest pickup (14 logged on Day 4),
+      but no Junk chest found yet)
 - [ ] Stolen Junk (an `Inv_AddItem` call from `Battle_ResolveHitOnTimer`, ra 0x800236E8–
       0x80023E14): don't put it in the bag; bank it and pay it at battle end only on a win
       (41); test steal-and-flee adds nothing (coded; steal test pending)
