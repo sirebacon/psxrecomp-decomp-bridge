@@ -33,11 +33,12 @@ Three gaps in vanilla PE that the overhaul exposes:
 | C6 | **New item "Smoke Grenade"** (`ITEM24`): used in battle, a **guaranteed escape**. Sold in the shop at a mid price. Escaping still gives no rewards, as in vanilla |
 | C7 | **New item "Lucky Charm"** (`ITEM25`): for the next 10 won battles, the rare roll counts **double** toward pity. Found as a rare-table entry |
 | C8 | **Not adding:** anything that skips Wayne's 300 (gun vouchers); more healing items (PE already has plenty); new gun or armor pieces (they'd need new models and stats) |
-| C9 | **New armor mod "Recycler"** (the 5th "dummy" slot): when the "items found" screen holds more than the bag can take, the leftovers become **Junk instead of being discarded**. Economy-only like C1–C4, and obtained the same way (rare table or Wayne) |
-| C10 | **Medicine fusion** (Workshop recipe, no new item ids): **2× Medicine 1 → Medicine 2, 2× Medicine 2 → Medicine 3, 2× Medicine 3 → Medicine 4**. Free or 1 Junk. Heals are 45 / 90 / 180 / 400 HP (`Battle_ApplyDamage`), so 2-for-1 is even in HP (a small gain at the top). The point is one bag slot and **one battle turn instead of two**, and auto-medicine armor uses the best medicine first |
+| C9 | **Dropped: armor mod "Recycler"** (leftover battle items → Junk when the bag is full). The user decided against it (2026-10-11); its "dummy" slot is free again |
+| C10 | **Medicine fusion** (no new item ids): **2× Medicine 1 → Medicine 2, 2× Medicine 2 → Medicine 3, 2× Medicine 3 → Medicine 4**. Free or 1 Junk. Heals are 45 / 90 / 180 / 400 HP (`Battle_ApplyDamage`), so 2-for-1 is even in HP (a small gain at the top). The point is one bag slot and **one battle turn instead of two**, and auto-medicine armor uses the best medicine first. **It lives in Aya's own item menu** (user, 2026-10-11): an action on a selected Medicine, such as "Combine", not on the F1 Workshop page |
 | C11 | **Dropped: stat booster fusion.** Boosters are consumed and add a permanent +N (Offense 1 = +1, Offense 2 = +2), so three Offense 1s already give +3; fusing them into one Offense 2 would lose value, and boosters are used outside battle, so no turn is saved |
 
-**All 5 dummy mod slots are now used** (C1–C4, C9), and both spare item ids (C6, C7).
+**4 of the 5 dummy mod slots are used** (C1–C4; one is free again after C9), and both
+spare item ids (C6, C7).
 
 ## How they fit the existing decisions
 
@@ -64,11 +65,13 @@ Three gaps in vanilla PE that the overhaul exposes:
    usable in battle (the `Battle_UseItem` → `Battle_ApplyDamage` path).
 4. **Lucky Charm:** whether it should be used from the bag (field use path) or work just
    by being carried; field item use goes through `Inv_BuildEquipSlotDisplay`'s item types.
-5. **Recycler:** find how the "items found" screen handles a full bag (the discard step
-   after `Inv_LoadWayneItemsAsOverride`), so leftovers can become Junk at that point.
-6. **Medicine fusion:** a Workshop action only. It removes two bag entries and adds one
-   (bag writes, as the give-item and Item Editor rows already do). No game code needed.
-7. **Effects:** Scavenger and Salvager hook the same places as the Junk rules (the
+5. **Medicine fusion in Aya's item menu:** the bag change itself is simple: remove two
+   entries, add one, as the give-item and Item Editor rows already do. The research is the
+   menu row: find how selecting an item opens its action list (`Menu_OpenItemActionSubmenu`
+   → `Menu_CreateUsableItemActionView`, the "Use / Move / ..." choices), and add a
+   "Combine" action for Medicine 1–3 through a build-time hook or a function-pointer swap
+   (both proven: QoL tests A/B). Only offered when the bag holds two of that medicine.
+6. **Effects:** Scavenger and Salvager hook the same places as the Junk rules (the
    `Aya_SetTotalExp` hook and the dismantle action); Bargain hooks the shop prices; Lucky
    Find hooks the soft-pity step. All read the equipped armor's mod bytes.
 
