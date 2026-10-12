@@ -245,7 +245,12 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 12 | Can a dismantled gun be bought back? | **Yes, for Junk** (user's request, 2026-10-11). Rules proposed in 6.2b: the gun returns with its stats and +bonuses but **empty mod slots** (its effects already sit in the Codex, and reinstalling costs the normal price), and the buy-back price is above what dismantling paid, so dismantle-and-buy-back is never a profit loop. **Capped at 150 Junk** (user) so buying back always stays worth it |
 | 13 | One Junk counter or two? | **One shared counter** (user, 2026-10-11). The mod's counter is the only spending pool. Junk reaches Wayne only when you hand it in ("Discard junk", through the hand-in hook in 6.5), so every Junk is either progress toward his 300 gun or Codex/shop spending, like vanilla where handed-in Junk is gone |
 | 14 | What does the F1 shop sell? | **Consumables + ammo + Tools** (user). Tools at a steep, rising price (start around 40 Junk, more each purchase), so premium installs are never hard-capped before the trading-card Tool Kit. **Tool price is capped** (user, 2026-10-11): proposed 40 Junk, +10 per purchase, **never above 100 Junk** (a third of a Wayne gun), so a premium install stays at roughly 200 Junk or less, all in. Numbers tuned in 6.3. **Not sold:** Super Tools (the Super Tool Kit stays special), guns and armor (finds and Wayne) |
-| 15 | What carries into EX Game? | **Everything** (user): the Junk counter, the Codex and the buy-back list, as vanilla carries Wayne's count and storage. To verify in testing: the EX Game save goes through `Save_BuildCardFile`, so the save-tail data rides along | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 15 | What carries into EX Game? | **Everything** (user): the Junk counter, the Codex and the buy-back list, as vanilla carries Wayne's count and storage. To verify in testing: the EX Game save goes through `Save_BuildCardFile`, so the save-tail data rides along |
+| 16 | A Junk floor per battle? | **Yes: every won battle gives at least 1 Junk** (user, 2026-10-11), plus the amount from decision 17. Fleeing gives nothing, as in vanilla |
+| 17 | What decides how much Junk? | **The enemies' EXP** (user). Tougher and later enemies already give more EXP, so Junk scales by area and toughness with no per-species table; bosses pay a big chunk. Formula and divisor tuned in 6.3 |
+| 18 | Can enemies drop Tools? | **Yes, rarely, with a pity timer** (user): a small chance per won battle, guaranteed after N battles without one. Chance and N tuned in 6.3 |
+| 19 | What does an empty steal give? | **A little Junk** (user). Vanilla steal items stay; when the enemy has nothing to steal, a steal gives a small Junk amount so steal builds are never wasted |
+| 20 | Junk from chests and story pickups? | **Straight into the counter** (follows from decision 2) | Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
@@ -583,6 +588,30 @@ bag for his menu to pick. Two ways to connect them:
 - **Field pickups** (chests, story gifts) come through `Task_GiveItem` → `Inv_AddItem`,
   not the reward list. A Junk counter needs a second path for them: hook `Inv_AddItem`,
   or sweep Junk out of the bag each frame while Wayne's pick menu isn't open.
+
+### 6.6 Drop table structure (decisions 16–20): how it maps onto the game
+
+- **One hook does most of it:** `Aya_SetTotalExp(exp, bp, list)` (0x8004B70C, 6.5) runs
+  once per won battle with the **battle's total EXP in `a0`**.
+  - **Junk** = max(1, f(total EXP)). Per-enemy tracking isn't needed, since the total
+    already sums every enemy, bosses included. A per-battle cap may be needed so one boss
+    doesn't skip a whole area's economy (6.3).
+  - **Junk entries** already in the vanilla list are also moved into the counter, so the
+    vanilla rate stays on top (decision 6).
+  - **Tool drop:** roll the chance and advance the pity counter. On a hit, add a Tool
+    (`0x16`) to the reward list, so it shows on the game's own "items found" screen. If
+    the list is full (10 entries), carry the Tool over to the next battle rather than lose
+    it.
+- **Chests and story pickups:** the `Inv_AddItem` (0x80053D2C) hook or the per-frame sweep
+  moves Junk into the counter (decision 20).
+- **Empty steals (decision 19):** research needed. Find where Aya's steal resolves (Club 2
+  / gun Steal effects 16–17 read the enemy's `+0x9F`), so that an empty steal can add Junk
+  to the counter. The loot logger's planned steal logging will show how often steals come
+  up empty.
+- **Saved state:** the pity counter and a carried-over Tool live in the loot mod's
+  state block (F7) and the save tail (memory card), like the Junk counter.
+- **Logger:** already records per-battle EXP and the reward list, which is enough to fit
+  f(EXP) against today's Junk pace. Steal logging is still to add.
 
 ### 6.2 Mod chips: UX options to compare (decision 3)
 
