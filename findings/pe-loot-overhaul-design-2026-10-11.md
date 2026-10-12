@@ -238,7 +238,7 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 5 | How hard is the curve? | **Open: needs balance research** (section 6) |
 | 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
 | 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
-| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** and take the junk item back, so the player can try again. Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
+| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** so the player can try again, and **keep** the Super/Duper Junk (it restores 1/4 / 1/2 PE). Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
