@@ -210,6 +210,8 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 
 ## 4. Build plan (decided 2026-10-11, decisions 29–30)
 
+Progress is tracked in [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md).
+
 The earlier draft plan is replaced by this order. The research it listed is done (sections
 6.1–6.7): no spawn-time roll, Super/Duper Junk restore PE, Wayne's counter is
 `0x800A78B0`, and the Tool donor rule.
