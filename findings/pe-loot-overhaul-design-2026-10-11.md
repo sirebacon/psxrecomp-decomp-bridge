@@ -5,7 +5,7 @@ but earn it" system. It covers how the game works today (decomp + guides), what 
 toolkit can control, a proposed economy, and the decisions we still need to make. Nothing
 here is built yet.
 
-**Status (2026-10-11):** design complete: decisions 1–36 in section 5 (custom items in
+**Status (2026-10-11):** design complete: decisions 1–37 in section 5 (custom items in
 their own doc). Build order in section 4, progress in
 [`pe-loot-overhaul-checklist.md`](pe-loot-overhaul-checklist.md). Section 3 is the early
 draft and is superseded where the decisions differ.
@@ -296,6 +296,7 @@ code defaults in phase 7.
 | 34 | Pace target for Wayne's guns? | **Vanilla's Day 4 gate stays the ceiling** (Wayne can't craft before he takes over Torres's job: live test, Day 3 never crafts). On the **normal route, without exploits**, the first Wayne gun should be affordable **around Day 4–5 with roughly 1–2 hours of optional fighting** (user). Today it takes 2–6 hours even with the steal-and-flee exploit, and "real days" without it |
 | 35 | Steal Junk vs steal-and-flee? | **Banked, paid only on a win** (user). Empty-steal Junk (decision 19) is held during the battle and added at the battle-end hook; fleeing forfeits it, consistent with "fleeing gives nothing". Vanilla steal items are unchanged (decision 6). Closes an infinite-Junk loop (see 1, "Encounters and the steal-and-flee exploit") |
 | 36 | How do we prevent soft-locks (no ammo, everything dismantled)? | **Guards plus a rescue** (user, 2026-10-11). **Dismantle guards:** never the equipped gun or armor; never the **last Club** (melee, needs no ammo); a warning (not a block) before dismantling the last gun for an ammo type you carry. **Rescue:** when Aya can't attack (no melee weapon, and no gun with loaded rounds or spare ammo of its type), the Workshop offers a **free Club 1** ("NYPD service baton") and the shop's **basic handgun ammo box costs 0 Junk** until she has ammo again, with a toast pointing to it. Breaks the no ammo → no wins → no Junk → no ammo loop, including vanilla routes into it (e.g. a discarded Club) |
+| 37 | Names and wording? | **As in section 6.8** (user, 2026-10-11): the Codex is the **Mod Catalog**, buy-back is **Rebuild**, the shop is **Requisition**, and the custom mods use **PE-style descriptions** in game. The working names (Codex, buy-back, shop) stay in these docs |
 
 **Resulting layout:**
 
@@ -684,6 +685,32 @@ bag for his menu to pick. Two ways to connect them:
   what happens if the player leaves the entry behind.
 - **F1 Workshop page:** live rows (`psx_mod_menu_add_live_int` / read-only actions) for
   the Junk total and the Tool pity progress.
+
+### 6.8 Names and wording (decision 37)
+
+**Rules:** text inside the game's own menus (Aya's actions, Wayne's label, item and mod
+names) must use glyphs in PE's font: letters, digits and space are safe; punctuation such
+as "·", "/" or "(" must be checked before phase 5. F1 rows and toasts use the engine's
+plain ASCII. F1 descriptions stay under ~38 characters. Tone: NYPD and gunsmith, not
+fantasy; actions are single words like the game's own.
+
+| Thing | In game | Notes |
+|---|---|---|
+| F1 page | **Workshop** | |
+| Codex | **Mod Catalog** | user pick |
+| Buy-back | **Rebuild** | user pick; Wayne keeps your stripped parts and rebuilds the gun |
+| Shop | **Requisition** | user pick; NYPD flavour |
+| Aya's action on gun/armor | **Dismantle** | |
+| Aya's action on medicine | **Combine** | |
+| Master switch | **Junk economy** — "Junk counter, Mod Catalog and shop." | |
+| Pity row | **Rare drop within N battles** | |
+| Wayne's label | **Discard junk (147 · 120/300)** | decision 31; punctuation adapted to the font check |
+| Battle toast | **+3 Junk (total 147)** | ASCII-safe; replaces "·" |
+| Steal toast | **+1 Junk from steal** | paid at battle end (decision 35) |
+| Refund toast | **Wayne refunds 300 Junk** | replaces the current text in `pe_wayne_refund.c` |
+| Rescue toast | **Spare Club issued at the Workshop** | decision 36; gives Club 1 |
+| Custom mods | **Increases Junk found** (Scavenger), **Finds rare items more often** (Lucky Find), **More Junk from dismantling** (Salvager), **Lowers shop prices** (Bargain) | user pick: PE-style descriptions; short names only in docs |
+| Custom items | **Smoke Grenade**, **Lucky Charm** | descriptions in PE's style, to write in phase 6 |
 
 ### 6.2 Mod chips: UX options to compare (decision 3)
 

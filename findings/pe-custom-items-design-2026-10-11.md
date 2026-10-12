@@ -35,6 +35,7 @@ Three gaps in vanilla PE that the overhaul exposes:
 | C8 | **Not adding:** anything that skips Wayne's 300 (gun vouchers); more healing items (PE already has plenty); new gun or armor pieces (they'd need new models and stats) |
 | C9 | **Dropped: armor mod "Recycler"** (leftover battle items → Junk when the bag is full). The user decided against it (2026-10-11); its "dummy" slot is free again |
 | C10 | **Medicine fusion** (no new item ids): **2× Medicine 1 → Medicine 2, 2× Medicine 2 → Medicine 3, 2× Medicine 3 → Medicine 4**. Free or 1 Junk. Heals are 45 / 90 / 180 / 400 HP (`Battle_ApplyDamage`), so 2-for-1 is even in HP (a small gain at the top). The point is one bag slot and **one battle turn instead of two**, and auto-medicine armor uses the best medicine first. **It lives in Aya's own item menu** (user, 2026-10-11): an action on a selected Medicine, such as "Combine", not on the F1 Workshop page |
+| C12 | **In-game names** (user, 2026-10-11, loot decision 37): the four mods use PE-style descriptions: **Increases Junk found** (Scavenger), **Finds rare items more often** (Lucky Find), **More Junk from dismantling** (Salvager), **Lowers shop prices** (Bargain). Short names stay in the docs |
 | C11 | **Dropped: stat booster fusion.** Boosters are consumed and add a permanent +N (Offense 1 = +1, Offense 2 = +2), so three Offense 1s already give +3; fusing them into one Offense 2 would lose value, and boosters are used outside battle, so no turn is saved |
 
 **4 of the 5 dummy mod slots are used** (C1–C4; one is free again after C9), and both

@@ -1,12 +1,12 @@
 # Parasite Eve loot overhaul: build checklist
 
 Tick items off as they land. Design and decision numbers:
-[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–36) and
+[loot overhaul design](pe-loot-overhaul-design-2026-10-11.md) (decisions 1–37) and
 [custom items](pe-custom-items-design-2026-10-11.md) (C1–C11). Started 2026-10-11.
 
 ## Done before the build
 
-- [x] Design discussion complete: decisions 1–36, C1–C11 (review 2026-10-11 added 31–36)
+- [x] Design discussion complete: decisions 1–37, C1–C11 (review 2026-10-11 added 31–37)
 - [x] Save-state API for plugin data (`psx_mod_register_state`, psxrecomp `6cb1d104`), first
       user Half-bar ATB (PE `fe00ce3`), verified live
 - [x] Research: drop flow, Wayne's counter and crafting (live: crafts on a hand-in that
@@ -19,6 +19,7 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Build with `pe_wayne_refund.c`
 - [ ] Test the refund on save state slot 6 (Day 4 at Wayne): counter 299 → 300, put a
       Super Junk in the bag, drop the counter by 300 → expect 300 back and the item kept
+- [ ] Refund toast wording: "Wayne refunds 300 Junk" (37)
 - [ ] Commit the refund mod
 - [ ] Temporary hook on `Inv_DispatchCommand` (0x8005D2B4): log command/value during a
       "Discard junk" hand-in; confirm the 1102 (count) / 1112 (remove) loop
@@ -104,6 +105,8 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 5: native menus (decisions 21, 22, 25, 27, C10)
 
+- [ ] Research: which punctuation PE's font has ("·", "/", "(") for Wayne's label and
+      other in-game text; adapt the wording in 6.8 (37)
 - [ ] Research: how selecting an item opens its action list
       (`Menu_OpenItemActionSubmenu` → `Menu_CreateUsableItemActionView`)
 - [ ] Aya's item menu: "Dismantle" action on a gun/armor, with confirm (25); remove the
