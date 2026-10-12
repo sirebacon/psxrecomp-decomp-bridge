@@ -52,7 +52,7 @@ guaranteed drop, which suggests a roll somewhere in the encounter data.
 - **Wayne**, in the NYPD armory, takes Junk. At **300** he crafts one top-tier gun of your
   choice (DE50AE7, HK40, LAW80, MAG, P90 or M10B). The count carries over into EX Game.
 - Farming spots: Police Station on Day 3, Museum on Day 5, Chrysler Building in EX Game.
-- **Super Junk** (`0x0B`) and **Duper Junk** (`0x0C`) are **worthless** consolation results:
+- **Super Junk** (`0x0B`) and **Duper Junk** (`0x0C`) are called **worthless** consolation results by the guides, but the decomp disagrees: using them restores **1/4** and **1/2 of max Parasite Energy** (`Battle_ApplyDamage`). They are PE recovery items, not junk:
   choosing "Leave it to Wayne" at 300 Junk can hand you one of these instead of a gun
   (RPGClassics).
 - **Wayne's 300-Junk guns** (RPGClassics). Ask for a type:
@@ -238,6 +238,7 @@ Escalating costs keep Junk meaningful all game. Milestones turn the 300-Junk cli
 | 5 | How hard is the curve? | **Open: needs balance research** (section 6) |
 | 6 | Keep vanilla chest Tools and trading-card rewards? | **Yes, keep vanilla**, so it stays true to the game. The overhaul adds to them and replaces nothing |
 | 7 | Difficulty presets on the Workshop page? | **Possible feature**, noted in section 7 |
+| 8 | What if "Leave it to Wayne" rolls Super/Duper Junk? | **Refund the 300 Junk** and take the junk item back, so the player can try again. Built as its own toggle, "Wayne junk refund" (PE `pe_wayne_refund.c`, on by default), 2026-10-11 |
 
 Overall direction: **research the loot economy before building** any of the economy
 features. The Junk counter and the F1 shop shell can come later, once the numbers are
@@ -385,7 +386,7 @@ skip that curve.
 The guide gives each monster's HP range, weaknesses and locations for all 29 regular
 enemies. The same species shows different HP in different rooms, which matches the logger.
 
-**Resolved from guides:** Super/Duper Junk are worthless "Leave it to Wayne" results; vanilla
+**Resolved from guides:** Super/Duper Junk are the consolation "Leave it to Wayne" results (the decomp shows they restore 1/4 / 1/2 PE, so not truly worthless); vanilla
 Tool supply is about 17 in the main story (48 total); trading cards pay for mod-slot tune-ups
 (section 1).
 
@@ -410,11 +411,11 @@ the damage code (`Battle_StepEnemyMovement.c`) and `BattleCmd_LoadWeaponModifier
 | 8 | Attack All Enemies w/ ROF | One hit on **every** target; defense isn't divided |
 | 9 / 10 | Heat / Frost | Element: **×1.5** on weak enemies, **÷5** on resistant ones |
 | 11 / 12 / 13 | Cyanide / Acid / Tranquilizer | Status on hit: **50%** on normal enemies, 100% on vulnerable ones, 0 on immune ones |
-| 14 | Counterattack | Counter flag |
-| 15 | Quickdraw | First-attack flag |
+| 14 | Counterattack | after an enemy hits Aya, a **chance of a free counter-shot** at it (`Battle_Update` → `Battle_RollEnemySpawn`, misnamed). The chance scales with her agility bonus and drops against higher-rank enemies |
+| 15 | Quickdraw | at battle start, a chance (Aya's stat +0x22, in percent) that her **bar starts full** (gauge 9000; `Battle_CheckDropChance`, misnamed) |
 | 16 | Steal Items, but halves attack | Steal on hit; **attack ÷2** |
 | 17 | Steal During Attack | Steal on hit, no attack penalty |
-| 18 | Critical Percentage Increases | Critical-up flag |
+| 18 | Critical Percentage Increases | in range, crit chance is 50% / 20% / 5% (near / mid / far); this adds **+20 points** to each, so 70 / 40 / 25 (`Battle_CheckEvasion`, misnamed) |
 | 19 / 20 | Enter 2 / 3 Commands | **2 / 3 full volleys per turn** (`Battle_Init`: commands = effect bits 4–5), so **×2 / ×3 damage and ammo per turn**, the strongest effects |
 
 **Armor effects**
@@ -428,7 +429,7 @@ the damage code (`Battle_StepEnemyMovement.c`) and `BattleCmd_LoadWeaponModifier
 | 11 | Increases Max HP | ×23/20, i.e. **+15% max HP** |
 | 12 | Increases Attack Power | **+2 offense levels** |
 | 13 | Active Time Recharges Slower | **−2 Active Time levels** |
-| 14 | PE Light | lowers PE cost |
+| 14 | PE Light | Parasite Energy costs **2/3** (`Inv_GetSlotHighlightState`) |
 | 15 | Decreases Attack Power | **−2 offense levels** |
 
 **Value ranking for pricing:** Command ×3 > Command ×2 > Attack All > ROF and element
@@ -534,9 +535,21 @@ bag for his menu to pick. Two ways to connect them:
     needs a hand-in that crosses 300 while the player is at Wayne on a full-menu day.
   - **W1 refined (recommended):** when the player picks "Discard junk", the mod puts Junk
     from its counter into the bag (up to the free slots), so Wayne's vanilla script
-    counts, removes and crafts exactly as it does today. Candidate hook: the count opcode
-    `Task_CountItemsByValue` (0x800194F8) when its item is Junk, or the discard step
-    itself (still to pin down).
+    counts, removes and crafts exactly as it does today.
+  - **Hook point found (decomp):** script inventory actions go through
+    `Task_RunInvCommand` (0x80015C7C) → **`Inv_DispatchCommand(command, value, other)`
+    (0x8005D2B4)**. Command **1102** counts an item (`INV_CMD_COUNT_ITEM`), **1112**
+    removes one (`INV_CMD_REMOVE_ITEM`, through `Inv_RemoveActiveListItem`). "Discard
+    junk" is a script loop of count Junk → remove one → Wayne +1.
+  - Plan: a build-time hook on `Inv_DispatchCommand` sees `a0 = 1102, a1 = 0x14`. If the
+    bag has no Junk and the mod's counter is above 0, it puts **one** Junk into a free bag
+    slot and takes 1 off the counter. The loop removes it, adds 1 to Wayne, counts again,
+    and the hook refills, until the counter is empty. **Needs only one free bag slot.**
+    Wayne's crafting at 300 and his gun choices stay vanilla.
+  - Guard: other scripts may count Junk too. The per-frame sweep that pulls bag Junk into
+    the counter puts back any Junk the hook placed that wasn't taken.
+  - Live check still to do (one build): log `Inv_DispatchCommand` calls during a
+    hand-in to confirm the 1102/1112 sequence.
   - **Alternative:** the F1 Workshop does Wayne's craft itself (spend 300 from the
     counter, give one of his six guns or a "leave it to Wayne" roll). Simpler to build,
     but it copies his gun table instead of reusing his script.
@@ -575,11 +588,15 @@ bag for his menu to pick. Two ways to connect them:
 
 Research questions:
 
-- **Where would A's data persist?** Plugin memory isn't saved with the game. It would need
-  a small save area of its own, or spare bytes in the game's save that we can verify are
-  unused.
-- **Are `ITEM24/25` really unused?** Can chip names be drawn from the mod table, as Weapon
-  power does?
+- **Where would A's data persist?** Answered in 6.4: the save's free 880-byte tail for
+  memory-card saves, plus a registered state block for F7 save states (built).
+- **Are `ITEM24/25` really unused?** They exist as placeholders: ids `0x18` / `0x19`, named
+  literally "ITEM24" / "ITEM25", kind 10, category Tools and Junk, description "Helps
+  Item", flags 0x03 (Junk/Tool have 0x00), and no use case in `Battle_ApplyDamage`. So
+  option B has exactly **two** spare ids: enough for "a chip" and "a super chip", not one
+  per effect. Each chip's effect would have to live in mod data (which keeps option B close
+  to option A). Names can be swapped at draw time with the `Draw_PrintRawText` hook, as
+  Weapon power does.
 - **What does a good loop look like?** Look at how other games handle "salvage → reusable
   upgrade": FF7 materia, FF8 refine/junction, Resident Evil 4 upgrades, Borderlands/Diablo
   salvage. The target feel: one action to dismantle, one action to install, always shown
