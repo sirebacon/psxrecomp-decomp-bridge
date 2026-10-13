@@ -195,6 +195,11 @@ Tick items off as they land. Design and decision numbers:
       payouts checked (decision 34 now: first Wayne gun around the start of Day 4)
 - [ ] Second pass from logged play (Days 4–6 especially): re-check fights per day, EXP per
       fight, Junk per hour, and adjust the tuning rows
+- [x] Economy mods for sale at Wayne's Requisition, 150 Junk each (tunable "Economy mod
+      price"), listed until unlocked (stopgap, 2026-10-13): the rare drop alone gave ~1 of 4
+      a run
+- [ ] Economy mods, final source: proposed a guaranteed one for each of the first four
+      boss wins (the rare roll stays); decide, then keep or drop the shop listing
 - [x] Recommended changes from the balance estimate, **built 2026-10-13 (PE `e565a36`,
       playtest pending)**
       ([`pe-loot-balance-estimate-2026-10-13.md`](pe-loot-balance-estimate-2026-10-13.md)
