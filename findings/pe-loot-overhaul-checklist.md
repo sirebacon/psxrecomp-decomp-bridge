@@ -180,6 +180,13 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Set pity chance, step and guarantee
 - [ ] Set install bands, dismantle payouts, buy-back markup, shop prices under the caps
       (buy-back ≤ 150, Tools ≤ 100)
+- [ ] Recommended changes from the balance estimate
+      ([`pe-loot-balance-estimate-2026-10-13.md`](pe-loot-balance-estimate-2026-10-13.md)
+      section 9, awaiting go-ahead): cap 30 → 12; bosses cap 25 (if a clean boss test
+      exists); keep EXP/8 and floor 1; presets scale pity base/step; Tool Kit turns Tool
+      rolls into boosters and hides shop Tools; Medicine 4 50 → 80, Medicine 3 25 → 35;
+      repeat-effect dismantle bonus +5 → +2; Wayne's guns and top Chrysler gear rebuild at
+      150; Wayne's 300 stays (escalating repeat guns held in reserve)
 - [ ] Make the tuned values the code defaults
 - [x] Difficulty presets Relaxed / Normal / Grind on the Workshop page, switchable any
       time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40) — built

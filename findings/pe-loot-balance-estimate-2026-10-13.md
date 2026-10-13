@@ -39,7 +39,9 @@ inputs are all listed below, so any of them can be swapped for logger data and r
 - **Recommendation:** lower the per-battle cap from 30 to **12**, let **bosses use a cap of
   25**, and make the presets scale the pity **base chance and step**. Days 1–3 stay as they
   are, Day 4 barely changes, Day 5 halves, the run pays **~2,200** (1,880–2,630), and the
-  presets become real (one rare per ~7.6 / 9.8 / 13.8 battles).
+  presets become real (one rare per ~7.6 / 9.8 / 13.8 battles). Section 9 lists all nine
+  recommended changes, including three price fixes (Medicine 3/4, the repeat-effect
+  dismantle bonus, a Rebuild floor for Wayne's guns); Wayne's 300 stays.
 - **EX Game and Chrysler (section 10, estimate only):** Chrysler fights pay the cap from floor 31.
   A full video playthrough puts the climb at ~3 hours, ~110 fights; a monster table shows
   floors 2–29 pay little (1–27 EXP a monster), floors 31+ the cap. Today an EX run earns
@@ -246,7 +248,7 @@ With today's numbers (mid), the player has earned ~490 Junk by the end of Day 3:
 
 So the first gun lands at the start of Day 4 for nearly everyone; the "1–2 hours of
 optional fighting" in decision 34 no longer applies, because on Day 4 an hour of extra
-fighting is worth 300+ Junk by itself. Whether that's fine is a design call (question 3
+fighting is worth 300+ Junk by itself. Whether that's fine is a design call (recommendation 3
 in section 9). The bigger problem is after: on Day 5 every player can afford **seven more
 Wayne guns**, Rebuild and premium installs stop being decisions, and Junk stops mattering
 for the last half of the play time (against design rule "never pointless", 6.3).
@@ -308,17 +310,65 @@ progress, so a single cap does most of the work.
 
 ---
 
-## 9. Proposed decisions (for the user)
+## 9. Recommended changes (2026-10-13, awaiting the user's go-ahead)
 
-1. **Per-battle cap: 30 → 12** (option C), or **10** (F) for a tighter run.
-2. **Bosses use a cap of 25** with the same formula. Needs a reliable "this is a boss
-   fight" test: the game's own no-escape flag on boss battles is the likely candidate (to
-   confirm in the decomp before building).
-3. **Early pace: keep `EXP / 8`** (C), or **slow it to `EXP / 12`** (E) if the first Wayne
-   gun should take some real optional fighting on Day 4.
-4. **Presets scale pity base and step** as in section 7, not only the guarantee.
-5. **Keep** the floor (1), the no-hit bonus (25%), the rare table shares, dismantle
-   payouts and all prices for now; revisit after the logged run.
+Claude's recommendations after the saves, the video playthrough and the Chrysler guides.
+Not built yet; numbers 1, 4, 7 and 8 are new defaults for rows the Debug → Loot tuning
+page already has.
+
+**Junk income**
+
+1. **Per-battle cap: 30 → 12** (option C). Days 1–3 unchanged, Day 4 13 → 12 a fight,
+   Day 5 halves; the story run pays ~2,200 against ~1,700 of full-use spending, the rest
+   carries into the EX Game. Cap 10 (option F) was considered and rejected: it trims Day 4,
+   which is already right.
+2. **Bosses: same formula with a cap of 25** (Day 1 bosses 2–6, Day 2 ~20, Sheeva onwards
+   25). Needs a reliable boss test; the game's no-escape flag is the candidate, to confirm
+   in the decomp first. **If no clean test exists, skip this rule** (bosses then pay 12)
+   rather than guess from EXP, since ordinary Day 6 fights give 1,500+ EXP.
+3. **Early pace: keep `EXP / 8`** (option C, not E). The first Wayne gun lands around the
+   start of Day 4, which is vanilla's own gate; spending on installs and Tools delays it
+   naturally. **Update decision 34** from "1–2 hours of optional fighting" to "around the
+   start of Day 4, later for heavy spenders". Revisit after a logged Day 4–5 session.
+4. **Keep the floor at 1 for now.** If Days 2–3 feel grindy in play (2–7 Junk a fight
+   against 10–30 installs), raise the floor to 2: ~40–50 more Junk across Days 2–3 without
+   touching the late game.
+
+**Rare drops**
+
+5. **Presets scale the pity base and step**, not only the guarantee: Relaxed 6% / +1.5% /
+   18, Normal 4% / +1% / 25, Grind 2% / +0.6% / 33 (one rare per ~7.6 / 9.8 / 13.8
+   battles). Today the three presets behave the same.
+6. **With the Tool Kit, a rare Tool roll becomes a stat booster** (and a Super Tool roll
+   likewise with the Super Tool Kit); **Requisition stops offering Tools** while the kit is
+   held.
+
+**Prices** (cost in fights: Day 2 ~3 Junk a fight, Day 3 ~7, Day 4 on ~12)
+
+7. **Medicine 4: 50 → 80, Medicine 3: 25 → 35.** Healing stock is the main difficulty on
+   Days 4–6 and in Chrysler (no saves inside); at 50 a top heal is ~4 Day 5 fights, at 80
+   ~7. Revive and Full Recover stay unsold.
+8. **Dismantle bonus for an already-unlocked effect: +5 → +2.** Small in the story; at cap
+   12 it's about half of Chrysler's income.
+9. **Rebuild floor for top-tier gear.** Rebuild prices follow the dismantle payout, which
+   counts +bonuses and mods, not base power, so Wayne's 300-Junk guns rebuild for ~25–70
+   (DE50AE7 ~27, P90 ~25, LAW80 ~67). Wayne's crafted guns (DE50AE7, M10B, P90, MAG, HK40,
+   LAW80 and the "Leave it to Wayne" AK-47, PPSH41, SP1C, USP-TU) and Chrysler gear with
+   base attack or defense ≥ 100 **always rebuild at the 150 cap**. Ordinary gear keeps its
+   cheap rebuild (it's the undo for a mistaken dismantle).
+
+**Unchanged** (checked against the data, no change needed): Medicine 1–2 (6 / 12), cures
+(5), Full Cure (15), Bullets (5 / 9), Rocket (20), Smoke Grenade (15), Tools (40, +10, cap
+100), Catalog installs (10 / 30 / 80 + Tool; already bounded by unlocks and slots), Rebuild
+markup and cap, preset price scaling, the no-hit bonus, the rare table shares, the floor 2
+crow farm.
+
+**Wayne's gun stays at 300.** It's the one number players know (decision 6), the income
+problem was fixed by the cap, not the price, and Wayne's Day 4 gate already bounds the
+first gun. **Held in reserve:** if the second gun comes too easily on Day 5 or EX players
+collect all six quickly, make repeat guns escalate (300, then 450, then 600) by taking more
+Junk per point Wayne counts after the first gun; his row would then show the Junk still
+needed. Decide after the Day 5 playtest.
 
 ---
 
@@ -391,7 +441,7 @@ optional EX farm (it only works until the floor 10 boss falls); no change propos
 **Chrysler-specific points to decide:**
 
 1. **From floor 31 every fight pays the cap**, so the cap is the main Junk knob there;
-   the cap-12 decision (section 9, question 1) covers it. Floors 2–29 pay 2–8 a fight
+   the cap-12 decision (section 9, recommendation 1) covers it. Floors 2–29 pay 2–8 a fight
    under either option.
 2. **Dismantling becomes about half of Chrysler's income** (at cap 12), mostly from the +5 a repeated
    effect pays (by then nearly every effect is unlocked). Option: drop the repeat bonus to
@@ -423,4 +473,4 @@ turn this estimate into measured numbers:
 **Biggest uncertainties, in order:** Day 5's battle count (45–75), Day 4's EXP per fight
 (sets whether a cap of 10–12 bites there), and dismantle income (depends on how much found
 gear a player breaks down). The cap recommendation holds across the whole low–high range;
-the early-pace choice (question 3) is the one most sensitive to the real counts.
+the early-pace choice (recommendation 3) is the one most sensitive to the real counts.
