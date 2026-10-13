@@ -185,6 +185,9 @@ Tick items off as they land. Design and decision numbers:
 - [x] Research: where battle escape is decided; Smoke Grenade = guaranteed escape,
       sold in the shop (C6, C15)
 - [x] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7, C14)
+- [ ] Lucky Charm, untested (kept on, 2026-10-13): test it fires at the next win from the
+      bag, counts down, and a second waits. Revisit its value: 10 doubled battles give ~0.4
+      extra rares but it costs a rare drop; no in-game sign it's active (F1 row only)
 - [x] Research: where Aya's steal resolves; empty steal → a little Junk (19), **banked and
       paid at the battle-end hook only on a win** (35); test steal-and-flee gives nothing
 - [ ] Live test (the new mods' badges: text badges Barg / Scav / Luck / Salv, PE `b73be3b`)
