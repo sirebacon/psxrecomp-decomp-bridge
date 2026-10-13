@@ -40,9 +40,10 @@ inputs are all listed below, so any of them can be swapped for logger data and r
   25**, and make the presets scale the pity **base chance and step**. Days 1–3 stay as they
   are, Day 4 barely changes, Day 5 halves, the run pays **~2,200** (1,880–2,630), and the
   presets become real (one rare per ~7.6 / 9.8 / 13.8 battles).
-- **EX Game and Chrysler (section 10, estimate only):** every Chrysler fight pays the cap.
-  A full video playthrough puts the climb at ~3 hours, ~110 fights. Today an EX run earns
-  ~9,000 Junk against ~4,000 a completionist can spend; at cap 12 it's ~5,200. Two Chrysler-only fixes are proposed: Tool rolls turn into stat boosters
+- **EX Game and Chrysler (section 10, estimate only):** Chrysler fights pay the cap from floor 31.
+  A full video playthrough puts the climb at ~3 hours, ~110 fights; a monster table shows
+  floors 2–29 pay little (1–27 EXP a monster), floors 31+ the cap. Today an EX run earns
+  ~7,800 Junk against ~4,000 a completionist can spend; at cap 12 it's ~4,900. Two Chrysler-only fixes are proposed: Tool rolls turn into stat boosters
   once the Tool Kit is held, and the dismantle bonus for repeated effects shrinks.
 
 ---
@@ -325,48 +326,74 @@ progress, so a single cap does most of the work.
 
 The EX Game replays the story with the cleared save's leftovers (the equipped gun and
 armor, Wayne's storage and his Junk count, unused bonus points; enemy groups are often
-larger) and opens the **Chrysler Building**: 77 floors, the overhaul's Junk counter,
-Mod Catalog and Rebuild list carried in (decision 15). Facts from Shotgunnova's
-walkthrough (private copy) and the gear table:
+larger) and opens the **Chrysler Building** (from EX Day 2): 77 floors, the overhaul's Junk
+counter, Mod Catalog and Rebuild list carried in (decision 15). Facts from Shotgunnova's
+walkthrough, two Chrysler guides by Sop-sama (v2.0 and v4.0) and a Chrysler monster
+table the user pasted (2026-10-13), and the gear table:
 
 - **Layout:** floors 1–70 in seven blocks of ten, a boss on every 10th floor (plus Maya on
   77), random hallway layouts each visit, an armory on every floor, no save points
-  inside. Fights only in corridor screens (never in junctions, dead ends, elevator or
-  stair screens, rarely in armories); beating a block's boss clears its remaining
-  enemies. Floors 71–76 are single screens.
-- **Enemies:** weak on floors 1–10 (the story's Day 5 gear one-shots them), 500+ HP from
-  41, 600+ from 51, 800+ from 61; floors 61–70 give **4,000+ EXP for a pair of wolves**.
-  Every Chrysler fight is far above the EXP that hits any cap (232 today, 88 at cap 12).
-- **Vanilla Junk:** bluebirds on floors 1–10, slimes on 61–70.
+  inside. Floors are built from 11 hallway types plus dead ends; **fights happen only in
+  the 6 elbow and straight-corridor types**, never in junctions, dead ends, elevator or
+  stair screens (rarely in armories). Leaving without beating the block's boss re-rolls
+  the layouts; beating it ends random fights on that block's floors. Floors 71–76 are
+  single screens.
+- **Enemy EXP per monster** (pasted monster table) rises steeply by block:
+
+  | Floors | Monsters | EXP each | Typical fight | Junk a fight (`1 + EXP/8`) |
+  |---|---|---|---|---|
+  | 2–9 | rat, troodon, bat, crow | 1–4 | ~10 | 2 |
+  | 11–19 | bat, mole, monkey, snake (mimic chest 255) | 3–9 | ~20 | 3–4 |
+  | 21–29 | snake, spider, fly-man, plant | 5–27 | ~60 | 8 |
+  | 31–39 | fly-man, plant, parrot, cat, mixed-man, chameleon | 15–115 | ~200 | 25 → cap |
+  | 41–49 | parrot, armadillo, frog, scorpion | 115–160 | ~500 | cap |
+  | 51–59 | golden rat, rat-man, giant rat, squirrel | 144–564 | ~1,000 | cap |
+  | 61–69 | bear, red snake, bacterium, dog-man | 800–920 | ~2,000+ | cap |
+
+  Boss EXP: 100 (floor 10), 150, 800, 2,500, 5,000, 10,000, 20,128 (floor 70). So the
+  **lower 30 floors pay little** (about 40% of the climb's fights); from floor 31 every
+  fight hits the cap (232 EXP today, 88 at cap 12).
+- **Vanilla Junk:** crows on floors 2–9 (mostly Junk; up to five a fight on floor 2, the
+  classic Wayne farm: in vanilla ~30 Junk a bag-load, ~10 trips, ~2 hours for 300),
+  squirrels on 51–59, bacteria and dog-men on 61–69.
 - **Gear:** **60 guns and armor** in its armories, with bigger +bonuses and more mod
   slots than the story's (Cr Armor 2 has 10).
-- **Tools:** 31 in chests plus 6 Super Tools; Wayne gives the **Tool Kit** at 10 rare
-  cards (around floors 41–50) and the **Super Tool Kit** at all 14 (after floor 70).
+- **Tools:** 31 in chests plus 6 Super Tools; Wayne gives the **Tool Kit** at 10–12 rare
+  cards (the guides differ; around floors 41–50) and the **Super Tool Kit** at 14 (after
+  floor 70).
+- **EX extras:** up to 3,000 bonus points per day cleared without saving; only engraved
+  gear (100+ points added to each stat) carries into the next round; each EX round makes
+  enemies tougher.
 
 **Estimate** (floors 1–70: 63 regular floors at ~1–2.5 fights each, from the video's 2–3
-minutes a floor):
+minutes a floor, ~16 fights a block; Junk per fight by block as in the table above):
 
 | | Today (cap 30) | Cap 12, bosses cap 25 |
 |---|---|---|
-| Regular fights (80 / **110** / 150) | 2,590 / **3,560** / 4,860 | 1,040 / **1,430** / 1,940 |
-| 8 bosses | 240 | 200 |
-| Vanilla Junk drops | ~50 | ~50 |
+| Regular fights (80 / **110** / 150), incl. crow and late-floor Junk drops | 1,710 / **2,350** / 3,200 | 870 / **1,190** / 1,620 |
+| 8 bosses (floor 10: 13, floor 20: 19, then the cap) | 180 | 160 |
 | Dismantles (60% of 60 pieces at ~35 each) | ~1,260 | ~1,260 |
-| **Chrysler total** | 4,140 / **5,110** / 6,410 | 2,550 / **2,940** / 3,450 |
+| **Chrysler total** | 3,150 / **3,790** / 4,640 | 2,290 / **2,610** / 3,040 |
 | EX story replay (larger groups) | ~4,000 | ~2,300 |
 
 What can be spent there: all six Wayne guns (1,800), ~25 installs on endgame gear
 (~1,000; no Tools once the Tool Kit is in), some Rebuilds (~300), and medicine for long
 climbs without saves (~800): **~4,000 for a completionist**. With today's numbers an EX
-run earns ~9,000 plus whatever the story run left over, so Junk means little there; at a
-cap of 12 it's ~5,200, close to the sinks once the story's leftovers are counted, and the
+run earns ~7,800 plus whatever the story run left over, so Junk means little there; at a
+cap of 12 it's ~4,900, close to the sinks once the story's leftovers are counted, and the
 Grind preset (×0.75) tightens it further for players who want it.
+
+**The floor 2 farm with the overhaul:** Junk goes into the counter, so the bag trips that
+made vanilla's crow farm slow are gone. A floor 2 fight pays ~2 battle Junk plus ~3–4 crow
+drops; 300 Junk is ~55 fights, roughly **45–60 minutes** instead of ~2 hours. Fine as an
+optional EX farm (it only works until the floor 10 boss falls); no change proposed.
 
 **Chrysler-specific points to decide:**
 
-1. **Every Chrysler fight pays the cap**, so the cap is the only Junk knob there; the
-   cap-12 decision (section 9, question 1) covers it.
-2. **Dismantling becomes ~40% of Chrysler's income** (at cap 12), mostly from the +5 a repeated
+1. **From floor 31 every fight pays the cap**, so the cap is the main Junk knob there;
+   the cap-12 decision (section 9, question 1) covers it. Floors 2–29 pay 2–8 a fight
+   under either option.
+2. **Dismantling becomes about half of Chrysler's income** (at cap 12), mostly from the +5 a repeated
    effect pays (by then nearly every effect is unlocked). Option: drop the repeat bonus to
    +2, or to 0 once the Catalog is complete.
 3. **Tool Kit makes Tools pointless:** a Tool from the rare table or Requisition is wasted
