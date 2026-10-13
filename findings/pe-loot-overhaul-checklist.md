@@ -67,9 +67,9 @@ Tick items off as they land. Design and decision numbers:
       (default) / All Junk
 - [x] Junk found in the bag or Wayne's storage moves into the counter in free movement,
       with a toast (a sweep, not one-time; verified with 50 Junk in storage)
-- [ ] Master switch turned off mid-playthrough: the counter freezes (kept, not converted
-      back), new Junk goes to the bag again, Codex/shop rows are disabled; turning it on
-      resumes (proposed default; switching isn't encouraged, decision 28)
+- [x] Master switch off/on mid-playthrough (decision 45, built 2026-10-12): off = vanilla
+      (Junk in the bag, Wayne counts it, Tools vanilla, Workshop refuses; "Take out Junk"
+      moves the counter into bag/trunk); on = the sweep takes Junk back (test pending)
 - [x] Wayne hand-in with a full bag: his row reads "Discard junk 147, 120/300 bag full"
       (was a toast; 2026-10-13, test pending)
 - [x] Junk total row on the Workshop page (22) (verified)
@@ -190,11 +190,11 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Live test (the new mods' badges: text badges Barg / Scav / Luck / Salv, PE `b73be3b`)
 ## Phase 7: balance (decisions 5, 7)
 
-- [ ] Fit Junk per EXP and the floor to the logged pace: first Wayne gun around Day 4–5
-      on the normal route with ~1–2 h of optional fighting (13, 34)
-- [ ] Set pity chance, step and guarantee
-- [ ] Set install bands, dismantle payouts, buy-back markup, shop prices under the caps
-      (buy-back ≤ 150, Tools ≤ 100)
+- [x] First pass from the balance estimate (saves, video, guides; 2026-10-13): Junk
+      formula kept (1 + EXP/8), cap 12, boss cap 25; pity base/step per preset; prices and
+      payouts checked (decision 34 now: first Wayne gun around the start of Day 4)
+- [ ] Second pass from logged play (Days 4–6 especially): re-check fights per day, EXP per
+      fight, Junk per hour, and adjust the tuning rows
 - [x] Recommended changes from the balance estimate, **built 2026-10-13 (PE `e565a36`,
       playtest pending)**
       ([`pe-loot-balance-estimate-2026-10-13.md`](pe-loot-balance-estimate-2026-10-13.md)
@@ -203,7 +203,7 @@ Tick items off as they land. Design and decision numbers:
       rolls into boosters and hides shop Tools; Medicine 4 50 → 80, Medicine 3 25 → 35;
       repeat-effect dismantle bonus +5 → +2; Wayne's guns and top Chrysler gear rebuild at
       150; Wayne's 300 stays (escalating repeat guns held in reserve)
-- [ ] Make the tuned values the code defaults
+- [x] Make the tuned values the code defaults (first pass, PE `e565a36`)
 - [x] Difficulty presets Relaxed / Normal / Grind on the Workshop page, switchable any
       time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40) — built
       early (PE `a3a57f2`): Junk x1.5/x1/x0.75, guarantee x0.7/x1/x1.3, prices -25%/0/+25%
