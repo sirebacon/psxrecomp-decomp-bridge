@@ -40,6 +40,10 @@ inputs are all listed below, so any of them can be swapped for logger data and r
   25**, and make the presets scale the pity **base chance and step**. Days 1–3 stay as they
   are, Day 4 barely changes, Day 5 halves, the run pays **~2,200** (1,880–2,630), and the
   presets become real (one rare per ~7.6 / 9.8 / 13.8 battles).
+- **EX Game and Chrysler (section 10, estimate only):** every Chrysler fight pays the cap.
+  Today an EX run earns ~12,000 Junk against ~4,000 a completionist can spend; at cap 12
+  it's ~6,500. Two Chrysler-only fixes are proposed: Tool rolls turn into stat boosters
+  once the Tool Kit is held, and the dismantle bonus for repeated effects shrinks.
 
 ---
 
@@ -295,7 +299,66 @@ progress, so a single cap does most of the work.
 
 ---
 
-## 10. Confirming it with a logged playthrough
+## 10. EX Game and the Chrysler Building (lowest confidence: no saves, no logs)
+
+The EX Game replays the story with the cleared save's leftovers (the equipped gun and
+armor, Wayne's storage and his Junk count, unused bonus points; enemy groups are often
+larger) and opens the **Chrysler Building**: 77 floors, the overhaul's Junk counter,
+Mod Catalog and Rebuild list carried in (decision 15). Facts from Shotgunnova's
+walkthrough (private copy) and the gear table:
+
+- **Layout:** floors 1–70 in seven blocks of ten, a boss on every 10th floor (plus Maya on
+  77), random hallway layouts each visit, an armory on every floor, no save points
+  inside. Fights only in corridor screens (never in junctions, dead ends, elevator or
+  stair screens, rarely in armories); beating a block's boss clears its remaining
+  enemies. Floors 71–76 are single screens.
+- **Enemies:** weak on floors 1–10 (the story's Day 5 gear one-shots them), 500+ HP from
+  41, 600+ from 51, 800+ from 61; floors 61–70 give **4,000+ EXP for a pair of wolves**.
+  Every Chrysler fight is far above the EXP that hits any cap (232 today, 88 at cap 12).
+- **Vanilla Junk:** bluebirds on floors 1–10, slimes on 61–70.
+- **Gear:** **60 guns and armor** in its armories, with bigger +bonuses and more mod
+  slots than the story's (Cr Armor 2 has 10).
+- **Tools:** 31 in chests plus 6 Super Tools; Wayne gives the **Tool Kit** at 10 rare
+  cards (around floors 41–50) and the **Super Tool Kit** at all 14 (after floor 70).
+
+**Estimate** (floors 1–70: 63 regular floors at 2–4 fights each):
+
+| | Today (cap 30) | Cap 12, bosses cap 25 |
+|---|---|---|
+| Regular fights (120 / **190** / 250) | 3,900 / **6,160** / 8,100 | 1,560 / **2,460** / 3,240 |
+| 8 bosses | 240 | 200 |
+| Vanilla Junk drops | ~50 | ~50 |
+| Dismantles (60% of 60 pieces at ~35 each) | ~1,260 | ~1,260 |
+| **Chrysler total** | 5,450 / **7,700** / 9,650 | 3,070 / **3,970** / 4,750 |
+| EX story replay (larger groups) | ~4,500 | ~2,500 |
+
+What can be spent there: all six Wayne guns (1,800), ~25 installs on endgame gear
+(~1,000; no Tools once the Tool Kit is in), some Rebuilds (~300), and medicine for long
+climbs without saves (~800): **~4,000 for a completionist**. With today's numbers an EX
+run earns ~12,000 plus whatever the story run left over, so Junk means nothing there; at a
+cap of 12 it's ~6,500, still loose but a postgame power fantasy, and the Grind preset
+(×0.75) brings it near the sinks for players who want it tight.
+
+**Chrysler-specific points to decide:**
+
+1. **Every Chrysler fight pays the cap**, so the cap is the only Junk knob there; the
+   cap-12 decision (section 9, question 1) covers it.
+2. **Dismantling becomes a third of Chrysler's income** (at cap 12), mostly from the +5 a repeated
+   effect pays (by then nearly every effect is unlocked). Option: drop the repeat bonus to
+   +2, or to 0 once the Catalog is complete.
+3. **Tool Kit makes Tools pointless:** a Tool from the rare table or Requisition is wasted
+   once the kit is held. Proposal: with the Tool Kit, a rare **Tool roll becomes a stat
+   booster** (the Super Tool roll likewise with the Super Tool Kit), and Requisition hides
+   Tools.
+4. **Rares:** ~19 in a mid Chrysler climb, nearly all tier-4 stat boosters by the EXP
+   scale, which is the Chrysler reward players want; no change needed.
+
+To firm this up: log a few Chrysler floors (fights per floor, EXP, drops) once an EX Game
+save exists.
+
+---
+
+## 11. Confirming it with a logged playthrough
 
 The loot logger already records every battle (room, EXP, drops, steals) and pickup. To
 turn this estimate into measured numbers:
