@@ -153,7 +153,7 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Wayne's menu: Shop and Buy-back rows; remove them from F1 (27)
 - [x] Native "items found" line for Junk ("Junk ×3") (21), built 2026-10-13 (PE `d907732`,
       test pending): one Junk entry at the top of the list, its name relabelled "Junk xN";
-      credited at battle end, taking it is undone uncounted. **Toasts dropped** for battle,
+      the player's choice as with vanilla drops (user): taken, all N go to the counter and the bag item goes straight back out; left behind, lost; a full bag can't take it; no room in the list, credited directly. **Toasts dropped** for battle,
       chest, sweep and dismantle Junk (user: in-game messages only; replaces 24's toasts)
 - [ ] Remaining toasts to move in game or drop: Tool salvage, Lucky Charm used, economy
       mod found (rare table), Smoke Grenade, Wayne "can't build yet", Wayne refund, rescue
