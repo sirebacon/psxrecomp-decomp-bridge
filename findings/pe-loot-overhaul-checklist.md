@@ -163,8 +163,8 @@ Tick items off as they land. Design and decision numbers:
       build yet" → his row "Day 4"; full-bag hand-in → "bag full"; Wayne refund, Lucky Charm
       used, Tool salvage and the Smoke Grenade's "escaped" dropped (each is visible in
       game); the Smoke Grenade is greyed out in battles it can't escape (no use-and-refund)
-- [ ] Economy mod found by the rare table: still a toast; needs an items-found line (no
-      carrier item yet, C5)
+- [x] Economy mod found by the rare table: an items-found line, a Mod Permit entry named
+      "<mod> mod" in gold; taken = unlocked, left = lost (2026-10-13, test pending)
 - [ ] Rescue hint ("Aya can't attack: Wayne's Workshop has a spare Club"): kept as the one
       toast (soft-lock lifeline); in-game home to decide
 - [ ] Live test
