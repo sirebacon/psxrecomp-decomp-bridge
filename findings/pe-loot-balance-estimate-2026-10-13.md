@@ -41,8 +41,8 @@ inputs are all listed below, so any of them can be swapped for logger data and r
   are, Day 4 barely changes, Day 5 halves, the run pays **~2,200** (1,880–2,630), and the
   presets become real (one rare per ~7.6 / 9.8 / 13.8 battles).
 - **EX Game and Chrysler (section 10, estimate only):** every Chrysler fight pays the cap.
-  Today an EX run earns ~12,000 Junk against ~4,000 a completionist can spend; at cap 12
-  it's ~6,500. Two Chrysler-only fixes are proposed: Tool rolls turn into stat boosters
+  A full video playthrough puts the climb at ~3 hours, ~110 fights. Today an EX run earns
+  ~9,000 Junk against ~4,000 a completionist can spend; at cap 12 it's ~5,200. Two Chrysler-only fixes are proposed: Tool rolls turn into stat boosters
   once the Tool Kit is held, and the dismantle bonus for repeated effects shrinks.
 
 ---
@@ -147,6 +147,28 @@ guns and armor in the main story**: Carnegie Hall and starting gear 7, Central P
 Subway 2), Maeda 1.
 
 ---
+
+### 2.6 A full video playthrough (time per day and per Chrysler block)
+
+A complete first playthrough, EX Game and Chrysler Building on YouTube
+([playlist](https://www.youtube.com/playlist?list=PL510D0B396E327AC5), 112 parts, titled
+by day and floor). Video time is edited, but it matches the saves closely, so the per-day
+weights hold:
+
+| Segment | Video | Saves |
+|---|---|---|
+| Day 1 | 55 min | 44 min |
+| Day 2 | 102 min | 114 min |
+| Day 3 | 92 min | 113 min |
+| Day 4 | 68 min | 84 min |
+| Days 5 + 6 | 233 min | 236 min (Day 5 alone) |
+| EX Game, Days 1–5 | 346 min | |
+| **Chrysler Building, floors 2–77** | **190 min** | |
+
+Chrysler by block: floors 2–10 38 min, 11–20 / 21–30 / 31–40 20 min each, 41–50 22, 51–60
+27, 61–70 29, 71–77 and the ending 14. That's **about 2–3 minutes a floor**, armory,
+walking and the block boss included, which leaves room for only **~1–2.5 fights a floor**
+with EX gear.
 
 ## 3. Battles per day (calibrated against the saves)
 
@@ -299,7 +321,7 @@ progress, so a single cap does most of the work.
 
 ---
 
-## 10. EX Game and the Chrysler Building (lowest confidence: no saves, no logs)
+## 10. EX Game and the Chrysler Building (low confidence: no saves or logs; video timing)
 
 The EX Game replays the story with the cleared save's leftovers (the equipped gun and
 armor, Wayne's storage and his Junk count, unused bonus points; enemy groups are often
@@ -321,36 +343,37 @@ walkthrough (private copy) and the gear table:
 - **Tools:** 31 in chests plus 6 Super Tools; Wayne gives the **Tool Kit** at 10 rare
   cards (around floors 41–50) and the **Super Tool Kit** at all 14 (after floor 70).
 
-**Estimate** (floors 1–70: 63 regular floors at 2–4 fights each):
+**Estimate** (floors 1–70: 63 regular floors at ~1–2.5 fights each, from the video's 2–3
+minutes a floor):
 
 | | Today (cap 30) | Cap 12, bosses cap 25 |
 |---|---|---|
-| Regular fights (120 / **190** / 250) | 3,900 / **6,160** / 8,100 | 1,560 / **2,460** / 3,240 |
+| Regular fights (80 / **110** / 150) | 2,590 / **3,560** / 4,860 | 1,040 / **1,430** / 1,940 |
 | 8 bosses | 240 | 200 |
 | Vanilla Junk drops | ~50 | ~50 |
 | Dismantles (60% of 60 pieces at ~35 each) | ~1,260 | ~1,260 |
-| **Chrysler total** | 5,450 / **7,700** / 9,650 | 3,070 / **3,970** / 4,750 |
-| EX story replay (larger groups) | ~4,500 | ~2,500 |
+| **Chrysler total** | 4,140 / **5,110** / 6,410 | 2,550 / **2,940** / 3,450 |
+| EX story replay (larger groups) | ~4,000 | ~2,300 |
 
 What can be spent there: all six Wayne guns (1,800), ~25 installs on endgame gear
 (~1,000; no Tools once the Tool Kit is in), some Rebuilds (~300), and medicine for long
 climbs without saves (~800): **~4,000 for a completionist**. With today's numbers an EX
-run earns ~12,000 plus whatever the story run left over, so Junk means nothing there; at a
-cap of 12 it's ~6,500, still loose but a postgame power fantasy, and the Grind preset
-(×0.75) brings it near the sinks for players who want it tight.
+run earns ~9,000 plus whatever the story run left over, so Junk means little there; at a
+cap of 12 it's ~5,200, close to the sinks once the story's leftovers are counted, and the
+Grind preset (×0.75) tightens it further for players who want it.
 
 **Chrysler-specific points to decide:**
 
 1. **Every Chrysler fight pays the cap**, so the cap is the only Junk knob there; the
    cap-12 decision (section 9, question 1) covers it.
-2. **Dismantling becomes a third of Chrysler's income** (at cap 12), mostly from the +5 a repeated
+2. **Dismantling becomes ~40% of Chrysler's income** (at cap 12), mostly from the +5 a repeated
    effect pays (by then nearly every effect is unlocked). Option: drop the repeat bonus to
    +2, or to 0 once the Catalog is complete.
 3. **Tool Kit makes Tools pointless:** a Tool from the rare table or Requisition is wasted
    once the kit is held. Proposal: with the Tool Kit, a rare **Tool roll becomes a stat
    booster** (the Super Tool roll likewise with the Super Tool Kit), and Requisition hides
    Tools.
-4. **Rares:** ~19 in a mid Chrysler climb, nearly all tier-4 stat boosters by the EXP
+4. **Rares:** ~12 in a mid Chrysler climb, nearly all tier-4 stat boosters by the EXP
    scale, which is the Chrysler reward players want; no change needed.
 
 To firm this up: log a few Chrysler floors (fights per floor, EXP, drops) once an EX Game
