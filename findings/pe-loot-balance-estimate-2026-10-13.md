@@ -310,11 +310,12 @@ progress, so a single cap does most of the work.
 
 ---
 
-## 9. Recommended changes (2026-10-13, awaiting the user's go-ahead)
+## 9. Recommended changes (2026-10-13; built the same day, PE `e565a36`, playtest pending)
 
 Claude's recommendations after the saves, the video playthrough and the Chrysler guides.
-Not built yet; numbers 1, 4, 7 and 8 are new defaults for rows the Debug → Loot tuning
-page already has.
+Built 2026-10-13 (PE `e565a36`): 1, 2 (boss test: the enemies' "can't escape" flag,
+as the Smoke Grenade uses), 5, 6, 7, 8 and 9; 3 and 4 needed no change. New tuning row:
+Boss Junk cap.
 
 **Junk income**
 
