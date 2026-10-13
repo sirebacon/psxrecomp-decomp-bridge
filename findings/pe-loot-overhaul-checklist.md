@@ -50,7 +50,8 @@ Tick items off as they land. Design and decision numbers:
       cap 30; verified in play 2026-10-12: a toast after every won battle)
 - [ ] Skill bonus: up to +25% battle Junk for a no-hit battle, from the enemies' "hits on
       Aya" counts (`+0x9C`), tracked during the battle (32) (coded; battle test pending)
-- [x] Toast after every won battle: "+N Junk (total T)" (21, 24, 37) (verified in play)
+- [x] ~~Toast after every won battle~~ → replaced 2026-10-13 by the items-found "Junk xN"
+      line (phase 5; user: in-game messages only)
 - [ ] Chest / story Junk → counter (20): `Inv_AddItem(Junk)` rewritten to `Inv_AddItem(0)`
       and counted (coded; the add-item hook sees every chest pickup (14 logged on Day 4),
       but no Junk chest found yet)
@@ -69,7 +70,8 @@ Tick items off as they land. Design and decision numbers:
 - [ ] Master switch turned off mid-playthrough: the counter freezes (kept, not converted
       back), new Junk goes to the bag again, Codex/shop rows are disabled; turning it on
       resumes (proposed default; switching isn't encouraged, decision 28)
-- [ ] Wayne hand-in with a full bag: toast "Free one bag slot to hand Junk to Wayne"
+- [x] Wayne hand-in with a full bag: his row reads "Discard junk 147, 120/300 bag full"
+      (was a toast; 2026-10-13, test pending)
 - [x] Junk total row on the Workshop page (22) (verified)
 - [x] Debug → Loot tuning page: floor, EXP per Junk, per-battle cap, no-hit bonus %, Set Junk
       (30)
@@ -79,14 +81,14 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 2: rare drops (decisions 18, 23)
 
-- [ ] Rare roll with soft pity (only won battles count; enemy drops reset it)
-- [ ] Rare table: Tool 40, stat booster 35 (tier by area), Super/Duper Junk 15, Mod
-      Permit 7, Super Tool 3
-- [ ] Add the drop to the reward list ("items found" screen); carry it over if the list
-      is full
-- [ ] Pity counter in the save-state block and save tail
-- [ ] "Rare drop guaranteed within N battles" row on the Workshop page (23)
-- [ ] Tuning rows: base chance, step, guarantee, table shares
+- [x] Rare roll with soft pity (only won battles count; enemy drops reset it)
+- [x] Rare table: Tool 40, stat booster 35 (tier by battle EXP), Super Junk 10, Duper Junk
+      5, Mod Permit 7, Super Tool 3; phase 6 added economy mod 6 and Lucky Charm 5
+- [x] Add the drop to the reward list ("items found" screen, name in gold); carry it over
+      if the list is full
+- [x] Pity counter and carried drop in the save-state block and save tail
+- [x] "Rare drop guaranteed within N battles" row on the Workshop page (23)
+- [x] Tuning rows: base chance, step, guarantee
 - [ ] Live test, including a save/load mid-streak
 
 ## Phase 3: Codex / Mod Catalog (decisions 9–12, 26) — done (PE `f3ebb08`, `90e011f`, `a375eed`)
@@ -139,8 +141,8 @@ Tick items off as they land. Design and decision numbers:
 
 ## Phase 5: native menus (decisions 21, 22, 25, 27, C10) — partly built (PE `e052f22`, decision 44)
 
-- [ ] Research: which punctuation PE's font has ("·", "/", "(") for Wayne's label and
-      other in-game text; adapt the wording in 6.8 (37)
+- [x] Research: punctuation in the text-box font: '.' 0x2F, ',' 0x4B, ':' 0x4A, '!' 0x2B,
+      ''' 0x2E, '/' 0x4C; no "·" or "(" found, so Wayne's label is "147, 120/300"
 - [x] Research: how selecting an item opens its action list
       (`Menu_OpenItemActionSubmenu` → `Menu_CreateUsableItemActionView`)
 - [x] Aya's item menu: Dismantle on a gun/armor, with confirm (25) — via Discard (44); the F1
@@ -148,16 +150,23 @@ Tick items off as they land. Design and decision numbers:
 - [x] Aya's item menu: Combine on Medicine 1–3 when you hold two (2× → next tier) (C10) — via
       Discard (44)
 - [ ] Aya's item menu title: Junk total (22)
-- [ ] Research: which code draws Wayne's choice list and the "Discard junk" string
-- [ ] Wayne's menu: "Discard junk (147 · 120/300)": your Junk and Wayne's progress (22, 31)
-- [ ] Wayne's menu: Shop and Buy-back rows; remove them from F1 (27)
+- [x] Research: Wayne's choice list is a script text box (FB 09 n), drawn by
+      Menu_DrawTextboxEntries (pe_wayne_menu.c)
+- [x] Wayne's menu: "Discard junk 147, 120/300", plus "bag full" / "Day 4" (22, 31)
+- [x] Wayne's menu: Workshop row → Requisition and Rebuild screens in his own box (27, 47);
+      the F1 pages stay as backup/debug (decision 47)
 - [x] Native "items found" line for Junk ("Junk ×3") (21), built 2026-10-13 (PE `d907732`,
       test pending): one Junk entry at the top of the list, its name relabelled "Junk xN";
       the player's choice as with vanilla drops (user): taken, all N go to the counter and the bag item goes straight back out; left behind, lost; a full bag can't take it; no room in the list, credited directly. **Toasts dropped** for battle,
       chest, sweep and dismantle Junk (user: in-game messages only; replaces 24's toasts)
-- [ ] Remaining toasts to move in game or drop: Tool salvage, Lucky Charm used, economy
-      mod found (rare table), Smoke Grenade, Wayne "can't build yet", Wayne refund, rescue
-      hint, full-bag hand-in
+- [x] In-play toasts moved in game or dropped (2026-10-13, test pending): Wayne "can't
+      build yet" → his row "Day 4"; full-bag hand-in → "bag full"; Wayne refund, Lucky Charm
+      used, Tool salvage and the Smoke Grenade's "escaped" dropped (each is visible in
+      game); the Smoke Grenade is greyed out in battles it can't escape (no use-and-refund)
+- [ ] Economy mod found by the rare table: still a toast; needs an items-found line (no
+      carrier item yet, C5)
+- [ ] Rescue hint ("Aya can't attack: Wayne's Workshop has a spare Club"): kept as the one
+      toast (soft-lock lifeline); in-game home to decide
 - [ ] Live test
 
 ## Phase 6: custom content (C1–C7, decision 19) — built (PE `a3a57f2`), not live-tested
@@ -178,7 +187,7 @@ Tick items off as they land. Design and decision numbers:
 - [x] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7, C14)
 - [x] Research: where Aya's steal resolves; empty steal → a little Junk (19), **banked and
       paid at the battle-end hook only on a win** (35); test steal-and-flee gives nothing
-- [ ] Live test (also: what sprites 0x47–0x4A look like for the new mods' icons)
+- [ ] Live test (the new mods' badges: text badges Barg / Scav / Luck / Salv, PE `b73be3b`)
 ## Phase 7: balance (decisions 5, 7)
 
 - [ ] Fit Junk per EXP and the floor to the logged pace: first Wayne gun around Day 4–5
