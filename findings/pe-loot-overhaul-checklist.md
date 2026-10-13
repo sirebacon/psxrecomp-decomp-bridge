@@ -185,6 +185,12 @@ Tick items off as they land. Design and decision numbers:
 - [x] Research: where battle escape is decided; Smoke Grenade = guaranteed escape,
       sold in the shop (C6, C15)
 - [x] Lucky Charm: double pity progress for 10 won battles, a rare-table entry (C7, C14)
+- [x] Super Junk / Duper Junk are Junk bundles (2026-10-13): vanilla never lets them be
+      used (their use flags are 0; the PE-restore code exists but is dead). With the economy
+      on they turn into 75 / 150 Junk wherever they land (a quarter / half of a Wayne gun,
+      mirroring vanilla's 1/4 / 1/2 PE). Rare weights 10/5 -> 4/2. Wayne's bad roll now
+      refunds through the item (75 / 150) instead of 300; the 300 refund stays for economy off.
+      Descriptions say what they're worth. Test: an old save's Super Junk converts on load
 - [ ] Lucky Charm, untested (kept on, 2026-10-13): test it fires at the next win from the
       bag, counts down, and a second waits. Revisit its value: 10 doubled battles give ~0.4
       extra rares but it costs a rare drop; no in-game sign it's active (F1 row only)
