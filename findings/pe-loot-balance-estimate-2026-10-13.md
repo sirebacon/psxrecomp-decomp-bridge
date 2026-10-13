@@ -2,9 +2,14 @@
 
 An estimate of how much Junk and how many rare drops a normal playthrough produces under
 the overhaul's current numbers, built before a full logged playthrough exists. It combines
-the code's formulas, the loot logger's real battles (Days 1–3), the game's level table and
-facts from the walkthroughs. The aim is to find the numbers that matter most, so the
-logged playthrough can confirm them instead of starting from nothing.
+the code's formulas, the loot logger's real battles (Days 1–3), **26 downloaded saves that
+follow one player from Day 1 to Day 6**, the game's level table and facts from the
+walkthroughs. The aim is to find the numbers that matter most, so the logged playthrough
+can confirm them instead of starting from nothing.
+
+Round 1 (the same day) estimated battle counts from the walkthroughs alone; round 2
+calibrated them against the saves' EXP and play time, which made Day 4 and Day 5 bigger
+than first thought. The numbers below are round 2.
 
 Design and decisions: [`pe-loot-overhaul-design-2026-10-11.md`](pe-loot-overhaul-design-2026-10-11.md)
 (targets in 6.3, decision 34 for Wayne's pace). The model is a small Python script; its
@@ -14,24 +19,27 @@ inputs are all listed below, so any of them can be swapped for logger data and r
 
 ## 1. Summary
 
-- **A normal run has roughly 90–180 battles** (best guess ~145, bosses included). Not every
-  room has a fight, and each trigger spot fires 100% the first time, then 45%, 20%, 10%.
-- **Junk is back-loaded.** Junk per battle is `1 + EXP / 8`, capped at 30. Days 1–4 enemies
-  give 4–70 EXP a fight (1–9 Junk); from Day 5 almost every fight hits the 30 cap. With
-  today's numbers **Day 5 alone pays ~1,800 Junk**, more than Days 1–4 together (~760)
-  and enough for six Wayne guns.
-- **Days 1–4 look about right.** About 440 Junk by the end of Day 3 and 760 by the end of
-  Day 4, before spending, which puts the first Wayne gun at the start of Day 4 for a light
-  spender and mid-Day 4 or later for someone buying installs and Tools.
+- **A normal run has about 130–200 battles** (best guess ~160, bosses included), over
+  about 10 hours to the final day. Not every room has a fight, and each trigger spot fires
+  100% the first time, then 45%, 20%, 10%.
+- **Day 5 is half the game.** In the saves it takes ~4 hours and ~60 fights at roughly
+  950 EXP each, and earns 95% of the run's EXP.
+- **Junk is back-loaded.** Junk per battle is `1 + EXP / 8`, capped at 30. Days 1–3 pay
+  1–7 a fight, Day 4 about 13, and from Day 5 every fight hits the 30 cap. With today's
+  numbers **Day 5 alone pays ~2,300 Junk**, about 2.5× Days 1–4 together (~970) and enough
+  for seven Wayne guns. A run pays **~3,650** (2,980–4,470), against ~1,700 a player who
+  uses every system would spend.
+- **Days 1–3 look about right.** ~490 Junk by the end of Day 3, before spending: the first
+  Wayne gun is affordable at the start of Day 4 for a light spender, later for someone
+  buying Tools and premium installs. Day 4 already pays fast (~13 a fight).
 - **The rare-drop presets don't do anything yet.** Soft pity (4% +1% a dry battle) almost
   always hits before the guarantee, so Relaxed, Normal and Grind all give **one rare per
-  ~9.5–9.8 battles** (~15 rares in a run, ~5 of them Tools on top of vanilla's ~17 chest
+  ~9.5–9.8 battles** (~16 rares in a run, ~6 of them Tools on top of vanilla's ~17 chest
   Tools).
-- **Recommendation:** lower the per-battle cap from 30 to **12**, pay bosses a flat **25**,
-  and make the presets scale the pity **base chance and step** instead of the guarantee.
-  That leaves Days 1–4 unchanged, roughly halves the late game (~1,800 Junk for the whole
-  main story instead of ~2,950), and makes the presets real (one rare per ~7.6 / 9.8 / 13.8
-  battles).
+- **Recommendation:** lower the per-battle cap from 30 to **12**, let **bosses use a cap of
+  25**, and make the presets scale the pity **base chance and step**. Days 1–3 stay as they
+  are, Day 4 barely changes, Day 5 halves, the run pays **~2,200** (1,880–2,630), and the
+  presets become real (one rare per ~7.6 / 9.8 / 13.8 battles).
 
 ---
 
@@ -72,7 +80,7 @@ inputs are all listed below, so any of them can be swapped for logger data and r
 | Day 2, Central Park (birds, monkeys, bears) | 14–30 | 2–4 | ~1 in 3 enemies; one room ~80% |
 | Day 2–3, NYPD (dog-men, mixed) | 20–78 | 3–10 | rare |
 
-### 2.4 Levels and bosses (decomp level table, walkthroughs)
+### 2.4 Level table and walkthrough anchors
 
 EXP to reach a level (resident data pack, `Aya_GetLevelExpTable`):
 
@@ -83,57 +91,97 @@ EXP to reach a level (resident data pack, `Aya_GetLevelExpTable`):
 Above level 38 the curve goes nearly flat (+4,500 a level), which is the "level 38 cap"
 the guides mention.
 
-Anchors from Shotgunnova's walkthrough (private copy; facts only):
+From Shotgunnova's walkthrough (private copy; facts only): Aya is around **level 20 at
+Black Widow**; boss EXP Sheeva 1,000, Black Widow 6,500, Crustacean 2,510, Triceratops
+50,000.
 
-- Aya is **around level 20** when she reaches Black Widow (end of Day 4).
-- Boss EXP: Sheeva 1,000 (Day 3), Black Widow 6,500 (Day 4), Crustacean 2,510 (Day 5),
-  Triceratops 50,000 (Day 5). The other bosses' EXP isn't listed; the model guesses them
-  (section 3). Under today's cap every boss from Day 3 on pays the 30 maximum anyway.
+### 2.5 What the 26 saves show (one player, Day 1 to Day 6)
 
-From these, Days 2–3 run about 20–45 EXP a regular fight and Day 4 about 70 (3,744 EXP by
-Black Widow minus roughly 2,700 by the end of Day 3, over ~15–20 fights). Day 5 and Day 6
-enemies give hundreds of EXP each; the exact figure barely matters, because anything above
-232 EXP (today) or 88 EXP (with a cap of 12) pays the cap.
+Read from each save's 8 KB block (`g_SaveRuntimeState`, RAM 0x800C0DE0, is stored at card
++0x100: play time at +0x108, total EXP at +0x120, level at +0x12A; bag, gear records and
+the trunk follow; Wayne's counter is script variable +0xC0 at card +0x14A4). The field the
+decomp calls `playTimeMinutes` holds seconds.
+
+| Save | Play time | Level | Total EXP |
+|---|---|---|---|
+| Day 1, Alligator | 0:44 | 6 | 51 |
+| Day 2, start | 0:52 | 7 | 81 |
+| Day 2, Amphitheater | 2:10 | 11 | 283 |
+| Day 2, Giant Worms | 2:25 | 13 | 439 |
+| Day 2, end (Flaming Horse) | 2:38 | 14 | 759 |
+| Day 3, NYPD | 3:32 | 14 | 791 |
+| Day 3, 2nd floor | 4:18 | 16 | 1,438 |
+| Day 4, start (after Sheeva) | 4:31 | 18 | 2,705 |
+| Day 4, Lobby revisit | 5:12 | 20 | 3,925 |
+| Day 4, Sperm bank (before Black Widow) | 5:39 | 21 | 5,273 |
+| Day 5, start (after Black Widow) | 5:55 | 24 | 11,793 |
+| Day 5, Chinatown | 6:25 | 24 | 17,155 |
+| Day 5, Sewers | 7:04 | 26 | 25,162 |
+| Day 5, Museum | 7:26 | 27 | 36,688 |
+| Day 5, Security room (after Triceratops) | 8:15 | 31 | 104,394 |
+| Day 5, T-Rex defeated | 9:06 | 33 | 214,670 |
+| Day 6, start | 9:51 | 34 | 225,172 |
+
+What follows from it:
+
+- **Black Widow at level 21** (5,273 → 11,793 is her 6,500 EXP), as the walkthrough says.
+  The T-Rex fight is worth about **100,000 EXP** (108,656 → 214,670 across it).
+- **EXP from regular fights per day** (bosses taken out): Day 1 ~40, Day 2 ~520, Day 3
+  ~950, Day 4 ~2,150, **Day 5 ~55,000**.
+- **Play time per day**: 0:44 / 1:54 / 1:53 / 1:24 / **3:56**. Day 5 is the longest day by
+  far.
+- **No battle counter** in the save: the only fields that rise steadily are stats, HP
+  levels and a story-progress value. Battle counts come from EXP ÷ EXP per fight.
+- This player **never collected Junk or visited Wayne** (0–2 Junk in the bag, Wayne's
+  counter 0) and used every Tool they found, so the saves can't measure vanilla Junk or
+  Tool pickups. They carried 4–12 guns and armor at a time.
+
+Gear supply for dismantling (from
+[`data/pe-gear-locations-2026-10-11.csv`](data/pe-gear-locations-2026-10-11.csv)): **57
+guns and armor in the main story**: Carnegie Hall and starting gear 7, Central Park 5, NYPD
+8, Soho 4, Hospital 8, **Day 5 areas 24** (Museum 11, Warehouse 5, Chinatown and sewers 6,
+Subway 2), Maeda 1.
 
 ---
 
-## 3. Battles per day (estimate)
+## 3. Battles per day (calibrated against the saves)
 
-Regular fights on a normal route, no deliberate grinding:
+| Day | Areas | Play time (save) | Regular EXP (save) | EXP per fight | Low | **Mid** | High |
+|---|---|---|---|---|---|---|---|
+| 1 | Carnegie Hall | 0:44 | ~40 | 4 (logger) | 8 | **10** | 12 |
+| 2 | Central Park, NYPD | 1:54 | ~520 | 20 (logger) | 20 | **25** | 30 |
+| 3 | NYPD, Soho | 1:53 | ~950 | 55 (logger) | 14 | **17** | 22 |
+| 4 | St. Francis Hospital | 1:24 | ~2,150 | ~100 (guess) | 20 | **25** | 32 |
+| 5 | Chinatown, Warehouse, Sewer, Subway, Museum | 3:56 | ~55,000 | ~950 (guess) | 45 | **60** | 75 |
+| 6 | Final dungeon | ? | ? | 1,500+ | 8 | **10** | 15 |
+| | **Total** | **~10 h** | | | **115** | **147** | **186** |
 
-| Day | Areas | Low | **Mid** | High | EXP per fight (mid) |
-|---|---|---|---|---|---|
-| 1 | Carnegie Hall | 6 | **10** | 15 | 4 |
-| 2 | Central Park, NYPD | 15 | **22** | 30 | 20 |
-| 3 | NYPD, Soho | 15 | **22** | 30 | 45 |
-| 4 | St. Francis Hospital | 14 | **20** | 28 | 70 |
-| 5 | Chinatown, Warehouse, Sewer, Subway, Museum | 30 | **45** | 60 | 300+ |
-| 6 | Final dungeon | 6 | **10** | 15 | 600+ |
-| | **Total** | **86** | **129** | **178** | |
-
-Plus about **14 bosses** (Day 1: 2, Day 2: 2, Day 3: 1, Day 4: 2, Day 5: 6, Day 6: 1).
+Plus about **14 bosses**. Day 5's count also fits its play time: at Day 4's pace (a fight
+every ~3.4 minutes) its 3:56 holds ~70 fights. For Day 5 and Day 6 the exact EXP per fight
+doesn't matter for Junk: anything above 232 EXP (today) or 88 EXP (with a cap of 12) pays
+the cap.
 
 Other income the model counts (per day, mid): vanilla Junk drops (0.8 a fight on Day 2,
-falling to 0.2–0.4 later), the no-hit bonus (+8% on average), and dismantling the gear
-you find (10 / 40 / 50 / 60 / 150 / 30 Junk on Days 1–6, ~340 in all, from ~25 dismantles
-at 10–25 Junk each). Steals and empty steals are left out: they need a steal club
-(Day 3) and are optional.
+falling to 0.2–0.4 later), the no-hit bonus (+8% on average), and dismantling about 60% of
+the gear found (30 / 40 / 90 / 60 / 190 / 0 Junk on Days 1–6, ~410 in all, at 10–25 Junk a
+piece). Steals and empty steals are left out: they need a steal club (Day 3) and are
+optional.
 
 ---
 
-## 4. Junk income with today's numbers (Normal, mid battle counts)
+## 4. Junk income with today's numbers (Normal, mid)
 
 | Day | Junk per fight | Fights | Bosses | Vanilla drops | Dismantles | **Day total** | **By end of day** |
 |---|---|---|---|---|---|---|---|
-| 1 | 1 | 11 | 10 | 0 | 10 | **31** | **31** |
-| 2 | 3 | 71 | 49 | 18 | 40 | **178** | **209** |
-| 3 | 6 | 143 | 30 | 9 | 50 | **231** | **440** |
-| 4 | 9 | 194 | 60 | 6 | 60 | **320** | **760** |
-| 5 | 30 | 1,458 | 180 | 14 | 150 | **1,802** | **2,562** |
-| 6 | 30 | 324 | 30 | 2 | 30 | **386** | **2,948** |
+| 1 | 1 | 11 | 8 | 0 | 30 | **49** | **49** |
+| 2 | 3 | 81 | 41 | 20 | 40 | **182** | **231** |
+| 3 | 7 | 129 | 30 | 7 | 90 | **255** | **486** |
+| 4 | 13 | 351 | 60 | 8 | 60 | **478** | **965** |
+| 5 | 30 | 1,944 | 180 | 18 | 190 | **2,332** | **3,297** |
+| 6 | 30 | 324 | 30 | 2 | 0 | **356** | **3,653** |
 
-With low battle counts the run ends near 2,190; with high, near 3,770. Either way Day 5
-dwarfs everything before it: going from 9 Junk a fight to the 30 cap overnight.
+Low battle counts: ~2,980 for the run; high: ~4,470. In Junk per hour of play: about
+100–130 on Days 2–3, ~340 on Day 4, **~600 on Day 5**.
 
 ---
 
@@ -151,7 +199,9 @@ A plausible spend for a player who uses every system over the main story:
 | **Total** | | **~1,700** |
 
 By the start of Day 4 a light spender (a few installs and medicines) has spent about
-**150**; a heavy one (Tools, premium installs) about **300**.
+**150**; a heavy one (Tools, premium installs) about **300**. The Chrysler Building (EX
+Game) keeps paying after the story, so ending the story with a few hundred spare is fine;
+ending with ~2,000 spare is not.
 
 ---
 
@@ -160,17 +210,19 @@ By the start of Day 4 a light spender (a few installs and medicines) has spent a
 Target: affordable around **Day 4–5**, with **about 1–2 hours of optional fighting**;
 vanilla's Day 4 gate is the ceiling.
 
-With today's numbers (mid), the player has earned ~440 Junk by the end of Day 3:
+With today's numbers (mid), the player has earned ~490 Junk by the end of Day 3:
 
-- **Light spender (~150 spent):** ~290 left; the gun is affordable right at the start of
-  Day 4 with no extra fighting. Slightly faster than the target.
-- **Heavy spender (~300 spent):** ~140 left; Day 4's own fights (~230 Junk) get there
-  mid-Day 4, or ~20 extra fights (~30–40 minutes) at its start.
+- **Light spender (~150 spent):** ~340 left; the gun is affordable right at the start of
+  Day 4 with no extra fighting.
+- **Heavy spender (~300 spent):** ~190 left; Day 4's own fights get there in its first
+  third, or ~10 extra fights (~20 minutes) at its start.
 
-So the early pace is close to the target, a little generous. The real problem is after:
-on Day 5 every player can afford **five or six more Wayne guns**, Rebuild and premium
-installs stop being decisions, and Junk stops mattering for the last third of the game
-(against design rule "never pointless", 6.3).
+So the first gun lands at the start of Day 4 for nearly everyone; the "1–2 hours of
+optional fighting" in decision 34 no longer applies, because on Day 4 an hour of extra
+fighting is worth 300+ Junk by itself. Whether that's fine is a design call (question 3
+in section 9). The bigger problem is after: on Day 5 every player can afford **seven more
+Wayne guns**, Rebuild and premium installs stop being decisions, and Junk stops mattering
+for the last half of the play time (against design rule "never pointless", 6.3).
 
 ---
 
@@ -186,10 +238,11 @@ Expected battles per rare drop (soft pity, computed exactly):
 | Lucky Find or Lucky Charm (pity counts double) | | 7.1 battles |
 
 The chance passes 50% within about 10 dry battles, so the guarantee almost never fires,
-and scaling it changes nothing. Over a mid run (~143 battles) that's **~15 rares**:
-~5 Tools, ~5 stat boosters, ~2 Super/Duper Junk, ~1 Mod Permit, ~1 economy mod, ~1 Lucky
-Charm and a 40% chance of a Super Tool. Five extra Tools on vanilla's ~17 seems right
-alongside the shop's capped Tools.
+and scaling it changes nothing. Over a mid run (~160 battles) that's **~16 rares**: ~6
+Tools, ~5 stat boosters, ~2 Super/Duper Junk, ~1 Mod Permit, ~1 economy mod, ~1 Lucky Charm
+and a ~45% chance of a Super Tool. Six extra Tools on vanilla's ~17 seems right alongside
+the shop's capped Tools. Because Day 5 has ~40% of the fights, it also gets ~40% of the
+rares; that's fine.
 
 **Fix:** let the presets scale the base chance and step too:
 
@@ -203,35 +256,39 @@ alongside the shop's capped Tools.
 
 ## 8. Options compared
 
-Cumulative Junk by the end of each day (Normal preset, mid battle counts; low–high range
-for the run total):
+Cumulative Junk by the end of each day (Normal preset, mid battle counts) and the run
+total's low–high range. Options C, E and F let bosses use a cap of 25 (same formula:
+Day 1 bosses pay 2–6, Day 2 bosses ~20, Sheeva onwards 25).
 
-| Option | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 (run) | Run range |
+| Option | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Run (Day 6) | Run range |
 |---|---|---|---|---|---|---|---|
-| **A. Today:** `1 + EXP/8`, cap 30 | 31 | 209 | 440 | 760 | 2,562 | **2,948** | 2,190–3,770 |
-| **C. Cap 12, bosses a flat 25** | 31 | 184 | 410 | 707 | 1,604 | **1,791** | 1,400–2,230 |
-| **E. Cap 12, `1 + EXP/12`, bosses 25** | 28 | 157 | 336 | 568 | 1,465 | **1,652** | 1,300–2,040 |
-| **D. `1 + √EXP / 2`, cap 20** | 38 | 182 | 352 | 557 | 1,278 | **1,471** | |
+| **A. Today:** `1 + EXP/8`, cap 30 | 49 | 231 | 486 | 965 | 3,297 | **3,653** | 2,980–4,470 |
+| **C. Cap 12, bosses cap 25** | 49 | 231 | 481 | 923 | 2,058 | **2,215** | 1,880–2,630 |
+| **E. Cap 12, `1 + EXP/12`, bosses cap 25** | 49 | 204 | 417 | 778 | 1,914 | **2,070** | 1,760–2,450 |
+| **F. Cap 10, bosses cap 25** | 49 | 231 | 481 | 869 | 1,875 | **2,010** | 1,720–2,370 |
 
-- **C** keeps Days 1–4 as they are (the cap only bites from Day 5), halves the late game,
-  and brings the run total in line with what the sinks can absorb (~1,700, section 5).
-  Bosses still feel like a payday: 25 is over two regular Day 5 fights.
-- **E** also slows Days 2–4 by ~20%, which moves the first Wayne gun to mid/late Day 4 for
-  a light spender: closer to decision 34's "1–2 hours of optional fighting", but Days 2–3
-  would pay only 2–4 Junk a fight.
-- **D** flattens the whole curve but makes early fights feel worth the same as late ones
-  and needs a new formula row in Debug → Loot tuning; C and E are just two existing rows
-  and one new boss rule.
+- **C** keeps Days 1–3 as they are and Day 4 nearly so (13 → 12 a fight), halves Day 5,
+  and lands the run ~500 above what the sinks absorb, which the EX Game can soak up.
+  Bosses still feel like a payday: 25 is two regular Day 5 fights.
+- **F** is C a notch tighter (Day 4 at 10 a fight); the run lands at ~2,000.
+- **E** also slows Days 2–4 by ~15–20%, which pushes the first Wayne gun to around
+  mid-Day 4 for a light spender: closer to decision 34's "optional fighting", at the cost
+  of Days 2–3 paying only 2–5 Junk a fight.
+
+A per-day or per-level cap (e.g. 6 / 10 / 14 rising through the story) was considered but
+needs a story-day read the mod doesn't have yet; the EXP formula already scales with
+progress, so a single cap does most of the work.
 
 ---
 
 ## 9. Proposed decisions (for the user)
 
-1. **Per-battle cap: 30 → 12** (option C). Days 1–4 unchanged; Day 5–6 fights pay 12.
-2. **Boss pay: a flat 25** for any battle worth ≥ 1,000 EXP (Sheeva onwards), instead of the
-   cap. Early bosses (Days 1–2) keep the normal formula.
-3. **Early pace: keep `EXP / 8`** (C) or **slow it to `EXP / 12`** (E) if the first Wayne
-   gun should need real optional fighting on Day 4.
+1. **Per-battle cap: 30 → 12** (option C), or **10** (F) for a tighter run.
+2. **Bosses use a cap of 25** with the same formula. Needs a reliable "this is a boss
+   fight" test: the game's own no-escape flag on boss battles is the likely candidate (to
+   confirm in the decomp before building).
+3. **Early pace: keep `EXP / 8`** (C), or **slow it to `EXP / 12`** (E) if the first Wayne
+   gun should take some real optional fighting on Day 4.
 4. **Presets scale pity base and step** as in section 7, not only the guarantee.
 5. **Keep** the floor (1), the no-hit bonus (25%), the rare table shares, dismantle
    payouts and all prices for now; revisit after the logged run.
@@ -241,16 +298,16 @@ for the run total):
 ## 10. Confirming it with a logged playthrough
 
 The loot logger already records every battle (room, EXP, drops, steals) and pickup. To
-turn this estimate into numbers:
+turn this estimate into measured numbers:
 
-- Play with **Debug → Loot logger** on. A short session per day is enough; Days 4–6 matter
-  most (no data yet).
+- Play with **Debug → Loot logger** on, at least a stretch of **Day 4 and Day 5** (no data
+  yet; they decide most of the balance).
 - Note the in-game day when a session starts (or a day column can be added to the log).
-- From the log: battles per day, EXP per battle per area, vanilla Junk drops, and time per
-  battle; these replace the "mid" columns in sections 3–4, and the options table is
+- From the log: battles per area, EXP per battle, vanilla Junk drops, and time per battle;
+  these replace the guessed Day 4–5 EXP per fight in section 3, and the options table is
   re-run.
 
-**Biggest uncertainties, in order:** Day 5 battle count (30–60), how many fights players
-take on backtracking, and the dismantle income (depends on how much found gear a player
-breaks down). The cap recommendation holds across the whole low–high range; the early-pace
-choice (3) is the one most sensitive to the real battle counts.
+**Biggest uncertainties, in order:** Day 5's battle count (45–75), Day 4's EXP per fight
+(sets whether a cap of 10–12 bites there), and dismantle income (depends on how much found
+gear a player breaks down). The cap recommendation holds across the whole low–high range;
+the early-pace choice (question 3) is the one most sensitive to the real counts.
