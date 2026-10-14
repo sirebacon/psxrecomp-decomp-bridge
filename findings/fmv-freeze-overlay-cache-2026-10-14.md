@@ -1,51 +1,56 @@
-# FMV freeze: movie player left uncompiled after a game.toml change (2026-10-14)
+# FMV freeze: story movies stop getting frames partway (2026-10-14)
+
+Status: **root cause open; worked around** by the mod's movie watchdog (PE `02e97a2`,
+F1 > PE Enhancements > `Unstick movies`, on by default).
 
 ## Symptom
 
-Story movies (Day 1 theater and others) froze on their first frame, every time, with or
-without save states. The game kept running at ~60 fps; the scene never advanced. The
-New Game opening movie still played.
+Story movies froze, every time, with or without save states. The game kept running at
+~60 fps; the picture stopped and the scene never moved on. The New Game opening movie
+played.
 
-## What the game was doing (live, debug port 4370)
+## What the game is doing (live, debug port 4370)
 
-- Hottest interpreted PC `0x801212A0` (~45% of time, ~6,000 instructions per pass): inside
-  `MenuCardFirst_UpdateVideoFrame` (`0x80121270`, decomp
-  `src/overlays/menu_memcard/video_frame.inc`), the movie player's per-frame update in the
-  `menu_memcard` overlay (which also holds the game's video player and its `\FMV000.STR`
-  table). It spins on `while (StGetNext(...) != 0) if (--retries == 0) return 0;`: no movie
-  frame ever arrives in the stream ring.
-- The drive was fine: `cdrom_timing` showed every data sector delivered on schedule, none
-  late or lost. Data-ready interrupts were raised and acknowledged, but the stream handler
-  never requested the sector (`request` stayed `0x00`), so the runtime overwrote them
-  (`ring_dropped` climbing). The game then paused and restarted the stream from the same
-  spot about every 6 seconds: the endless "freeze".
-- In the working opening movie, `request` was `0x80` and the disc position advanced.
+- The movie player is `MenuCardFirst_UpdateVideoFrame` (`0x80121270`, `menu_memcard`
+  overlay, decomp `src/overlays/menu_memcard/video_frame.inc`). It spins on
+  `while (StGetNext(...) != 0) if (--retries == 0) return 0;`: no new frame ever arrives.
+- `\FMV004.STR` (VideoEntry `end` = 561) stops at **frame 439 every time**
+  (`g_MenuCardVideoLastTime` `0x801227E8` = `0x1B7`; MDEC input stops at the same word
+  count, 2,956,288, run after run). Deterministic, not a race.
+- The drive is fine: `cdrom_timing` shows every data sector delivered on schedule, none
+  late or lost; the sectors are valid video sectors (`0x0160`/`0x8001` headers) with
+  `data_delivered = 1`. Data-ready interrupts are raised and acknowledged, but the stream
+  handler never requests the sector (`request` stays `0x00`), so the runtime overwrites
+  them (`ring_dropped` climbing). The game re-seeks and re-reads the same stretch (around
+  28:23–29:02, header frame numbers ~511) about every 6 s, forever.
 
-## Cause
+## What it is not (A/B tested)
 
-The overlay compile cache is keyed by the game config:
-`build-release/cache/SLUS-00662/gcc/win-x64/cg10_<...>_gc<game.toml hash>_f0/`. Adding
-hooks to `game.toml` `mod_function_entry_funcs` (2026-10-13 afternoon: the spell hook
-`0x80024250`, the analog pad hook `0x8003EB04`) switched the runtime to a fresh, empty cache
-folder. In the old folder (`gc2c727bcc`) the movie player overlay region `0x00121000` had
-been compiled (5 DLLs, one per player variant). In the new one (`gc0408ccb0`) about 3,000
-other pieces compiled but the movie player never did (a leftover
-`0012912A_fragment_patched.c` with no DLL suggests a failed attempt). Interpreted, the
-player is too slow for the stream library, which drops the movie.
+- **Save states**: freezes from a New Game with no state loaded.
+- **The decomp syncs**: a build with the seeds from before both syncs froze the same way.
+- **The two hooks added 2026-10-13** (`0x80024250`, `0x8003EB04`): a build with the old
+  `game.toml`, using the old overlay cache folder, froze the same way.
+- **The interpreted movie player**: first suspected (in the new cache folder,
+  `gc0408ccb0`, the player overlay `0x00121000` had never been compiled, so it ran
+  interpreted and stalled at the very first frame). Copying the compiled `00121000_*`
+  files from the old folder (`gc2c727bcc`) made it compiled; the movie then got further
+  (to frame 439) and stalled there instead. One run after the copy played through, which
+  was luck or a different movie.
 
-Not a decomp problem, and not the decomp syncs: an A/B build with the seeds from before
-both syncs froze the same way.
+## Workaround
 
-## Fix (workaround)
+`Unstick movies`: while that player is loaded (first two instructions `27BDFFD0 AFB10024`)
+and a movie is running (`g_MenuCardVideoFinished` `0x801223F5` = 0, `g_MenuCardVideoEntry`
+`0x801227E4` set), a last frame that hasn't moved for 5 s sets `Finished`, the game's own
+end of movie. The rest of that movie is lost; the story carries on. Play log row
+`fmv_watchdog` names the movie and frame.
 
-Copied `00121000_*` (dll, ranges, pair-lock) from the old cache folder into the current
-one. The movie then played through. Overlay DLLs don't depend on the main-EXE hook list.
+## Next steps for the real cause
 
-## Open
-
-- Why the runtime's autocompile doesn't produce the `0x00121000` DLL in the new cache
-  (`stall_report` showed `autocompile state=running, result_seen=0`). Check the compile log
-  for that region / the fragment file.
-- Until fixed: after any `game.toml` change, carry `00121000_*` into the new cache folder
-  (or re-test a story movie). Report upstream (psxrecomp runtime / overlay autocompile),
-  with this file, if it reproduces from a clean cache.
+- Why the stream library stops accepting sectors at a fixed frame: read libpress's
+  `StCdInterrupt` / ring state at the stall (ring full of an incomplete frame? a frame
+  larger than its slot? end-frame from `StSetStream`?), and compare a sector-by-sector
+  trace of the same stretch in a working emulator (DuckStation) against ours.
+- Keep `00121000_*` compiled after `game.toml` changes (the interpreted player stalls
+  even earlier).
+- Report upstream (psxrecomp CD/stream emulation) once the mechanism is known.
