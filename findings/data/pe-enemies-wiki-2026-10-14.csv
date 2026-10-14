@@ -1,0 +1,81 @@
+creature,variant,location,level,hp,exp,bp,Cyanide,Acid,Tranq,Heat,Freeze,o_Confuse,o_Steal,o_Scan,o_Slow,o_Escape,item,steal
+Alligator,Alligator,Theater sewers,7,Body: 120Tail: 80,30,31/3,Strong,Strong,Weak,Weak,Strong,Strong,Average,Weak,Strong,No,Kv Vest 1,Offense 1
+Alligator,Alligator,Chinatown sewers,25,215,522,26/8,Strong,Strong,Strong,Weak,Average,Strong,Average,Weak,Strong,Yes,"Range +1, Cr Vest","Junk, Tool"
+Alligator,Alligator,Chrysler Building Floor 20,29,1200,150,256/30,Strong,Strong,Strong,Weak,Strong,Strong,Average,Weak,Strong,No,Chrysler Key 2,None
+Armadillo,Armadillo 1,Museum,29,240,2326,15/5,Strong,Average,Average,Strong,Weak,Strong,Average,Weak,Weak,No,"Medicine 3, Medicine 4, Cure All",Defense +1
+Armadillo,Armadillo 2,Museum,29,240,1202,15/5,Average,Average,Average,Strong,Weak,Strong,Average,Weak,Weak,Yes,"Ammo +15, Junk, Medicine 3",Ammo +15
+Armadillo,Armadillo 3,Chrysler Building Floors 41-60,38,410,144,52/20,Strong,Average,Average,Average,Average,Strong,Average,Weak,Weak,Yes,Medicine 3,Medicine 4
+Bacterium,Bacterium,Hospital,18,88,48,6/3,Average,Weak,Weak,Weak,Strong,Weak,Weak,Weak,Strong,Possible,"Medicine 1, Ammo+6, Cure-P","Ammo+6, Medicine 1"
+Bacterium,Bacterium,Chrysler Building Floors 61~70,49,880,855,37/35,Average,Weak,Weak,Average,Strong,Weak,Weak,Weak,Strong,Possible,"Junk, Medicine 4","Ammo+30, Medicine 4"
+Bat,Bat,"Chinatown Sewers, Subway",23,112,301,10/4,Average,Average,Average,Weak,Average,Average,Weak,Weak,Average,Possible,"Medicine 2, Ammo+6, Cure-D","Medicine 2, Cure-D"
+Bat,Bat,Chrysler Building Floors 2~20,17,98,3,26/8,Average,Average,Average,Weak,Average,Average,Weak,Weak,Average,Possible,"Medicine 1, Cure-D","Cure-D, Medicine 3"
+Bear,Bear,Central Park,12,75,12,16/5,Average,Average,Strong,Weak,Average,Strong,Average,Weak,Average,Possible,Ammo+15,Ammo+6
+Bear,Bear,Chrysler Building Floors 61-70,53,1000,894,35/7,Average,Average,Strong,Weak,Average,Strong,Average,Weak,Average,Possible,Medicine 4,Revive
+Bee,Queen Bee,Chrysler Building 70th floor,74,"12,000","20,000",400/58,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,Chrysler Key 7,None
+Bee,Bee 1,Chrysler Building 70th floor,74,600,0,30/12,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,None,None
+Bee,Bee 2,Chrysler Building 70th floor,74,"1,200",128,300/37,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,None,None
+Cat,Cat,Chinatown,23,135,361,21/8,Average,Average,Strong,Strong,Weak,Strong,Average,Weak,Average,Possible,"Medicine 2, Ammo+6, Ammo+15","Medicine 2, Ammo+15, Ammo+6"
+Cat,Cat,Chrysler Building Floors 31~40,32,375,52,38/15,Average,Average,Strong,Average,Average,Strong,Average,Weak,Average,Possible,"Ammo +6, Ammo +30",Medicine 3
+Centipede,Centipede (Head only),Subway,26,500,"10,000",90/15,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,"Ammo+30, offense +1, Defense +1",Tool
+Centipede,Centipede (Head only),,34,1200,800,104/28,Strong,Strong,Strong,Strong,Weak,Strong,Strong,Strong,Strong,No,None,None
+Chameleon,Chameleon,American Museum of Natural History,29,200,896,16/4,Weak,Average,Strong,Strong,Average,Average,Weak,Weak,Average,Possible,"Junk, Ammo+15, Medicine 2","Junk, Medicine 3"
+Chameleon,Chameleon,Chrysler Building Floors 31~40,26,315,40,38/15,Average,Average,Strong,Strong,Average,Average,Weak,Weak,Average,Possible,"Medicine 3, Cure-M","Ammo +15, Ammo +30"
+Cockroach,Cockroach,Chrysler Building Floor 50,49,4200,5000,321/18,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,Chrysler Key 5,None
+Crab,Crab (Head),Warehouse,32,856,2510,100/15,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,AT4 rocket launcher,"Offense +1, Defense +1"
+Crab,Crab (Head),Chrysler Building Floor 60,59,6400,"10,000",240/39,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,Ammo +30,None
+Crow,Crow,"Central Park, NYPD",8,35,6,6/3,Weak,Average,Average,Average,Average,Average,Average,Weak,Average,Possible,Junk/Medicine 1,Junk/Medicine 2
+Crow,Crow,Chrysler Building Floors 2-10,10,74,1,6/1,Weak,Average,Average,Average,Average,Average,Average,Weak,Average,Possible,"Junk, Medicine 2","Junk, Medicine 3"
+Dogman,Dogman,NYPD,17,98,39,15/10,Average,Average,Strong,Average,Average,Strong,Average,Weak,Strong,Possible,"Medicine 2, junk","Medicine 2, Medicine 1, Medicine 3"
+Dogman,Dogman,Chrysler Building Floors 61~70,52,980,920,44/11,Average,Average,Average,Average,Average,Average,Average,Weak,Strong,Possible,"Junk, Ammo +30, Revive",Medicine 4
+Eve (boss),Actress,Carnegie Hall,1,40,0,0,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,"PE+1,PE+2"
+Eve (boss),Eve,"Carnegie Hall, Central Park",4,92,0,0,Strong,Strong,Strong,Strong,Strong,Strong,Average,Strong,Average,No,None,"PE+1,PE+3"
+Eve (boss),Eve,Liberty Island/Statue of Liberty,37,1600 (bottom); 1750 (middle); 1900 (top),0,1000/20,Strong,Strong,Strong,Strong,Strong,Strong,Average,Strong,Average,No,None,"Tool, Trading Card (bottom); Range+1, PE+1, Tool, Trading Card (middle); Bullet Cap+1, CR Evade+1 Tool, Trading Card (top)"
+Eve (boss),Eve,Liberty Island/Statue of Liberty,37,2200,"10,000",0/0,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,None
+Flyman,Flyman,Hospital,19,110,86,9/5,Strong,Strong,Average,Strong,Weak,Strong,Average,Weak,Average,Possible,"Ammo+6, Medicine 2, Cure-M","Ammo+6, Cure-M"
+Flyman,Flyman,Chrysler Building Floors 21~40,22,240,15,20/12,Strong,Strong,Average,Strong,Weak,Strong,Average,Weak,Average,Possible,"Cure-M, Medicine 3",Medicine 3
+Frog,Frog,Carnegie Hall sewers,4,34,4,8/3,Average,Strong,Strong,Strong,Weak,Strong,Average,Weak,Strong,Possible,"Ammo+6, Medicine 1",Ammo+6
+Frog,Frog,Chinatown sewers,24,153,425,12/8,Strong,Strong,Strong,Weak,Average,Strong,Average,Weak,Strong,Possible,"Medicine 2, Junk",Junk
+Frog,Frog,Chrysler Building Floors 41-50,30,460,133,20/4,Average,Strong,Strong,Strong,Weak,Strong,Average,Weak,Strong,Possible,Ammo+15,"Medicine 3, Revive"
+Giantworm,Giantworm,Central Park,13,"Small (80), Medium (150), Large (175), Largest (200)",80 (each),80/4,Strong,Strong,Strong,Average,Strong,Strong,Weak,Strong,Average,No,"Defense+1, Offense+1, Ammo+15","Ammo+15, Tool"
+Kerberos,Kerberos,N.Y.P.D.,18,300 (left); 400 (center); 200 (right),1000,110/8,Strong,Strong,Strong,Average,Average,Strong,Strong,Weak,Strong,No,P9-2 pistol,"Tool, Super Tool"
+Mixedman,Mixedman,Hospital,21,170,114,15/6,Strong,Average,Average,Average,Weak,Strong,Average,Weak,Strong,No,"Ammo+15, Cure-M, Medicine 1","Medicine 2, Cure-M"
+Mixedman,Mixedman,Chrysler Building Floors 31~40,31,400,64,30/20,Strong,Average,Average,Average,Weak,Strong,Average,Weak,Strong,No,"Cure-M, Ammo +15",Medicine 4
+Mole,Mole,Subway,25,161,462,15/8,Strong,Strong,Strong,Weak,Weak,Strong,Average,Weak,Strong,Possible,"Medicine 2, Ammo+6, Cure-P",Offense + 1
+Mole,Mole,Chrysler Building Floors 11~20,19,144,7,39/12,Strong,Strong,Strong,Weak,Weak,Strong,Average,Weak,Strong,Possible,"Medicine 2, Magazine +15","Medicine 2, Revive"
+Monkey,Monkey,Central Park,10,57,10,9/3,Average,Average,Strong,Average,Average,Strong,Average,Weak,Average,Possible,"Ammo+6, Offense+1 (rare drop)","Medicine 1, Offense+1, Offense +2"
+Monkey,Monkey,Chrysler Building Floors 11-20,21,158,9,10/2,Average,Average,Strong,Average,Average,Strong,Average,Weak,Average,Possible,Revive,Medicine 2
+Parrot,Parrot (1),Theater basement,2,10,1,2/1,Weak,Weak,Strong,Strong,Weak,Strong,Weak,Weak,Strong,Possible,"Ammo+6, Medicine 1",Ammo+6
+Parrot,Parrot (2),Chrysler Building Floors 41-50,31,420,115,18/3,Weak,Weak,Strong,Strong,Weak,Strong,Weak,Weak,Strong,Possible,"Medicine 2, Medicine 4",Medicine 4
+Plant,Plant,Central Park,11,60,10,9/4,Strong,Strong,Strong,Weak,Average,Average,Average,Weak,Average,Possible,"Ammo+6 (X2), Cure-P","Ammo+6, Cure-P"
+Plant,Plant,Chrysler Building Floors 21~40,21,280,27,15/5,Strong,Strong,Strong,Weak,Average,Average,Average,Weak,Average,Possible,"Medicine 2, Cure-P",Medicine 3
+Pterodactyl,Pterodactyl,American Museum of Natural History,31,320,1256,32/10,Strong,Strong,Strong,Average,Average,Strong,Average,Weak,Strong,Possible,"Medicine 4 (Only dropped in first encounter) , Medicine 3, Ammo+15","Cure-D, Ammo+15, Range +1 Bullet Cap +1 (Can only be stolen from first encounter)"
+Pterodactyl,Pterodactyl,Chrysler Building,37,550,256,31/20,Strong,Strong,Strong,Strong,Average,Strong,Average,Weak,Strong,Possible,"Cure-D, Junk",Junk
+Rat (Parasite Eve),Rat,"Theater basement, sewer",2,12,2,5/2,Weak,Average,Weak,Weak,Average,Weak,Average,Weak,Strong,Possible,"Ammo+6, medicine 1",Ammo+6
+Ratman,Ratman,Hospital,20,120,92,11/6,Weak,Average,Strong,Weak,Strong,Strong,Average,Weak,Average,Possible,"Medicine 2, Ammo+6","Ammo+6, Medicine 2"
+Ratman,Ratman,Chrysler Building Floors 51-60,45,715,364,32/28,Weak,Average,Strong,Average,Strong,Strong,Average,Weak,Average,Possible,"Ammo+15, Ammo+30",Revive
+Scorpion (Parasite Eve),Scorpion 1,Museum,32,390,3652,24/9,Strong,Average,Strong,Average,Average,Average,Average,Weak,Strong,Yes,"Medicine 3, PE +1, Range +2",Range +2
+Scorpion (Parasite Eve),Scorpion 2,Museum,32,390,2036,24/9,Strong,Average,Strong,Average,Average,Average,-,Weak,Average,Yes,"Cure-P, Ammo +30","Cure-P, Medicine 4"
+Scorpion (Parasite Eve),Scorpion 3,Chrysler Building Floors 41-50,35,580,160,38/24,Strong,Average,Strong,Strong,Weak,Strong,-,Weak,Strong,Yes,"Ammo +6, Ammo +30","Medicine 4, Revive"
+Snake,Snake,Central Park,7,32,6,5/3,Average,Average,Average,Strong,Average,Average,Average,Weak,Average,Possible,Medicine 1,Cure-P
+Snake,Snake,"Chinatown, Chinatown Sewers",22,99,287,8/6,Strong,Strong,Strong,Strong,Weak,Weak,Weak,Weak,Strong,Possible,Ammo +6,Cure-P
+Snake,Snake,Chrysler Building (Floors 11~30),20,120,5,8/2,Strong,Strong,Strong,Strong,Average,Weak,Weak,Weak,Strong,Possible,"Ammo +6, Medicine 1",Cure-P
+Snake,Snake,Chrysler Building Floors 61~70,46,780,804,28/6,Strong,Strong,Average,Strong,Average,Average,Average,Strong,Average,Possible,"Cure-P, Medicine 4",Medicine 4
+Spider,Spider,NYPD,15,78,20,13/6,Strong,Average,Strong,Average,Weak,Weak,Weak,Weak,Weak,Possible,"Ammo+15, Cure M","Ammo+6, Ammo+15"
+Spider,Spider,Hospital,22,152,20,24/6,Strong,Average,Strong,Average,Weak,Weak,Weak,Weak,Weak,Possible,"Medicine 1, Cure-M, Ammo +15","Offense +1, Offense +2"
+Spider,Spider,Warehouse,26,242,185,32/9,Strong,Strong,Strong,Weak,Average,Strong,Average,Weak,Strong,Possible,"Ammo+15, Cure M","Ammo+6, Ammo+15"
+Spider,Spider,Chrysler Building Floors 21~30,23,205,23,28/15,Strong,Strong,Strong,Average,Weak,Weak,Weak,Weak,Weak,Possible,Ammo+30,"Cure-M, Revive"
+Spiderwoman,Spiderwoman (1st Stage),Hospital,22,450,6500,80/10,Strong,Strong,Strong,Average,Average,Strong,Strong,Strong,Strong,No,None,None
+Spiderwoman,Spiderwoman (2nd Stage),Hospital,23,400,6500,80/10,Strong,Strong,Strong,Average,Average,Strong,Strong,Strong,Strong,No,G23 Handgun,"Tool, Super Tool"
+Spiderwoman,Spiderwoman (Chrysler),Chrysler Building Floor 10,24,1000,100,128/30,Strong,Strong,Strong,Strong,Average,Strong,Strong,Strong,Strong,No,Chrysler Key 1,None
+Squirrel,Squirrel,Chrysler Building Floors 51-60,53,670,2,250/80,Strong,Strong,Strong,Strong,Strong,Strong,Average,Weak,Strong,Possible,"Junk, Medicine 4, Revive","Cure-C, Revive"
+T-Rex,T-Rex,American Museum of Natural History,35,2400,"100,000",256/32,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,M8000 Handgun,Tool
+Treasurebox,Treasurebox,Chrysler Building,45,700,255,0/0,Strong,Strong,Weak,Strong,Strong,Strong,Strong,Weak,Weak,Possible,"Ammo+30, Medicine 4, Revive",Medicine 4
+Triceratops,Triceratops with head (phase 1),American Museum of Natural History,33,750,"50,000",60/10,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,"Bullet Cap +1, CR Evade +1"
+Triceratops,Triceratops with head (phase 1),Chrysler Building Floor 40,39,1600,2500,200/21,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,Strong,No,None,None
+Troodon,Troodon 1,Museum,30,280,1530,32/10,Strong,Average,Strong,Strong,Weak,Strong,Average,Weak,Strong,Yes,Ammo +15; Medicine 3,"Medicine 1, Medicine 1"
+Troodon,Troodon 2,Chrysler Building Floors 2-10,15,106,4,45/9,Strong,Average,Strong,Strong,Average,Strong,Average,Weak,Strong,Yes,"Ammo +6, Medicine 1",Revive
+Truebred Eve,Truebred Eve,Chrysler Building Floor 77,?,"40,000",?,?,?,?,?,?,?,?,?,?,?,No,?,?
+Ultimate Being,Ultimate Being (baby),Cruiser,37,1500,0,0/0,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,"Ammo +30, Full Cure"
+Ultimate Being,Ultimate Being (child),Cruiser,37,950 (head); 1500 (body),0,0/0,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,"Cure All, Revive (body); Junk (head)"
+Ultimate Being,Ultimate Being (adolescent),Cruiser,38,3500,0,0/0,Strong,Strong,Strong,Average,Average,Strong,Average,Strong,Strong,No,None,Super Tool
+Ultimate Being,Ultimate Being (adult),Cruiser,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?

@@ -158,7 +158,47 @@ Other proposals (Rate of Fire %, Counter, armor trade-offs) need their own hooks
 patches (the hit% table is a local array in the damage routine; the action's turn word and
 power bonus are per action), to be scoped once the direction is agreed.
 
-## 6. Data first
+## 6. Enemy data
+
+**Wiki extract (2026-10-14):** [data/pe-enemies-wiki-2026-10-14.csv](data/pe-enemies-wiki-2026-10-14.csv),
+80 stat blocks (37 creatures, one row per location variant): level, HP, EXP, BP, the five
+rounds (Cyanide, Acid, Tranquilizer, Heat, Freeze) and Confuse / Steal / Scan / Slow /
+Escape, each Strong / Average / Weak, plus drops, steals and location. Source: the Parasite
+Eve Wiki (parasiteeve.fandom.com, Category:Parasite Eve creatures), CC-BY-SA; pulled through
+the wiki's API. Strong is read as the game's "resists / immune" value, Weak as "weak / always",
+Average as neutral / 50%; to be confirmed against the game (below). No defense or hit-reaction
+type on the wiki: those come from the game (the play log's enemy row already logs defense).
+
+Main game only (46 variants, Chrysler Building excluded):
+
+| Round | Strong | Average | Weak |
+|---|---|---|---|
+| Heat | 12 | 22 | 11 |
+| Freeze | 6 | 27 | 12 |
+| Cyanide | 31 | 9 | 5 |
+| Acid | 25 | 18 | 2 |
+| Tranquilizer | 35 | 7 | 3 |
+
+What it means under the vanilla rules:
+
+- **Heat is a net loss:** a quarter of enemies resist it (x0.2) and a quarter are weak (x1.5),
+  so the average multiplier is ~0.90, and the resisted fights take five times as long. Heat-
+  resistant enemies include the Day 2 snakes, the Carnegie / Central Park and Liberty Island
+  Eve fights, Chinatown cats and snakes, hospital Flymen, and the museum's armadillos,
+  chameleons and troodons.
+- **Freeze is slightly positive** (~1.03): few resist it, a quarter are weak.
+- **Heat + Freeze** still takes the x0.2 cut on 4 main-game variants (resist Heat, Freeze not
+  weak).
+- **Status rounds are mostly dead:** Tranquilizer works on 10 of 45 (35 immune), Cyanide on 14,
+  Acid on 20. The video's praise for Tranquilizer in the hospital fits: Bacteria are weak to it
+  and Flymen / Mixedmen average.
+
+**Confirm in the game:** log every enemy's Heat / Freeze bits and status bits on the play
+log's enemy row (status flags 2 at enemy +0xCC: Heat >> 14, Freeze >> 16, Cyanide & 3, Acid
+>> 2, Tranquilizer >> 4) and check a few against the wiki rows; then use the game values where
+they differ.
+
+## 6b. Data first
 
 Before tuning, log every enemy's Heat / Frost bits and status bits on the play log's
 `enemy` row (status flags 2 at enemy +0xCC: Heat >> 14, Frost >> 16, Cyanide & 3, Acid >> 2,
