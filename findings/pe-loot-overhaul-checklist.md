@@ -207,7 +207,13 @@ Tick items off as they land. Design and decision numbers:
 - [x] Economy mods for sale at Wayne's Requisition, 150 Junk each (tunable "Economy mod
       price"), listed until unlocked (stopgap, 2026-10-13): the rare drop alone gave ~1 of 4
       a run
-- [ ] Economy mods, final source: proposed a guaranteed one for each of the first four
+- [ ] **Cascading rare drops** (agreed 2026-10-14, to build): pacing gate kept, ordered list
+      with skip checks and guarantees, Tools by Tools held, economy mods tiered (drops 4/3/2/1,
+      prices 75/125/225/300, Salvager +50%), Mod Permit 15% skipped at 2 held, Rebuild keeps
+      bought slots and protects built-up items; simulation in
+      [`pe-loot-cascade-design-2026-10-14.md`](pe-loot-cascade-design-2026-10-14.md)
+- [x] Economy mods, final source: settled by the cascade above (15%, guarantee after 8 rares,
+      tiered; the shop listing stays). Earlier proposal: a guaranteed one for each of the first four
       boss wins (the rare roll stays); decide, then keep or drop the shop listing
 - [x] Recommended changes from the balance estimate, **built 2026-10-13 (PE `e565a36`,
       playtest pending)**
