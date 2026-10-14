@@ -493,7 +493,7 @@ has been tried as a mod yet.
 |---|---|---|
 | Random battles on/off | ✅ Done (PE `556805b`) | `No random battles` row: a live view of the game's own switch, bit `0x8000` at `0x800A781A` (`g_BattleSkip`). It's in the script-variable area the game **saves**, so a save made with it on keeps battles off until the row is turned off. Bit set/clear verified live; stopping encounters still needs a playtest |
 | Encounter-rate slider | 🟡 Research | Only on/off is known; a rate needs the encounter-chance variable |
-| Event skip | 🟢 Try it | Code `800A77F0 0004` turns on what looks like a built-in debug "event skip"; how it's triggered needs finding out |
+| Event skip | 🟢 Works (first test 2026-10-14, PE `a0cb1ac`) | Code `800A77F0 0004` (`g_EventSkip`, bit 0x4 of script variable 0) is the game's own debug event skip. With it on, a cutscene went straight into gameplay, no button needed. F1 > Debug > `Event skip (test)`. Still to check: story flags/items after skipped scenes, and a hold-X-to-skip trigger built on it |
 | Faster door transitions | 🟡 Try it | Code zeroes `0x800BCFBC..CE`, which hold a dark semi-transparent rectangle (GPU command `0x62090909`): that removes the fade *visual*, maybe not the wait |
 | Infinite / refill ammo | ✅ Done (PE `556805b`) | `Infinite ammo` row: Refill spares (the gun's pool, capacity 999) or Never reload (also keeps the loaded rounds full, in battle via Aya's action `attackWord`). Verified in the field (3 → 6 loaded, pool 6 → 999); battle side still needs a playtest |
 | Outfit picker | 🟢 Easy (cosmetic) | Code writes the costume byte `0x800B0CE2` (reads `0x0A` in play). The "liberated" outfit freezes the game in battle, so it must be blocked or field-only |
