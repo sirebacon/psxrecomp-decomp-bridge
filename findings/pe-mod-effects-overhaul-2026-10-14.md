@@ -213,3 +213,56 @@ area, and the elemental numbers above can be set from real data.
 3. Rate of Fire: more damage at 7 / 10, or less ammo?
 4. Negative armor effects: trade-offs as in 4.6, or leave them as negatives?
 5. Exact build (new damage hook) or the quick data rewrite first?
+
+## 8. Simulation (2026-10-14)
+
+Tool: [	ools/pe_mod_sim.py](../tools/pe_mod_sim.py) (`python tools/pe_mod_sim.py --fights 2000`).
+Monte Carlo fights against the wiki roster, main game only (45 variants), 2,000 fights per area
+per effect: groups of 1–3 regular enemies per area, bosses alone. Baseline: a Rate of Fire 3 gun
+with no other effect; each row adds one effect. Numbers are change vs the baseline in **time
+to clear / ammo used / enemy attacks taken** (lower is better).
+
+**Correction from the decomp (setup.c `Battle_CheckEvasion`):** the x0.3 / x1.5 / x0.1
+multipliers in section 1 are **hit quality**, not armor: distance over the gun's range picks
+miss (> 180%), graze x0.3 (100–180%, 80% / 50% / 25% of the time by band), or a hit (≤ 100%)
+that is a **critical x1.5** 5% (80–100%), 20% (50–80%) or 50% (< 50%) of the time; the
+**Critical effect adds 20 points**. x0.1 is the splash on secondary targets.
+
+Main-game results, averaged over Days 1–5 (bosses where they differ):
+
+| Effect | Vanilla | Proposed (tuned) | Verdict |
+|---|---|---|---|
+| RoF 1 / 2 | +38% / +2% time, -51% / -30% ammo | same | fine: the ammo-saver |
+| RoF 5 | ~+1% time, +60% ammo | same | sidegrade (vanilla ok) |
+| RoF 7 / 10 | **+6% / +9% slower, +120% / +200% ammo** | -9% / -11% time, +65% / +90% ammo | was a trap; now a speed-for-ammo choice |
+| Random Fire | -44% time, -9% ammo | same | very strong *if* A2 holds (to verify) |
+| Burst | -17% all three | same | good (multi-enemy only) |
+| Attack All | -38% time but +5% ammo | -38% time, -38% ammo | proposal makes it a clear upgrade; maybe too good |
+| **Heat** | **+16% to +106% slower** (+39% bosses) | -8% to -19% (Day 1 +5%) | trap → modest upgrade |
+| Frost | -22% … **+135%** (hospital) | -6% to -27% | gamble → upgrade |
+| Heat + Frost | -30% … +34% bosses | -11% to -30% | best-of-two fixes it |
+| Cyanide | -11% to -49% (A6) | -27% to -51% | strong early; check A6 |
+| Acid | -2% to -7% | -11% to -15% | weak → useful |
+| Tranquilizer | ~0% time, -2% to -18% hits | **-33% to -39% hits taken** | dead → the safety pick |
+| Counter | -1% to -8% | -6% to -12% | weak → small but real |
+| Quickdraw | -18% time, -23% hits | same | good as is |
+| Critical | -2% to -7% | -5% to -12% (bosses -12%) | weak → solid |
+| 2 / 3 Commands | -43% / -57% | same | dominant *if* commands are free (verify) |
+
+Tuned proposed values: elements x1.15 neutral / x1.5 weak / **x0.8** resist, best of Heat and
+Frost; RoF 7 → 20%, 10 → 15% per shot and shots past the 5th cost half a round; Attack All
+charges one target's ammo; status rounds Strong 20% / Average 60% / Weak always (bosses stay
+immune), poison 6% max HP a turn; Counter 75% for a half-power shot; Critical +40 points.
+(First pass had Counter at full power: -34%, too strong.)
+
+**Assumptions to verify before building** (marked in the tool):
+A1 defense = 1.6 x enemy level and Aya's attack scaled so a plain shot kills an average foe
+in ~2.5 hits; A2 Random Fire = 1.5x shots at the same per-shot %; A3 fight distance 30–125% of
+range; A4 poison tick 4% max HP; A5 ATB 1.0 per turn plus firing time, enemies every 1.0–1.4;
+A6 a Cyanide proc kills 1 in 4 times; A7 Tranquilizer skips 2 enemy turns; A8 Burst hits each
+other enemy 40% of the time; A9 75% of enemy attacks land; Commands assumed to add full extra
+actions per ATB bar.
+
+Next: read Random Fire, the command effects, Cyanide, poison and Stop in the decomp, re-run, then
+pick final numbers. Armor effects aren't in this sim (they act on Aya's survival and the bag);
+Slow Active Time and Attack Down trade-offs need an enemy-damage model.
