@@ -310,3 +310,23 @@ Re-run with these (A2, A6, A7 replaced by the real rules):
 
 Still open: armor effects (need an enemy-damage model), poison and enemy speed from the new
 log fields, and the build route (section 5).
+
+### 8.3 More mechanics from the decomp (third pass)
+
+| Effect | How it really works | Source |
+|---|---|---|
+| Quickdraw | at battle start, Aya's ATB starts full with a chance of `stat22` % (her speed stat) | battle/context.c (turn word 0x10000) |
+| Aya's ATB | charge per tick = `stat22` x weapon factor / 10 (factors 10 / 8 / 10 / 8 / 8 / 4 / 10 / 20 by action type), full at 9000 | battle/enemy_actions.c `scaledOffense` |
+| Counter | when an enemy hits Aya, a counter-attack fires with a chance set by Aya's agility (`g_AyaStatAgility`, A) and her rank vs the attacker's: higher rank A/1000, same rank 3A/5000, one below 3A/10000, lower A/5000. **Not a flat 50%**, as guides say | battle/context.c (misnamed `Battle_RollEnemySpawn`), entity/combat.c |
+| Burst | hits every enemy inside a ~90° cone ahead of Aya (angle window of 0x400 out of 0x1000) | battle/attack.c `Battle_ResolveHitOnTimer` |
+| Max HP Up | max HP x 23 / 20 (+15%) | battle/commands.c `BattleCmd_LoadWeaponModifiers`, aya/stats.c |
+| Attack Up / Attack Down | Aya's offense read from her level table **2 levels higher / lower** | same |
+| Slow Active Time | `stat22` read **2 levels lower**: slower ATB **and** a lower Quickdraw chance | same |
+| Capacity +1 / +2 / +4 | bag bonus slots | same |
+
+So Slow Active Time and Attack Down are "two levels of speed / offense", and their real size,
+like Counter's chance, comes from Aya's level table (`*(u32*)0x800A803C + 0x800A8028`, 0x18 a
+level: HP, offense, defense, `stat22`, ...) and `g_AyaStatAgility`. Next: read those from the
+running game, then model Counter, Quickdraw, Slow Active Time and the Attack mods with real
+numbers. Per-enemy `periodicDamage` (poison) and `chargeStep` (speed) live in the game's enemy
+data files, not in code: the new play-log fields capture them.
