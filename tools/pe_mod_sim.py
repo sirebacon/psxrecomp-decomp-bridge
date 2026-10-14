@@ -96,7 +96,7 @@ def fight(rules, eff, group, attack, rng):
     pct = rules["hit_pct"][rof]
     mode = eff.get("mode")
     if mode == "random":
-        shots = int(rof * 1.5 + 0.5)                    # A2: Random Fire = x1.5 shots, same per-shot %
+        shots = rof * 3 // 2                            # decomp (Battle_FillActionQueue): RoF x 3 / 2 random targets
     commands = eff.get("commands", 1)
     foes = [dict(e, cur=e["hp"], poisoned=False, stopped=0, d=defense_of(e),
                  t_next=rng.uniform(0.4, 1.2)) for e in group]
@@ -130,13 +130,14 @@ def fight(rules, eff, group, attack, rng):
         return max(1.0, dmg * m)
     def status(f, key):
         if f["boss"] and rules["boss_status_immune"]: return False
-        return rng.random() < rules["status_chance"][f[key]]
+        table = VANILLA["status_chance"] if key == "cyanide" else rules["status_chance"]   # Cyanide kills: keep vanilla
+        return rng.random() < table[f[key]]
     def hit(f, per_shot_attack, n_shots):
         f["cur"] -= shot_damage(f, per_shot_attack, n_shots)
-        if f["cur"] > 0 and eff.get("cyanide") and status(f, "cyanide") and rng.random() < 0.25:
-            f["cur"] = 0                                 # A6: an instant-death proc kills 1 in 4 times it lands
+        if f["cur"] > 0 and eff.get("cyanide") and status(f, "cyanide"):
+            f["cur"] = 0                                 # decomp: a Cyanide proc sets HP to -1 (turn.c)
         if eff.get("acid") and not f["poisoned"] and status(f, "acid"): f["poisoned"] = True
-        if eff.get("tranq") and status(f, "tranq"): f["stopped"] = max(f["stopped"], 2)   # A7
+        if eff.get("tranq") and status(f, "tranq"): f["stopped"] = max(f["stopped"], 3)   # decomp: Stop counts 3 enemy turns
     per_shot = attack * pct / 100.0
     guard = 0
     while any(f["cur"] > 0 for f in foes) and guard < 400:
@@ -158,10 +159,10 @@ def fight(rules, eff, group, attack, rng):
                         alive = [f for f in foes if f["cur"] > 0]
                         if not alive: break
                         f = rng.choice(alive) if mode == "random" else (tgt if tgt["cur"] > 0 else min(alive, key=lambda x: x["cur"]))
-                        hit(f, per_shot, shots)
+                        hit(f, per_shot, rof)        # decomp: defense split by the base RoF, even for Random Fire
                         if mode == "burst":              # A8: each other foe in the cone is hit 40% of the time
                             for o in alive:
-                                if o is not f and o["cur"] > 0 and rng.random() < 0.4: hit(o, per_shot, shots)
+                                if o is not f and o["cur"] > 0 and rng.random() < 0.4: hit(o, per_shot, rof)
                     ammo += min(shots, 5) + max(0, shots - 5) * rules["ammo_above_5"]
             aya_next = t + 1.0 + 0.04 * shots * commands     # A5: firing time locks Aya per shot
         else:                                            # an enemy acts

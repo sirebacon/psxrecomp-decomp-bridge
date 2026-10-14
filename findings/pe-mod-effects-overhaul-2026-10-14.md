@@ -266,3 +266,47 @@ actions per ATB bar.
 Next: read Random Fire, the command effects, Cyanide, poison and Stop in the decomp, re-run, then
 pick final numbers. Armor effects aren't in this sim (they act on Aya's survival and the bag);
 Slow Active Time and Attack Down trade-offs need an enemy-damage model.
+
+### 8.1 Mechanics verified in the decomp (2026-10-14, second pass)
+
+| Mechanic | Finding | Source |
+|---|---|---|
+| Random Fire | Rate of Fire x 3 / 2 shots, each at a random target, at the base per-shot %; defense still split by the base Rate of Fire | turn.c `Battle_FillActionQueue` (mode 0x40) |
+| Attack All | one queue entry per target | same (mode 0xC0) |
+| 2 / 3 Commands | 2 or 3 actions entered and run on one ATB bar (turn slots, turn word >> 4) | turn.c `Battle_StepEnemyTurn`, setup.c |
+| Cyanide | a proc sets the instant-death flag; the enemy's HP is set to -1 at its next update: **every proc kills**; each shot rolls (50% vs Average, always vs Weak, never vs Strong) | turn.c `Battle_UpdateEnemy`, enemy_movement.c |
+| Acid (poison) | every 30 ticks the enemy loses its own fixed `periodicDamage` (enemy +0x96) | turn.c `Battle_UpdateEnemy` |
+| Tranquilizer (Stop) | a counter of **3**, counted down each time the enemy's turn comes round; the enemy skips its actions meanwhile | turn.c `Battle_UpdateEnemy` |
+| Enemy ATB | charge per tick `chargeStep` (enemy +0x8E), turn at 9000; Slow takes 40% off | turn.c |
+| Critical | +20 points on the distance-based critical chance (critical = x1.5) | setup.c `Battle_CheckEvasion` |
+
+The play log now records each enemy's resist bits, `periodicDamage` and `chargeStep` on its
+`enemy` row (PE `5d76fdf`), so poison strength and enemy speed can replace A4 / A5 after a
+session.
+
+Re-run with these (A2, A6, A7 replaced by the real rules):
+
+- **Random Fire** is -20 to -24% time at about the same ammo: good as is (the first pass
+  overstated it).
+- **Cyanide** is the strongest effect early: -79% time on Day 1, -56% Day 2, -33% Day 4, -17%
+  Day 5, nothing on bosses. It must **keep vanilla chances** (Strong stays immune); the
+  status-round boost applies to Acid and Tranquilizer only. In vanilla it only exists in the
+  Chrysler Building; if the Mod Catalog ever offers it earlier, it needs a price to match.
+- 2 / 3 Commands confirmed as extra actions on one bar: -43% / -57%, the best effects; fine for
+  late, rare unlocks.
+
+### 8.2 Recommended changes (current)
+
+| Effect | Change | Simulated result (Days 1–5) |
+|---|---|---|
+| Heat, Frost | x1.15 neutral / x1.5 weak / x0.8 resist; Heat + Frost takes the better | Heat -8 to -19% time (Day 1 +5%), Frost -6 to -27%, both -11 to -30% |
+| RoF 7 / 10 | per shot 20% / 15%; shots past the 5th cost half a round | -6 to -12% time for +60–90% ammo (was slower) |
+| Attack All | ammo charged as for one target | -38% time and ammo (watch: maybe too good; alternative +20% damage instead) |
+| Acid | Strong 20% / Average 60%; poison 1.5x | -11 to -15% (was -2 to -7%) |
+| Tranquilizer | Strong 20% / Average 60% | -33 to -41% hits taken (was ~0) |
+| Counter | 75% chance, half-power return shot | -6 to -12% (was -1 to -8%) |
+| Critical | +40 points | -5 to -12%, bosses -12% (was -2 to -7%) |
+| Random Fire, Burst, Quickdraw, Cyanide, 2 / 3 Commands, RoF 1–5 | unchanged | already useful |
+
+Still open: armor effects (need an enemy-damage model), poison and enemy speed from the new
+log fields, and the build route (section 5).
