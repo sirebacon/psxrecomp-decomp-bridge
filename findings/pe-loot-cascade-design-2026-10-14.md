@@ -112,6 +112,16 @@ rares):
   (slot count above the base item's default). Raising the cap instead doesn't fit: the game
   has 86 weapons and 51 armor, and the save's free tail is ~880 bytes. Rebuild rows show
   built-up items, e.g. "M16A1 +2 slots".
+- **No Junk loop (Salvager + Rebuild):** a rebuilt item comes back with its +bonuses and
+  slots but no installed mods, so dismantling it again pays `5 + 2 x bonuses` (+Salvager).
+  Rebuild costs payout x 1.5, after preset and Bargain, floored at the payout and capped at
+  150. That already loops today on Relaxed + Bargain + Salvager +25% (floor x1.0 < x1.25),
+  would loop on Normal + Bargain + Salvager +50% (x1.275 < x1.5), and loops on top-tier guns
+  whose payout reaches the 150 cap (rebuild 127 with Bargain). **Rule:** the rebuild price is
+  at least `(5 + 2 x bonuses) x 1.5 + 1` (what the rebuilt item could pay back with the
+  strongest Salvager, before any cap), applied after every discount and above the 150 cap
+  when needed. Independent of history, preset, Bargain and Salvager; ordinary prices are
+  unchanged (the markup on the original payout, mods included, is already higher).
 - **Drop rule:** skipped while 2 or more are held, so drops pause for a hoarder and resume
   once one is spent. Permits are always useful otherwise (no story-day fading, no slot-room
   check: gun churn doesn't waste them because Rebuild keeps the slots).
@@ -165,7 +175,8 @@ few (1.3 on Days 1–3). 15% / guarantee 8 and need-based Tools fixed both.
 - Economy-mod pick: weighted 4/3/2/1 over missing mods (`pe_econ_missing`).
 - `pe_loot_shop.c`: per-mod prices 75 / 125 / 225 / 300 (the "Economy mod price" tuning row
   becomes a scale, or four rows).
-- `pe_loot_catalog.c`: Salvager +50%; Rebuild list drops the oldest entry without bought
+- `pe_loot_catalog.c`: Salvager +50%; rebuild price floor `(5 + 2 x bonuses) x 1.5 + 1`
+  (section 6, no Junk loop); Rebuild list drops the oldest entry without bought
   slots; Rebuild rows mark "+N slots".
 - F1 tuning: keep Rare base / step / guarantee; add the economy and permit guarantees.
 - Play log: the `loot` row gains the cascade path (entries skipped, entry hit) so drops can
