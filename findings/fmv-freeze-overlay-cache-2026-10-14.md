@@ -37,6 +37,10 @@ played.
   (to frame 439) and stalled there instead. One run after the copy played through, which
   was luck or a different movie.
 
+**Intermittent after all:** the same build that stalled at frame 439 twice in a row then
+played `\FMV004.STR` through twice (once with the watchdog build, which logged no
+`fmv_watchdog` row). So it's timing-sensitive, not a fixed bad spot on the disc.
+
 ## Workaround
 
 `Unstick movies`: while that player is loaded (first two instructions `27BDFFD0 AFB10024`)
