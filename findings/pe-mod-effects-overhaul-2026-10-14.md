@@ -330,3 +330,33 @@ level: HP, offense, defense, `stat22`, ...) and `g_AyaStatAgility`. Next: read t
 running game, then model Counter, Quickdraw, Slow Active Time and the Attack mods with real
 numbers. Per-enemy `periodicDamage` (poison) and `chargeStep` (speed) live in the game's enemy
 data files, not in code: the new play-log fields capture them.
+
+### 8.4 Guessed stats, armor effects and the full picture (2026-10-14)
+
+Until Aya's level table and agility are read from the game, the sim uses marked guesses
+(`tools/pe_mod_sim.py`, G1–G4): her speed stat `stat22` (= the Quickdraw chance in %) 20 / 30 /
+35 / 40 / 50 on Days 1–5; Attack Up / Down = ±5% gun damage (2 levels of offense); Slow Active
+Time = ATB 10% slower and Quickdraw −4 points; Counter ~30% (agility vs a same-rank enemy) for a
+full attack. A simple damage measure was added (**HP lost**: landed hits x damage-taken factor /
+max HP) so armor effects show up.
+
+Results (change vs the plain gun, Days 1–5; time / ammo / hits taken / HP lost):
+
+| Effect | Vanilla | Proposed | Change |
+|---|---|---|---|
+| Counter | −14 to −18% time | (40%: −17 to −24%) | **leave as is** until agility is known |
+| Quickdraw | −3 to −12% time, −4 to −14% hits (only stat22 % of fights) | **−14 to −18% time, −18 to −22% hits** | always start with a full bar |
+| Max HP Up | −13% HP lost | same | fine |
+| Attack Up | −3 to −10% time | same | fine |
+| Attack Down | +5 to +11% slower | same speed cost, **−5 to −10% HP lost** | damage taken −15%: a defensive trade |
+| Slow Active Time | +7 to +10% slower, +6 to +12% hits | same speed cost, **−10 to −15% HP lost** | damage taken −20%: "heavy armor" |
+
+Not simulated (no combat effect to measure, or fine by design): the four resist effects, Auto
+Medicine, Auto Cure, Capacity, PE Burden Down, Steal / Steal on Attack (clubs).
+
+**Recommended set (current):** Heat / Frost x1.15 / x1.5 / x0.8 with best-of-two; RoF 7 / 10 per
+shot 20% / 15% and half ammo past the 5th shot; Attack All charged as one target (or +20% damage);
+Acid and Tranquilizer Strong 20% / Average 60% (Cyanide unchanged); poison x1.5; Critical +40;
+Quickdraw always; Attack Down and Slow Active Time gain damage taken −15% / −20%. Unchanged:
+Random Fire, Burst, Cyanide, 2 / 3 Commands, RoF 1–5, Counter (pending agility), Max HP Up,
+Attack Up.

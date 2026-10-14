@@ -17,6 +17,16 @@ import argparse, csv, os, random, re, statistics
 
 HIT_PCT = {1: 100, 2: 60, 3: 41, 5: 25, 7: 18, 10: 13}
 
+# ---- guesses (G1..G4): replace with values read from the game -----------------------
+# G1 Aya's speed stat (stat22) by area: it is the Quickdraw chance in % and sets her ATB.
+STAT22_BY_AREA = {"Day 1 Theater": 20, "Day 2 Central Park": 30, "Day 3 NYPD": 35,
+                  "Day 4 Hospital": 40, "Day 5 Chinatown-Museum": 50, "Bosses (main game)": 45}
+# G2 Attack Up / Down = offense read 2 levels higher / lower: about +/-5% gun damage.
+ATTACK_LEVELS_PCT = 5
+# G3 Slow Active Time = stat22 read 2 levels lower: ATB ~10% slower, Quickdraw -4 points.
+SLOW_ATB, SLOW_QUICKDRAW = 0.90, 4
+# G4 Counter: chance from agility and rank (decomp); ~30% vs a same-rank enemy, a full attack.
+
 # ---- rules ----------------------------------------------------------------------
 VANILLA = dict(
     name="vanilla",
@@ -26,7 +36,9 @@ VANILLA = dict(
     status_chance={"Strong": 0.0, "Average": 0.5, "Weak": 1.0},
     boss_status_immune=True,
     acid_tick=0.04,            # A4: fraction of max HP per enemy turn while poisoned
-    counter_chance=0.5, counter_power=0.5,
+    counter_chance=0.30, counter_power=1.0,   # G4
+    quickdraw_sure=False,                    # vanilla: chance = stat22 %
+    attack_down_guard=1.0, slow_at_guard=1.0,  # damage taken with those armor effects
     attack_all_ammo_per_target=True,
     crit_bonus=20,
     ammo_above_5=1.0,          # ammo per shot beyond the 5th (RoF 7 / 10)
@@ -38,7 +50,9 @@ PROPOSED = dict(VANILLA,
     elem_best_of_two=True,
     status_chance={"Strong": 0.2, "Average": 0.6, "Weak": 1.0},
     acid_tick=0.06,
-    counter_chance=0.75, counter_power=0.5,
+    counter_chance=0.40, counter_power=1.0,
+    quickdraw_sure=True,
+    attack_down_guard=0.85, slow_at_guard=0.80,
     attack_all_ammo_per_target=False,
     crit_bonus=40,
     ammo_above_5=0.5,
@@ -55,6 +69,9 @@ EFFECTS = [
     ("Cyanide", dict(cyanide=True)), ("Acid", dict(acid=True)), ("Tranquilizer", dict(tranq=True)),
     ("Counter", dict(counter=True)), ("Quickdraw", dict(quickdraw=True)), ("Critical", dict(critical=True)),
     ("2 Commands", dict(commands=2)), ("3 Commands", dict(commands=3)),
+    # armor
+    ("Max HP Up", dict(maxhp=1.15)), ("Attack Up", dict(attack_levels=+1)),
+    ("Attack Down", dict(attack_levels=-1)), ("Slow Active Time", dict(slow_at=True)),
 ]
 
 # ---- enemies --------------------------------------------------------------------
@@ -89,8 +106,12 @@ def defense_of(e):
     return max(4, round(1.6 * e["level"]))          # A1: logged Day 1 ~4-6, Day 2 18
 
 # ---- one fight ----------------------------------------------------------------------
-def fight(rules, eff, group, attack, rng):
-    """Returns (time, ammo, enemy attacks landed)."""
+def fight(rules, eff, group, attack, rng, stat22=35):
+    """Returns (time, ammo, enemy attacks landed, HP lost in units of max HP)."""
+    attack *= 1 + eff.get("attack_levels", 0) * ATTACK_LEVELS_PCT / 100.0
+    atb = SLOW_ATB if eff.get("slow_at") else 1.0
+    guard_mult = (rules["attack_down_guard"] if eff.get("attack_levels", 0) < 0 else 1.0) * \
+                 (rules["slow_at_guard"] if eff.get("slow_at") else 1.0)
     rof = eff.get("rof", BASE["rof"])
     shots = rof
     pct = rules["hit_pct"][rof]
@@ -102,7 +123,10 @@ def fight(rules, eff, group, attack, rng):
                  t_next=rng.uniform(0.4, 1.2)) for e in group]
     dist = rng.uniform(0.3, 1.25)                       # A3: distance / range per fight
     t, ammo, taken = 0.0, 0, 0
-    aya_next = 0.0 if eff.get("quickdraw") else 1.0     # A5: ATB fills in 1.0; Quickdraw starts full
+    qd = 0.0
+    if eff.get("quickdraw"):                            # decomp: chance = stat22 %
+        qd = 1.0 if rules["quickdraw_sure"] else (stat22 - (SLOW_QUICKDRAW if eff.get("slow_at") else 0)) / 100.0
+    aya_next = 0.0 if rng.random() < qd else 1.0 / atb
     def crit_chance():
         base = 5 if dist > 0.8 else 20 if dist > 0.5 else 50
         return base + (rules["crit_bonus"] if eff.get("critical") else 0)
@@ -164,7 +188,7 @@ def fight(rules, eff, group, attack, rng):
                             for o in alive:
                                 if o is not f and o["cur"] > 0 and rng.random() < 0.4: hit(o, per_shot, rof)
                     ammo += min(shots, 5) + max(0, shots - 5) * rules["ammo_above_5"]
-            aya_next = t + 1.0 + 0.04 * shots * commands     # A5: firing time locks Aya per shot
+            aya_next = t + 1.0 / atb + 0.04 * shots * commands     # A5: firing time locks Aya per shot
         else:                                            # an enemy acts
             f = min(alive, key=lambda x: x["t_next"])
             t = f["t_next"]
@@ -176,7 +200,7 @@ def fight(rules, eff, group, attack, rng):
                 taken += 1
                 if eff.get("counter") and rng.random() < rules["counter_chance"]:
                     f["cur"] -= shot_damage(f, attack * rules["counter_power"], 1)
-    return t, ammo, taken
+    return t, ammo, taken, taken * guard_mult / eff.get("maxhp", 1.0)
 
 # ---- runs ------------------------------------------------------------------------------
 def area_groups(enemies, kws):
@@ -207,22 +231,22 @@ def run(rules, enemies, fights, seed):
             else: groups.append([rng.choice(pool) for _ in range(rng.choice((1, 2, 2, 3)))])
         for name, eff in EFFECTS:
             r2 = random.Random(seed + 1)
-            res = [fight(rules, eff, g, attack, r2) for g in groups]
-            table[(label, name)] = tuple(statistics.mean(x[i] for x in res) for i in range(3))
+            res = [fight(rules, eff, g, attack, r2, STAT22_BY_AREA.get(label, 35)) for g in groups]
+            table[(label, name)] = tuple(statistics.mean(x[i] for x in res) for i in range(4))
     return table, [a for a, _ in areas]
 
 def report(tables, areas):
     lines = []
     for rules_name, table in tables:
-        lines.append("\n=== %s rules: change vs baseline (time / ammo / hits taken; lower is better) ===" % rules_name)
-        hdr = "%-18s" % "effect" + "".join("%-26s" % a[:24] for a in areas if (a, EFFECTS[0][0]) in table)
+        lines.append("\n=== %s rules: change vs baseline (time / ammo / hits taken / HP lost; lower is better) ===" % rules_name)
+        hdr = "%-18s" % "effect" + "".join("%-30s" % a[:28] for a in areas if (a, EFFECTS[0][0]) in table)
         lines.append(hdr)
         for name, _ in EFFECTS[1:]:
             row = "%-18s" % name
             for a in areas:
                 if (a, EFFECTS[0][0]) not in table: continue
                 b = table[(a, EFFECTS[0][0])]; v = table[(a, name)]
-                row += "%-26s" % ("%+4.0f%% %+4.0f%% %+4.0f%%" % tuple(100 * (v[i] / b[i] - 1) if b[i] else 0 for i in range(3)))
+                row += "%-30s" % ("%+4.0f%% %+4.0f%% %+4.0f%% %+4.0f%%" % tuple(100 * (v[i] / b[i] - 1) if b[i] else 0 for i in range(4)))
             lines.append(row)
     return "\n".join(lines)
 
