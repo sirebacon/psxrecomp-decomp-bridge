@@ -78,7 +78,8 @@ Sources: the decomp (cited by function), the RPGClassics Parasite Eve shrine's
 | **Panacea** (item 0x19) | +400 HP and cures every ailment (as Full Cure), half a bar like any item; made only by Combine | — |
 | Lucky Charm | removed (Lucky Find armor does the same); a carried charm becomes Panacea | — |
 | Super / Duper Junk | unchanged (Junk bundles) | — |
-| Half bar: change weapon / armor / escape | off | — |
+| Half bar: change weapon | **on** (react to Heat / Frost matchups and group fights; watch `wswaps` vs `reloads` for a swap-instead-of-reload trick) | — |
+| Half bar: change armor / escape | off (armor is a commitment; Smoke Grenade covers escape) | — |
 
 How it's built: half-bar per power in `pe_atb_items.c` (queued command 0x183 + index; debt
 tracked and taken from the refill); heals and costs in an entry hook on
