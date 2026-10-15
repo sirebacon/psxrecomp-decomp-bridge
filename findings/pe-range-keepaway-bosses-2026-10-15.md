@@ -30,6 +30,22 @@ smart. A regular player might have a massive struggle here."
 Mechanics (decomp, `Battle_CheckEvasion`): distance as a share of the gun's range; beyond 180%
 miss, 150-180% 25% graze, 120-150% 50%, 100-120% 80%; a graze deals 30% damage.
 
+### Retry with an upgraded M9 (Debug > Give item), same day
+
+| Gun | Range | Time | Turns | Shots | Dealt | HP lost | Grazes / hits |
+|---|---|---|---|---|---|---|---|
+| 0x89 (usual gun) | 1281 | 27 s | 22 | 38 | 475 | 434 | 10 / 30 |
+| 0x89 (usual gun) | 1281 | 12 s | 8 | 15 | 474 | 153 | - |
+| M9 upgraded (0x45) | 1171 | 8 s | 4 | 9 | 468 | 131 | 3 / 24 |
+
+- **Part 1 is a damage race:** every attempt ends at ~470 damage dealt (the boss's real HP is
+  450 above the 1,000,000 placeholder). Time spent exposed = 450 / damage per turn.
+- The M9 has *less* range than the usual gun and still finished in 4 turns: per-shot damage
+  decides this fight as much as range. Range costs through grazes (30% damage), which stretch
+  the race and the HP lost.
+- So the levers are damage that still lands at graze distance (options 1-3) and how hard the
+  race is to finish; a gun with low damage per turn suffers twice.
+
 ## Options
 
 1. **Stronger grazes** (all guns): 30% -> ~50-60%. Progress against a boss that backs off; a
