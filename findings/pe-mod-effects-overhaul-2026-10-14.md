@@ -360,3 +360,50 @@ Acid and Tranquilizer Strong 20% / Average 60% (Cyanide unchanged); poison x1.5;
 Quickdraw always; Attack Down and Slow Active Time gain damage taken −15% / −20%. Unchanged:
 Random Fire, Burst, Cyanide, 2 / 3 Commands, RoF 1–5, Counter (pending agility), Max HP Up,
 Attack Up.
+
+## 9. Combination simulation: guns x effect combos x enemies (2026-10-14)
+
+Tool: [	ools/pe_combo_sim.py](../tools/pe_combo_sim.py) (`python tools/pe_combo_sim.py --fights 200 --pool main|all`).
+Real guns per area (RPGClassics shrine weapons page: attack, range, magazine, slots; gun type sets
+ATB speed, guess G5), Aya's offense by area (guess G6), every legal effect combination up to 3
+added effects that fits the gun's slots (one Rate of Fire, one spread mode, one command effect, the
+rest on/off), 200 fights per build against the area's enemies, magazine reloads costing an action
+(G7). 8,832 builds per rule set. Two pools: **main game** (no Cyanide, no 3 Commands: Chrysler
+only) and **all** (EX Game). Viability = how close the best build containing an effect gets to the
+area's best build.
+
+**What the combos show (vanilla):**
+
+- **Attack All + 2 Commands is the core of the best build in every area** (Attack All fires the
+  full Rate of Fire at every enemy; commands multiply it). With Cyanide / 3 Commands available, those
+  join it. Weak effects stay weak in combos: Heat +34% to +130% behind the best build, high Rate of
+  Fire +33% to +144%.
+
+**What the first proposal did in combos (fixed in v2):**
+
+- The Attack All ammo discount and "Quickdraw always" stacked into a runaway build (Day 4, EX pool:
+  Attack All + 3 Commands + Quickdraw 111% ahead of the 10th best; vanilla 44%). **Dropped:** Attack
+  All keeps vanilla ammo use; Quickdraw becomes speed stat **+30 points (max 90%)**.
+- Poison x1.5 made Acid the best third effect once Attack All spreads it: now **x1.25**.
+
+**Proposed v2 results (main game):** gap between the best and 10th-best build 28–53% (vanilla
+22–75%), no runaway build. Every effect now gets within ~13–56% of the best build somewhere
+(vanilla: Heat never closer than +34%): Frost +13%, Counter +16%, Quickdraw +7–35%, Critical
++28–53%, Heat +30–56%, Tranquilizer +43–78% (its value is hits avoided, not speed), RoF 7 / 10 reach
+the top on Day 4. Acid is the best third effect on Days 3 and 5 (with Attack All + 2 Commands);
+watch it.
+
+**Balance levers this points to:**
+
+1. The strongest effects are **Attack All, 2 / 3 Commands and Cyanide**; that is vanilla design and
+   they should stay strong but **late and expensive**. In the mod they are unlocked by dismantling
+   gear that carries them and installed through the Mod Catalog: keep Attack All and the commands
+   **premium** (Junk + Tool, as now) and move **Cyanide from mid to premium**.
+2. Rebalanced rules lift the weak effects without creating a new dominant combo (v2).
+3. Recheck after the game reads (level table, agility, gun table) and the play log's enemy fields.
+
+**Updated recommended set (v2):** Heat / Frost x1.15 / x1.5 / x0.8, best of two; RoF 7 / 10 per
+shot 20% / 15%, half ammo past the 5th shot; Acid and Tranquilizer Strong 20% / Average 60%,
+poison x1.25; Critical +40; Quickdraw stat22 + 30 (max 90%); Attack Down / Slow Active Time damage
+taken -15% / -20%. Unchanged: Attack All (incl. ammo), Random Fire, Burst, Cyanide (chances),
+2 / 3 Commands, RoF 1–5, Counter, Max HP Up, Attack Up. Catalog price: Cyanide to premium.

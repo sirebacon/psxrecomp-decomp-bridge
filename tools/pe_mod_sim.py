@@ -37,7 +37,7 @@ VANILLA = dict(
     boss_status_immune=True,
     acid_tick=0.04,            # A4: fraction of max HP per enemy turn while poisoned
     counter_chance=0.30, counter_power=1.0,   # G4
-    quickdraw_sure=False,                    # vanilla: chance = stat22 %
+    quickdraw_bonus=0,                       # vanilla: chance = stat22 %
     attack_down_guard=1.0, slow_at_guard=1.0,  # damage taken with those armor effects
     attack_all_ammo_per_target=True,
     crit_bonus=20,
@@ -49,11 +49,11 @@ PROPOSED = dict(VANILLA,
     elem={"Strong": 0.8, "Average": 1.15, "Weak": 1.5},
     elem_best_of_two=True,
     status_chance={"Strong": 0.2, "Average": 0.6, "Weak": 1.0},
-    acid_tick=0.06,
+    acid_tick=0.05,
     counter_chance=0.40, counter_power=1.0,
-    quickdraw_sure=True,
+    quickdraw_bonus=30,                      # combos: always-full was too strong; +30 points, cap 90%
     attack_down_guard=0.85, slow_at_guard=0.80,
-    attack_all_ammo_per_target=False,
+    attack_all_ammo_per_target=True,         # combos: Attack All is already the strongest spread
     crit_bonus=40,
     ammo_above_5=0.5,
 )
@@ -125,7 +125,7 @@ def fight(rules, eff, group, attack, rng, stat22=35):
     t, ammo, taken = 0.0, 0, 0
     qd = 0.0
     if eff.get("quickdraw"):                            # decomp: chance = stat22 %
-        qd = 1.0 if rules["quickdraw_sure"] else (stat22 - (SLOW_QUICKDRAW if eff.get("slow_at") else 0)) / 100.0
+        qd = min(0.9, (stat22 + rules["quickdraw_bonus"] - (SLOW_QUICKDRAW if eff.get("slow_at") else 0)) / 100.0)
     aya_next = 0.0 if rng.random() < qd else 1.0 / atb
     def crit_chance():
         base = 5 if dist > 0.8 else 20 if dist > 0.5 else 50
