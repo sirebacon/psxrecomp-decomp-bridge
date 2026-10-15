@@ -1,154 +1,108 @@
-# Parasite Eve: Parasite Energy vs items rebalance (design draft, 2026-10-15)
+# Parasite Eve: Parasite Energy vs items rebalance (2026-10-15)
 
-Status: **draft for discussion**, nothing built. Prompted by play: Aya is poisoned at full HP,
-and the only answers are a full ATB bar for Detox, a full bar for a heal, or (with the mod's
-half-bar items) a Cure-P for half a bar. With half-bar items, the Parasite Energy versions of
-item effects lose to the items unless the bag is empty.
+Status: **decided and built (first pass, 2026-10-15)**; numbers to be tuned from play logs.
+F1 > PE Enhancements > **Items & Parasite Energy** (Rules: Vanilla / Rebalanced / Custom; page
+"Quick powers" for each power's bar cost). Code: PE `src/mods/pe_pe_balance.c`,
+`pe_atb_items.c` (half-bar turns), `pe_custom.c` + `pe_native_menu.c` (Panacea), `pe_loot.c`
+(Lucky Charm removed).
 
-Companion docs: [`pe-mod-effects-overhaul-2026-10-14.md`](pe-mod-effects-overhaul-2026-10-14.md),
-PE `src/mods/pe_atb_items.c` (half-bar ATB).
+Prompted by play: poisoned at full HP, Detox cost a full ATB bar and 100 PE while the mod's
+half-bar Cure-P cost half a bar and no PE, so the Parasite Energy version only made sense with
+an empty bag.
 
 Sources: the decomp (cited by function), the RPGClassics Parasite Eve shrine's
-[Parasite Energy](https://shrines.rpgclassics.com/psx/pe/pe.shtml) and
-[items](https://shrines.rpgclassics.com/psx/pe/items.shtml) pages (summarised in our words).
+[Parasite Energy](https://shrines.rpgclassics.com/psx/pe/pe.shtml),
+[items](https://shrines.rpgclassics.com/psx/pe/items.shtml) and
+[experience](https://shrines.rpgclassics.com/psx/pe/experience.shtml) pages (summarised).
 
 ---
 
-## 1. How it works today
+## 1. Facts (decomp and shrine)
 
-**The turn bar (decomp, `pe_atb_items.c` notes).** Every battle action (shooting, an item, a
-Parasite Energy power, changing gear, escaping) needs Aya's ATB gauge full (9000) and empties it.
-The mod's half-bar option lets chosen menu tabs act from half a bar for half a bar's cost; by
-default only **Use Item**. The Parasite Energy tab can be switched on too, but only for all
-powers at once.
+- **Turn bar:** every battle action needs Aya's gauge full (9000) and empties it. The mod's
+  half-bar turns (the gold bar) let chosen tabs act from half a bar for half a bar.
+- **PE costs** (`Battle_ApplySpellEffect`, battle/attack.c; PE in 16.16; armor with PE Light,
+  effect flag 0x200, pays two thirds):
 
-**PE costs (decomp `Battle_ApplySpellEffect`, battle/attack.c).** Each power subtracts a fixed
-amount from Aya's PE (``exp_or_acc``, 16.16 fixed point; armor with the PE-burden flag, "PE Light",
-cuts it by a third). The shrine only gives tiers; the real numbers:
+  | Power (index) | PE | Effect |
+  |---|---|---|
+  | Heal 1 (0) | 60 | +30 HP |
+  | Heal 2 (1) | 120 | +60 HP |
+  | Heal 3 (2) | 500 | +280 HP |
+  | Detox (3) | 100 | cures poison |
+  | Medic (4) | 600 | cures every ailment |
+  | Barrier (5) | a third of max PE | hits drain PE instead of HP |
+  | Energy Shot (6) | all remaining | one PE-powered shot |
+  | Scan (7) | 50 | shows HP and weaknesses |
+  | Slow (8) | 90 | enemy ATB −40% (sure if weak, 50% if neutral, never if resistant) |
+  | Haste (9) | 200 | Aya faster for 450 frames (~7.5 s); cures Stiffness |
+  | Confuse (10) | 150 | as Slow's odds |
+  | Gene Heal (11) | 400 | regenerates HP while draining PE |
+  | Preraise (12) | 1000 | revives once |
+  | Full Recover (18) | 1300 | full HP, every ailment |
+  | Liberate (19) | all | transforms, seven attacks |
 
-| Power | Learned | PE cost | Effect (decomp) |
-|---|---|---|---|
-| Heal 1 | start | 60 | +30 HP |
-| Scan | Lv 4 | 50 | shows HP and weaknesses |
-| Slow | Lv 7 | 90 | enemy ATB −40% (sure if weak, 50% if neutral, never if resistant) |
-| Detox | Lv 9 | 100 | cures poison |
-| Heal 2 | Lv 11 | 120 | +60 HP |
-| Barrier | Lv 13 | a third of max PE | hits drain PE instead of HP until PE runs out |
-| Energy Shot | Lv 15 | all remaining | one shot powered by the PE spent |
-| Confuse | Lv 17 | 150 | enemy confused (sure if weak, 50% if neutral) |
-| Haste | Lv 20 | 200 | Aya's ATB and movement faster for 450 frames (~7.5 s); cures Stiffness |
-| Heal 3 | Lv 22 | 500 | +280 HP |
-| Gene Heal | Lv 25 | 400 | regenerates HP while draining PE |
-| Medic | Lv 28 | 600 | cures every ailment |
-| Preraise | Lv 30 | 1000 | revives Aya once at 0 HP |
-| Full Recover | Lv 32 | 1300 | full HP and every ailment |
-| Liberate | Lv 33 | all | transforms; seven strong attacks |
+- **Items** (`Battle_ApplyDamage`, battle/attack.c; the same routine runs for menu use):
+  Medicine 1–4 +45 / 90 / 180 / 400 HP; Full Recover full HP; **Cure-P / D / C / M cure the
+  ailment, or if Aya doesn't have it, make her immune to it** (vanilla "Cures & Prevents"); Full
+  Cure clears all four and state 0x1000; Super / Duper Junk restore a quarter / half of max PE
+  (unusable in vanilla; the mod keeps them as Junk bundles).
+- **Aya's HP grows ~14x** over the main game (experience chart: Lv 6 72, Lv 14 181, Lv 21 296,
+  Lv 33 621), while every heal is a flat number.
+- **Medicine 4 sources:** main game rare (Museum Armadillo drop, Pterodactyl first fight,
+  Scorpion steal, Museum x2 (+3 possible), Navy man x2); Chrysler Building common (a third of
+  the late-floor enemies drop or carry one).
+- **Combine (mod):** two of a Medicine make the next one.
 
-PE recharges during battle, more slowly as it runs low (shrine). Max PE grows with level (level
-table ``battleMaxAtk``; to read from the game).
+## 2. Identities
 
-**Items (shrine).** Medicine 1 / 2 / 3 / 4: +45 / 90 / 180 / 400 HP; Cure-P / C / D / M cure one
-ailment; Full Cure cures all; Full Recover restores HP; Revive revives once. Finite: chests,
-drops, steals, Requisition.
+| | Items | Parasite Energy |
+|---|---|---|
+| Scales with | how many you collect (Combine) | Aya's level (max HP) |
+| Best at | burst heals, fast; preventing ailments (vanilla); when PE is empty | renewable healing; lasting buffs (Barrier, Gene Heal, Haste, Preraise); no bag space or supplies |
+| Paid with | supplies, bag slots, Junk | PE (refills in battle, slower when low) |
 
-## 2. The problem
+## 3. Decisions (built)
 
-1. **Every power costs a full bar**, whether it's Scan (50 PE) or Full Recover (1300 PE). A full
-   bar is a full volley of shots, so cheap utility powers (Scan, Detox, Heal 1) are almost never
-   worth the turn.
-2. **Half-bar items made it worse.** Cure-P now costs half a bar and no PE; Detox costs a full bar
-   and 100 PE. Same effect, worse in every way: Detox only gets used with no Cure-P left. Medicine
-   1 (+45 HP, half bar) beats Heal 1 (+30 HP, full bar, 60 PE) the same way.
-3. **Little reason to choose.** Items and powers should differ in kind, not just in price: items
-   are fast and finite, Parasite Energy should be renewable and flexible, and the choice should
-   depend on the fight.
+| Area | Rebalanced | Vanilla |
+|---|---|---|
+| Half-bar turns | on | off |
+| Half bar: items | on | — |
+| Half bar: Parasite Energy | quick powers only: Heal 1, Heal 2, Detox, Medic, Scan, Slow, Confuse | — |
+| Full-bar power from a half bar | allowed; the gauge empties and the rest of a full bar is owed (debt), paid from the next refill | — |
+| Heal 1 / 2 / 3 | 15 / 30 / 65% of max HP, never below 30 / 60 / 280 | +30 / 60 / 280 |
+| Detox / Scan PE | 60 / 30 | 100 / 50 |
+| Regen on PE cures | not built | — |
+| Combine | Medicine 1→2→3→4 all 2x; **Medicine 4 + Full Cure → Panacea** | 2x only |
+| Medicine 4 | unchanged (+400 HP) | — |
+| **Panacea** (item 0x19) | +400 HP and cures every ailment (as Full Cure), half a bar like any item; made only by Combine | — |
+| Lucky Charm | removed (Lucky Find armor does the same); a carried charm becomes Panacea | — |
+| Super / Duper Junk | unchanged (Junk bundles) | — |
+| Half bar: change weapon / armor / escape | off | — |
 
-## 3. Principles
+How it's built: half-bar per power in `pe_atb_items.c` (queued command 0x183 + index; debt
+tracked and taken from the refill); heals and costs in an entry hook on
+`Battle_ApplySpellEffect` (0x80024250; extra HP added before the game's heal, which clamps; PE
+difference refunded before the game's subtraction, scaled by PE Light); Panacea in the
+`Battle_ApplyDamage` hook (0x80023E14: clear ailments, then handed to the game as Medicine 4);
+no new game.toml hooks.
 
-- **Items: fast, finite.** Half a bar (as now). Using one spends a resource you can run out of.
-- **Parasite Energy: renewable, costs PE and tempo by size.** Small, reactive powers (a quick
-  cleanse, a small heal, a look at the enemy) should be as fast as an item; big, game-changing
-  powers (full heals, revives, lasting buffs, finishers) keep the full bar.
-- **Same effect, different trade:** Detox vs Cure-P should be "PE or an item", both half a bar,
-  so carrying Cure-P is about saving PE, not about tempo.
-- **No new dominant option.** Quick casts must not let Aya chain heals faster than enemies hurt
-  her; PE costs and regen do the limiting.
+Play log: `pe_turn` rows (power, cost half / full / full_debt, gauge before → after); `combine`
+rows (into=0x19 for Panacea); spell casts in the battle summary as before.
 
-## 4. Proposal
+## 4. Open items (decide from play data)
 
-### 4.1 Bar cost per power ("quick" = half bar, like items)
-
-| Power | Bar today | Proposed | Why |
-|---|---|---|---|
-| Heal 1 | full | **half** | small reactive heal; matches Medicine 1's tempo |
-| Heal 2 | full | **half** | mid heal; Medicine 2 is half a bar |
-| Detox | full | **half** | the case that started this: same tempo as Cure-P, pays PE instead |
-| Scan | full | **half** | information should not cost a whole volley |
-| Slow | full | **half** | a control setup; cheap, can fail (resist / coin flip) |
-| Confuse | full | **half** | same as Slow |
-| Medic | full | **half** | cleanse-all; Full Cure (item) is half a bar |
-| Haste | full | full | lasting tempo buff: casting it quickly would pay for itself |
-| Barrier | full | full | strong defensive state |
-| Heal 3 | full | full | +280 HP: a big swing |
-| Gene Heal | full | full | lasting regen |
-| Preraise | full | full | a revive |
-| Full Recover | full | full | full heal + cleanse |
-| Energy Shot, Liberate | full | full | finishers |
-
-Rule of thumb: **reactive, small or can-fail → half; lasting, big or finishing → full.**
-
-### 4.2 PE cost tweaks (small)
-
-| Power | Today | Proposed | Why |
-|---|---|---|---|
-| Heal 1 | 60 (+30 HP) | 60, **+45 HP** | match Medicine 1; worst HP-per-PE today |
-| Detox | 100 | **60** | a single-ailment cure costs more than Heal 2's half; Cure-P is cheap to find |
-| Scan | 50 | **30** | rarely used |
-| others | — | unchanged | |
-
-(PE Light armor keeps its −⅓.)
-
-### 4.3 Casting a full-bar power from a half bar
-
-With the Parasite Energy tab allowed on a half bar, the menu still lists every power. Options:
-
-- **A. Debt (recommended):** a full-bar power cast from a half bar empties the gauge and also
-  holds the next refill back by half a bar, so it always costs a full bar in total, just sooner.
-  No menu changes; clear rule.
-- **B. Block:** grey out full-bar powers on a half bar (menu hook; more work).
-
-### 4.4 Items stay as they are
-
-Half a bar, all items (current default). Optional later: let Medicine 3 / 4, Full Recover (item)
-and Revive cost a full bar, so the biggest heals have the same tempo whichever way you get them.
-
-## 5. What it should feel like
-
-- Poisoned at full HP: Detox or Cure-P, half a bar either way; Detox if you want to keep the item.
-- Chip damage: Heal 1 / 2 on half a bar instead of a Medicine.
-- Scan and Slow / Confuse become openers worth taking.
-- Big moments (Heal 3, Full Recover, Preraise, Barrier, Haste, Liberate) still take Aya's whole
-  turn.
-
-## 6. Build notes
-
-- Extend `pe_atb_items.c`: allow the Parasite Energy tab on a half bar with a per-power quick set
-  (commands 0x183 + index, tech index as in `Battle_ApplySpellEffect`); at turn end the queued
-  command decides: quick power → half cost; full power from a half bar → debt (4.3 A); full power
-  from a full bar → full cost.
-- PE costs: entry hook already on `Battle_ApplySpellEffect` (0x80024250, game.toml) can refund PE
-  after the cast (cost tweaks) — or adjust Aya's PE before the subtraction; Heal 1's extra HP the
-  same way.
-- F1 page **Mod Effects > Parasite Energy**: per-power Quick / Full, PE cost %, Rules Vanilla /
-  Rebalanced like the weapon effects.
-- Play log: one row per cast (power, bar cost, PE before / after) so the change can be checked.
-- Data to read from the game first: max PE by level (``battleMaxAtk``) and the PE regen rate, so
-  costs can be judged as a share of the bar.
-
-## 7. Open questions
-
-1. Is half a bar right for Heal 2 and Medic, or only for the small ones (Heal 1, Detox, Scan)?
-2. Should Slow / Confuse be quick? They can fail, which argues yes.
-3. Full-bar power from a half bar: debt (A) or block (B)?
-4. Make the biggest items (Medicine 3 / 4, Full Recover, Revive) full-bar too?
-5. PE cost tweaks: as listed, or leave PE costs alone and change only the bar?
+1. **Heal 3 vs Medicine 4 late.** End of Day 5: Medicine 4 heals ~64% of max HP for half a
+   bar; Heal 3 (65%) a full bar and 500 PE. Main game: fine (Medicine 4 is rare). Chrysler
+   Building: Medicine 4 is common, so items may win every heal there. Options: (a) accept,
+   (b) Heal 3 to ~80%, (c) Heal 3 half a bar, (d) fewer Medicine 4 drops in the Chrysler
+   Building (reward-list rewrite). Needs: max PE and PE regen (casts per fight), and logs.
+2. **PE heal percentages** (15 / 30 / 65): check heal size per bar and per PE in logged fights.
+3. **Quick power set:** Medic and Heal 2 at half a bar may be strong; Slow / Confuse may need
+   it more. Watch `pe_turn` rows.
+4. **Debt rule feel:** a full power from a half bar delays the next turn; check it reads clearly.
+5. **Panacea:** how often it's built (combine rows) and whether it trivialises status fights.
+6. **Requisition prices vs Combine:** price each Medicine a bit above half the next one.
+7. **Cure items' immunity:** vanilla sets immunity when Aya isn't afflicted; find how long it
+   lasts (status timers) before deciding anything more for items.
+8. **Data to read from the game:** max PE by level (`battleMaxAtk`) and the PE regen rate.
