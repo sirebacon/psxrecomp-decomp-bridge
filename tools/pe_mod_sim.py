@@ -19,12 +19,13 @@ HIT_PCT = {1: 100, 2: 60, 3: 41, 5: 25, 7: 18, 10: 13}
 
 # ---- guesses (G1..G4): replace with values read from the game -----------------------
 # G1 Aya's speed stat (stat22) by area: it is the Quickdraw chance in % and sets her ATB.
-STAT22_BY_AREA = {"Day 1 Theater": 20, "Day 2 Central Park": 30, "Day 3 NYPD": 35,
-                  "Day 4 Hospital": 40, "Day 5 Chinatown-Museum": 50, "Bosses (main game)": 45}
+# Read from the game 2026-10-14: stat22 = 50 + 2 per stat level (level table, 0x18 a row).
+STAT22_BY_AREA = {"Day 1 Theater": 56, "Day 2 Central Park": 62, "Day 3 NYPD": 66,
+                  "Day 4 Hospital": 70, "Day 5 Chinatown-Museum": 78, "Bosses (main game)": 74}
 # G2 Attack Up / Down = offense read 2 levels higher / lower: about +/-5% gun damage.
-ATTACK_LEVELS_PCT = 5
+ATTACK_LEVELS_PCT = 8          # offense +/-15-20 at 2 levels (table): ~3-4 per shot
 # G3 Slow Active Time = stat22 read 2 levels lower: ATB ~10% slower, Quickdraw -4 points.
-SLOW_ATB, SLOW_QUICKDRAW = 0.90, 4
+SLOW_ATB, SLOW_QUICKDRAW = 0.93, 4   # stat22 -4 of ~60-80
 # G4 Counter: chance from agility and rank (decomp); ~30% vs a same-rank enemy, a full attack.
 
 # ---- rules ----------------------------------------------------------------------
@@ -36,7 +37,7 @@ VANILLA = dict(
     status_chance={"Strong": 0.0, "Average": 0.5, "Weak": 1.0},
     boss_status_immune=True,
     acid_tick=0.04,            # A4: fraction of max HP per enemy turn while poisoned
-    counter_chance=0.30, counter_power=1.0,   # G4
+    counter_chance=0.05, counter_power=1.0,   # agility 80 (game): ~2-8% by rank
     quickdraw_bonus=0,                       # vanilla: chance = stat22 %
     attack_down_guard=1.0, slow_at_guard=1.0,  # damage taken with those armor effects
     attack_all_ammo_per_target=True,
@@ -50,9 +51,9 @@ PROPOSED = dict(VANILLA,
     elem_best_of_two=True,
     status_chance={"Strong": 0.2, "Average": 0.6, "Weak": 1.0},
     acid_tick=0.05,
-    counter_chance=0.40, counter_power=1.0,
-    quickdraw_bonus=30,                      # combos: always-full was too strong; +30 points, cap 90%
-    attack_down_guard=0.85, slow_at_guard=0.80,
+    counter_chance=0.25, counter_power=1.0,   # Counter chance 500%
+    quickdraw_bonus=15,                      # base is already ~60-80%; +15, cap 90%
+    attack_down_guard=0.75, slow_at_guard=0.85,
     attack_all_ammo_per_target=True,         # combos: Attack All is already the strongest spread
     crit_bonus=40,
     ammo_above_5=0.5,
