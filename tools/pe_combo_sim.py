@@ -35,6 +35,9 @@ GUNS = {  # area -> guns (main game, where found)
 OFFENSE = {"Day 1 Theater": 35, "Day 2 Central Park": 55, "Day 3 NYPD": 70,
            "Day 4 Hospital": 90, "Day 5 Chinatown-Museum": 120}
 
+# G8 enemy distance in game units (uniform); to calibrate from the play log's hitq rows.
+DIST = (15, 75)
+
 # ---- effects: groups ----------------------------------------------------------------------
 ROF = [None, 1, 2, 3, 5, 7, 10]          # None = the gun's plain single shot (RoF 1, no slot)
 SPREAD = [None, "random", "burst", "all"]
@@ -83,7 +86,7 @@ def fight(rules, eff, gun, offense, group, rng, stat22):
     per_shot = attack * pct / 100.0
     atb = ATB[kind]
     foes = [dict(e, cur=e["hp"], poisoned=False, stopped=0, d=M.defense_of(e),
-                 t_next=rng.uniform(0.4, 1.2), dist=rng.uniform(15, 75) / rng_range) for e in group]
+                 t_next=rng.uniform(0.4, 1.2), dist=rng.uniform(*DIST) / rng_range) for e in group]
     t, ammo, taken, loaded = 0.0, 0.0, 0, mag
     qd = 0.0
     if eff.get("quickdraw"):
