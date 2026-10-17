@@ -1,4 +1,7 @@
-"""Gun progression simulator: how Tool transfer rules shape a playthrough (main game, Days 1-5).
+"""SUPERSEDED 2026-10-17 by tools/pe_weapon_sim (see findings/pe-weapon-simulation-audit-2026-10-17.md;
+snapshot: git tag sims-pre-audit-2026-10-16). Kept unchanged for reproducibility; known errors listed there.
+
+Gun progression simulator: how Tool transfer rules shape a playthrough (main game, Days 1-5).
 
 Guns arrive day by day (RPGClassics weapons page, 2026-10-14: base attack, range, magazine, slots,
 built-in effects, own +bonus), +N boosters and Tools arrive per day, and the player keeps one gun

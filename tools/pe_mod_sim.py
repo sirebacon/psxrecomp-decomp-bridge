@@ -1,4 +1,7 @@
-"""Parasite Eve weapon-effect simulator: vanilla rules vs proposed rebalance.
+"""SUPERSEDED 2026-10-17 by tools/pe_weapon_sim (see findings/pe-weapon-simulation-audit-2026-10-17.md;
+snapshot: git tag sims-pre-audit-2026-10-16). Kept unchanged for reproducibility; known errors listed there.
+
+Parasite Eve weapon-effect simulator: vanilla rules vs proposed rebalance.
 
 Monte Carlo fights against the real enemy roster (findings/data/pe-enemies-wiki-2026-10-14.csv),
 area by area, for a baseline gun (Rate of Fire 3, no other effects) plus each effect in turn.

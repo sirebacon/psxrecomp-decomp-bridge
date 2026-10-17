@@ -1,6 +1,6 @@
 # Parasite Eve: short-range guns vs keep-away bosses (2026-10-15)
 
-Status: **parked**. Problem confirmed by play; options listed; to pick after more data.
+Status: **parked; analysed 2026-10-17** in [pe-weapon-range-boss-analysis-2026-10-17.md](pe-weapon-range-boss-analysis-2026-10-17.md) (recommendation: E6 for the scripted fight, optional boss-only graze 50%). Problem confirmed by play; options listed; to pick after more data.
 
 ## Problem
 

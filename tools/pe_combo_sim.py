@@ -1,4 +1,7 @@
-"""Gun x effect-combination x enemy simulator (vanilla vs proposed rules).
+"""SUPERSEDED 2026-10-17 by tools/pe_weapon_sim (see findings/pe-weapon-simulation-audit-2026-10-17.md;
+snapshot: git tag sims-pre-audit-2026-10-16). Kept unchanged for reproducibility; known errors listed there.
+
+Gun x effect-combination x enemy simulator (vanilla vs proposed rules).
 
 For each area of the main game it takes the guns a player has there (stats from the RPGClassics
 Parasite Eve shrine weapons page, 2026-10-14; to be checked against the game's item table), every
