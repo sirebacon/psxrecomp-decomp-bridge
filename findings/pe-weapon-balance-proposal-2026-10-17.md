@@ -1,6 +1,6 @@
 # Parasite Eve: weapon balance proposal (2026-10-17)
 
-Status: **proposal, nothing implemented.** Evidence: [audit](pe-weapon-simulation-audit-2026-10-17.md),
+Status: **proposal, nothing implemented. R1 (boss threshold) and R4 (shotgun magazine +50%) are superseded by phase 2: [pe-weapon-p2-integrated-proposal-2026-10-17.md](pe-weapon-p2-integrated-proposal-2026-10-17.md).** Evidence: [audit](pe-weapon-simulation-audit-2026-10-17.md),
 [validation table](pe-weapon-mechanics-validation-2026-10-17.md), [class benchmark](pe-weapon-class-benchmark-2026-10-17.md),
 [build diversity](pe-weapon-build-diversity-2026-10-17.md), [range / bosses](pe-weapon-range-boss-analysis-2026-10-17.md),
 [progression](pe-weapon-progression-analysis-2026-10-17.md). Simulator: `tools/pe_weapon_sim`

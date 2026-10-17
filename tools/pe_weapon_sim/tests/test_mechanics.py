@@ -149,6 +149,57 @@ class TestScripted(unittest.TestCase):
         self.assertLess(st["damage"], 450 + 200)
 
 
+class TestPhase2(unittest.TestCase):
+    def test_magazine_carries_between_fights(self):
+        c = dict(cfg(0x45), magazine=10)
+        st = E.fight(R.VANILLA, c, AYA, [enemy(hp=10 ** 6)], Fixed(100), random.Random(10), max_turns=1)
+        self.assertEqual(st["loaded_left"], 10 - st["rounds"])
+        st2 = E.fight(R.VANILLA, c, AYA, [enemy(hp=10 ** 6)], Fixed(100), random.Random(11), max_turns=1,
+                      start_loaded=st["loaded_left"])
+        self.assertEqual(st2["loaded_left"], st["loaded_left"] - st2["rounds"])
+
+    def test_endurance_chain_carries_magazine(self):
+        from pe_weapon_sim import run_benchmark as B
+        c = dict(cfg(0x6E), magazine=7)                 # M10B: RoF3, 2 bullets short of a second turn
+        sts = B.run_encounter(R.CURRENT, c, AYA, "endurance", "Day5", 3)
+        self.assertTrue(all(s.get("reloads", 0) >= 1 for s in sts))
+
+    def test_baselines_have_no_phase2_rules(self):
+        for key in ("prox", "mag_scale", "stagger"):
+            self.assertIsNone(R.CURRENT.get(key)); self.assertIsNone(R.VANILLA.get(key))
+
+    def test_mag_scale_only_named_weapon(self):
+        r = R.experimental("C2_m10b_50")
+        m10b = cfg(0x6E); m500 = cfg(0x6A)
+        a = E.fight(r, m10b, AYA, [enemy(hp=10 ** 6)], Fixed(100), random.Random(12), max_turns=1, start_loaded=99)
+        b = E.fight(r, m500, AYA, [enemy(hp=10 ** 6)], Fixed(100), random.Random(12), max_turns=1, start_loaded=99)
+        self.assertEqual(a["loaded_left"] + a["rounds"], int(m10b["magazine"] * 1.5))
+        self.assertEqual(b["loaded_left"] + b["rounds"], m500["magazine"])
+
+    def test_prox_absolute_distance_and_kind(self):
+        r = R.experimental("C1_50")
+        sg, hg = cfg(0x6A), cfg(0x45)
+        near = E.fight(r, sg, AYA, [enemy(hp=10 ** 6)], Fixed(300), random.Random(13), max_turns=5)
+        far = E.fight(r, sg, AYA, [enemy(hp=10 ** 6)], Fixed(500), random.Random(13), max_turns=5)
+        hgn = E.fight(r, hg, AYA, [enemy(hp=10 ** 6)], Fixed(300), random.Random(13), max_turns=5)
+        self.assertGreater(near.get("prox_bullets", 0), 0)
+        self.assertEqual(far.get("prox_bullets", 0), 0)
+        self.assertEqual(hgn.get("prox_bullets", 0), 0)
+
+    def test_stagger_cooldown(self):
+        r = R.experimental("C5")
+        st = E.fight(r, cfg(0x6A), AYA, [enemy(hp=10 ** 7)], Fixed(200), random.Random(14), time_cap=60)
+        self.assertLessEqual(st.get("staggers", 0), 60 / 3.0 + 1)
+
+    def test_walk_free_while_bar_fills(self):
+        """Walking during the ATB fill costs nothing; only travel beyond the fill delays the shot."""
+        c = cfg(0x45)
+        near_enough = c["range"] * 1.05
+        st = E.fight(R.CURRENT, c, AYA, [enemy(hp=10 ** 6)], Fixed(near_enough), random.Random(15),
+                     policy="walk", max_turns=3)
+        self.assertLess(st.get("move_s", 0), 0.2)
+
+
 class TestTransfer(unittest.TestCase):
     def test_transfer_sums_and_zeroes(self):
         """armor_capacity.c TRANSFER_STAT: dest += source (cap 999), source = 0."""

@@ -63,6 +63,40 @@ EXPERIMENTS = {
 }
 
 
+# Phase 2 (2026-10-17): close-combat and identity experiments. Distances are absolute game
+# units (not % of range), so range upgrades don't widen a proximity zone.
+M10B = 0x6E
+EXPERIMENTS.update({
+    # C1 shotgun proximity damage: +bonus within r_full; "s" variants fade linearly to r_zero.
+    **{"C1_%d" % b: dict(prox=dict(kinds=(2,), bonus=b / 100.0, r_full=400, r_zero=400)) for b in (15, 25, 30, 40, 50)},
+    **{"C1s_%d" % b: dict(prox=dict(kinds=(2,), bonus=b / 100.0, r_full=400, r_zero=650, smooth=True)) for b in (15, 25, 30, 40, 50)},
+    # C2 magazine: the late shotgun only (M10B), or every shotgun.
+    **{"C2_m10b_%d" % p: dict(mag_scale={M10B: 1 + p / 100.0}) for p in (25, 50, 75, 100)},
+    "C2_all_50": dict(mag_scale={2: 1.5}),
+    # C4 faster shotgun recovery (firing commitment).
+    "C4_25": dict(recovery_scale=0.75, recovery_scale_kinds=(2,)),
+    "C4_50": dict(recovery_scale=0.50, recovery_scale_kinds=(2,)),
+    # C5 shotgun stagger: per command volley, delays the target's next action; cooldown; bosses resist.
+    "C5": dict(stagger=dict(kinds=(2,), chance=0.35, delay=0.8, cooldown=3.0, boss_mult=0.3)),
+    # Handgun responsiveness: recovery -25%.
+    "H1": dict(recovery_scale=0.75, recovery_scale_kinds=(1,)),
+    # Machine-gun suppression (stress test only: per volley, cooldown, bosses resist).
+    "M1": dict(stagger=dict(kinds=(3,), chance=0.25, delay=0.5, cooldown=3.0, boss_mult=0.3)),
+    # R1 smart reload: reload at the turn's end when the rounds left won't cover the next turn.
+    "R1": dict(smart_reload=True),
+    # Analysis only (mechanism tests, not proposals):
+    "X_crit600": dict(crit_zone_abs=(600, 960)),       # 50% crit zone capped at 600 units, 20% zone at 960
+    "X_cmd25": dict(cmd_fill_scale=0.25),              # each extra command makes the bar fill 25% slower
+    "X_cmd50": dict(cmd_fill_scale=0.50),
+    "X_all1": dict(all_first_cmd_only=True),            # Attack All only on the first command of a turn
+})
+
+
+def combine(*names):
+    """CURRENT + several experiments; the mag_scale / stagger dicts of later ones replace earlier ones."""
+    return experimental(*names)
+
+
 def experimental(*names, **overrides):
     """CURRENT plus the named experiments (and any explicit overrides); returns a new dict."""
     r = dict(_CURRENT)

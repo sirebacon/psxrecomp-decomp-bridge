@@ -56,7 +56,8 @@ def counter_chance(level, rank_diff=0):
 
 
 def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overlap",
-          armor=None, threshold=None, target_first=None, enemy_dmg=None, time_cap=240.0, max_turns=None):
+          armor=None, threshold=None, target_first=None, enemy_dmg=None, time_cap=240.0, max_turns=None,
+          start_loaded=None, walk_speed=440.0, close_d=None, close_risk=0.0):
     """cfg: data.Weapon.config(); aya: dict(level, stat22, offense); foes_in: enemy dicts.
     threshold: scripted fight (dict enemy index -> real HP to deal) ends when reached.
     Returns Stats."""
@@ -78,8 +79,16 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
     for i, e in enumerate(foes_in):
         foes.append(dict(e, i=i, cur=float(e["hp"]), dealt=0.0, poisoned=False, stopped=0,
                          t_next=rng.uniform(0.4, 1.2), dist=profile.sample(rng)))
-    loaded = cfg["magazine"]
+    # Experimental magazine scaling (rules["mag_scale"]: {kind or weapon id: factor}); inert by default.
+    ms = rules.get("mag_scale") or {}
+    wid = getattr(cfg.get("weapon"), "id", None)
+    magazine = max(1, int(cfg["magazine"] * ms.get(wid, ms.get(kind, 1.0))))
+    loaded = magazine if start_loaded is None else min(start_loaded, magazine)
     rng_units = cfg["range"]
+    prox = rules.get("prox")            # experimental close-range damage by absolute distance
+    stag = rules.get("stagger")         # experimental stagger: delays an enemy's next action
+    aya_free = 0.0                      # when Aya's last firing animation ended (she can walk after)
+    chases = 0
     t = 0.0
     qd = 0.0
     if eff.get("quickdraw"):
@@ -130,6 +139,10 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                 if d >= lo + 1:
                     return "graze" if roll < p else None
         thr = (rules["crit_points"] if eff.get("critical") else 0) + (5 if d >= 801 else 20 if d >= 501 else 50)
+        cap = rules.get("crit_zone_abs")            # analysis only: absolute caps on the 50% / 20% zones
+        if cap:
+            thr = (rules["crit_points"] if eff.get("critical") else 0) + (
+                50 if f["dist"] <= cap[0] and d < 501 else 20 if f["dist"] <= cap[1] and d < 801 else 5)
         if roll < thr: return "crit"
         if eff.get("critical") and rules["crit_convert_pct"] and rng.random() * 100 < rules["crit_convert_pct"]:
             return "crit"
@@ -157,6 +170,16 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                     if eff.get("tranq") and status_lands(f, "tranq", vr):
                         f["stopped"] = max(f["stopped"], 3); st.add("tranq")
                     dmg = dmg * element_pct(f) / 100.0
+                if prox and kind in prox["kinds"]:
+                    d = f["dist"]
+                    if d <= prox["r_full"]:
+                        k = 1.0
+                    elif prox.get("smooth") and d < prox["r_zero"]:
+                        k = (prox["r_zero"] - d) / (prox["r_zero"] - prox["r_full"])
+                    else:
+                        k = 0.0
+                    if k:
+                        dmg *= 1 + prox["bonus"] * k; st.add("prox_bullets")
                 if cyan and not f["boss"] and not threshold:
                     st.add("overkill", max(0.0, f["cur"]))
                     f["dealt"] += f["cur"]; f["cur"] = 0; return
@@ -224,22 +247,56 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
             if policy == "approach" and tgt["dist"] > rng_units:
                 tgt["dist"] = rng.uniform(0.6, 0.95) * rng_units
                 moved = MOVE_S; st.add("move_s", MOVE_S)
+            elif policy in ("walk", "close_in"):
+                # Aya walks (walk_speed units/s; ~440 measured live) while her bar fills; the walk
+                # only costs time beyond the fill. She stops at 90% of her range ("walk") or at
+                # close_d ("close_in"). The target keeps moving at its own actions (keep-away
+                # bosses back off again); after two chases in a row she fires from where she is.
+                want = close_d if policy == "close_in" and close_d else 0.9 * rng_units
+                if tgt["dist"] > want and chases < 2:
+                    travel = (tgt["dist"] - want) / walk_speed
+                    allowance = max(0.0, t - aya_free)
+                    st.add("walk_s", travel)
+                    tgt["dist"] = want
+                    delay = travel - allowance
+                    if delay > 0.05:
+                        chases += 1
+                        st.add("move_s", delay)
+                        aya_next = t + delay
+                        st["turns"] -= 1
+                        continue
+                chases = 0
             if tgt["dist"] > rng_units:
                 st.add("turns_out_of_range")
             shots = 0
-            for _ in range(commands):
+            for ci in range(commands):
                 if done() or not alive(): break
+                if ci == 1 and rules.get("all_first_cmd_only") and mode == "all":
+                    mode = None                         # analysis: extra commands fire at one target
                 shots += volley(tgt)
+                if stag and kind in stag["kinds"] and tgt["cur"] > 0 and t >= tgt.get("stag_cd", 0.0):
+                    p = stag["chance"] * (stag.get("boss_mult", 0.5) if tgt["boss"] else 1.0)
+                    if rng.random() < p:
+                        tgt["t_next"] += stag["delay"]; tgt["stag_cd"] = t + stag["cooldown"]; st.add("staggers")
+            mode = eff.get("mode")
             commit = commit_seconds(kind, shots, rules) + moved
             if loaded <= 0:
-                loaded = cfg["magazine"]; st.add("reloads"); commit += RELOAD_S
+                loaded = magazine; st.add("reloads"); commit += RELOAD_S
+            elif rules.get("smart_reload"):
+                # Experimental: reload at the turn's end when the rounds left can't cover the next
+                # turn (the game only reloads an empty magazine, so leftovers make short turns).
+                per_cmd = rof * 3 // 2 if mode == "random" else rof * (len(alive()) if mode == "all" else 1)
+                if loaded < per_cmd * commands and loaded < magazine:
+                    loaded = magazine; st.add("reloads"); st.add("smart_reloads"); commit += RELOAD_S
             st.add("commit_s", commit)
-            fill = fill_seconds(stat22, kind, slow)
+            fill = fill_seconds(stat22, kind, slow) * (1 + rules.get("cmd_fill_scale", 0.0) * (commands - 1))
             aya_next = t + (max(fill, commit) if timing == "overlap" else fill + commit)
+            aya_free = t + commit
         else:
             f = min(a, key=lambda x: x["t_next"])
             t = f["t_next"]
             f["t_next"] = t + rng.uniform(*ENEMY_PERIOD)
+            close = f["dist"] < 450                    # was it next to Aya when it acted?
             f["dist"] = profile.sample(rng)            # it moves
             if f["poisoned"]:
                 # turn.c: every 31 battle ticks hpAlive -= periodicDamage (D); periodicDamage from
@@ -254,7 +311,7 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                 if f["cur"] <= 0: continue
             if f["stopped"] > 0:
                 f["stopped"] -= 1; continue
-            if rng.random() < ENEMY_HIT:
+            if rng.random() < min(1.0, ENEMY_HIT * (1 + (close_risk if close else 0.0))):
                 st.add("hits_taken")
                 hurt = (enemy_dmg or (lambda e: 1.6 * e["level"]))(f) * guard
                 taken += hurt
@@ -263,5 +320,6 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                     volley(f)
     st["time"] = t
     st["damage_taken"] = taken
+    st["loaded_left"] = loaded
     st["won"] = int(done())
     return st

@@ -19,7 +19,7 @@ PROF = D.load_profiles()
 
 
 # ---- running -------------------------------------------------------------------------------
-def run_encounter(rules, cfg, aya, enc, stage, n, seed=7, policy="stand", timing="overlap", armor=None, scale=1.0):
+def run_encounter(rules, cfg, aya, enc, stage, n, seed=7, policy="stand", timing="overlap", armor=None, scale=1.0, **extra):
     desc, builder = N.ENCOUNTERS[enc]
     out = []
     for i in range(n):
@@ -27,17 +27,20 @@ def run_encounter(rules, cfg, aya, enc, stage, n, seed=7, policy="stand", timing
         window = kw.pop("window", False)
         chain = kw.pop("chain", False)
         foes, prof = kw.pop("foes"), kw.pop("profile")
+        kw.update(extra)
         if "threshold" in kw and rules.get("keepaway_threshold_scale", 1.0) != 1.0:   # E6
             kw["threshold"] = {k: v * rules["keepaway_threshold_scale"] for k, v in kw["threshold"].items()}
         if scale != 1.0:
             prof = N.Scaled(prof, scale)
         rng = random.Random(seed * 7919 + i)
         if chain:                                    # three fights of two, magazine carried over
-            tot = E.Stats(); loaded = cfg["magazine"]
+            tot = E.Stats(); loaded = None              # fixed 2026-10-17: the magazine really carries over
             for j in range(3):
-                c2 = dict(cfg)
-                st = E.fight(rules, c2, aya, foes[2 * j:2 * j + 2], prof, rng, policy=policy, timing=timing, armor=armor, **kw)
-                for k, v in st.items(): tot.add(k, v)
+                st = E.fight(rules, cfg, aya, foes[2 * j:2 * j + 2], prof, rng, policy=policy, timing=timing,
+                             armor=armor, start_loaded=loaded, **kw)
+                loaded = st["loaded_left"]
+                for k, v in st.items():
+                    if k != "loaded_left": tot.add(k, v)
             tot["won"] = int(tot["won"] == 3)
             out.append(tot)
         else:

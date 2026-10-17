@@ -55,7 +55,8 @@ class Weapon:
 
 
 def load_weapons():
-    return {w.id: w for w in (Weapon(r) for r in csv.DictReader(open(WEAPONS_CSV)))}
+    with open(WEAPONS_CSV, newline="") as fh:
+        return {w.id: w for w in (Weapon(r) for r in csv.DictReader(fh))}
 
 
 # Main-game availability (where each gun is first available; RPGClassics weapons page, A).
@@ -97,7 +98,9 @@ def defense_of(level):
 
 def load_enemies():
     out = []
-    for r in csv.DictReader(open(ENEMIES_CSV, encoding="utf-8")):
+    with open(ENEMIES_CSV, encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    for r in rows:
         if "Chrysler" in r["location"] or not r["location"]:
             continue
         hp, lvl = _num(r["hp"]), _num(r["level"])
@@ -145,7 +148,8 @@ class DistanceProfile:
 
 
 def load_profiles():
-    d = json.load(open(CALIB_JSON))
+    with open(CALIB_JSON) as fh:
+        d = json.load(fh)
     prof = {}
     for ctx, bins in d["abs_distance"].items():
         # hitq bins already include grazes; the reach tail adds the far / out-of-reach time hits never show.
