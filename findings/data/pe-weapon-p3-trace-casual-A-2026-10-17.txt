@@ -1,0 +1,417 @@
+# Phase 3 trace: policy A (Casual), profile typical, seed 1, CURRENT economy
+# b = battle number; every line is one state transition (simulated values)
+b002 D1    battle      map=13 exp=2 bp=5 hits=0 ratio=1.0
+b003 D1    level       level=2 banked=6
+b003 D1    battle      map=22 exp=1 bp=1 hits=1 ratio=1.0
+b004 D1    battle      map=12 exp=4 bp=10 hits=0 ratio=1.0
+b004 D1    gain        src=field item=booster DEFENSE +1
+b005 D1    level       level=3 banked=28
+b005 D1    battle      map=14 exp=5 bp=12 hits=0 ratio=1.0
+b005 D1    booster     booster=DEFENSE +1 item=N VEST#3095 +2/0/0 []
+b006 D1    battle      map=12 exp=4 bp=10 hits=0 ratio=1.0
+b007 D1    level       level=4 banked=38
+b008 D1    gain        src=field item=N PROTECTOR#3096 +1/0/2 []
+b009 D1    battle      map=27 exp=6 bp=15 hits=0 ratio=1.0
+b010 D1    level       level=5 banked=71
+b010 D1    battle      map=28 exp=8 bp=18 hits=0 ratio=1.0
+b010 D1    gain        src=field item=booster PE +1
+b010 D1    gain        src=field item=booster OFFENSE +1
+b010 D1    gain        src=field item=booster OFFENSE +1
+b010 D1    gain        src=field item=booster OFFENSE +1
+b011 D1    level       level=6 banked=84
+b011 D1    battle      map=32 exp=8 bp=13 hits=1 ratio=1.0
+b011 D1    booster     booster=PE +1 item=N VEST#3095 +2/1/0 []
+b011 D1    booster     booster=OFFENSE +1 item=M84F#3094 +3/0/0 [RoF2]
+b011 D1    booster     booster=OFFENSE +1 item=M84F#3094 +4/0/0 [RoF2]
+b011 D1    booster     booster=OFFENSE +1 item=M84F#3094 +5/0/0 [RoF2]
+b012 D1    rare        got=TOOL
+b012 D1    gain        src=rare item=TOOL
+b013 D1    level       level=7 banked=115
+b013 D1    battle      map=348 exp=30 bp=31 hits=0 ratio=1.27
+b013 D1    gain        src=drop item=KV VEST 1#3097 +1/1/0 []
+b013 D1    tool_stats  tool=Tool src=N VEST#3095 +0/0/0 [] dst=KV VEST 1#3097 +3/2/0 [] moved=[2, 1, 0] before=[2, 1, 0] why=armor switch
+b013 D1    salvage     item=N VEST#3095 +0/0/0 [] junk=5 unlocked=[]
+b013 D1    gain        src=field item=MOD PERMIT
+b013 D1    gain        src=field item=TOOL
+b013 D1    checkpoint  gun=M84F#3094 +5/0/0 [RoF2] score=12.54
+b013 D2-4  gain        src=field item=MOD PERMIT
+b013 D2-4  permit      item=M84F#3094 +5/0/0 [RoF2]
+b013 D2-4  permit      item=M84F#3094 +5/0/0 [RoF2]
+b013 D2-4  bp          cat=attack item=M84F#3094 +6/0/0 [RoF2] banked=15
+b014 D2-4  battle      map=59 exp=14 bp=6 hits=2 ratio=1.33
+b014 D2-4  gain        src=field item=MP5K#3098 +1/0/1 [RoF3]
+b014 D2-4  equip       item=MP5K#3098 +1/0/1 [RoF3] was=M84F#3094 +6/0/0 [RoF2]
+b014 D2-4  tool_stats  tool=Tool src=M84F#3094 +0/0/0 [RoF2] dst=MP5K#3098 +7/0/1 [RoF3] moved=[6, 0, 0] before=[6, 0, 0] why=switch
+b014 D2-4  salvage     item=M84F#3094 +0/0/0 [RoF2] junk=8 unlocked=['RoF2']
+b015 D2-4  battle      map=61 exp=12 bp=12 hits=0 ratio=0.47
+b016 D2-4  level       level=8 banked=36
+b016 D2-4  battle      map=63 exp=10 bp=3 hits=2 ratio=0.83
+b017 D2-4  battle      map=62 exp=12 bp=10 hits=0 ratio=0.83
+b017 D2-4  gain        src=field item=booster DEFENSE +2
+b018 D2-4  battle      map=61 exp=12 bp=12 hits=0 ratio=0.83
+b018 D2-4  gain        src=drop item=TOOL
+b018 D2-4  booster     booster=DEFENSE +2 item=KV VEST 1#3097 +5/2/0 []
+b019 D2-4  level       level=9 banked=72
+b019 D2-4  battle      map=59 exp=20 bp=14 hits=1 ratio=0.83
+b020 D2-4  battle      map=59 exp=30 bp=27 hits=2 ratio=0.83
+b020 D2-4  gain        src=field item=N JACKET#3099 +1/1/0 []
+b020 D2-4  tool_stats  tool=Tool src=KV VEST 1#3097 +0/0/0 [] dst=N JACKET#3099 +6/3/0 [] moved=[5, 2, 0] before=[5, 2, 0] why=armor switch
+b020 D2-4  salvage     item=KV VEST 1#3097 +0/0/0 [] junk=5 unlocked=[]
+b020 D2-4  gain        src=field item=CM VEST 1#3100 +1/0/1 [AutoMed]
+b020 D2-4  dismantle   item=CM VEST 1#3100 +1/0/1 [AutoMed] junk=12 unlocked=['AutoMed']
+b021 D2-4  level       level=10 banked=111
+b021 D2-4  battle      map=61 exp=12 bp=12 hits=0 ratio=0.83
+b022 D2-4  battle      map=65 exp=20 bp=9 hits=3 ratio=0.83
+b023 D2-4  battle      map=358 exp=22 bp=21 hits=0 ratio=0.83
+b024 D2-4  level       level=11 banked=144
+b024 D2-4  battle      map=67 exp=20 bp=3 hits=7 ratio=0.83
+b025 D2-4  battle      map=66 exp=16 bp=14 hits=0 ratio=0.83
+b025 D2-4  rare        got=TOOL
+b025 D2-4  gain        src=rare item=TOOL
+b025 D2-4  gain        src=field item=G19#3101 +2/1/2 [RoF3]
+b025 D2-4  dismantle   item=G19#3101 +2/1/2 [RoF3] junk=18 unlocked=['RoF3']
+b026 D2-4  battle      map=75 exp=12 bp=16 hits=0 ratio=0.83
+b027 D2-4  battle      map=80 exp=18 bp=22 hits=0 ratio=1.04
+b027 D2-4  gain        src=field item=SP VEST 1#3102 +2/1/1 []
+b028 D2-4  battle      map=78 exp=14 bp=12 hits=0 ratio=1.04
+b028 D2-4  gain        src=field item=TOOL
+b029 D2-4  level       level=12 banked=232
+b029 D2-4  battle      map=81 exp=24 bp=24 hits=0 ratio=1.04
+b029 D2-4  tool_stats  tool=Tool src=SP VEST 1#3102 +0/0/0 [] dst=N JACKET#3099 +8/4/1 [] moved=[2, 1, 1] before=[2, 1, 1] why=donor
+b029 D2-4  salvage     item=SP VEST 1#3102 +0/0/0 [] junk=5 unlocked=[]
+b030 D2-4  battle      map=82 exp=28 bp=21 hits=3 ratio=1.04
+b030 D2-4  gain        src=field item=M9#3103 +0/1/1 [RoF3]
+b031 D2-4  battle      map=83 exp=20 bp=9 hits=3 ratio=1.04
+b031 D2-4  gain        src=field item=booster PE +1
+b031 D2-4  gain        src=field item=booster DEFENSE +1
+b032 D2-4  battle      map=85 exp=30 bp=11 hits=4 ratio=1.04
+b032 D2-4  booster     booster=PE +1 item=N JACKET#3099 +8/5/1 []
+b032 D2-4  booster     booster=DEFENSE +1 item=N JACKET#3099 +9/5/1 []
+b033 D2-4  level       level=13 banked=290
+b033 D2-4  battle      map=87 exp=22 bp=17 hits=1 ratio=1.04
+b034 D2-4  level       level=14 banked=586
+b034 D2-4  battle      map=86 exp=320 bp=296 hits=6 ratio=1.04
+b034 D2-4  gain        src=drop item=booster DEFENSE +1
+b034 D2-4  booster     booster=DEFENSE +1 item=N JACKET#3099 +10/5/1 []
+b035 D2-4  gain        src=field item=booster RANGE +1
+b035 D2-4  gain        src=field item=TOOL
+b035 D2-4  gain        src=field item=booster BULLET CAP +2
+b035 D2-4  gain        src=field item=booster DEFENSE +1
+b035 D2-4  gain        src=field item=TOOL
+b035 D2-4  gain        src=field item=booster CR EVADE +1
+b036 D2-4  battle      map=100 exp=32 bp=17 hits=0 ratio=1.04
+b036 D2-4  booster     booster=RANGE +1 item=MP5K#3098 +7/1/1 [RoF3]
+b036 D2-4  booster     booster=BULLET CAP +2 item=MP5K#3098 +7/1/3 [RoF3]
+b036 D2-4  booster     booster=DEFENSE +1 item=N JACKET#3099 +11/5/1 []
+b036 D2-4  booster     booster=CR EVADE +1 item=N JACKET#3099 +11/5/2 []
+b037 D2-4  battle      map=107 exp=45 bp=6 hits=2 ratio=1.07
+b037 D2-4  gain        src=drop item=booster OFFENSE +1
+b037 D2-4  booster     booster=OFFENSE +1 item=MP5K#3098 +8/1/3 [RoF3]
+b038 D2-4  level       level=15 banked=626
+b038 D2-4  battle      map=107 exp=51 bp=17 hits=1 ratio=1.05
+b038 D2-4  gain        src=field item=M92F#3104 +1/1/3 [RoF3]
+b038 D2-4  tool_stats  tool=Tool src=M92F#3104 +0/0/0 [RoF3] dst=MP5K#3098 +9/2/6 [RoF3] moved=[1, 1, 3] before=[1, 1, 3] why=donor
+b038 D2-4  salvage     item=M92F#3104 +0/0/0 [RoF3] junk=10 unlocked=[]
+b039 D2-4  battle      map=111 exp=78 bp=15 hits=3 ratio=1.02
+b039 D2-4  gain        src=field item=CR VEST 1#3105 +2/0/1 []
+b040 D2-4  battle      map=104 exp=20 bp=7 hits=1 ratio=1.02
+b041 D2-4  battle      map=113 exp=66 bp=24 hits=6 ratio=1.02
+b042 D2-4  level       level=16 banked=702
+b042 D2-4  battle      map=114 exp=78 bp=30 hits=0 ratio=1.02
+b042 D2-4  rare        got=booster
+b042 D2-4  gain        src=rare item=booster CR EVADE +3
+b042 D2-4  booster     booster=CR EVADE +3 item=N JACKET#3099 +11/5/5 []
+b042 D2-4  gain        src=field item=CLUB 2#3106 +2/0/0 [Steal]
+b042 D2-4  dismantle   item=CLUB 2#3106 +2/0/0 [Steal] junk=12 unlocked=['Steal']
+b042 D2-4  gain        src=field item=M16A1#3107 +1/2/1 [RoF2]
+b042 D2-4  gain        src=field item=M11#3108 +1/0/1 [RoF5,Random]
+b042 D2-4  equip       item=M11#3108 +1/0/1 [RoF5,Random] was=MP5K#3098 +9/2/6 [RoF3]
+b042 D2-4  tool_stats  tool=Tool src=MP5K#3098 +0/0/0 [RoF3] dst=M11#3108 +10/2/7 [RoF5,Random] moved=[9, 2, 6] before=[9, 2, 6] why=switch
+b042 D2-4  salvage     item=MP5K#3098 +0/0/0 [RoF3] junk=10 unlocked=[]
+b042 D2-4  gain        src=field item=SP JACKET#3109 +0/1/0 []
+b042 D2-4  tool_stats  tool=Tool src=M16A1#3107 +0/0/0 [RoF2] dst=M11#3108 +11/4/8 [RoF5,Random] moved=[1, 2, 1] before=[1, 2, 1] why=donor
+b042 D2-4  salvage     item=M16A1#3107 +0/0/0 [RoF2] junk=10 unlocked=[]
+b042 D2-4  gain        src=field item=TOOL
+b042 D2-4  gain        src=field item=booster OFFENSE +1
+b042 D2-4  gain        src=field item=booster OFFENSE +1
+b043 D2-4  battle      map=107 exp=51 bp=12 hits=5 ratio=0.7
+b043 D2-4  booster     booster=OFFENSE +1 item=M11#3108 +12/4/8 [RoF5,Random]
+b043 D2-4  booster     booster=OFFENSE +1 item=M11#3108 +13/4/8 [RoF5,Random]
+b044 D2-4  battle      map=115 exp=60 bp=33 hits=3 ratio=0.68
+b044 D2-4  gain        src=field item=booster CR EVADE +1
+b045 D2-4  battle      map=121 exp=58 bp=8 hits=4 ratio=0.68
+b045 D2-4  gain        src=drop item=TOOL
+b045 D2-4  booster     booster=CR EVADE +1 item=N JACKET#3099 +11/5/6 []
+b046 D2-4  battle      map=118 exp=45 bp=3 hits=2 ratio=0.67
+b046 D2-4  gain        src=drop item=SG550#3110 +0/2/1 [RoF2]
+b046 D2-4  gain        src=field item=SV VEST 1#3111 +1/2/0 [Bag+1]
+b046 D2-4  dismantle   item=SV VEST 1#3111 +1/2/0 [Bag+1] junk=14 unlocked=['Bag+1']
+b046 D2-4  gain        src=field item=booster DEFENSE +1
+b047 D2-4  battle      map=122 exp=59 bp=13 hits=6 ratio=0.68
+b047 D2-4  booster     booster=DEFENSE +1 item=N JACKET#3099 +12/5/6 []
+b048 D2-4  battle      map=120 exp=46 bp=32 hits=0 ratio=0.68
+b049 D2-4  level       level=18 banked=849
+b049 D2-4  battle      map=123 exp=1000 bp=46 hits=8 ratio=0.68
+b049 D2-4  gain        src=drop item=M9 2#3112 +1/1/1 [RoF3]
+b049 D2-4  gain        src=field item=TOOL
+b050 D2-4  battle      map=324 exp=182 bp=15 hits=2 ratio=0.77
+b050 D2-4  gain        src=field item=M203#3113 +2/1/0 [Heat]
+b050 D2-4  dismantle   item=M203#3113 +2/1/0 [Heat] junk=14 unlocked=['Heat']
+b051 D2-4  battle      map=326 exp=96 bp=12 hits=0 ratio=0.77
+b051 D2-4  equip       item=SG550#3110 +0/2/1 [RoF2] was=M11#3108 +13/4/8 [RoF5,Random]
+b051 D2-4  tool_stats  tool=Tool src=M11#3108 +0/0/0 [RoF5,Random] dst=SG550#3110 +13/6/9 [RoF2] moved=[13, 4, 8] before=[13, 4, 8] why=switch
+b051 D2-4  salvage     item=M11#3108 +0/0/0 [RoF5,Random] junk=11 unlocked=['RoF5', 'Random']
+b051 D2-4  install     item=SG550#3110 +13/6/9 [RoF3] mod=RoF3 replaced=RoF2 junk=30
+b051 D2-4  install     item=SG550#3110 +13/6/9 [RoF3,Heat] mod=Heat replaced=None junk=30
+b051 D2-4  checkpoint  gun=SG550#3110 +13/6/9 [RoF3,Heat] score=56.24
+b051 D5    gain        src=field item=booster DEFENSE +1
+b051 D5    wayne_gun   item=P90#3114 +0/2/1 [RoF10,AttackAll] junk=300
+b051 D5    booster     booster=DEFENSE +1 item=N JACKET#3099 +13/5/6 []
+b051 D5    equip       item=P90#3114 +0/2/1 [RoF10,AttackAll] was=SG550#3110 +13/6/9 [RoF3,Heat]
+b051 D5    tool_stats  tool=Tool src=SG550#3110 +0/0/0 [RoF3,Heat] dst=P90#3114 +13/8/10 [RoF10,AttackAll] moved=[13, 6, 9] before=[13, 6, 9] why=switch
+b051 D5    salvage     item=SG550#3110 +0/0/0 [RoF3,Heat] junk=15 unlocked=[]
+b051 D5    install     item=P90#3114 +13/8/10 [RoF3,AttackAll] mod=RoF3 replaced=RoF10 junk=30
+b051 D5    bp          cat=range item=P90#3114 +13/9/10 [RoF3,AttackAll] banked=749
+b051 D5    bp          cat=capacity item= banked=649
+b051 D5    bp          cat=armor item=N JACKET#3099 +14/5/6 [] banked=549
+b051 D5    bp          cat=attack item=P90#3114 +14/9/10 [RoF3,AttackAll] banked=449
+b052 D5    level       level=19 banked=500
+b052 D5    battle      map=327 exp=220 bp=24 hits=0 ratio=0.2
+b052 D5    install     item=P90#3114 +14/9/10 [RoF3,AttackAll,Heat] mod=Heat replaced=None junk=30
+b053 D5    battle      map=328 exp=188 bp=20 hits=1 ratio=0.2
+b053 D5    gain        src=field item=booster OFFENSE +1
+b054 D5    battle      map=332 exp=130 bp=27 hits=0 ratio=0.2
+b054 D5    rare        got=Bargain
+b054 D5    booster     booster=OFFENSE +1 item=P90#3114 +15/9/10 [RoF3,AttackAll,Heat]
+b055 D5    battle      map=327 exp=220 bp=24 hits=0 ratio=0.2
+b056 D5    battle      map=126 exp=192 bp=18 hits=2 ratio=0.2
+b056 D5    rare        got=TOOL
+b056 D5    gain        src=rare item=TOOL
+b057 D5    level       level=20 banked=609
+b057 D5    battle      map=146 exp=178 bp=20 hits=0 ratio=0.2
+b057 D5    gain        src=field item=booster PE +1
+b057 D5    gain        src=field item=booster PE +1
+b058 D5    battle      map=147 exp=230 bp=27 hits=0 ratio=0.2
+b058 D5    booster     booster=PE +1 item=N JACKET#3099 +14/6/6 []
+b058 D5    booster     booster=PE +1 item=N JACKET#3099 +14/7/6 []
+b059 D5    battle      map=147 exp=230 bp=24 hits=1 ratio=0.2
+b059 D5    rare        got=booster
+b059 D5    gain        src=rare item=booster PE +4
+b059 D5    booster     booster=PE +4 item=N JACKET#3099 +14/11/6 []
+b060 D5    battle      map=146 exp=178 bp=20 hits=0 ratio=0.2
+b061 D5    battle      map=126 exp=192 bp=21 hits=1 ratio=0.2
+b061 D5    gain        src=field item=booster BULLET CAP +1
+b062 D5    battle      map=149 exp=60 bp=21 hits=0 ratio=0.2
+b062 D5    booster     booster=BULLET CAP +1 item=P90#3114 +15/9/11 [RoF3,AttackAll,Heat]
+b063 D5    level       level=21 banked=746
+b063 D5    battle      map=126 exp=192 bp=24 hits=0 ratio=0.2
+b064 D5    battle      map=152 exp=226 bp=33 hits=1 ratio=0.2
+b065 D5    battle      map=153 exp=214 bp=32 hits=0 ratio=0.2
+b065 D5    gain        src=field item=booster CR EVADE +1
+b066 D5    battle      map=154 exp=214 bp=32 hits=0 ratio=0.2
+b066 D5    booster     booster=CR EVADE +1 item=N JACKET#3099 +14/11/7 []
+b067 D5    battle      map=156 exp=0 bp=60 hits=2 ratio=0.2
+b068 D5    level       level=24 banked=973
+b068 D5    battle      map=380 exp=6500 bp=70 hits=1 ratio=0.2
+b068 D5    gain        src=drop item=G23#3115 +1/2/0 [RoF3]
+b069 D5    battle      map=159 exp=20 bp=18 hits=1 ratio=0.2
+b069 D5    checkpoint  gun=P90#3114 +15/9/11 [RoF3,AttackAll,Heat] score=236.27
+b069 Disc2 gain        src=field item=booster PE +1
+b069 Disc2 booster     booster=PE +1 item=N JACKET#3099 +14/12/7 []
+b069 Disc2 bp          cat=bullets item=P90#3114 +15/9/12 [RoF3,AttackAll,Heat] banked=873
+b069 Disc2 bp          cat=attack item=P90#3114 +16/9/12 [RoF3,AttackAll,Heat] banked=773
+b069 Disc2 bp          cat=attack item=P90#3114 +17/9/12 [RoF3,AttackAll,Heat] banked=673
+b069 Disc2 bp          cat=range item=P90#3114 +17/10/12 [RoF3,AttackAll,Heat] banked=573
+b070 Disc2 battle      map=162 exp=722 bp=42 hits=0 ratio=0.31
+b071 Disc2 battle      map=163 exp=935 bp=29 hits=3 ratio=0.31
+b071 Disc2 rare        got=booster
+b071 Disc2 gain        src=rare item=booster OFFENSE +4
+b071 Disc2 booster     booster=OFFENSE +4 item=P90#3114 +21/10/12 [RoF3,AttackAll,Heat]
+b072 Disc2 battle      map=167 exp=875 bp=26 hits=0 ratio=0.31
+b072 Disc2 gain        src=field item=SP PROTECTOR#3116 +1/0/0 []
+b073 Disc2 battle      map=168 exp=425 bp=12 hits=0 ratio=0.3
+b073 Disc2 gain        src=field item=PPK#3117 +2/1/0 [RoF5,Quickdraw]
+b073 Disc2 dismantle   item=PPK#3117 +2/1/0 [RoF5,Quickdraw] junk=19 unlocked=['Quickdraw']
+b074 Disc2 battle      map=169 exp=602 bp=20 hits=0 ratio=0.3
+b074 Disc2 install     item=P90#3114 +21/10/12 [RoF3,AttackAll,Heat,Quickdraw] mod=Quickdraw replaced=None junk=30
+b075 Disc2 battle      map=168 exp=602 bp=20 hits=0 ratio=0.3
+b076 Disc2 level       level=25 banked=780
+b076 Disc2 battle      map=167 exp=1204 bp=40 hits=0 ratio=0.3
+b077 Disc2 battle      map=173 exp=301 bp=10 hits=0 ratio=0.29
+b078 Disc2 battle      map=186 exp=1064 bp=35 hits=0 ratio=0.45
+b078 Disc2 rare        got=MOD PERMIT
+b078 Disc2 gain        src=rare item=MOD PERMIT
+b079 Disc2 level       level=26 banked=1010
+b079 Disc2 battle      map=188 exp=10000 bp=185 hits=7 ratio=0.45
+b080 Disc2 level       level=27 banked=1025
+b080 Disc2 battle      map=187 exp=462 bp=15 hits=0 ratio=0.44
+b081 Disc2 battle      map=187 exp=462 bp=15 hits=0 ratio=0.44
+b081 Disc2 gain        src=field item=TOOL
+b081 Disc2 gain        src=field item=TOOL
+b081 Disc2 gain        src=field item=TOOL
+b081 Disc2 gain        src=field item=TOOL
+b081 Disc2 gain        src=field item=booster CR EVADE +1
+b081 Disc2 gain        src=field item=booster CR EVADE +1
+b082 Disc2 battle      map=186 exp=1064 bp=35 hits=0 ratio=0.44
+b082 Disc2 booster     booster=CR EVADE +1 item=N JACKET#3099 +14/12/8 []
+b082 Disc2 booster     booster=CR EVADE +1 item=N JACKET#3099 +14/12/9 []
+b083 Disc2 battle      map=263 exp=135 bp=40 hits=0 ratio=0.44
+b084 Disc2 battle      map=265 exp=370 bp=64 hits=0 ratio=0.44
+b085 Disc2 battle      map=333 exp=370 bp=64 hits=0 ratio=0.44
+b085 Disc2 gain        src=field item=CLUB 3#3118 +0/0/0 [Steal,Quickdraw]
+b085 Disc2 dismantle   item=CLUB 3#3118 +0/0/0 [Steal,Quickdraw] junk=15 unlocked=[]
+b085 Disc2 gain        src=field item=booster OFFENSE +2
+b085 Disc2 gain        src=field item=TOOL
+b085 Disc2 gain        src=field item=booster DEFENSE +2
+b086 Disc2 battle      map=333 exp=370 bp=46 hits=4 ratio=0.44
+b086 Disc2 booster     booster=OFFENSE +2 item=P90#3114 +23/10/12 [RoF3,AttackAll,Heat,Quickdraw]
+b086 Disc2 booster     booster=DEFENSE +2 item=N JACKET#3099 +16/12/9 []
+b086 Disc2 gain        src=field item=booster OFFENSE +2
+b087 Disc2 battle      map=333 exp=370 bp=64 hits=0 ratio=0.44
+b087 Disc2 booster     booster=OFFENSE +2 item=P90#3114 +25/10/12 [RoF3,AttackAll,Heat,Quickdraw]
+b088 Disc2 battle      map=269 exp=2510 bp=436 hits=6 ratio=0.42
+b088 Disc2 gain        src=drop item=AT4#3119 +0/0/0 []
+b088 Disc2 dismantle   item=N PROTECTOR#3096 +1/0/2 [] junk=11 unlocked=[]
+b088 Disc2 dismantle   item=AT4#3119 +0/0/0 [] junk=5 unlocked=[]
+b089 Disc2 battle      map=63 exp=20 bp=18 hits=0 ratio=0.44
+b089 Disc2 gain        src=field item=CR PROTECTOR#3120 +2/2/1 [MaxHP,SlowAT]
+b089 Disc2 tool_stats  tool=Tool src=CR PROTECTOR#3120 +0/0/0 [MaxHP,SlowAT] dst=N JACKET#3099 +18/14/10 [] moved=[2, 2, 1] before=[2, 2, 1] why=donor
+b089 Disc2 salvage     item=CR PROTECTOR#3120 +0/0/0 [MaxHP,SlowAT] junk=11 unlocked=['MaxHP', 'SlowAT']
+b090 Disc2 battle      map=358 exp=28 bp=27 hits=0 ratio=0.44
+b091 Disc2 battle      map=63 exp=20 bp=18 hits=0 ratio=0.44
+b091 Disc2 gain        src=field item=CM PROTECTOR#3121 +1/0/2 [AutoMed]
+b092 Disc2 battle      map=63 exp=20 bp=18 hits=0 ratio=0.44
+b093 Disc2 battle      map=67 exp=20 bp=19 hits=0 ratio=0.44
+b094 Disc2 battle      map=66 exp=16 bp=14 hits=0 ratio=0.44
+b095 Disc2 battle      map=358 exp=28 bp=27 hits=0 ratio=0.44
+b096 Disc2 battle      map=63 exp=10 bp=9 hits=0 ratio=0.44
+b097 Disc2 battle      map=63 exp=10 bp=9 hits=0 ratio=0.44
+b098 Disc2 battle      map=65 exp=20 bp=10 hits=2 ratio=0.44
+b099 Disc2 battle      map=63 exp=10 bp=9 hits=0 ratio=0.44
+b099 Disc2 rare        got=booster
+b099 Disc2 gain        src=rare item=booster OFFENSE +1
+b099 Disc2 booster     booster=OFFENSE +1 item=P90#3114 +26/10/12 [RoF3,AttackAll,Heat,Quickdraw]
+b100 Disc2 battle      map=358 exp=28 bp=21 hits=2 ratio=0.44
+b101 Disc2 battle      map=63 exp=20 bp=18 hits=0 ratio=0.44
+b102 Disc2 battle      map=358 exp=22 bp=21 hits=0 ratio=0.44
+b103 Disc2 battle      map=358 exp=28 bp=27 hits=0 ratio=0.44
+b104 Disc2 battle      map=358 exp=22 bp=21 hits=0 ratio=0.44
+b104 Disc2 permit      item=P90#3114 +26/10/12 [RoF3,AttackAll,Heat,Quickdraw]
+b104 Disc2 bp          cat=capacity item= banked=925
+b104 Disc2 bp          cat=attack item=P90#3114 +27/10/12 [RoF3,AttackAll,Heat,Quickdraw] banked=825
+b104 Disc2 bp          cat=armor item=N JACKET#3099 +19/14/10 [] banked=725
+b104 Disc2 bp          cat=attack item=P90#3114 +28/10/12 [RoF3,AttackAll,Heat,Quickdraw] banked=625
+b104 Disc2 bp          cat=bullets item=P90#3114 +28/10/13 [RoF3,AttackAll,Heat,Quickdraw] banked=525
+b105 Disc2 battle      map=63 exp=20 bp=18 hits=0 ratio=0.43
+b106 Disc2 battle      map=205 exp=3652 bp=6 hits=2 ratio=0.45
+b106 Disc2 gain        src=field item=B PROTECTOR#3122 +1/0/1 [ResStiff]
+b106 Disc2 dismantle   item=B PROTECTOR#3122 +1/0/1 [ResStiff] junk=12 unlocked=['ResStiff']
+b107 Disc2 battle      map=206 exp=3060 bp=64 hits=0 ratio=0.46
+b108 Disc2 level       level=28 banked=1711
+b108 Disc2 battle      map=207 exp=2688 bp=48 hits=0 ratio=0.46
+b109 Disc2 battle      map=210 exp=6978 bp=36 hits=0 ratio=0.45
+b110 Disc2 battle      map=201 exp=896 bp=16 hits=0 ratio=0.45
+b110 Disc2 gain        src=drop item=SUPER TOOL
+b110 Disc2 rare        got=booster
+b110 Disc2 gain        src=rare item=booster RANGE +4
+b110 Disc2 booster     booster=RANGE +4 item=P90#3114 +28/14/13 [RoF3,AttackAll,Heat,Quickdraw]
+b111 Disc2 battle      map=203 exp=3060 bp=24 hits=4 ratio=0.44
+b111 Disc2 gain        src=field item=booster OFFENSE +1
+b111 Disc2 gain        src=field item=booster DEFENSE +1
+b112 Disc2 level       level=29 banked=1803
+b112 Disc2 battle      map=201 exp=896 bp=16 hits=0 ratio=0.44
+b112 Disc2 booster     booster=OFFENSE +1 item=P90#3114 +29/14/13 [RoF3,AttackAll,Heat,Quickdraw]
+b112 Disc2 booster     booster=DEFENSE +1 item=N JACKET#3099 +20/14/10 []
+b113 Disc2 battle      map=214 exp=3060 bp=54 hits=1 ratio=0.44
+b113 Disc2 gain        src=field item=booster OFFENSE +1
+b113 Disc2 gain        src=field item=TOOL
+b114 Disc2 battle      map=218 exp=3060 bp=54 hits=1 ratio=0.44
+b114 Disc2 booster     booster=OFFENSE +1 item=P90#3114 +30/14/13 [RoF3,AttackAll,Heat,Quickdraw]
+b115 Disc2 battle      map=219 exp=1530 bp=32 hits=0 ratio=0.43
+b116 Disc2 battle      map=220 exp=2688 bp=48 hits=0 ratio=0.43
+b117 Disc2 battle      map=221 exp=3256 bp=32 hits=0 ratio=0.43
+b118 Disc2 battle      map=223 exp=1829 bp=32 hits=0 ratio=0.43
+b119 Disc2 level       level=30 banked=2087
+b119 Disc2 battle      map=224 exp=1829 bp=32 hits=0 ratio=0.43
+b120 Disc2 battle      map=229 exp=1829 bp=32 hits=0 ratio=0.43
+b121 Disc2 battle      map=231 exp=3566 bp=56 hits=0 ratio=0.43
+b122 Disc2 battle      map=232 exp=2688 bp=44 hits=1 ratio=0.43
+b122 Disc2 rare        got=booster
+b122 Disc2 gain        src=rare item=booster OFFENSE +4
+b122 Disc2 booster     booster=OFFENSE +4 item=P90#3114 +34/14/13 [RoF3,AttackAll,Heat,Quickdraw]
+b122 Disc2 gain        src=field item=booster DEFENSE +1
+b122 Disc2 gain        src=field item=booster DEFENSE +1
+b122 Disc2 gain        src=field item=TOOL
+b122 Disc2 gain        src=field item=TOOL
+b123 Disc2 battle      map=233 exp=3031 bp=44 hits=0 ratio=0.42
+b123 Disc2 booster     booster=DEFENSE +1 item=N JACKET#3099 +21/14/10 []
+b123 Disc2 booster     booster=DEFENSE +1 item=N JACKET#3099 +22/14/10 []
+b124 Disc2 battle      map=234 exp=3865 bp=56 hits=0 ratio=0.42
+b125 Disc2 battle      map=217 exp=3060 bp=64 hits=0 ratio=0.44
+b126 Disc2 battle      map=201 exp=896 bp=16 hits=0 ratio=0.44
+b127 Disc2 battle      map=226 exp=3060 bp=64 hits=0 ratio=0.44
+b128 Disc2 level       level=31 banked=2511
+b128 Disc2 battle      map=226 exp=2688 bp=48 hits=0 ratio=0.44
+b129 Disc2 battle      map=197 exp=3890 bp=50 hits=2 ratio=0.43
+b129 Disc2 rare        got=LuckyFind
+b130 Disc2 battle      map=198 exp=3060 bp=54 hits=1 ratio=0.43
+b130 Disc2 rare        got=booster
+b130 Disc2 gain        src=rare item=booster RANGE +4
+b130 Disc2 booster     booster=RANGE +4 item=P90#3114 +34/18/13 [RoF3,AttackAll,Heat,Quickdraw]
+b131 Disc2 battle      map=199 exp=2404 bp=24 hits=0 ratio=0.42
+b132 Disc2 battle      map=206 exp=3060 bp=64 hits=0 ratio=0.43
+b133 Disc2 battle      map=218 exp=1530 bp=32 hits=0 ratio=0.43
+b134 Disc2 battle      map=219 exp=1530 bp=32 hits=0 ratio=0.43
+b135 Disc2 battle      map=220 exp=2994 bp=28 hits=4 ratio=0.43
+b136 Disc2 level       level=32 banked=2975
+b136 Disc2 battle      map=245 exp=50000 bp=180 hits=6 ratio=0.42
+b137 Disc2 level       level=33 banked=3103
+b137 Disc2 battle      map=256 exp=34464 bp=128 hits=4 ratio=0.42
+b137 Disc2 gain        src=drop item=M8000#3123 +0/0/0 [2Cmd]
+b137 Disc2 dismantle   item=M8000#3123 +0/0/0 [2Cmd] junk=8 unlocked=['2Cmd']
+b138 Disc2 battle      map=224 exp=1829 bp=32 hits=0 ratio=0.42
+b138 Disc2 install     item=P90#3114 +34/18/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] mod=2Cmd replaced=None junk=80
+b139 Disc2 battle      map=243 exp=2036 bp=24 hits=0 ratio=0.31
+b140 Disc2 battle      map=243 exp=2036 bp=24 hits=0 ratio=0.31
+b141 Disc2 battle      map=242 exp=4561 bp=76 hits=0 ratio=0.32
+b142 Disc2 battle      map=243 exp=2036 bp=15 hits=1 ratio=0.31
+b143 Disc2 battle      map=246 exp=4262 bp=66 hits=1 ratio=0.32
+b144 Disc2 battle      map=273 exp=0 bp=920 hits=4 ratio=0.32
+b146 Disc2 gain        src=field item=M203 3#3124 +1/0/2 [RoF3,Acid]
+b146 Disc2 dismantle   item=M203 3#3124 +1/0/2 [RoF3,Acid] junk=19 unlocked=['Acid']
+b148 Disc2 rare        got=booster
+b148 Disc2 gain        src=rare item=booster DEFENSE +1
+b148 Disc2 booster     booster=DEFENSE +1 item=N JACKET#3099 +23/14/10 []
+b150 Disc2 battle      map=430 exp=0 bp=0 hits=2 ratio=0.41
+b150 Disc2 bp          cat=attack item=P90#3114 +35/18/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=3003
+b150 Disc2 bp          cat=range item=P90#3114 +35/19/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2903
+b150 Disc2 bp          cat=capacity item= banked=2803
+b150 Disc2 bp          cat=attack item=P90#3114 +36/19/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2703
+b150 Disc2 bp          cat=armor item=N JACKET#3099 +24/14/10 [] banked=2603
+b150 Disc2 bp          cat=attack item=P90#3114 +37/19/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2503
+b150 Disc2 bp          cat=attack item=P90#3114 +38/19/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2403
+b150 Disc2 bp          cat=range item=P90#3114 +38/20/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2303
+b150 Disc2 bp          cat=capacity item= banked=2203
+b150 Disc2 bp          cat=armor item=N JACKET#3099 +25/14/10 [] banked=2103
+b150 Disc2 bp          cat=attack item=P90#3114 +39/20/13 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=2003
+b150 Disc2 bp          cat=bullets item=P90#3114 +39/20/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1903
+b150 Disc2 bp          cat=attack item=P90#3114 +40/20/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1803
+b150 Disc2 bp          cat=attack item=P90#3114 +41/20/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1703
+b150 Disc2 bp          cat=range item=P90#3114 +41/21/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1603
+b150 Disc2 bp          cat=capacity item= banked=1503
+b150 Disc2 bp          cat=attack item=P90#3114 +42/21/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1403
+b150 Disc2 bp          cat=armor item=N JACKET#3099 +26/14/10 [] banked=1303
+b150 Disc2 bp          cat=attack item=P90#3114 +43/21/14 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1203
+b150 Disc2 bp          cat=bullets item=P90#3114 +43/21/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1103
+b150 Disc2 bp          cat=attack item=P90#3114 +44/21/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=1003
+b150 Disc2 bp          cat=range item=P90#3114 +44/22/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=903
+b150 Disc2 bp          cat=capacity item= banked=803
+b150 Disc2 bp          cat=attack item=P90#3114 +45/22/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=703
+b150 Disc2 bp          cat=armor item=N JACKET#3099 +27/14/10 [] banked=603
+b150 Disc2 bp          cat=attack item=P90#3114 +46/22/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=503
+b150 Disc2 bp          cat=attack item=P90#3114 +47/22/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] banked=403
+b150 Disc2 checkpoint  gun=P90#3114 +47/22/15 [RoF3,AttackAll,Heat,Quickdraw,2Cmd] score=584.07
+CHECKPOINT D1 level 7 M84F +[5, 0, 0] mag 6 mods ['RoF2'] AT+0 cap+0 BP earned 115 spent {} pool 0 origins [{'intrinsic': 2, 'booster': 3}, {}, {}]
+CHECKPOINT D2-4 level 18 SG550 +[13, 6, 9] mag 29 mods ['RoF3', 'Heat'] AT+0 cap+0 BP earned 976 spent {'attack': 100} pool 27 origins [{'booster': 6, 'bp': 1, 'intrinsic': 6}, {'intrinsic': 5, 'booster': 1}, {'intrinsic': 7, 'booster': 2}]
+CHECKPOINT D5 level 24 P90 +[15, 9, 11] mag 211 mods ['RoF3', 'AttackAll', 'Heat'] AT+0 cap+1 BP earned 1491 spent {'attack': 200, 'range': 100, 'armor': 100, 'capacity': 100} pool 18 origins [{'booster': 7, 'bp': 2, 'intrinsic': 6}, {'intrinsic': 7, 'booster': 1, 'bp': 1}, {'intrinsic': 8, 'booster': 3}]
+CHECKPOINT Disc2 level 33 P90 +[47, 22, 15] mag 215 mods ['RoF3', 'AttackAll', 'Heat', 'Quickdraw', '2Cmd'] AT+0 cap+6 BP earned 5660 spent {'attack': 1900, 'range': 600, 'bullets': 400, 'armor': 600, 'capacity': 600} pool 1157 origins [{'booster': 22, 'bp': 19, 'intrinsic': 6}, {'intrinsic': 7, 'booster': 9, 'bp': 6}, {'intrinsic': 8, 'booster': 3, 'bp': 4}]

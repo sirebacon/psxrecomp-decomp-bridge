@@ -1,0 +1,205 @@
+{
+ "scope": "static record coverage of logged appearances; not action selection",
+ "cells": {
+  "10": 65536
+ },
+ "cells_provenance": "read-only live probe 2026-10-18, final Eve fight, isolated session port 4378: g_ScriptVariableBank[80]=65536, g_ScriptNodeActiveFlags[10]=65536, V74=720",
+ "literal_identities": {
+  "boss.all_three": 9,
+  "boss.all_three_any_timing": 16,
+  "boss.all_three_with_contact": 13,
+  "boss.appearances": 70,
+  "boss.power_any": 41,
+  "boss.power_slot0": 21,
+  "boss.static": 27,
+  "boss.timing": 9,
+  "boss.timing_any": 19,
+  "boss.timing_or_contact_bound": 16,
+  "normal.all_three": 78,
+  "normal.all_three_any_timing": 195,
+  "normal.all_three_with_contact": 135,
+  "normal.appearances": 383,
+  "normal.power_any": 271,
+  "normal.power_slot0": 147,
+  "normal.static": 244,
+  "normal.timing": 109,
+  "normal.timing_any": 235,
+  "normal.timing_or_contact_bound": 175
+ },
+ "first_run_cells": {
+  "boss.all_three": 9,
+  "boss.all_three_any_timing": 16,
+  "boss.all_three_with_contact": 13,
+  "boss.appearances": 70,
+  "boss.power_any": 41,
+  "boss.power_slot0": 21,
+  "boss.static": 27,
+  "boss.timing": 9,
+  "boss.timing_any": 19,
+  "boss.timing_or_contact_bound": 16,
+  "normal.all_three": 180,
+  "normal.all_three_any_timing": 297,
+  "normal.all_three_with_contact": 237,
+  "normal.appearances": 383,
+  "normal.power_any": 374,
+  "normal.power_slot0": 250,
+  "normal.static": 331,
+  "normal.timing": 196,
+  "normal.timing_any": 322,
+  "normal.timing_or_contact_bound": 262
+ },
+ "top_uncovered_normal_literal": [
+  [
+   358,
+   "0xc",
+   78
+  ],
+  [
+   333,
+   "0x1a",
+   12
+  ],
+  [
+   59,
+   "0x8",
+   6
+  ],
+  [
+   61,
+   "0x8",
+   6
+  ],
+  [
+   107,
+   "0xc",
+   5
+  ],
+  [
+   59,
+   "0x7",
+   4
+  ],
+  [
+   66,
+   "0x8",
+   4
+  ],
+  [
+   81,
+   "0x8",
+   4
+  ],
+  [
+   327,
+   "0x13",
+   4
+  ],
+  [
+   265,
+   "0x1a",
+   4
+  ],
+  [
+   273,
+   "0x125",
+   3
+  ],
+  [
+   62,
+   "0x7",
+   2
+  ],
+  [
+   358,
+   "0x8",
+   2
+  ],
+  [
+   82,
+   "0x8",
+   2
+  ],
+  [
+   87,
+   "0x8",
+   2
+  ]
+ ],
+ "top_uncovered_normal_first_run": [
+  [
+   333,
+   "0x1a",
+   12
+  ],
+  [
+   59,
+   "0x8",
+   6
+  ],
+  [
+   59,
+   "0x7",
+   4
+  ],
+  [
+   66,
+   "0x8",
+   4
+  ],
+  [
+   327,
+   "0x13",
+   4
+  ],
+  [
+   265,
+   "0x1a",
+   4
+  ],
+  [
+   273,
+   "0x125",
+   3
+  ],
+  [
+   62,
+   "0x7",
+   2
+  ],
+  [
+   82,
+   "0x8",
+   2
+  ],
+  [
+   146,
+   "0x14",
+   2
+  ],
+  [
+   146,
+   "0x13",
+   2
+  ],
+  [
+   147,
+   "0x13",
+   2
+  ],
+  [
+   217,
+   "0x1e",
+   2
+  ],
+  [
+   226,
+   "0x1e",
+   2
+  ],
+  [
+   34,
+   "0x100",
+   1
+  ]
+ ]
+}

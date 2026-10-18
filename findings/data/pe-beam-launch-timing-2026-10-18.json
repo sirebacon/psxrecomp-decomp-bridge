@@ -1,0 +1,597 @@
+{
+  "scope": "Offline conditional formation launch timing; no gameplay, balance sweep or complete boss AI",
+  "rerun_readiness": false,
+  "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+  "original_regions": {
+    "frame_update": {
+      "start": "0x80035558",
+      "end": "0x80035c84",
+      "sha256": "7352fc04217ff00c7777a716285d9a109189f122ed15f2b8834fac81892eba83"
+    },
+    "primary_pm": {
+      "start": "0x80069594",
+      "end": "0x80069660",
+      "sha256": "38ab6a4e1d3208e5f34657987bc75f485af022d5b99c64665f382cbf66fec619"
+    },
+    "secondary_pm": {
+      "start": "0x80069660",
+      "end": "0x800696f0",
+      "sha256": "e9cb1561cceb6e2130af69bc92b366fb2a2284bcf71cdfe77dcda9c2227baf3a"
+    },
+    "animation_wait": {
+      "start": "0x80013300",
+      "end": "0x800133e8",
+      "sha256": "27e1042f5797b7ce7c0a4a03616a8f83490851fb76652daf2ae5a30b3e8b81a9"
+    },
+    "ratan2": {
+      "start": "0x80079fb4",
+      "end": "0x8007a128",
+      "sha256": "e5b0edc7308d715c3fd821bd7f75478555d6937ec97c9a8278f6c7746ad0f820"
+    },
+    "atan_table": {
+      "start": "0x8009a6ec",
+      "end": "0x8009aeee",
+      "sha256": "b95a5540f30e1f0f40975157595d078bb07d3242d2c856a1c679e533e2f26233"
+    }
+  },
+  "frame_direct_calls": [
+    {
+      "address": "0x800355e8",
+      "target": "0x800299cc"
+    },
+    {
+      "address": "0x80035640",
+      "target": "0x8005c174"
+    },
+    {
+      "address": "0x80035648",
+      "target": "0x80067cbc"
+    },
+    {
+      "address": "0x80035678",
+      "target": "0x8005c498"
+    },
+    {
+      "address": "0x80035694",
+      "target": "0x80067cbc"
+    },
+    {
+      "address": "0x800356d0",
+      "target": "0x80069660"
+    },
+    {
+      "address": "0x800356f0",
+      "target": "0x8001a9f8"
+    },
+    {
+      "address": "0x800356f8",
+      "target": "0x8003601c"
+    },
+    {
+      "address": "0x80035700",
+      "target": "0x80066268"
+    },
+    {
+      "address": "0x8003577c",
+      "target": "0x80065e48"
+    },
+    {
+      "address": "0x8003579c",
+      "target": "0x800661a4"
+    },
+    {
+      "address": "0x800357fc",
+      "target": "0x800794c4"
+    },
+    {
+      "address": "0x80035998",
+      "target": "0x800661a4"
+    },
+    {
+      "address": "0x80035a24",
+      "target": "0x8003a6a8"
+    },
+    {
+      "address": "0x80035a84",
+      "target": "0x8006698c"
+    },
+    {
+      "address": "0x80035aa0",
+      "target": "0x80039b74"
+    },
+    {
+      "address": "0x80035aa8",
+      "target": "0x8003a088"
+    },
+    {
+      "address": "0x80035ab4",
+      "target": "0x8003a6a8"
+    },
+    {
+      "address": "0x80035ad4",
+      "target": "0x8003ac90"
+    },
+    {
+      "address": "0x80035ae0",
+      "target": "0x8003af14"
+    },
+    {
+      "address": "0x80035b0c",
+      "target": "0x80068014"
+    },
+    {
+      "address": "0x80035b24",
+      "target": "0x8006c5bc"
+    },
+    {
+      "address": "0x80035b2c",
+      "target": "0x80069594"
+    },
+    {
+      "address": "0x80035b34",
+      "target": "0x800661cc"
+    },
+    {
+      "address": "0x80035b84",
+      "target": "0x8001a4ac"
+    },
+    {
+      "address": "0x80035bec",
+      "target": "0x8001a4ac"
+    },
+    {
+      "address": "0x80035c1c",
+      "target": "0x80036448"
+    },
+    {
+      "address": "0x80035c24",
+      "target": "0x80012774"
+    },
+    {
+      "address": "0x80035c2c",
+      "target": "0x800360b4"
+    }
+  ],
+  "creation_commands": [
+    {
+      "relative_offset": 5052,
+      "offset": 239720,
+      "opcode": 237,
+      "handler": "Script_DispatchScriptCmd",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2500
+        },
+        {
+          "mode": 0,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 31
+        },
+        {
+          "mode": 0,
+          "value": 48168960
+        },
+        {
+          "mode": 0,
+          "value": 4172218368
+        },
+        {
+          "mode": 0,
+          "value": 3690332160
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5092,
+      "offset": 239760,
+      "opcode": 237,
+      "handler": "Script_DispatchScriptCmd",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2500
+        },
+        {
+          "mode": 0,
+          "value": 5
+        },
+        {
+          "mode": 0,
+          "value": 31
+        },
+        {
+          "mode": 0,
+          "value": 48168960
+        },
+        {
+          "mode": 0,
+          "value": 4172218368
+        },
+        {
+          "mode": 0,
+          "value": 3690332160
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5132,
+      "offset": 239800,
+      "opcode": 237,
+      "handler": "Script_DispatchScriptCmd",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2500
+        },
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 31
+        },
+        {
+          "mode": 0,
+          "value": 48168960
+        },
+        {
+          "mode": 0,
+          "value": 4172218368
+        },
+        {
+          "mode": 0,
+          "value": 3690332160
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5172,
+      "offset": 239840,
+      "opcode": 8,
+      "handler": "Script_SpawnEntityAt",
+      "args": [
+        {
+          "mode": 0,
+          "value": 3
+        },
+        {
+          "mode": 0,
+          "value": 31
+        },
+        {
+          "mode": 0,
+          "value": 48168960
+        },
+        {
+          "mode": 0,
+          "value": 4172218368
+        },
+        {
+          "mode": 0,
+          "value": 3690332160
+        }
+      ]
+    }
+  ],
+  "creation_order": [
+    4,
+    5,
+    6,
+    3
+  ],
+  "actor_scan_order": [
+    3,
+    6,
+    5,
+    4
+  ],
+  "source_sha256": {
+    "src/main/entity/frame_update.c": "d7cb3a6de951743938b434922f0c1ad94d167b6b8086e39a8a331369b702fbe8",
+    "src/main/script/flow_opcodes.c": "0b2238cf3f0bd97f3a22daf92172bbeea34c23c0c37bdc26957e57cdbcb06672",
+    "src/main/script/node_actions.c": "fb0f42f7d975b714c79474df3083bda358144ad3c9d2b76be55347b7f63af2b1",
+    "src/main/script/system_opcodes.c": "9e71917c538ac2522b178a37667f41fbf88a90aec6aec47831434f3758d5e713",
+    "src/main/battle/context.c": "4190d21366b79238c797d17911aaf1bfcb32586653e3e23a3f1ccd8b04b47a6e",
+    "src/main/field/actor_collision.c": "99096dac9c6dd89d34e529c1ffdd4af636592367efbad84ccb4d1bb7401a9a1a",
+    "src/main/pm/process.c": "ddfca270087b012433b331bff0a3f55b8e9a85ed2a450038b633b4547afff728",
+    "src/main/psyq/libgte/ratan.c": "b130ce3dd86bc41a07451678025359da30de2c0c1043da70dbe5e340639fb13c"
+  },
+  "navigation": {
+    "returns_immediately": true,
+    "polygon_offset": 229024,
+    "vertices_fixed": [
+      [
+        262144000,
+        -298188800
+      ],
+      [
+        327680000,
+        -451674112
+      ],
+      [
+        361299968,
+        -566689792
+      ],
+      [
+        364118016,
+        -691404800
+      ],
+      [
+        -141885440,
+        -706019328
+      ],
+      [
+        -60162048,
+        -531955712
+      ],
+      [
+        -47054848,
+        -509214720
+      ],
+      [
+        -98762752,
+        -341442560
+      ],
+      [
+        162988032,
+        -291635200
+      ]
+    ]
+  },
+  "normal_phase_order": [
+    "actor_scripts",
+    "battle_delivery",
+    "secondary_PM",
+    "movement",
+    "render_joints",
+    "primary_PM_draw_then_execute",
+    "animation_advance"
+  ],
+  "fixture_inputs": {
+    "entry_update": 1,
+    "targets_fixed": [
+      [
+        65536000,
+        -393216000
+      ],
+      [
+        65536000,
+        -393216000
+      ],
+      [
+        65536000,
+        -393216000
+      ]
+    ],
+    "current_yaw": 0,
+    "boss_position": [
+      0,
+      -393216000
+    ],
+    "scale": 65536,
+    "helpers_idle": true,
+    "pm_free_slots": 3
+  },
+  "fixture": {
+    "scope": "Conditional uninterrupted formation tail; entry/pose/targets/idle helpers/PM capacity supplied",
+    "ready_for_balance": false,
+    "turn_calls": 8,
+    "trigger_update": 8,
+    "accepted": [
+      true,
+      true,
+      true
+    ],
+    "actor_order": [
+      3,
+      6,
+      5,
+      4
+    ],
+    "target_yaw": 3072,
+    "linked_beams": [
+      {
+        "owner": "helper6",
+        "start_update": 7,
+        "target_x": 1000,
+        "target_z": -6000,
+        "duration": 300,
+        "interval": 140,
+        "scale": 65536
+      },
+      {
+        "owner": "helper5",
+        "start_update": 7,
+        "target_x": 1000,
+        "target_z": -6000,
+        "duration": 300,
+        "interval": 140,
+        "scale": 65536
+      },
+      {
+        "owner": "helper4",
+        "start_update": 7,
+        "target_x": 1000,
+        "target_z": -6000,
+        "duration": 300,
+        "interval": 300,
+        "scale": 65536
+      }
+    ],
+    "events": [
+      {
+        "owner": "helper6",
+        "trigger_update": 8,
+        "helper_resume_update": 8,
+        "first_effect_update": 8,
+        "controller_spawn": 54,
+        "beam_floor_valid": true,
+        "earliest_contact": 66,
+        "earliest_delivery": 67,
+        "effect_release": 398,
+        "trigger_clear": 400
+      },
+      {
+        "owner": "helper5",
+        "trigger_update": 8,
+        "helper_resume_update": 8,
+        "first_effect_update": 8,
+        "controller_spawn": 54,
+        "beam_floor_valid": true,
+        "earliest_contact": 66,
+        "earliest_delivery": 67,
+        "effect_release": 398,
+        "trigger_clear": 399
+      },
+      {
+        "owner": "helper4",
+        "trigger_update": 8,
+        "helper_resume_update": 8,
+        "first_effect_update": 8,
+        "controller_spawn": 54,
+        "beam_floor_valid": true,
+        "earliest_contact": 66,
+        "earliest_delivery": 67,
+        "effect_release": 398,
+        "trigger_clear": 399
+      }
+    ],
+    "parent_wait_finished": 95
+  },
+  "helper_replays": {
+    "0": [
+      {
+        "event": "controller_spawn",
+        "update": 47
+      },
+      {
+        "event": "contact",
+        "update": 59
+      },
+      {
+        "event": "delivery",
+        "update": 60
+      },
+      {
+        "event": "effect_release",
+        "update": 391
+      },
+      {
+        "event": "trigger_clear",
+        "update": 392
+      }
+    ],
+    "1": [
+      {
+        "event": "controller_spawn",
+        "update": 47
+      },
+      {
+        "event": "contact",
+        "update": 59
+      },
+      {
+        "event": "delivery",
+        "update": 60
+      },
+      {
+        "event": "contact",
+        "update": 199
+      },
+      {
+        "event": "delivery",
+        "update": 200
+      },
+      {
+        "event": "contact",
+        "update": 339
+      },
+      {
+        "event": "delivery",
+        "update": 340
+      },
+      {
+        "event": "effect_release",
+        "update": 391
+      },
+      {
+        "event": "trigger_clear",
+        "update": 392
+      }
+    ],
+    "2": [
+      {
+        "event": "controller_spawn",
+        "update": 47
+      },
+      {
+        "event": "contact",
+        "update": 59
+      },
+      {
+        "event": "delivery",
+        "update": 60
+      },
+      {
+        "event": "contact",
+        "update": 199
+      },
+      {
+        "event": "delivery",
+        "update": 200
+      },
+      {
+        "event": "contact",
+        "update": 339
+      },
+      {
+        "event": "delivery",
+        "update": 340
+      },
+      {
+        "event": "effect_release",
+        "update": 391
+      },
+      {
+        "event": "trigger_clear",
+        "update": 393
+      }
+    ]
+  },
+  "limits": [
+    "entry/chooser/earned stats and actor state supplied",
+    "uninterrupted normal flag path",
+    "no moving target tracking",
+    "busy helpers/PM exhaustion rejected",
+    "coincident turn flag20 edge rejected",
+    "world pose at render must still be supplied for launch-joint trajectories"
+  ]
+}

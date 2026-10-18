@@ -1,0 +1,2477 @@
+{
+  "beam_component_fixture": {
+    "scope": "controlled geometry/status checks, not encounter simulation",
+    "player_hp_after": 306,
+    "damage_events": [
+      {
+        "owner": "0",
+        "power": 90,
+        "damage": 74,
+        "hp_before": 500,
+        "hp_after": 426,
+        "critical": false,
+        "barrier": false,
+        "status": "locked"
+      },
+      {
+        "owner": "1",
+        "power": 90,
+        "damage": 60,
+        "hp_before": 426,
+        "hp_after": 366,
+        "critical": false,
+        "barrier": false,
+        "status": "already_locked"
+      },
+      {
+        "owner": "2",
+        "power": 90,
+        "damage": 60,
+        "hp_before": 366,
+        "hp_after": 306,
+        "critical": false,
+        "barrier": false,
+        "status": "already_locked"
+      }
+    ],
+    "status_step_input": 60,
+    "status_ticks_until_clear": 150
+  },
+  "saved_aya_status_step3c": 28,
+  "model_sha256": {
+    "joint_reconstruction.py": "996d407641f645d4a62e5f32b7130e5a65b6e97d99787f4c3115892d7af9e16f",
+    "rotation_oracle.py": "0340fac1db43bc7cc18699c3d49070eb8ef3ead2e471e6f8e8a5e9b41d61cbb9",
+    "beam_delivery.py": "9583e98f43617df779f3b56200521d7631d4f2e0d8e536cab72075a45f21b06a",
+    "projectile_geometry.py": "579d9a70ddfe42dfee9caf54d610f2703fd01f6e7c415d7588569d54dea00924"
+  },
+  "scope": "Rotation oracle and source-pose checks only; no balance rerun or actual launch-frame scheduling",
+  "retail_rotation_checks": 1000,
+  "retail_function_range": [
+    "0x80079754",
+    "0x800799e4"
+  ],
+  "retail_function_sha256": "f4027f19c4f5fdb3d7b5ec839112eb8c832b7f450dd2e757a450f5d4785b5741",
+  "exe_sha256": "5d94938ee752e81ef375bd4493c9883850c25a86895f9cb0732cf3622b44351b",
+  "source_sha256": {
+    "src/main/psyq/libgte/fgo_02.c": "87cbf6bf3d8eebd02cfc30d7f85d8ef1c3cdccbfa3f53004c4e7b94202919a9e",
+    "src/main/anim/bone_rotations.c": "cf82c1ca51f69d3f546dce960481396c2ebd97d692c4cc237c6ba91d3a83d8d3",
+    "src/main/render/object.c": "5a2dc7033ccfe659789254ab175f83d0763dd485a6dff9e573f14379f877de5a",
+    "src/main/entity/frame_update.c": "d7cb3a6de951743938b434922f0c1ad94d167b6b8086e39a8a331369b702fbe8"
+  },
+  "snapshot_sha256": "60b77d5fbdacf9b8c044926a32c1a84a7c248463f84c02eea92345b639e363a8",
+  "geometry_sha256": "8bcfa778e1b14d93a79dcacb44b1a1b614a5ea34590b98af4a05e83e016b88fb",
+  "saved_pose": {
+    "actor": "0x800bef90",
+    "rendered_frame": 2,
+    "next_animation_frame": 3,
+    "joint_count": 29,
+    "mismatches": [],
+    "world_matrix": {
+      "rotation": [
+        [
+          -3920,
+          0,
+          1189
+        ],
+        [
+          0,
+          4096,
+          0
+        ],
+        [
+          -1189,
+          0,
+          -3920
+        ]
+      ],
+      "translation": [
+        610,
+        202,
+        140
+      ]
+    },
+    "overrides": [
+      {
+        "index": 0,
+        "flags": 0,
+        "angles": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "index": 0,
+        "flags": 0,
+        "angles": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "boss_local_pose_samples": [
+    {
+      "mode": 8,
+      "frame": 0,
+      "orb_local_actor_point": [
+        38,
+        -638,
+        -327
+      ],
+      "beam_local_actor_point": [
+        4,
+        -310,
+        384
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 1,
+      "orb_local_actor_point": [
+        37,
+        -634,
+        -324
+      ],
+      "beam_local_actor_point": [
+        6,
+        -300,
+        376
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 2,
+      "orb_local_actor_point": [
+        35,
+        -627,
+        -323
+      ],
+      "beam_local_actor_point": [
+        1,
+        -294,
+        364
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 3,
+      "orb_local_actor_point": [
+        36,
+        -611,
+        -321
+      ],
+      "beam_local_actor_point": [
+        8,
+        -294,
+        367
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 4,
+      "orb_local_actor_point": [
+        35,
+        -608,
+        -319
+      ],
+      "beam_local_actor_point": [
+        2,
+        -287,
+        364
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 5,
+      "orb_local_actor_point": [
+        37,
+        -599,
+        -317
+      ],
+      "beam_local_actor_point": [
+        8,
+        -281,
+        353
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 6,
+      "orb_local_actor_point": [
+        37,
+        -596,
+        -314
+      ],
+      "beam_local_actor_point": [
+        1,
+        -276,
+        348
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 7,
+      "orb_local_actor_point": [
+        37,
+        -571,
+        -314
+      ],
+      "beam_local_actor_point": [
+        2,
+        -270,
+        349
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 8,
+      "orb_local_actor_point": [
+        38,
+        -565,
+        -311
+      ],
+      "beam_local_actor_point": [
+        2,
+        -270,
+        343
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 9,
+      "orb_local_actor_point": [
+        39,
+        -560,
+        -308
+      ],
+      "beam_local_actor_point": [
+        3,
+        -261,
+        332
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 10,
+      "orb_local_actor_point": [
+        38,
+        -532,
+        -308
+      ],
+      "beam_local_actor_point": [
+        4,
+        -258,
+        330
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 11,
+      "orb_local_actor_point": [
+        38,
+        -529,
+        -305
+      ],
+      "beam_local_actor_point": [
+        2,
+        -258,
+        324
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 12,
+      "orb_local_actor_point": [
+        37,
+        -526,
+        -301
+      ],
+      "beam_local_actor_point": [
+        4,
+        -251,
+        316
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 13,
+      "orb_local_actor_point": [
+        38,
+        -520,
+        -300
+      ],
+      "beam_local_actor_point": [
+        4,
+        -248,
+        318
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 14,
+      "orb_local_actor_point": [
+        39,
+        -504,
+        -295
+      ],
+      "beam_local_actor_point": [
+        4,
+        -246,
+        329
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 15,
+      "orb_local_actor_point": [
+        36,
+        -499,
+        -292
+      ],
+      "beam_local_actor_point": [
+        5,
+        -247,
+        323
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 16,
+      "orb_local_actor_point": [
+        37,
+        -494,
+        -290
+      ],
+      "beam_local_actor_point": [
+        5,
+        -244,
+        326
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 17,
+      "orb_local_actor_point": [
+        38,
+        -475,
+        -285
+      ],
+      "beam_local_actor_point": [
+        5,
+        -241,
+        335
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 18,
+      "orb_local_actor_point": [
+        39,
+        -458,
+        -283
+      ],
+      "beam_local_actor_point": [
+        8,
+        -243,
+        336
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 19,
+      "orb_local_actor_point": [
+        38,
+        -454,
+        -280
+      ],
+      "beam_local_actor_point": [
+        4,
+        -241,
+        343
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 20,
+      "orb_local_actor_point": [
+        37,
+        -452,
+        -276
+      ],
+      "beam_local_actor_point": [
+        3,
+        -246,
+        364
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 21,
+      "orb_local_actor_point": [
+        38,
+        -433,
+        -272
+      ],
+      "beam_local_actor_point": [
+        2,
+        -249,
+        369
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 22,
+      "orb_local_actor_point": [
+        37,
+        -417,
+        -267
+      ],
+      "beam_local_actor_point": [
+        2,
+        -248,
+        393
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 23,
+      "orb_local_actor_point": [
+        38,
+        -404,
+        -258
+      ],
+      "beam_local_actor_point": [
+        2,
+        -254,
+        402
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 24,
+      "orb_local_actor_point": [
+        40,
+        -387,
+        -252
+      ],
+      "beam_local_actor_point": [
+        8,
+        -260,
+        434
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 25,
+      "orb_local_actor_point": [
+        42,
+        -366,
+        -245
+      ],
+      "beam_local_actor_point": [
+        0,
+        -269,
+        443
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 26,
+      "orb_local_actor_point": [
+        42,
+        -380,
+        -248
+      ],
+      "beam_local_actor_point": [
+        0,
+        -268,
+        440
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 27,
+      "orb_local_actor_point": [
+        38,
+        -387,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -269,
+        437
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 28,
+      "orb_local_actor_point": [
+        37,
+        -404,
+        -258
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -272,
+        439
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 29,
+      "orb_local_actor_point": [
+        37,
+        -406,
+        -258
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -273,
+        426
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 30,
+      "orb_local_actor_point": [
+        38,
+        -391,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -268,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 31,
+      "orb_local_actor_point": [
+        37,
+        -396,
+        -257
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -270,
+        428
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 32,
+      "orb_local_actor_point": [
+        38,
+        -388,
+        -252
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -265,
+        432
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 33,
+      "orb_local_actor_point": [
+        37,
+        -396,
+        -257
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -270,
+        428
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 34,
+      "orb_local_actor_point": [
+        37,
+        -372,
+        -246
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -268,
+        431
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 35,
+      "orb_local_actor_point": [
+        38,
+        -391,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -268,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 36,
+      "orb_local_actor_point": [
+        36,
+        -358,
+        -244
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -265,
+        433
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 37,
+      "orb_local_actor_point": [
+        38,
+        -390,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -267,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 38,
+      "orb_local_actor_point": [
+        36,
+        -358,
+        -244
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -265,
+        433
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 39,
+      "orb_local_actor_point": [
+        38,
+        -390,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -267,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 40,
+      "orb_local_actor_point": [
+        36,
+        -358,
+        -244
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -265,
+        433
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 41,
+      "orb_local_actor_point": [
+        38,
+        -390,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -267,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 42,
+      "orb_local_actor_point": [
+        36,
+        -358,
+        -244
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -265,
+        433
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 43,
+      "orb_local_actor_point": [
+        38,
+        -390,
+        -254
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -267,
+        430
+      ]
+    },
+    {
+      "mode": 8,
+      "frame": 44,
+      "orb_local_actor_point": [
+        37,
+        -354,
+        -240
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -263,
+        436
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 0,
+      "orb_local_actor_point": [
+        39,
+        -441,
+        -259
+      ],
+      "beam_local_actor_point": [
+        2,
+        -238,
+        437
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 1,
+      "orb_local_actor_point": [
+        47,
+        -506,
+        -263
+      ],
+      "beam_local_actor_point": [
+        1,
+        -212,
+        438
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 2,
+      "orb_local_actor_point": [
+        42,
+        -592,
+        -255
+      ],
+      "beam_local_actor_point": [
+        6,
+        -172,
+        422
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 3,
+      "orb_local_actor_point": [
+        48,
+        -692,
+        -221
+      ],
+      "beam_local_actor_point": [
+        0,
+        -125,
+        360
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 4,
+      "orb_local_actor_point": [
+        50,
+        -800,
+        -143
+      ],
+      "beam_local_actor_point": [
+        -6,
+        -92,
+        262
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 5,
+      "orb_local_actor_point": [
+        52,
+        -857,
+        -77
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -83,
+        171
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 6,
+      "orb_local_actor_point": [
+        52,
+        -868,
+        -58
+      ],
+      "beam_local_actor_point": [
+        -3,
+        -79,
+        139
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 7,
+      "orb_local_actor_point": [
+        50,
+        -874,
+        -51
+      ],
+      "beam_local_actor_point": [
+        0,
+        -83,
+        117
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 8,
+      "orb_local_actor_point": [
+        50,
+        -883,
+        -41
+      ],
+      "beam_local_actor_point": [
+        -11,
+        -86,
+        104
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 9,
+      "orb_local_actor_point": [
+        50,
+        -884,
+        -32
+      ],
+      "beam_local_actor_point": [
+        -8,
+        -88,
+        92
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 10,
+      "orb_local_actor_point": [
+        50,
+        -884,
+        -32
+      ],
+      "beam_local_actor_point": [
+        -9,
+        -93,
+        95
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 11,
+      "orb_local_actor_point": [
+        50,
+        -892,
+        -23
+      ],
+      "beam_local_actor_point": [
+        -10,
+        -92,
+        91
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 12,
+      "orb_local_actor_point": [
+        50,
+        -891,
+        -23
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -92,
+        87
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 13,
+      "orb_local_actor_point": [
+        53,
+        -889,
+        -23
+      ],
+      "beam_local_actor_point": [
+        -4,
+        -98,
+        80
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 14,
+      "orb_local_actor_point": [
+        53,
+        -894,
+        -11
+      ],
+      "beam_local_actor_point": [
+        -4,
+        -99,
+        76
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 15,
+      "orb_local_actor_point": [
+        55,
+        -893,
+        -10
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -103,
+        77
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 16,
+      "orb_local_actor_point": [
+        55,
+        -893,
+        -10
+      ],
+      "beam_local_actor_point": [
+        -9,
+        -97,
+        74
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 17,
+      "orb_local_actor_point": [
+        55,
+        -900,
+        2
+      ],
+      "beam_local_actor_point": [
+        -10,
+        -106,
+        66
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 18,
+      "orb_local_actor_point": [
+        55,
+        -900,
+        2
+      ],
+      "beam_local_actor_point": [
+        -7,
+        -103,
+        69
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 19,
+      "orb_local_actor_point": [
+        55,
+        -898,
+        10
+      ],
+      "beam_local_actor_point": [
+        -8,
+        -101,
+        72
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 20,
+      "orb_local_actor_point": [
+        55,
+        -904,
+        20
+      ],
+      "beam_local_actor_point": [
+        -6,
+        -115,
+        53
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 21,
+      "orb_local_actor_point": [
+        55,
+        -904,
+        20
+      ],
+      "beam_local_actor_point": [
+        -3,
+        -112,
+        57
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 22,
+      "orb_local_actor_point": [
+        55,
+        -903,
+        20
+      ],
+      "beam_local_actor_point": [
+        -5,
+        -116,
+        60
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 23,
+      "orb_local_actor_point": [
+        53,
+        -909,
+        31
+      ],
+      "beam_local_actor_point": [
+        -10,
+        -125,
+        42
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 24,
+      "orb_local_actor_point": [
+        53,
+        -908,
+        30
+      ],
+      "beam_local_actor_point": [
+        -10,
+        -128,
+        46
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 25,
+      "orb_local_actor_point": [
+        53,
+        -908,
+        30
+      ],
+      "beam_local_actor_point": [
+        -8,
+        -127,
+        49
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 26,
+      "orb_local_actor_point": [
+        53,
+        -914,
+        41
+      ],
+      "beam_local_actor_point": [
+        -9,
+        -130,
+        43
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 27,
+      "orb_local_actor_point": [
+        53,
+        -914,
+        40
+      ],
+      "beam_local_actor_point": [
+        -5,
+        -144,
+        36
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 28,
+      "orb_local_actor_point": [
+        53,
+        -914,
+        39
+      ],
+      "beam_local_actor_point": [
+        -4,
+        -136,
+        38
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 29,
+      "orb_local_actor_point": [
+        55,
+        -910,
+        26
+      ],
+      "beam_local_actor_point": [
+        -11,
+        -134,
+        46
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 30,
+      "orb_local_actor_point": [
+        53,
+        -890,
+        -50
+      ],
+      "beam_local_actor_point": [
+        -11,
+        -136,
+        58
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 31,
+      "orb_local_actor_point": [
+        50,
+        -836,
+        -152
+      ],
+      "beam_local_actor_point": [
+        -7,
+        -127,
+        65
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 32,
+      "orb_local_actor_point": [
+        46,
+        -782,
+        -221
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -131,
+        65
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 33,
+      "orb_local_actor_point": [
+        43,
+        -745,
+        -271
+      ],
+      "beam_local_actor_point": [
+        -12,
+        -162,
+        108
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 34,
+      "orb_local_actor_point": [
+        38,
+        -695,
+        -312
+      ],
+      "beam_local_actor_point": [
+        -3,
+        -205,
+        246
+      ]
+    },
+    {
+      "mode": 9,
+      "frame": 35,
+      "orb_local_actor_point": [
+        40,
+        -656,
+        -325
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -311,
+        380
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 0,
+      "orb_local_actor_point": [
+        40,
+        -655,
+        -324
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -312,
+        375
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 1,
+      "orb_local_actor_point": [
+        40,
+        -653,
+        -322
+      ],
+      "beam_local_actor_point": [
+        4,
+        -307,
+        372
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 2,
+      "orb_local_actor_point": [
+        40,
+        -651,
+        -320
+      ],
+      "beam_local_actor_point": [
+        4,
+        -308,
+        368
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 3,
+      "orb_local_actor_point": [
+        40,
+        -649,
+        -318
+      ],
+      "beam_local_actor_point": [
+        5,
+        -309,
+        354
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 4,
+      "orb_local_actor_point": [
+        40,
+        -662,
+        -315
+      ],
+      "beam_local_actor_point": [
+        5,
+        -309,
+        341
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 5,
+      "orb_local_actor_point": [
+        33,
+        -663,
+        -314
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -307,
+        330
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 6,
+      "orb_local_actor_point": [
+        33,
+        -661,
+        -312
+      ],
+      "beam_local_actor_point": [
+        5,
+        -308,
+        321
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 7,
+      "orb_local_actor_point": [
+        32,
+        -653,
+        -314
+      ],
+      "beam_local_actor_point": [
+        5,
+        -307,
+        323
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 8,
+      "orb_local_actor_point": [
+        32,
+        -651,
+        -312
+      ],
+      "beam_local_actor_point": [
+        0,
+        -307,
+        314
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 9,
+      "orb_local_actor_point": [
+        44,
+        -661,
+        -307
+      ],
+      "beam_local_actor_point": [
+        1,
+        -310,
+        291
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 10,
+      "orb_local_actor_point": [
+        44,
+        -659,
+        -305
+      ],
+      "beam_local_actor_point": [
+        8,
+        -309,
+        277
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 11,
+      "orb_local_actor_point": [
+        44,
+        -657,
+        -304
+      ],
+      "beam_local_actor_point": [
+        0,
+        -312,
+        267
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 12,
+      "orb_local_actor_point": [
+        44,
+        -655,
+        -302
+      ],
+      "beam_local_actor_point": [
+        1,
+        -312,
+        254
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 13,
+      "orb_local_actor_point": [
+        44,
+        -653,
+        -300
+      ],
+      "beam_local_actor_point": [
+        7,
+        -317,
+        247
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 14,
+      "orb_local_actor_point": [
+        44,
+        -658,
+        -295
+      ],
+      "beam_local_actor_point": [
+        0,
+        -320,
+        236
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 15,
+      "orb_local_actor_point": [
+        44,
+        -666,
+        -289
+      ],
+      "beam_local_actor_point": [
+        1,
+        -322,
+        218
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 16,
+      "orb_local_actor_point": [
+        44,
+        -664,
+        -288
+      ],
+      "beam_local_actor_point": [
+        7,
+        -328,
+        208
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 17,
+      "orb_local_actor_point": [
+        44,
+        -657,
+        -290
+      ],
+      "beam_local_actor_point": [
+        7,
+        -332,
+        198
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 18,
+      "orb_local_actor_point": [
+        44,
+        -654,
+        -288
+      ],
+      "beam_local_actor_point": [
+        6,
+        -337,
+        189
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 19,
+      "orb_local_actor_point": [
+        45,
+        -663,
+        -284
+      ],
+      "beam_local_actor_point": [
+        3,
+        -336,
+        176
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 20,
+      "orb_local_actor_point": [
+        45,
+        -660,
+        -283
+      ],
+      "beam_local_actor_point": [
+        8,
+        -350,
+        158
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 21,
+      "orb_local_actor_point": [
+        45,
+        -656,
+        -281
+      ],
+      "beam_local_actor_point": [
+        2,
+        -352,
+        166
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 22,
+      "orb_local_actor_point": [
+        46,
+        -655,
+        -281
+      ],
+      "beam_local_actor_point": [
+        2,
+        -352,
+        160
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 23,
+      "orb_local_actor_point": [
+        46,
+        -655,
+        -281
+      ],
+      "beam_local_actor_point": [
+        7,
+        -347,
+        161
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 24,
+      "orb_local_actor_point": [
+        46,
+        -649,
+        -279
+      ],
+      "beam_local_actor_point": [
+        7,
+        -349,
+        163
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 25,
+      "orb_local_actor_point": [
+        46,
+        -646,
+        -278
+      ],
+      "beam_local_actor_point": [
+        2,
+        -346,
+        166
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 26,
+      "orb_local_actor_point": [
+        46,
+        -646,
+        -277
+      ],
+      "beam_local_actor_point": [
+        2,
+        -351,
+        167
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 27,
+      "orb_local_actor_point": [
+        46,
+        -650,
+        -275
+      ],
+      "beam_local_actor_point": [
+        2,
+        -359,
+        176
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 28,
+      "orb_local_actor_point": [
+        46,
+        -663,
+        -270
+      ],
+      "beam_local_actor_point": [
+        3,
+        -373,
+        175
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 29,
+      "orb_local_actor_point": [
+        46,
+        -652,
+        -272
+      ],
+      "beam_local_actor_point": [
+        3,
+        -379,
+        187
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 30,
+      "orb_local_actor_point": [
+        46,
+        -655,
+        -270
+      ],
+      "beam_local_actor_point": [
+        3,
+        -387,
+        194
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 31,
+      "orb_local_actor_point": [
+        46,
+        -653,
+        -267
+      ],
+      "beam_local_actor_point": [
+        4,
+        -394,
+        204
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 32,
+      "orb_local_actor_point": [
+        46,
+        -654,
+        -268
+      ],
+      "beam_local_actor_point": [
+        5,
+        -395,
+        197
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 33,
+      "orb_local_actor_point": [
+        46,
+        -664,
+        -262
+      ],
+      "beam_local_actor_point": [
+        3,
+        -397,
+        205
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 34,
+      "orb_local_actor_point": [
+        46,
+        -653,
+        -268
+      ],
+      "beam_local_actor_point": [
+        5,
+        -394,
+        197
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 35,
+      "orb_local_actor_point": [
+        46,
+        -662,
+        -260
+      ],
+      "beam_local_actor_point": [
+        2,
+        -410,
+        208
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 36,
+      "orb_local_actor_point": [
+        46,
+        -651,
+        -265
+      ],
+      "beam_local_actor_point": [
+        3,
+        -397,
+        206
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 37,
+      "orb_local_actor_point": [
+        46,
+        -663,
+        -258
+      ],
+      "beam_local_actor_point": [
+        7,
+        -413,
+        214
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 38,
+      "orb_local_actor_point": [
+        46,
+        -664,
+        -262
+      ],
+      "beam_local_actor_point": [
+        3,
+        -397,
+        206
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 39,
+      "orb_local_actor_point": [
+        46,
+        -663,
+        -258
+      ],
+      "beam_local_actor_point": [
+        7,
+        -413,
+        214
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 40,
+      "orb_local_actor_point": [
+        46,
+        -664,
+        -262
+      ],
+      "beam_local_actor_point": [
+        4,
+        -399,
+        207
+      ]
+    },
+    {
+      "mode": 10,
+      "frame": 41,
+      "orb_local_actor_point": [
+        46,
+        -660,
+        -255
+      ],
+      "beam_local_actor_point": [
+        2,
+        -417,
+        220
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 0,
+      "orb_local_actor_point": [
+        44,
+        -595,
+        -309
+      ],
+      "beam_local_actor_point": [
+        8,
+        -284,
+        333
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 1,
+      "orb_local_actor_point": [
+        41,
+        -530,
+        -343
+      ],
+      "beam_local_actor_point": [
+        8,
+        -360,
+        567
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 2,
+      "orb_local_actor_point": [
+        41,
+        -478,
+        -363
+      ],
+      "beam_local_actor_point": [
+        5,
+        -688,
+        686
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 3,
+      "orb_local_actor_point": [
+        41,
+        -423,
+        -364
+      ],
+      "beam_local_actor_point": [
+        3,
+        -1065,
+        511
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 4,
+      "orb_local_actor_point": [
+        50,
+        -396,
+        -358
+      ],
+      "beam_local_actor_point": [
+        -4,
+        -1238,
+        83
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 5,
+      "orb_local_actor_point": [
+        48,
+        -389,
+        -346
+      ],
+      "beam_local_actor_point": [
+        -3,
+        -1135,
+        -227
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 6,
+      "orb_local_actor_point": [
+        47,
+        -384,
+        -340
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -1105,
+        -270
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 7,
+      "orb_local_actor_point": [
+        56,
+        -387,
+        -339
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -1088,
+        -288
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 8,
+      "orb_local_actor_point": [
+        50,
+        -388,
+        -341
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -1086,
+        -289
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 9,
+      "orb_local_actor_point": [
+        49,
+        -382,
+        -335
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1094,
+        -289
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 10,
+      "orb_local_actor_point": [
+        49,
+        -383,
+        -337
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1089,
+        -300
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 11,
+      "orb_local_actor_point": [
+        49,
+        -383,
+        -338
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1089,
+        -301
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 12,
+      "orb_local_actor_point": [
+        49,
+        -384,
+        -339
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1096,
+        -301
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 13,
+      "orb_local_actor_point": [
+        48,
+        -380,
+        -334
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1090,
+        -314
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 14,
+      "orb_local_actor_point": [
+        48,
+        -380,
+        -335
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1090,
+        -315
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 15,
+      "orb_local_actor_point": [
+        57,
+        -382,
+        -334
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1097,
+        -315
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 16,
+      "orb_local_actor_point": [
+        57,
+        -382,
+        -336
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1100,
+        -311
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 17,
+      "orb_local_actor_point": [
+        56,
+        -385,
+        -332
+      ],
+      "beam_local_actor_point": [
+        -12,
+        -1096,
+        -323
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 18,
+      "orb_local_actor_point": [
+        56,
+        -386,
+        -333
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -1102,
+        -323
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 19,
+      "orb_local_actor_point": [
+        49,
+        -386,
+        -337
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -1102,
+        -325
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 20,
+      "orb_local_actor_point": [
+        50,
+        -382,
+        -331
+      ],
+      "beam_local_actor_point": [
+        -12,
+        -1101,
+        -325
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 21,
+      "orb_local_actor_point": [
+        50,
+        -382,
+        -331
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -1109,
+        -325
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 22,
+      "orb_local_actor_point": [
+        49,
+        -387,
+        -336
+      ],
+      "beam_local_actor_point": [
+        -13,
+        -1120,
+        -317
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 23,
+      "orb_local_actor_point": [
+        48,
+        -380,
+        -336
+      ],
+      "beam_local_actor_point": [
+        -1,
+        -1146,
+        -291
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 24,
+      "orb_local_actor_point": [
+        49,
+        -384,
+        -343
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -1207,
+        -189
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 25,
+      "orb_local_actor_point": [
+        48,
+        -397,
+        -355
+      ],
+      "beam_local_actor_point": [
+        1,
+        -1254,
+        5
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 26,
+      "orb_local_actor_point": [
+        45,
+        -409,
+        -369
+      ],
+      "beam_local_actor_point": [
+        0,
+        -1225,
+        245
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 27,
+      "orb_local_actor_point": [
+        47,
+        -443,
+        -377
+      ],
+      "beam_local_actor_point": [
+        2,
+        -1107,
+        453
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 28,
+      "orb_local_actor_point": [
+        49,
+        -460,
+        -382
+      ],
+      "beam_local_actor_point": [
+        3,
+        -896,
+        615
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 29,
+      "orb_local_actor_point": [
+        45,
+        -483,
+        -386
+      ],
+      "beam_local_actor_point": [
+        12,
+        -626,
+        665
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 30,
+      "orb_local_actor_point": [
+        44,
+        -504,
+        -386
+      ],
+      "beam_local_actor_point": [
+        16,
+        -382,
+        593
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 31,
+      "orb_local_actor_point": [
+        40,
+        -523,
+        -382
+      ],
+      "beam_local_actor_point": [
+        18,
+        -234,
+        436
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 32,
+      "orb_local_actor_point": [
+        28,
+        -561,
+        -368
+      ],
+      "beam_local_actor_point": [
+        10,
+        -197,
+        260
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 33,
+      "orb_local_actor_point": [
+        27,
+        -587,
+        -352
+      ],
+      "beam_local_actor_point": [
+        1,
+        -240,
+        189
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 34,
+      "orb_local_actor_point": [
+        28,
+        -604,
+        -344
+      ],
+      "beam_local_actor_point": [
+        4,
+        -260,
+        177
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 35,
+      "orb_local_actor_point": [
+        20,
+        -601,
+        -346
+      ],
+      "beam_local_actor_point": [
+        6,
+        -263,
+        190
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 36,
+      "orb_local_actor_point": [
+        20,
+        -614,
+        -343
+      ],
+      "beam_local_actor_point": [
+        4,
+        -264,
+        202
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 37,
+      "orb_local_actor_point": [
+        24,
+        -622,
+        -336
+      ],
+      "beam_local_actor_point": [
+        2,
+        -267,
+        223
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 38,
+      "orb_local_actor_point": [
+        25,
+        -627,
+        -337
+      ],
+      "beam_local_actor_point": [
+        2,
+        -265,
+        248
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 39,
+      "orb_local_actor_point": [
+        29,
+        -640,
+        -332
+      ],
+      "beam_local_actor_point": [
+        1,
+        -270,
+        272
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 40,
+      "orb_local_actor_point": [
+        29,
+        -630,
+        -335
+      ],
+      "beam_local_actor_point": [
+        1,
+        -276,
+        289
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 41,
+      "orb_local_actor_point": [
+        31,
+        -646,
+        -330
+      ],
+      "beam_local_actor_point": [
+        1,
+        -281,
+        307
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 42,
+      "orb_local_actor_point": [
+        31,
+        -635,
+        -330
+      ],
+      "beam_local_actor_point": [
+        1,
+        -290,
+        344
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 43,
+      "orb_local_actor_point": [
+        38,
+        -648,
+        -326
+      ],
+      "beam_local_actor_point": [
+        0,
+        -300,
+        362
+      ]
+    },
+    {
+      "mode": 11,
+      "frame": 44,
+      "orb_local_actor_point": [
+        40,
+        -656,
+        -325
+      ],
+      "beam_local_actor_point": [
+        -2,
+        -311,
+        380
+      ]
+    }
+  ],
+  "readiness": {
+    "balance_rerun": false,
+    "remaining": [
+      "actual actor pose/heading and cached render-frame mapping at effect launch",
+      "beam target strategies and actor/process phase coupling",
+      "cosmetic pool completion",
+      "full combat reaction/cure integration and incoming-status hook ordering"
+    ]
+  }
+}

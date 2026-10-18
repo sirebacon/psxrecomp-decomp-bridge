@@ -16,3 +16,7 @@ build/force-interior*.txt
 
 __pycache__/
 *.pyc
+
+# Isolated live-timing session: copies of the game executable, saves, recompiler cache and
+# multi-hundred-MB runtime dumps. Never commit (redistribution, size).
+findings/live-timing-session/

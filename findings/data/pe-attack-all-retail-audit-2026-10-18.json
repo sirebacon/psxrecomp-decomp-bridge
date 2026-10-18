@@ -1,0 +1,92 @@
+{
+  "executable": "D:\\Recomp Games\\Parasite Eve Project\\parasite-eve-recomp\\disc\\SLUS_006.62.original-backup",
+  "sha256": "5d94938ee752e81ef375bd4493c9883850c25a86895f9cb0732cf3622b44351b",
+  "text_base": "0x80010000",
+  "checks": [
+    {
+      "address": "0x80023288",
+      "expected": "0x8c820068",
+      "actual": "0x8c820068",
+      "match": true
+    },
+    {
+      "address": "0x80023290",
+      "expected": "0x8c420010",
+      "actual": "0x8c420010",
+      "match": true
+    },
+    {
+      "address": "0x80023294",
+      "expected": "0x8008d6a",
+      "actual": "0x8008d6a",
+      "match": true
+    },
+    {
+      "address": "0x80023298",
+      "expected": "0x3042000f",
+      "actual": "0x3042000f",
+      "match": true
+    },
+    {
+      "address": "0x800235a8",
+      "expected": "0xa382046c",
+      "actual": "0xa382046c",
+      "match": true
+    },
+    {
+      "address": "0x800235ac",
+      "expected": "0xc008c02",
+      "actual": "0xc008c02",
+      "match": true
+    },
+    {
+      "address": "0x800235bc",
+      "expected": "0xc01462a",
+      "actual": "0xc01462a",
+      "match": true
+    },
+    {
+      "address": "0x800235c4",
+      "expected": "0x10400010",
+      "actual": "0x10400010",
+      "match": true
+    },
+    {
+      "address": "0x800235d4",
+      "expected": "0xc0069a0",
+      "actual": "0xc0069a0",
+      "match": true
+    },
+    {
+      "address": "0x800235d8",
+      "expected": "0x2405000c",
+      "actual": "0x2405000c",
+      "match": true
+    },
+    {
+      "address": "0x80022184",
+      "expected": "0x94a2001a",
+      "actual": "0x94a2001a",
+      "match": true
+    },
+    {
+      "address": "0x8002218c",
+      "expected": "0x1462001a",
+      "actual": "0x1462001a",
+      "match": true
+    },
+    {
+      "address": "0x800221ec",
+      "expected": "0x90450014",
+      "actual": "0x90450014",
+      "match": true
+    },
+    {
+      "address": "0x800221f0",
+      "expected": "0xc0069a0",
+      "actual": "0xc0069a0",
+      "match": true
+    }
+  ],
+  "conclusion": "Retail ready path writes turnWord & 15 into remaining-actions before firing; successful alternate reload enters mode12. Decomp caller waits for mode12 end, restarts aim and re-enters this ready path. This supports reset semantics, without claiming a live execution trace or full battle parity."
+}

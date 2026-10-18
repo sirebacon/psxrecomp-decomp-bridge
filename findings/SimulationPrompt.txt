@@ -1,0 +1,1419 @@
+# Parasite Eve Recomp: Phase 3
+## Fully Integrated Weapon Progression, BP, Loot, Donor Equipment, and Combat Balance Simulation
+
+### Mission
+
+Continue the Parasite Eve Recomp weapon-balancing project from the completed October 17 Phase 1 and Phase 2 investigations.
+
+Do not restart the research or discard the existing simulation framework.
+
+Our previous investigations established that the weapon-effect rebalance has improved many underpowered modifications, but the P90, MAG, and other weapons still differ substantially in practical performance. We also identified potential shotgun weaknesses involving magazine capacity, attack commitment, and close-range reward.
+
+However, a major limitation remains in our simulations:
+
+**We have been comparing weapons using simplified, predetermined upgrade budgets instead of modeling how players actually develop their equipment throughout the game.**
+
+In Parasite Eve, weapon progression comes from several interconnected systems:
+
+1. Bonus Points (BP) earned through gameplay and spent on weapon stats, armor stats, Active Time, or Item Capacity.
+2. Transferable Attack, Range, and Bullet bonuses obtained from unwanted weapons.
+3. Tools and Super Tools used to transfer equipment statistics and modifications.
+4. Rare-drop rewards and stat upgrades from our Recomp loot cascade.
+5. Fixed equipment pickups, enemy drops, purchases, and optional rewards.
+6. Modifications, Mod Permits, the Mod Catalog, rebuilding, and other customization systems.
+7. Inventory and storage limitations.
+8. Character leveling and combat progression.
+
+All these systems interact.
+
+**Your assignment is to build a fully integrated, stateful, resource-constrained progression simulator, connect it to the validated combat simulator, and reevaluate weapon balance using equipment that players can realistically obtain and upgrade.**
+
+Work autonomously through source inspection, implementation, testing, Monte Carlo experiments, documentation, and recommendations.
+
+Do not pause for approval between research phases.
+
+You may change simulator code and tests, but do not implement changes to the actual game's combat, loot, BP, or equipment balance without review.
+
+---
+
+# 1. Core design philosophy
+
+Preserve the appeal of Parasite Eve's weapon-customization system.
+
+I want players to feel rewarded for:
+
+- Collecting equipment.
+- Finding rare upgrades.
+- Extracting useful stats from unwanted weapons.
+- Spending BP intelligently.
+- Choosing whether to improve Aya or her equipment.
+- Experimenting with different weapons and modifications.
+- Building and maintaining a favorite weapon.
+- Making meaningful tradeoffs between combat efficiency and flexibility.
+
+Do not automatically recommend increasing a weapon's base stats when players already have reasonable ways to improve them.
+
+For example, the M10B shotgun has a seven-round magazine.
+
+Phase 2 proposed increasing it to eight rounds because one selected build fires eight bullets per turn.
+
+But a player may be able to obtain that extra capacity through BP investment or transferring a Bullet bonus from another weapon.
+
+**We must establish the actual cost, availability, and opportunity cost of that upgrade before deciding whether the M10B needs a permanent buff.**
+
+The same principle applies to Attack, Range, and other equipment parameters.
+
+The objective is not equal weapon DPS. It is meaningful progression and viable build diversity under realistic resource constraints.
+
+---
+
+# 2. Existing code, research, and evidence
+
+Start by locating the current repository structure and identifying the authoritative implementation of every relevant system.
+
+### Weapon simulation framework
+
+Inspect:
+
+- `tools/pe_weapon_sim/engine.py`
+- `tools/pe_weapon_sim/run_benchmark.py`
+- `tools/pe_weapon_sim/run_phase2.py`
+- `tools/pe_weapon_sim/run_phase2b.py`
+- `tools/pe_weapon_sim/rules.py`
+- `tools/pe_weapon_sim/data.py`
+- `tools/pe_weapon_sim/encounters.py`
+- `tools/pe_weapon_sim/progression.py`
+- Existing tests and reporting modules
+
+### Phase 1 research
+
+- `pe-weapon-simulation-audit-2026-10-17.md`
+- `pe-weapon-mechanics-validation-2026-10-17.md`
+- `pe-weapon-class-benchmark-2026-10-17.md`
+- `pe-weapon-build-diversity-2026-10-17.md`
+- `pe-weapon-range-boss-analysis-2026-10-17.md`
+- `pe-weapon-progression-analysis-2026-10-17.md`
+- `pe-weapon-balance-proposal-2026-10-17.md`
+
+### Phase 2 research
+
+- `pe-weapon-p2-simulator-corrections-2026-10-17.md`
+- `pe-weapon-p2-modification-balance-2026-10-17.md`
+- `pe-weapon-p2-build-archetypes-2026-10-17.md`
+- `pe-weapon-p2-close-combat-2026-10-17.md`
+- `pe-weapon-p2-p90-mag-stress-2026-10-17.md`
+- `pe-weapon-p2-progression-economy-2026-10-17.md`
+- `pe-weapon-p2-encounter-balance-2026-10-17.md`
+- `pe-weapon-p2-integrated-proposal-2026-10-17.md`
+
+### Loot and customization research
+
+- `pe-loot-cascade-design-2026-10-14.md`
+- `pe-loot-overhaul-checklist.md`
+- Existing loot simulator code
+- Actual item and weapon data
+- `pe_loot_log.csv`
+- `pe_play_log.csv`
+- Relevant source code implementing drops, Tools, transfers, BP, equipment, and customization
+
+Inspect relevant decompiled game functions and current Recomp hooks.
+
+Do not invent filenames or mechanics if they cannot be located.
+
+### Evidence hierarchy
+
+Use this order of authority:
+
+1. Verified runtime behavior and actual current mod implementation.
+2. Decompiled game logic.
+3. Recorded combat and loot logs.
+4. Validated simulation code.
+5. Historical research and proposals.
+6. Clearly labeled assumptions.
+
+Old design documents may contain unimplemented proposals or outdated values.
+
+Do not silently treat them as live mechanics.
+
+---
+
+# 3. Preserve separate baselines
+
+Maintain three independent rulesets:
+
+**VANILLA:** Original Parasite Eve gameplay, acquisition rules, BP economy, and customization behavior.
+
+**CURRENT:** Actual Recomp mechanics currently implemented.
+
+**EXPERIMENTAL:** Proposed adjustments that are enabled independently for testing.
+
+Do not overwrite VANILLA or CURRENT to accommodate experimental findings.
+
+Keep Phase 1 and Phase 2 results reproducible.
+
+The new integrated economy must be able to run under the appropriate VANILLA and CURRENT rules.
+
+If a baseline has unknown mechanics, expose those uncertainties in its configuration and reports.
+
+Never silently substitute CURRENT behavior into VANILLA, or vice versa.
+
+---
+
+# 4. Phase One: Audit every progression resource
+
+Before coding the new economy, create a complete source-of-truth table for progression.
+
+Include the following categories.
+
+## A. Bonus Points
+
+Determine how BP is earned, spent, retained, and capped.
+
+## B. Weapons and donor equipment
+
+Determine how each eligible weapon is obtained, what bonuses it carries, and whether acquisition is repeatable.
+
+## C. Rare drops
+
+Determine which resources the Recomp cascade awards and in what quantities.
+
+## D. Tools and Super Tools
+
+Determine how they are acquired, consumed, stored, and used.
+
+## E. Stat boosters and equipment rewards
+
+Determine which bonuses they grant and whether they can be applied directly or require another process.
+
+## F. Customization systems
+
+Inspect Mod Catalog, Mod Permits, Rebuild, Junk, modification transfers, and related mechanics.
+
+## G. Progression resources
+
+Include XP, player level, inventory capacity, storage, money, and relevant combat items where they affect equipment progression.
+
+For each system document:
+
+- Actual source file and function.
+- Vanilla behavior.
+- CURRENT behavior.
+- Acquisition or spending rules.
+- Caps and restrictions.
+- Progression availability.
+- Whether rewards are fixed or random.
+- Whether acquisition is repeatable.
+- Whether the behavior is verified or assumed.
+
+Do not create an integrated economy until the resource flows and ownership rules are understood.
+
+---
+
+# 5. Phase Two: Reconstruct the complete BP system
+
+BP must be modeled as a first-class progression resource.
+
+It cannot be represented as a fixed number of free weapon upgrades per story day.
+
+## Verify BP acquisition
+
+Inspect the actual game logic for:
+
+- BP earned from combat.
+- BP awarded through leveling.
+- BP awarded through progression or completion.
+- BP modifiers or penalties involving battle performance.
+- Whether incoming damage affects BP rewards.
+- Whether BP can be earned through repeatable encounters.
+- Whether unused BP carries forward.
+- BP persistence across EX Game or repeated playthroughs.
+
+Do not assume a fixed BP reward per battle.
+
+Verify the actual equations, including rounding and caps.
+
+Where sources suggest a standard cost of 100 BP per improvement, confirm that against the game code and current Recomp implementation rather than treating it as universally authoritative.
+
+## Verify BP spending
+
+Determine the actual behavior and cost of improving:
+
+- Weapon Attack.
+- Weapon Range.
+- Weapon Bullet capacity.
+- Armor statistics.
+- Active Time.
+- Item Capacity.
+
+Check all available stat categories and restrictions.
+
+For each improvement establish:
+
+- BP cost.
+- Increase granted.
+- Current-value dependencies.
+- Maximum level or stat cap.
+- Eligibility requirements.
+- Whether the cost increases.
+- Whether the improvement is permanent.
+- Whether equipment BP improvements can later be transferred using Tools.
+
+This last point is particularly important.
+
+**BP-derived weapon bonuses may become part of the transferable stat pool. Confirm that behavior rather than double-counting or losing them during simulated transfers.**
+
+## Persistent BP ledger
+
+Each playthrough must track:
+
+- BP earned.
+- BP available.
+- BP spent.
+- BP invested in Attack.
+- BP invested in Range.
+- BP invested in Bullet capacity.
+- BP invested in armor.
+- BP invested in Active Time.
+- BP invested in Item Capacity.
+- Unspent BP.
+- BP investment history.
+
+Every BP transaction must have a source and destination.
+
+Never permit BP duplication, overspending, or impossible stat increases.
+
+---
+
+# 6. Phase Three: Model BP opportunity costs
+
+BP competes across fundamentally different investments.
+
+The simulator must account for that.
+
+For example, spending BP on a shotgun's Bullet stat might improve its efficiency by aligning the magazine with an eight-bullet volley.
+
+But the same BP could instead improve:
+
+- Attack damage.
+- Effective weapon range.
+- Aya's Active Time.
+- Carrying capacity.
+- Defensive equipment.
+
+These investments have different short-term and long-term value.
+
+## Active Time
+
+Model actual changes to ATB filling using the verified formula.
+
+An Active Time upgrade may benefit every weapon Aya equips, while a weapon-specific upgrade benefits only one equipment item unless transferred.
+
+This can change the economics of multi-weapon strategies.
+
+## Item Capacity
+
+Increasing carrying capacity may allow players to:
+
+- Pick up additional donor weapons.
+- Carry additional Tools.
+- Avoid discarding valuable resources.
+- Retain a second specialized weapon.
+- Keep more healing items or ammunition where relevant.
+
+Do not assign Item Capacity a fictional direct DPS bonus.
+
+Its value comes from actual inventory decisions and future resource opportunities.
+
+## Armor
+
+Defensive improvements may reduce damage taken, improve battle success, or affect BP earnings where the game's reward formula supports that connection.
+
+Do not assume every point of defense has the same value in every encounter.
+
+## BP strategy experiments
+
+Test:
+
+1. Weapon-stat-focused investment.
+2. Active-Time-first investment.
+3. Item-Capacity-first investment.
+4. Defensive-equipment-focused investment.
+5. Balanced investment.
+6. Saving BP for a later weapon.
+7. Adaptive investment based on current resources.
+
+Use the same BP earnings and acquisition opportunities when comparing policies.
+
+Do not allow an optimizing policy to know future random drops.
+
+---
+
+# 7. Phase Four: Reproduce the rare-drop cascade
+
+Our Recomp mod has a rare-drop system intended to make useful upgrades more accessible.
+
+Inspect its actual implementation.
+
+Model:
+
+- Rare-drop eligibility.
+- Base probabilities.
+- Pity accumulation.
+- Pity guarantees.
+- Pity resets.
+- Reward category ordering.
+- Conditional fallthrough.
+- Usefulness and eligibility checks.
+- Category-specific guarantees.
+- Inventory-based probability changes.
+- Stat upgrade drops.
+- Tool drops.
+- Mod Permits.
+- Other relevant rewards.
+
+## Tool feedback loop
+
+The rare-drop design includes probabilities that depend on the number of Tools held.
+
+Verify the implemented values.
+
+This creates a dynamic feedback mechanism:
+
+A player spends a Tool, potentially changes their later Tool-drop eligibility, and may receive different resources through subsequent rare-drop rolls.
+
+The simulator must process those interactions in the correct order.
+
+Do not independently generate an average number of Tools and stat boosters.
+
+## Lucky Find
+
+Verify precisely how Lucky Find affects the drop system.
+
+Determine whether it modifies eligibility, roll frequency, drop tables, or something else.
+
+Preserve the actual ordering and dependencies.
+
+## Testing
+
+Add tests for:
+
+- Pity thresholds.
+- Correct pity reset conditions.
+- Cascade priority.
+- Reward fallthrough.
+- Inventory-based eligibility.
+- Tool feedback.
+- Guaranteed rewards.
+- Lucky Find interactions.
+- Correct deterministic behavior.
+
+Where available, compare simulated distributions against historical loot logs and the existing loot simulator.
+
+---
+
+# 8. Phase Five: Model equipment acquisition
+
+The simulation must distinguish equipment that exists in the game from equipment that a player can actually obtain.
+
+Inspect:
+
+- Fixed pickups.
+- Enemy drops.
+- Optional chests and containers.
+- Story rewards.
+- Purchases.
+- Junk rewards.
+- Wayne's equipment.
+- Other relevant acquisition routes.
+
+For each obtainable weapon, record:
+
+- Weapon ID.
+- Weapon class.
+- Acquisition source.
+- Acquisition timing.
+- Acquisition probability.
+- Whether it is optional.
+- Whether it can be obtained more than once.
+- Base Attack.
+- Base Range.
+- Base Bullet capacity.
+- Existing bonus stats.
+- Modification slots.
+- Built-in effects.
+- Relevant equipment restrictions.
+
+Do not assume that every entry in the item table is available during a normal playthrough.
+
+Also distinguish first-playthrough equipment from EX Game equipment.
+
+If acquisition probabilities or locations are unknown, document the gaps and use bounded sensitivity experiments.
+
+---
+
+# 9. Phase Six: Model donor weapon transfers
+
+This is central to the new simulator.
+
+An unwanted weapon is not merely junk. It can be a source of transferable statistics or effects.
+
+## Weapon ownership
+
+Every weapon should exist as an individual inventory object.
+
+Track:
+
+- Unique instance ID.
+- Base weapon type.
+- Intrinsic stats.
+- Current transferable bonuses.
+- BP-derived bonuses.
+- Transferred donor bonuses.
+- Other applied stat improvements.
+- Installed effects.
+- Acquisition source.
+- Transfer history.
+- Current storage location.
+
+## Stat provenance
+
+Keep an explicit record of the origin of every bonus point.
+
+This is necessary for auditing the system and preventing duplicate resources.
+
+However, do not invent additional gameplay restrictions based on provenance if the game treats all transferable bonuses identically.
+
+## Transfer mechanics
+
+Inspect the actual transfer code.
+
+Verify:
+
+- Tool cost.
+- Super Tool cost and differences.
+- What transfers.
+- Whether all three weapon stat bonuses transfer together.
+- How modifications transfer.
+- What happens when destination caps are reached.
+- How the source weapon changes.
+- Whether the source remains available.
+- What happens if there is no modification slot.
+- Whether stat and effect transfers share the same action or require separate actions.
+
+Avoid approximating a Tool as a generic currency that can improve any stat.
+
+A Tool can only produce benefits that the actual transfer rules permit.
+
+## Prevent duplication
+
+Never allow:
+
+- Transferring intrinsic base stats as bonuses.
+- Extracting the same donor bonuses repeatedly.
+- Creating an item with impossible stats.
+- Reusing a consumed Tool.
+- Applying a transferred BP bonus twice.
+- Exceeding verified stat caps.
+
+## Donor-selection behavior
+
+Simulate decisions about whether to:
+
+- Extract a donor immediately.
+- Keep it for later.
+- Use it as a replacement weapon.
+- Transfer its effects.
+- Store it.
+- Sell or discard it.
+- Save a Tool for a better donor.
+
+A player may have many donors but few Tools.
+
+Determine which resources are actually limiting progression.
+
+---
+
+# 10. Phase Seven: Model direct stat upgrade rewards
+
+Separate three sources of weapon stat growth:
+
+**BP investments:** Purchased with earned BP.
+
+**Donor bonuses:** Obtained from equipment and transferred using Tools.
+
+**Rare/stat reward upgrades:** Obtained through loot or other rewards and applied according to their own rules.
+
+Do not merge these into a generic pool of free weapon points.
+
+Track their provenance in the final weapon while preserving the game's actual transfer mechanics.
+
+For every upgrade, identify:
+
+- Stat affected.
+- Amount gained.
+- Item or currency consumed.
+- Eligibility rules.
+- Time obtained.
+- Equipment receiving the upgrade.
+- Transferability afterward.
+
+This makes it possible to determine whether the loot overhaul or BP system contributes more to player power.
+
+---
+
+# 11. Phase Eight: Persistent player inventory and state
+
+Build a complete player state that persists from battle to battle.
+
+## Player state
+
+Track:
+
+- Story progression.
+- Level and XP.
+- Relevant combat stats.
+- BP balance and investment.
+- Active Time level.
+- Item Capacity.
+- Current inventory capacity.
+- Money and Junk where relevant.
+- Current armor.
+- Current weapon.
+- Relevant status and resources.
+
+## Equipment state
+
+Track:
+
+- Owned guns.
+- Guns in storage.
+- Equipped weapons.
+- Bonus statistics.
+- Installed modifications.
+- Modification slots.
+- Equipment history.
+
+## Resource state
+
+Track:
+
+- Tools.
+- Super Tools.
+- Stat boosters.
+- Mod Permits.
+- Other upgrade items.
+- Purchases and costs.
+
+## Loot state
+
+Track:
+
+- Pity counters.
+- Guaranteed reward counters.
+- Rare-drop eligibility.
+- Relevant inventory-dependent flags.
+- Reward history.
+
+## Combat state
+
+Track:
+
+- Loadout.
+- Weapon bonuses.
+- Armor bonuses.
+- Active Time improvements.
+- Ammunition where relevant.
+- PE and other mechanics that materially affect combat comparisons.
+
+All changes must be explicit state transitions.
+
+Maintain a transaction log for debugging and reproducibility.
+
+---
+
+# 12. Phase Nine: Simulate continuous playthroughs
+
+Replace fixed daily budgets with actual accumulated progression.
+
+Each simulated playthrough should:
+
+1. Begin with appropriate initial state.
+2. Enter encounters in a plausible progression sequence.
+3. Simulate battle outcomes.
+4. Calculate XP and BP rewards.
+5. Generate equipment and rare drops.
+6. Update pity and inventory.
+7. Handle inventory overflow.
+8. Process item acquisition.
+9. Apply player policy decisions.
+10. Spend BP when appropriate.
+11. Use Tools for donor transfers.
+12. Install modifications when available.
+13. Upgrade or change equipped weapons.
+14. Continue to the next checkpoint.
+
+Do not award an arbitrary "+12 Attack" because the player reached Day 5.
+
+Every improvement must have an actual source.
+
+### Prevent circular simulation shortcuts
+
+Combat performance affects progression through battle outcomes, resource use, and potentially BP.
+
+Progression also changes future combat performance.
+
+Implement this feedback explicitly where feasible.
+
+If detailed combat simulation of every encounter becomes too expensive, use a validated surrogate model for routine encounters.
+
+Evaluate representative combats using the full engine at checkpoints.
+
+Document where approximation is used.
+
+---
+
+# 13. Phase Ten: Exploration and farming profiles
+
+Players differ significantly in how much equipment they acquire.
+
+Test at least:
+
+## Minimal progression
+
+Completes the critical story path with limited optional encounters.
+
+## Typical player
+
+Explores some optional areas and collects a reasonable share of rewards.
+
+## Completion-oriented player
+
+Collects most obtainable equipment and clears substantial optional content.
+
+## Dedicated farmer
+
+Repeats viable encounters for extra resources.
+
+For each profile, model:
+
+- Number of encounters.
+- Optional content completion.
+- Repeated farming opportunities.
+- Rewards acquired.
+- BP earned.
+- Tools consumed.
+- Time and resource costs.
+
+Do not assume that optional fixed rewards can be collected repeatedly.
+
+For repeatable farming, use the verified respawn and drop rules.
+
+Do not assume unlimited farming without cost.
+
+---
+
+# 14. Phase Eleven: Player investment policies
+
+Test distinct player behaviors.
+
+### Policy A: Casual
+
+Uses equipment naturally, spends some BP, transfers bonuses occasionally, and does not perfectly optimize.
+
+### Policy B: Favorite-weapon specialist
+
+Chooses a preferred weapon class, invests heavily in it, and extracts donor bonuses whenever worthwhile.
+
+### Policy C: Weapon optimizer
+
+Uses BP, Tools, donors, and modifications strategically to maximize combat effectiveness.
+
+### Policy D: Two-weapon specialist
+
+Maintains a primary and secondary weapon with distinct encounter roles.
+
+### Policy E: Flexible experimenter
+
+Frequently changes equipment, relying on lossless transfers and the Mod Catalog to explore builds.
+
+### Policy F: Farmer
+
+Acquires extra BP, Tools, and donors through repeatable encounters.
+
+### Policy G: ATB-focused
+
+Prioritizes Active Time before investing heavily in weapon statistics.
+
+### Policy H: Inventory-focused
+
+Invests in Item Capacity to preserve more donor equipment and useful resources.
+
+### Policy I: Balanced progression
+
+Makes moderate investments across BP categories.
+
+These policies can be combined with exploration profiles.
+
+Do not run an unnecessarily large Cartesian product if many combinations are redundant.
+
+Use a representative experiment design and expand only where differences are meaningful.
+
+---
+
+# 15. Phase Twelve: Verify BP and Tool interaction
+
+This is a critical system-level test.
+
+Players may improve weapon statistics through BP or donor transfers.
+
+But these routes have different costs.
+
+For a specific desired upgrade, such as M10B Bullet +1, compare:
+
+**Route A: BP investment**
+
+Cost: verified BP amount and resulting opportunity cost.
+
+**Route B: Donor transfer**
+
+Cost: donor availability, Tool consumption, and opportunity cost.
+
+**Route C: Rare reward**
+
+Cost: acquisition probability, timing, and any application resources.
+
+**Route D: No upgrade**
+
+Benefit of using the resources elsewhere.
+
+Report which route is realistically available and efficient.
+
+Also examine whether BP-derived stat improvements can later be moved to a different weapon with Tools.
+
+If they can, this may make investing BP in a temporary weapon less risky than originally assumed.
+
+---
+
+# 16. Phase Thirteen: Magazine capacity and volley alignment
+
+Reevaluate the important Phase 2 discovery that increasing magazine capacity can sometimes make a simulated weapon slower.
+
+The M10B is the central test case.
+
+Its stock magazine is seven rounds.
+
+The Phase 2 model found that eight rounds performed better than ten under a specific configuration because of the game's empty-magazine reload behavior.
+
+But this conclusion may depend on installed modifications.
+
+## Test capacities
+
+At minimum, evaluate:
+
+- 7 rounds.
+- 8 rounds.
+- 9 rounds.
+- 10 rounds.
+- 12 rounds.
+- Other realistically achievable capacities.
+
+## Test firing configurations
+
+Include:
+
+- RoF 1.
+- RoF 2.
+- RoF 3.
+- RoF 5.
+- RoF 7.
+- RoF 10.
+- 2 Commands.
+- 3 Commands where available.
+- Random Fire.
+- Burst.
+- Attack All against varying target counts.
+- Relevant combinations.
+
+Do not assume every combination is legally installable.
+
+## Measure
+
+- Bullet demand per action.
+- Actual bullets fired.
+- Empty clicks.
+- Reload frequency.
+- Partial-magazine turns.
+- Ammunition consumed.
+- Clear time.
+- Attack commitment.
+- Status activation.
+- Effectiveness across different encounter types.
+
+## Verify against source
+
+Confirm precisely when and how reloads occur.
+
+Check whether an increased capacity is genuinely non-monotonic in the actual game, not just in the simulator.
+
+## Player acquisition
+
+Most importantly, measure the probability that players can reach useful capacity thresholds through BP, donors, and rare upgrades.
+
+Do not automatically recommend increasing the M10B's base magazine.
+
+---
+
+# 17. Phase Fourteen: Combat benchmark integration
+
+Reuse the existing validated combat engine rather than creating a second combat simulator.
+
+At meaningful checkpoints, pass the actual accumulated equipment and player stats into the combat engine.
+
+Evaluate:
+
+- Close-range encounters.
+- Groups.
+- Medium-distance moving enemies.
+- Keep-away bosses.
+- Stationary bosses.
+- Endurance battles.
+- Short vulnerability windows.
+- Scripted fights where sufficiently validated.
+
+Include actual weapon modifications, magazine bonuses, Active Time investments, and armor.
+
+Preserve the prior corrections involving:
+
+- Weapon range formula.
+- Per-shot damage.
+- Status-on-hit behavior.
+- Ammo consumption.
+- Reload behavior.
+- Real modification slot limits.
+- Player movement assumptions.
+- Attack animation and ATB timing uncertainty.
+
+Use matched encounters and random seeds when comparing player policies.
+
+Do not train player decisions against the same future random events used for evaluation.
+
+---
+
+# 18. Phase Fifteen: Reevaluate the P90, MAG, and shotguns
+
+### P90
+
+Determine whether accumulated Attack and Range bonuses make the P90 more universally powerful.
+
+Test how a large magazine affects BP spending priorities.
+
+Determine whether its original RoF 10 remains competitive with RoF 3 and 7 across plausible attack timing assumptions.
+
+Do not buff or nerf it automatically.
+
+### MAG
+
+Determine whether the MAG's high original Attack and Range remain dominant after other guns accumulate realistic upgrade bonuses.
+
+Examine whether investment returns differ with high base stats.
+
+Include built-in Critical and actual modification-slot constraints.
+
+### M10B
+
+Determine whether players can reasonably solve its magazine limitations through BP or donor transfers.
+
+Examine whether extra Bullet capacity alone is sufficient.
+
+Then reconsider its close-combat specialization.
+
+### M500
+
+Evaluate whether its existing slot capacity and progression already make it strong enough.
+
+Avoid blanket shotgun buffs that would unintentionally make midgame encounters trivial.
+
+### DE50AE7 and HK40
+
+Evaluate their customization potential using realistically accumulated resources rather than original equipment stats.
+
+### Other weapon classes
+
+Include representative weapons across Days 1-5.
+
+Do not base the entire balance conclusion solely on Wayne's endgame weapons.
+
+---
+
+# 19. Phase Sixteen: Reevaluate the Phase 2 shotgun experiments
+
+Phase 2 proposed:
+
+- +40% shotgun proximity damage within 400 units.
+- Linear fade to no bonus at 650 units.
+- M10B base magazine increase from seven to eight.
+
+These are still experimental proposals.
+
+Test:
+
+**S0: CURRENT unchanged**
+
+Realistic BP, donor, loot, and Tool progression.
+
+**S1: Upgrades only**
+
+Allow normal BP and donor Bullet investments, without changing combat mechanics.
+
+**S2: Proximity damage**
+
+Add the experimental shotgun proximity bonus to realistic upgraded weapons.
+
+**S3: Base magazine adjustment**
+
+Compare separately against ordinary upgrade progression.
+
+**S4: Combined changes**
+
+Only if individually justified.
+
+Investigate whether the shotgun has a useful specialization after realistic upgrades.
+
+Do not confuse a stronger weapon with a more interesting or better-balanced weapon.
+
+Evaluate practical positioning risk and whether the proximity bonus is reachable in typical fights.
+
+---
+
+# 20. Phase Seventeen: Reevaluate modification balance
+
+Revisit:
+
+- 2 Commands.
+- 3 Commands.
+- Quickdraw.
+- Frost.
+- Heat.
+- Acid.
+- Tranquilizer.
+- Critical.
+- Counter.
+- Rate of Fire 7 and 10.
+- Burst.
+- Attack All.
+- Random Fire.
+- Cyanide.
+- Defensive armor effects.
+
+Determine how acquisition timing affects their real value.
+
+For example, an overwhelmingly strong theoretical build may be available only after substantial optional progression.
+
+Also determine how accumulated Bullet capacity changes the value of high RoF and Commands.
+
+Compare realistic build archetypes rather than always assuming full access to every modification.
+
+Preserve the unsafe Counter fix. Do not restore any modification that manipulates Aya's HP stat-level memory.
+
+---
+
+# 21. Phase Eighteen: Feedback loops
+
+Identify and measure interactions between progression systems.
+
+Important examples:
+
+### BP and inventory
+
+More inventory capacity may allow additional donor weapons to be collected.
+
+### Tools and loot
+
+Spending Tools may change later Tool-drop probabilities.
+
+### Weapon performance and BP
+
+Faster kills and reduced damage may affect future BP rewards where the game's formula supports that relationship.
+
+### BP and Active Time
+
+Faster ATB may improve performance across several weapons.
+
+### Donors and weapon transfers
+
+Investments in an earlier weapon may transfer to a later weapon.
+
+### Rare drops and player behavior
+
+Lucky rare rewards may change a player's optimal investment choices.
+
+### Farming and progression
+
+Extra farming improves resources but incurs time and resource costs.
+
+### Equipment economy and build diversity
+
+Easy transfers may encourage a single hyper-upgraded weapon instead of multiple specialized weapons.
+
+Quantify these effects instead of discussing them only qualitatively.
+
+---
+
+# 22. Phase Nineteen: Monte Carlo analysis
+
+Run enough complete simulated playthroughs to generate meaningful distributions.
+
+For each major player strategy and progression checkpoint, report:
+
+- BP earned.
+- BP spent.
+- BP remaining.
+- BP spent by category.
+- Active Time level.
+- Item Capacity.
+- Weapon Attack bonuses.
+- Weapon Range bonuses.
+- Weapon Bullet bonuses.
+- Armor improvements.
+- Donor weapons obtained.
+- Donor bonuses extracted.
+- Unused donor bonuses.
+- Tools acquired.
+- Tools spent.
+- Tools remaining.
+- Stat boosters acquired.
+- Rare-drop pity activations.
+- Modification availability.
+- Final weapon and effects.
+- Combat results.
+
+Report mean, median, percentiles, and appropriate uncertainty estimates.
+
+Also calculate probabilities of reaching important breakpoints.
+
+Examples:
+
+- Probability that a typical player can afford M10B Bullet +1.
+- Probability that an optimizer can reach specific Bullet and Range thresholds.
+- Probability that Tools are the limiting resource.
+- Probability that BP is primarily spent on Active Time instead of weapons.
+- Probability that a second weapon remains underdeveloped.
+- Probability that a player obtains a desired effect by a particular story point.
+
+Distinguish randomness from different player policies.
+
+---
+
+# 23. Phase Twenty: Ablation experiments
+
+To isolate the contribution of each progression system, compare:
+
+| Model | Systems enabled |
+|---|---|
+| A0 | Original fixed-budget simulation |
+| A1 | BP progression only |
+| A2 | Donor weapons and Tools only |
+| A3 | Rare-drop rewards only |
+| A4 | BP + donor weapons + Tools |
+| A5 | Donors + Tools + rare drops |
+| A6 | BP + rare drops |
+| A7 | Fully integrated CURRENT progression |
+| A8 | Fully integrated EXPERIMENTAL shotgun rules |
+
+Keep all other relevant assumptions matched.
+
+These comparisons must not create impossible acquisitions. For ablations, disable the selected system explicitly rather than pretending its resources appear from nowhere.
+
+Determine:
+
+- Which progression system contributes the most weapon power.
+- Whether their effects are additive or interactive.
+- Whether one system becomes redundant.
+- Which resource is the actual bottleneck.
+- Whether existing balance conclusions change.
+
+---
+
+# 24. Phase Twenty-One: Sensitivity analysis
+
+Identify uncertainties that could materially change the results.
+
+Likely examples:
+
+- Number of battles per story day.
+- BP rewards.
+- Enemy drop rates.
+- Rare-drop probabilities.
+- Donor acquisition.
+- Tool availability.
+- Player spending behavior.
+- Stat-upgrade costs.
+- Inventory overflow.
+- Farming frequency.
+- Weapon animation timing.
+
+For each important uncertainty:
+
+1. State what is known.
+2. Identify the source.
+3. Define reasonable alternative values.
+4. Run controlled experiments.
+5. Report whether conclusions change.
+
+Do not use invented values as confirmed game mechanics.
+
+Prioritize collecting new gameplay logs where assumptions could reverse weapon rankings.
+
+---
+
+# 25. Engineering requirements
+
+Keep the simulator modular and testable.
+
+Suggested components:
+
+- `bp.py`: BP earnings, spending, and caps.
+- `loot.py`: rare drops and pity mechanics.
+- `acquisition.py`: fixed and random equipment acquisition.
+- `inventory.py`: player inventory and storage.
+- `equipment.py`: weapon and armor instances.
+- `transfers.py`: Tool operations and donor tracking.
+- `upgrades.py`: stat boosters and other improvements.
+- `policies.py`: player decision strategies.
+- `playthrough.py`: continuous progression.
+- `evaluation.py`: combat benchmark integration.
+- `reporting.py`: statistical output.
+
+These are suggested names, not mandatory architecture.
+
+Reuse the existing repository conventions where reasonable.
+
+## Determinism
+
+Support reproducible random seeds.
+
+Use independent random streams for:
+
+- Loot.
+- Encounter generation.
+- Policy decisions.
+- Combat evaluation.
+
+When comparing policies, use matched underlying encounter and loot opportunities where feasible.
+
+## Performance
+
+Avoid running a full expensive combat simulation for every possible upgrade decision.
+
+Use caching, controlled sampling, or validated approximations as needed.
+
+Preserve accurate detailed combat benchmarks at meaningful checkpoints.
+
+## Tests
+
+Add regression tests for:
+
+- BP acquisition and spending.
+- BP caps.
+- Active Time effects.
+- Item Capacity effects.
+- BP-derived bonus transfers.
+- Tool consumption.
+- Super Tool behavior.
+- Donor stat clearing.
+- No duplicate transfers.
+- Rare-drop pity.
+- Rare-drop cascade.
+- Tool-dependent reward probabilities.
+- Lucky Find.
+- Inventory overflow.
+- Fixed pickup uniqueness.
+- Repeatable drops.
+- Stat booster applications.
+- Magazine upgrades.
+- Mod Permit restrictions.
+- Multi-weapon ownership.
+- Progression checkpoint consistency.
+- No negative resource balances.
+- Deterministic playback.
+- Combat engine integration.
+
+## Auditability
+
+Generate detailed traces for representative simulated playthroughs.
+
+A trace should reveal exactly how a player's final weapon was developed.
+
+For example:
+
+- Battle 52: BP earned.
+- Battle 53: rare Tool awarded.
+- Battle 54: donor weapon acquired.
+- Workshop: Tool used.
+- Donor bonuses transferred.
+- BP spent on Bullet capacity.
+- New magazine capacity calculated.
+- Combat benchmark performed.
+
+Use actual simulated values and events, not fabricated sample logs, in the final reports.
+
+---
+
+# 26. Required deliverables
+
+Produce a comprehensive Phase 3 research package.
+
+### Report A: Progression mechanics audit
+
+Verified BP, loot, equipment, Tool, and customization rules.
+
+### Report B: Simulator architecture
+
+State model, resource flows, algorithms, assumptions, and reproduction instructions.
+
+### Report C: BP economy
+
+BP earning, spending strategies, opportunity costs, and Active Time versus weapon investment.
+
+### Report D: Rare-drop economy
+
+Cascade behavior, Tool feedback, pity, and upgrade distributions.
+
+### Report E: Donor weapon analysis
+
+Weapon availability, stat extraction, transfer efficiency, and Tool bottlenecks.
+
+### Report F: Integrated weapon progression
+
+Realistic equipment stats across the story for different player strategies.
+
+### Report G: Magazine breakpoints
+
+Bullet capacity, RoF, Commands, reload behavior, and reachable upgrade thresholds.
+
+### Report H: Weapon balance reevaluation
+
+P90, MAG, M10B, M500, DE50AE7, HK40, and representative earlier guns.
+
+### Report I: Build diversity and customization
+
+Modification acquisition, optimized versus alternative archetypes, and one-weapon versus two-weapon strategies.
+
+### Report J: Revised shotgun proposal
+
+Determine whether any shotgun-specific changes remain justified after accounting for upgrades.
+
+### Report K: Sensitivity and model validation
+
+Remaining uncertainties, ablation results, and live measurements needed.
+
+### Report L: Integrated Phase 3 conclusions
+
+Provide an accessible executive summary and prioritized recommendations.
+
+Also deliver:
+
+- Working code.
+- Automated tests.
+- Reproducible command lines.
+- Machine-readable raw results.
+- Summary tables.
+- Representative playthrough traces.
+- Source-to-mechanic validation references.
+
+Keep Phase 1 and Phase 2 outputs unchanged.
+
+---
+
+# 27. Important boundaries
+
+You are authorized to:
+
+- Inspect source and decomp files.
+- Analyze existing logs.
+- Verify BP, loot, and equipment rules.
+- Develop simulation modules.
+- Correct simulator bugs.
+- Add regression tests.
+- Run Monte Carlo simulations.
+- Produce reports.
+- Make isolated commits for simulator changes.
+
+You are not authorized to:
+
+- Change live weapon damage or range.
+- Change base magazine capacities.
+- Implement shotgun proximity damage.
+- Change BP acquisition or spending costs.
+- Change rare-drop probabilities.
+- Alter Tool transfer rules.
+- Modify player saves.
+- Reintroduce unsafe Counter manipulation.
+- Rewrite established gameplay mechanics.
+- Silently modify the VANILLA or CURRENT baselines.
+
+Preserve existing work and clearly identify experimental changes.
+
+Do not invent certainty where evidence is incomplete.
+
+---
+
+# 28. Final questions to answer
+
+At the end, clearly answer:
+
+1. How much BP does a typical player accumulate throughout the main game?
+2. How much BP is realistically available for weapon upgrades after competing investments?
+3. Is Active Time usually a better BP investment than weapon Attack, Range, or Bullet capacity?
+4. How valuable is Item Capacity in enabling donor-weapon collection?
+5. How many useful donor guns are obtained during a typical playthrough?
+6. How many Tools are available to harvest them?
+7. How does Tool spending influence subsequent rare-drop probabilities?
+8. How many stat improvements come from rare drops versus BP versus donor transfers?
+9. Can a typical player reach important magazine and range breakpoints without farming?
+10. Is the M10B's stock seven-round magazine actually a balance problem?
+11. Does the M10B need an additional built-in bullet?
+12. Does the M10B still need an experimental close-range damage bonus?
+13. Does the P90 become excessively powerful when Attack and Range bonuses accumulate?
+14. Does the MAG remain the best weapon after other guns receive realistically available upgrades?
+15. Does the ability to transfer BP-derived bonuses reduce the cost of switching weapons?
+16. Can maintaining two specialized guns become competitive under realistic BP investment?
+17. Does the current rare-drop system make experimenting with different weapons sufficiently affordable?
+18. Are 2 Commands and Quickdraw still effectively mandatory when realistic acquisition timing is included?
+19. Which upgrade resources are most likely to become bottlenecks?
+20. Do any loot or BP mechanics unintentionally encourage hoarding or inefficient behavior?
+21. Which weapon weaknesses can already be solved through customization?
+22. Which weaknesses genuinely justify new gameplay mechanics?
+23. How sensitive are the conclusions to farming behavior and random loot?
+24. Which previous Phase 1 and Phase 2 conclusions should be revised?
+25. What minimal changes, if any, would produce the greatest improvement in long-term weapon and build diversity?
+
+---
+
+# Final objective
+
+I want a realistic picture of what weapon customization looks like over an entire Parasite Eve playthrough.
+
+The system should not assume players acquire a fixed number of weapon upgrades or receive all their improvements automatically at specific story days.
+
+It should simulate the decisions players actually make:
+
+- Should I spend BP on faster ATB?
+- Should I increase my inventory capacity to collect more donors?
+- Should I improve my current weapon's Attack?
+- Should I invest in Bullet capacity to support my modifications?
+- Should I save BP for later?
+- Should I use a Tool now or wait for a better donor?
+- Should I maintain two weapons or concentrate all resources in one?
+- Should I change to a newly acquired weapon or keep improving my favorite?
+- Does a rare drop change my best strategy?
+
+All of those decisions compete for finite resources.
+
+**Every improvement must be earned, acquired, transferred, or purchased through a verified progression mechanic.**
+
+The result should tell us whether our existing customization systems already solve the apparent weapon balance problems.
+
+Only after that should we decide whether the M10B, P90, MAG, or any other weapon needs gameplay changes.
+
+**Complete the integrated Phase 3 simulation, validate it, run the statistical comparisons, and deliver evidence-backed recommendations without implementing live balance changes.**

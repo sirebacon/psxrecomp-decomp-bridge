@@ -12,6 +12,7 @@ Distance: each enemy has an absolute distance redrawn from the encounter's profi
 import math
 from .data import ATB_FACTOR, ANIM
 from .rules import graze_mult_for
+from .source_timing import gauge_gain, refill_updates
 
 TICK_HZ = 94.0      # L: 9000 / (stat22 70 x 10 / 10) / 1.37 s median handgun turn (battle rows)
 LOOP_S = 1.0 / 30
@@ -27,6 +28,9 @@ ANIM_SCALE = 1.0       # sensitivity knob: multiplies every animation loop (loop
 
 
 def commit_seconds(kind, shots, rules):
+    if rules.get('animation_model') == 'asset_queue':
+        from .decomp_animation import commit_seconds as asset_commit
+        return asset_commit(kind, shots, rules)
     w0, w1, per, rec, _ = ANIM.get(kind, (0, 0, 0, 10, 2))
     w0, w1, per, rec = (x * ANIM_SCALE for x in (w0, w1, per, rec))
     if rules.get("recovery_scale", 1.0) != 1.0 and kind in rules.get("recovery_scale_kinds", ()):
@@ -34,11 +38,19 @@ def commit_seconds(kind, shots, rules):
     return TURN_S + LOOP_S * (w0 + w1 + rec) + shots * PER_SHOT_S + max(0, shots - 1) * per * LOOP_S
 
 
-def fill_seconds(stat22, kind, slow=False, haste=False):
+def fill_seconds(stat22, kind, slow=False, haste=False, *, source_steps=False, update_hz=None):
+    hz = TICK_HZ if update_hz is None else update_hz
+    if source_steps:
+        return refill_updates(0, gauge_gain(stat22, kind, slow=slow, haste=haste)) / hz
     gain = stat22 * ATB_FACTOR.get(kind, 10) / 10.0
     if slow: gain -= gain * 2 / 5
     if haste: gain += gain / 2
-    return 9000.0 / max(1e-6, gain) / TICK_HZ
+    return 9000.0 / max(1e-6, gain) / hz
+
+
+def rule_fill_seconds(stat22, kind, slow, rules):
+    return fill_seconds(stat22, kind, slow, source_steps=rules.get('source_gauge', False),
+                        update_hz=rules.get('battle_update_hz'))
 
 
 class Stats(dict):
@@ -55,9 +67,29 @@ def counter_chance(level, rank_diff=0):
     return L / 5000.0
 
 
+def source_sequence(guns, reserves, equipped, actions, *, update_hz=59.9/2, **state):
+    """Stateful source backend, separate from legacy aggregate fight/economy scoring.
+
+    actions contain op='attack'/'switch'/'wait' plus BattleSession arguments.
+    Events use update indices; seconds are nominal, excluding unprovided I/O waits.
+    """
+    from .source_battle import BattleSession
+    if update_hz<=0: raise ValueError('positive update frequency required')
+    session=BattleSession(guns,reserves,equipped,**state)
+    for action in actions:
+        kw=dict(action);op=kw.pop('op')
+        if op=='attack': session.attack(**kw)
+        elif op=='switch': session.switch(**kw)
+        elif op=='wait': session.advance(**kw)
+        else: raise ValueError('unknown source action')
+    return dict(updates=session.update,nominal_seconds=session.update/update_hz,
+        gauge=session.gauge,equipped=session.equipped,
+        loaded={k:g.loaded for k,g in session.guns.items()},reserves=session.reserves,events=session.events)
+
+
 def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overlap",
           armor=None, threshold=None, target_first=None, enemy_dmg=None, time_cap=240.0, max_turns=None,
-          start_loaded=None, walk_speed=440.0, close_d=None, close_risk=0.0):
+          start_loaded=None, walk_speed=440.0, close_d=None, close_risk=0.0, source_options=None):
     """cfg: data.Weapon.config(); aya: dict(level, stat22, offense); foes_in: enemy dicts.
     threshold: scripted fight (dict enemy index -> real HP to deal) ends when reached.
     Returns Stats."""
@@ -66,6 +98,8 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
     kind = cfg["kind"]
     rof = eff.get("rof", 1)
     mode = eff.get("mode")
+    if rules.get('animation_model') == 'asset_queue' and mode and rules.get('combat_backend')!='source':
+        raise ValueError('asset_queue currently supports ordinary queued shots only')
     commands = eff.get("commands", 1)
     hitp = rules["hit_pct"].get(rof, 100)
     slow = bool(armor.get("slow_at"))
@@ -94,7 +128,7 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
     if eff.get("quickdraw"):
         # Battle_CheckDropChance rolls stat22 %; the mod tops it up to stat22 + bonus (max 90).
         qd = max(stat22, min(90, stat22 + rules["quickdraw_bonus"])) / 100.0
-    aya_next = 0.0 if rng.random() < qd else fill_seconds(stat22, kind, slow)
+    aya_next = 0.0 if rules.get('combat_backend')=='source' else (0.0 if rng.random() < qd else rule_fill_seconds(stat22, kind, slow, rules))
     st["quickdraw"] = int(aya_next == 0.0)
 
     def alive():
@@ -164,7 +198,7 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                 if eff.get("cyanide") and status_lands(f, "cyanide", vanilla_roll=True):
                     cyan = True; st.add("cyanide")
                 if not cyan:
-                    vr = bool(f["boss"] and rules["status_preroll_skips_bosses"]) or rules["name"] == "vanilla"
+                    vr = bool(f["boss"] and rules["status_preroll_skips_bosses"]) or rules.get('damage_rules_name',rules['name']) == "vanilla"
                     if eff.get("acid") and not f["poisoned"] and status_lands(f, "acid", vr):
                         f["poisoned"] = True; f["ptime"] = t; st.add("acid")
                     if eff.get("tranq") and status_lands(f, "tranq", vr):
@@ -187,6 +221,30 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
         st.add("overkill", max(0.0, dmg - f["cur"]))
         st.add("damage", min(dmg, max(0.0, f["cur"])))
         f["cur"] -= dmg; f["dealt"] += dmg
+
+    if rules.get('combat_backend')=='source':
+        if timing!='overlap': raise ValueError('source combat currently models ordinary overlap scheduling')
+        from .source_combat import run
+
+        def source_hit(event,active,seconds):
+            nonlocal cfg,eff,kind,rof,hitp,rng_units,t
+            cfg=active;eff=cfg['eff'];kind=cfg['kind'];rof=eff.get('rof',1)
+            hitp=rules['hit_pct'].get(rof,100);rng_units=cfg['range'];t=seconds
+            for index in event['targets']:
+                f=foes[index]
+                if f['cur']<=0 or done(): continue
+                r=reaction(f);bullet(f,r,rof)
+                if kind==6 and r is not None:
+                    for o in alive():
+                        if o is not f: bullet(o,{'crit':'hit','hit':'graze','graze':'splash'}[r],rof)
+                if stag and kind in stag['kinds'] and f['cur']>0 and r is not None and t>=f.get('stag_cd',0):
+                    p=stag['chance']*(stag.get('boss_mult',.5) if f['boss'] else 1.)
+                    if rng.random()<p: f['t_next']+=stag['delay'];f['stag_cd']=t+stag['cooldown'];st.add('staggers')
+
+        return run(rules,cfg,aya,foes,profile,rng,st,source_hit,done,stat22=stat22,guard=guard,
+            enemy_dmg=enemy_dmg,time_cap=time_cap,max_turns=max_turns,start_loaded=start_loaded,
+            policy=policy,walk_speed=walk_speed,close_d=close_d,close_risk=close_risk,options=source_options,
+            target_first=target_first,slow=slow)
 
     def volley(tgt):
         """One command: returns bullets fired (rounds used)."""
@@ -289,7 +347,7 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                 if loaded < per_cmd * commands and loaded < magazine:
                     loaded = magazine; st.add("reloads"); st.add("smart_reloads"); commit += RELOAD_S
             st.add("commit_s", commit)
-            fill = fill_seconds(stat22, kind, slow) * (1 + rules.get("cmd_fill_scale", 0.0) * (commands - 1))
+            fill = rule_fill_seconds(stat22, kind, slow, rules) * (1 + rules.get("cmd_fill_scale", 0.0) * (commands - 1))
             aya_next = t + (max(fill, commit) if timing == "overlap" else fill + commit)
             aya_free = t + commit
         else:

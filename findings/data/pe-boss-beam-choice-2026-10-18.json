@@ -1,0 +1,4532 @@
+{
+  "scope": "Decoded initialized chooser and one static-world launch join, not full boss AI or balance results",
+  "rerun_readiness": false,
+  "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+  "script_root": 208280,
+  "source_sha256": {
+    "src/main/script/actor_opcodes.c": "a75a3ee9cb1512fe1fe9e03dace56437567e4f94326521a3d57a8c8fffd8a737",
+    "src/main/script/system_opcodes.c": "9e71917c538ac2522b178a37667f41fbf88a90aec6aec47831434f3758d5e713",
+    "src/main/script/node_actions.c": "fb0f42f7d975b714c79474df3083bda358144ad3c9d2b76be55347b7f63af2b1",
+    "src/main/script/node_pool.c": "744a099e293a836b1bbaa14812f3d91b1b49b2c621b1934632ffe18992e0efe7",
+    "src/main/script/flow_opcodes.c": "0b2238cf3f0bd97f3a22daf92172bbeea34c23c0c37bdc26957e57cdbcb06672",
+    "src/main/battle/context.c": "4190d21366b79238c797d17911aaf1bfcb32586653e3e23a3f1ccd8b04b47a6e",
+    "src/main/battle/turn.c": "9eaa1c5afbbb2c303b01767f61006f3599865a596799dc97c53526dd9d778cbc",
+    "src/main/entity/frame_update.c": "d7cb3a6de951743938b434922f0c1ad94d167b6b8086e39a8a331369b702fbe8"
+  },
+  "selected_nodes": [
+    {
+      "relative_offset": 1876,
+      "offset": 210156,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 30
+        }
+      ]
+    },
+    {
+      "relative_offset": 1888,
+      "offset": 210168,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1578
+        }
+      ]
+    },
+    {
+      "relative_offset": 1900,
+      "offset": 210180,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1626
+        }
+      ]
+    },
+    {
+      "relative_offset": 1912,
+      "offset": 210192,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 10408
+        }
+      ]
+    },
+    {
+      "relative_offset": 1924,
+      "offset": 210204,
+      "opcode": 20,
+      "handler": "Entity_SelectFieldSetter",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 8336
+        }
+      ]
+    },
+    {
+      "relative_offset": 1940,
+      "offset": 210220,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    },
+    {
+      "relative_offset": 1952,
+      "offset": 210232,
+      "opcode": 42,
+      "handler": "Script_SetBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 1968,
+      "offset": 210248,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 8896
+        }
+      ]
+    },
+    {
+      "relative_offset": 1980,
+      "offset": 210260,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1040
+        }
+      ]
+    },
+    {
+      "relative_offset": 1992,
+      "offset": 210272,
+      "opcode": 32,
+      "handler": "Entity_MarkCurrentNodeFree",
+      "args": []
+    },
+    {
+      "relative_offset": 2080,
+      "offset": 210360,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1270
+        }
+      ]
+    },
+    {
+      "relative_offset": 2096,
+      "offset": 210376,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 2108,
+      "offset": 210388,
+      "opcode": 94,
+      "handler": "Entity_GetPositionByType",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 13
+        },
+        {
+          "mode": 1,
+          "value": 14
+        },
+        {
+          "mode": 1,
+          "value": 15
+        },
+        {
+          "mode": 1,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "relative_offset": 2144,
+      "offset": 210424,
+      "opcode": 29,
+      "handler": "Script_CondBranch",
+      "args": [
+        {
+          "mode": 1,
+          "value": 32
+        },
+        {
+          "mode": 0,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1108
+        }
+      ]
+    },
+    {
+      "relative_offset": 2164,
+      "offset": 210444,
+      "opcode": 226,
+      "handler": "Entity_CallAction",
+      "args": [
+        {
+          "mode": 1,
+          "value": 13
+        },
+        {
+          "mode": 1,
+          "value": 15
+        },
+        {
+          "mode": 0,
+          "value": 7
+        },
+        {
+          "mode": 0,
+          "value": 10244
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 2192,
+      "offset": 210472,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1222
+        }
+      ]
+    },
+    {
+      "relative_offset": 2216,
+      "offset": 210496,
+      "opcode": 29,
+      "handler": "Script_CondBranch",
+      "args": [
+        {
+          "mode": 1,
+          "value": 32
+        },
+        {
+          "mode": 0,
+          "value": 2
+        },
+        {
+          "mode": 0,
+          "value": 1144
+        }
+      ]
+    },
+    {
+      "relative_offset": 2236,
+      "offset": 210516,
+      "opcode": 226,
+      "handler": "Entity_CallAction",
+      "args": [
+        {
+          "mode": 1,
+          "value": 13
+        },
+        {
+          "mode": 1,
+          "value": 15
+        },
+        {
+          "mode": 0,
+          "value": 7
+        },
+        {
+          "mode": 0,
+          "value": 10276
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 2264,
+      "offset": 210544,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1222
+        }
+      ]
+    },
+    {
+      "relative_offset": 2288,
+      "offset": 210568,
+      "opcode": 29,
+      "handler": "Script_CondBranch",
+      "args": [
+        {
+          "mode": 1,
+          "value": 32
+        },
+        {
+          "mode": 0,
+          "value": 3
+        },
+        {
+          "mode": 0,
+          "value": 1180
+        }
+      ]
+    },
+    {
+      "relative_offset": 2308,
+      "offset": 210588,
+      "opcode": 226,
+      "handler": "Entity_CallAction",
+      "args": [
+        {
+          "mode": 1,
+          "value": 13
+        },
+        {
+          "mode": 1,
+          "value": 15
+        },
+        {
+          "mode": 0,
+          "value": 7
+        },
+        {
+          "mode": 0,
+          "value": 10308
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 2336,
+      "offset": 210616,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1222
+        }
+      ]
+    },
+    {
+      "relative_offset": 2360,
+      "offset": 210640,
+      "opcode": 29,
+      "handler": "Script_CondBranch",
+      "args": [
+        {
+          "mode": 1,
+          "value": 32
+        },
+        {
+          "mode": 0,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 1216
+        }
+      ]
+    },
+    {
+      "relative_offset": 2380,
+      "offset": 210660,
+      "opcode": 226,
+      "handler": "Entity_CallAction",
+      "args": [
+        {
+          "mode": 1,
+          "value": 13
+        },
+        {
+          "mode": 1,
+          "value": 15
+        },
+        {
+          "mode": 0,
+          "value": 7
+        },
+        {
+          "mode": 0,
+          "value": 10340
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 2408,
+      "offset": 210688,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1222
+        }
+      ]
+    },
+    {
+      "relative_offset": 2432,
+      "offset": 210712,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1222
+        }
+      ]
+    },
+    {
+      "relative_offset": 2444,
+      "offset": 210724,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 2468,
+      "offset": 210748,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1256
+        }
+      ]
+    },
+    {
+      "relative_offset": 2484,
+      "offset": 210764,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 2500,
+      "offset": 210780,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1264
+        }
+      ]
+    },
+    {
+      "relative_offset": 2512,
+      "offset": 210792,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 2528,
+      "offset": 210808,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1040
+        }
+      ]
+    },
+    {
+      "relative_offset": 3156,
+      "offset": 211436,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3168,
+      "offset": 211448,
+      "opcode": 89,
+      "handler": "Entity_GetField",
+      "args": [
+        {
+          "mode": 0,
+          "value": 43
+        },
+        {
+          "mode": 1,
+          "value": 34
+        }
+      ]
+    },
+    {
+      "relative_offset": 3184,
+      "offset": 211464,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 12
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 34
+        },
+        {
+          "mode": 0,
+          "value": 9000
+        }
+      ]
+    },
+    {
+      "relative_offset": 3208,
+      "offset": 211488,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1620
+        }
+      ]
+    },
+    {
+      "relative_offset": 3224,
+      "offset": 211504,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 35
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3240,
+      "offset": 211520,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1578
+        }
+      ]
+    },
+    {
+      "relative_offset": 3252,
+      "offset": 211532,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1690
+        }
+      ]
+    },
+    {
+      "relative_offset": 3268,
+      "offset": 211548,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3280,
+      "offset": 211560,
+      "opcode": 94,
+      "handler": "Entity_GetPositionByType",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 1,
+          "value": 5
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 1,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 3316,
+      "offset": 211596,
+      "opcode": 119,
+      "handler": "Script_PointInPoly",
+      "args": [
+        {
+          "mode": 0,
+          "value": 173473792
+        },
+        {
+          "mode": 0,
+          "value": 3906273280
+        },
+        {
+          "mode": 0,
+          "value": 4285202432
+        },
+        {
+          "mode": 0,
+          "value": 3894870016
+        },
+        {
+          "mode": 0,
+          "value": 39452672
+        },
+        {
+          "mode": 0,
+          "value": 3654746112
+        },
+        {
+          "mode": 0,
+          "value": 158531584
+        },
+        {
+          "mode": 0,
+          "value": 3666608128
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 1,
+          "value": 46
+        }
+      ]
+    },
+    {
+      "relative_offset": 3368,
+      "offset": 211648,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1626
+        }
+      ]
+    },
+    {
+      "relative_offset": 3388,
+      "offset": 211668,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3400,
+      "offset": 211680,
+      "opcode": 25,
+      "handler": "Entity_GetCurrentNodeId",
+      "args": [
+        {
+          "mode": 1,
+          "value": 12
+        }
+      ]
+    },
+    {
+      "relative_offset": 3412,
+      "offset": 211692,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 3432,
+      "offset": 211712,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3456,
+      "offset": 211736,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1782
+        }
+      ]
+    },
+    {
+      "relative_offset": 3472,
+      "offset": 211752,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3488,
+      "offset": 211768,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 3
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3512,
+      "offset": 211792,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1776
+        }
+      ]
+    },
+    {
+      "relative_offset": 3528,
+      "offset": 211808,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    },
+    {
+      "relative_offset": 3552,
+      "offset": 211832,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2236
+        }
+      ]
+    },
+    {
+      "relative_offset": 3564,
+      "offset": 211844,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 3584,
+      "offset": 211864,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3608,
+      "offset": 211888,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1818
+        }
+      ]
+    },
+    {
+      "relative_offset": 3624,
+      "offset": 211904,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    },
+    {
+      "relative_offset": 3636,
+      "offset": 211916,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 2
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 3656,
+      "offset": 211936,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3680,
+      "offset": 211960,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1908
+        }
+      ]
+    },
+    {
+      "relative_offset": 3696,
+      "offset": 211976,
+      "opcode": 84,
+      "handler": "Entity_GetDistanceComponents",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 3716,
+      "offset": 211996,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 10
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 78643200
+        }
+      ]
+    },
+    {
+      "relative_offset": 3740,
+      "offset": 212020,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 1,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3764,
+      "offset": 212044,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 5
+        },
+        {
+          "mode": 3,
+          "value": 2
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3788,
+      "offset": 212068,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 2
+        },
+        {
+          "mode": 0,
+          "value": 1908
+        }
+      ]
+    },
+    {
+      "relative_offset": 3804,
+      "offset": 212084,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2236
+        }
+      ]
+    },
+    {
+      "relative_offset": 3816,
+      "offset": 212096,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 44
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3840,
+      "offset": 212120,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1998
+        }
+      ]
+    },
+    {
+      "relative_offset": 3856,
+      "offset": 212136,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 44
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3872,
+      "offset": 212152,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 2
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 3892,
+      "offset": 212172,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 3916,
+      "offset": 212196,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 1992
+        }
+      ]
+    },
+    {
+      "relative_offset": 3932,
+      "offset": 212212,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 1,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 3956,
+      "offset": 212236,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1992
+        }
+      ]
+    },
+    {
+      "relative_offset": 3972,
+      "offset": 212252,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2124
+        }
+      ]
+    },
+    {
+      "relative_offset": 3984,
+      "offset": 212264,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2236
+        }
+      ]
+    },
+    {
+      "relative_offset": 3996,
+      "offset": 212276,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 35
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4020,
+      "offset": 212300,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2024
+        }
+      ]
+    },
+    {
+      "relative_offset": 4036,
+      "offset": 212316,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    },
+    {
+      "relative_offset": 4048,
+      "offset": 212328,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 26
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4064,
+      "offset": 212344,
+      "opcode": 84,
+      "handler": "Entity_GetDistanceComponents",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 4084,
+      "offset": 212364,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 9
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 131072000
+        }
+      ]
+    },
+    {
+      "relative_offset": 4108,
+      "offset": 212388,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2118
+        }
+      ]
+    },
+    {
+      "relative_offset": 4124,
+      "offset": 212404,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 2
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 4144,
+      "offset": 212424,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4168,
+      "offset": 212448,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2118
+        }
+      ]
+    },
+    {
+      "relative_offset": 4184,
+      "offset": 212464,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 1,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 4208,
+      "offset": 212488,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 0,
+          "value": 2118
+        }
+      ]
+    },
+    {
+      "relative_offset": 4224,
+      "offset": 212504,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2124
+        }
+      ]
+    },
+    {
+      "relative_offset": 4236,
+      "offset": 212516,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2236
+        }
+      ]
+    },
+    {
+      "relative_offset": 4248,
+      "offset": 212528,
+      "opcode": 101,
+      "handler": "Entity_ClearMotionVectors",
+      "args": []
+    },
+    {
+      "relative_offset": 4256,
+      "offset": 212536,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 4280,
+      "offset": 212560,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2162
+        }
+      ]
+    },
+    {
+      "relative_offset": 4296,
+      "offset": 212576,
+      "opcode": 151,
+      "handler": "Pm_ScriptStopCurrentEntity",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "relative_offset": 4308,
+      "offset": 212588,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 4324,
+      "offset": 212604,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 21
+        }
+      ]
+    },
+    {
+      "relative_offset": 4336,
+      "offset": 212616,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 18
+        }
+      ]
+    },
+    {
+      "relative_offset": 4348,
+      "offset": 212628,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 19
+        }
+      ]
+    },
+    {
+      "relative_offset": 4360,
+      "offset": 212640,
+      "opcode": 90,
+      "handler": "Entity_SetField",
+      "args": [
+        {
+          "mode": 0,
+          "value": 81
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4376,
+      "offset": 212656,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "relative_offset": 4388,
+      "offset": 212668,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 4400,
+      "offset": 212680,
+      "opcode": 42,
+      "handler": "Script_SetBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 4416,
+      "offset": 212696,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 8416
+        }
+      ]
+    },
+    {
+      "relative_offset": 4428,
+      "offset": 212708,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 4444,
+      "offset": 212724,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 4460,
+      "offset": 212740,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    },
+    {
+      "relative_offset": 4472,
+      "offset": 212752,
+      "opcode": 101,
+      "handler": "Entity_ClearMotionVectors",
+      "args": []
+    },
+    {
+      "relative_offset": 4480,
+      "offset": 212760,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 4504,
+      "offset": 212784,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2274
+        }
+      ]
+    },
+    {
+      "relative_offset": 4520,
+      "offset": 212800,
+      "opcode": 151,
+      "handler": "Pm_ScriptStopCurrentEntity",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "relative_offset": 4532,
+      "offset": 212812,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 4548,
+      "offset": 212828,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 21
+        }
+      ]
+    },
+    {
+      "relative_offset": 4560,
+      "offset": 212840,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 18
+        }
+      ]
+    },
+    {
+      "relative_offset": 4572,
+      "offset": 212852,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 19
+        }
+      ]
+    },
+    {
+      "relative_offset": 4584,
+      "offset": 212864,
+      "opcode": 90,
+      "handler": "Entity_SetField",
+      "args": [
+        {
+          "mode": 0,
+          "value": 81
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4600,
+      "offset": 212880,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 4616,
+      "offset": 212896,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 131072
+        }
+      ]
+    },
+    {
+      "relative_offset": 4628,
+      "offset": 212908,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 4640,
+      "offset": 212920,
+      "opcode": 41,
+      "handler": "Script_TestBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        },
+        {
+          "mode": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "relative_offset": 4660,
+      "offset": 212940,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 6
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4684,
+      "offset": 212964,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2376
+        }
+      ]
+    },
+    {
+      "relative_offset": 4700,
+      "offset": 212980,
+      "opcode": 42,
+      "handler": "Script_SetBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 4716,
+      "offset": 212996,
+      "opcode": 75,
+      "handler": "Render_CameraSnapToEntity",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 10
+        }
+      ]
+    },
+    {
+      "relative_offset": 4736,
+      "offset": 213016,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 4752,
+      "offset": 213032,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 3
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 4768,
+      "offset": 213048,
+      "opcode": 84,
+      "handler": "Entity_GetDistanceComponents",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "relative_offset": 4788,
+      "offset": 213068,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 10
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 5
+        },
+        {
+          "mode": 0,
+          "value": 85196800
+        }
+      ]
+    },
+    {
+      "relative_offset": 4812,
+      "offset": 213092,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2426
+        }
+      ]
+    },
+    {
+      "relative_offset": 4828,
+      "offset": 213108,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 8132
+        }
+      ]
+    },
+    {
+      "relative_offset": 4852,
+      "offset": 213132,
+      "opcode": 84,
+      "handler": "Entity_GetDistanceComponents",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "relative_offset": 4872,
+      "offset": 213152,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 9
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 5
+        },
+        {
+          "mode": 0,
+          "value": 131072000
+        }
+      ]
+    },
+    {
+      "relative_offset": 4896,
+      "offset": 213176,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2592
+        }
+      ]
+    },
+    {
+      "relative_offset": 4912,
+      "offset": 213192,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 4,
+          "value": 18
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4936,
+      "offset": 213216,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 2
+        },
+        {
+          "mode": 4,
+          "value": 19
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 4960,
+      "offset": 213240,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 3,
+          "value": 3
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 3,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 4984,
+      "offset": 213264,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 4
+        },
+        {
+          "mode": 4,
+          "value": 20
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5008,
+      "offset": 213288,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 3,
+          "value": 5
+        },
+        {
+          "mode": 3,
+          "value": 3
+        },
+        {
+          "mode": 3,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 5032,
+      "offset": 213312,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 5
+        },
+        {
+          "mode": 0,
+          "value": 2580
+        }
+      ]
+    },
+    {
+      "relative_offset": 5048,
+      "offset": 213328,
+      "opcode": 139,
+      "handler": "Entity_FindByTypeId",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 21
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 5072,
+      "offset": 213352,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 5096,
+      "offset": 213376,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2568
+        }
+      ]
+    },
+    {
+      "relative_offset": 5112,
+      "offset": 213392,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5136,
+      "offset": 213416,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2796
+        }
+      ]
+    },
+    {
+      "relative_offset": 5160,
+      "offset": 213440,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5184,
+      "offset": 213464,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 9
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 5
+        },
+        {
+          "mode": 0,
+          "value": 111411200
+        }
+      ]
+    },
+    {
+      "relative_offset": 5208,
+      "offset": 213488,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2790
+        }
+      ]
+    },
+    {
+      "relative_offset": 5224,
+      "offset": 213504,
+      "opcode": 26,
+      "handler": "Script_Random",
+      "args": [
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "relative_offset": 5244,
+      "offset": 213524,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5268,
+      "offset": 213548,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2654
+        }
+      ]
+    },
+    {
+      "relative_offset": 5284,
+      "offset": 213564,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5308,
+      "offset": 213588,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 4,
+          "value": 18
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5332,
+      "offset": 213612,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 1
+        },
+        {
+          "mode": 4,
+          "value": 19
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5356,
+      "offset": 213636,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 3,
+          "value": 2
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 5380,
+      "offset": 213660,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 3
+        },
+        {
+          "mode": 4,
+          "value": 20
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5404,
+      "offset": 213684,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 6
+        },
+        {
+          "mode": 3,
+          "value": 4
+        },
+        {
+          "mode": 3,
+          "value": 2
+        },
+        {
+          "mode": 3,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "relative_offset": 5428,
+      "offset": 213708,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 2778
+        }
+      ]
+    },
+    {
+      "relative_offset": 5444,
+      "offset": 213724,
+      "opcode": 139,
+      "handler": "Entity_FindByTypeId",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 21
+        },
+        {
+          "mode": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 5468,
+      "offset": 213748,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 4
+        },
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 5492,
+      "offset": 213772,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2766
+        }
+      ]
+    },
+    {
+      "relative_offset": 5508,
+      "offset": 213788,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5532,
+      "offset": 213812,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2796
+        }
+      ]
+    },
+    {
+      "relative_offset": 5556,
+      "offset": 213836,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5580,
+      "offset": 213860,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 7738
+        }
+      ]
+    },
+    {
+      "relative_offset": 5592,
+      "offset": 213872,
+      "opcode": 2,
+      "handler": "Entity_SetCurrentNodeActive",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 5604,
+      "offset": 213884,
+      "opcode": 101,
+      "handler": "Entity_ClearMotionVectors",
+      "args": []
+    },
+    {
+      "relative_offset": 5612,
+      "offset": 213892,
+      "opcode": 93,
+      "handler": "Script_SetCurrentEntityField20",
+      "args": [
+        {
+          "mode": 1,
+          "value": 9
+        }
+      ]
+    },
+    {
+      "relative_offset": 5624,
+      "offset": 213904,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "relative_offset": 5636,
+      "offset": 213916,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "relative_offset": 5648,
+      "offset": 213928,
+      "opcode": 75,
+      "handler": "Render_CameraSnapToEntity",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 128
+        }
+      ]
+    },
+    {
+      "relative_offset": 5668,
+      "offset": 213948,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 5680,
+      "offset": 213960,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 0,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 2970
+        }
+      ]
+    },
+    {
+      "relative_offset": 5940,
+      "offset": 214220,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 46
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5964,
+      "offset": 214244,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 3004
+        }
+      ]
+    },
+    {
+      "relative_offset": 5980,
+      "offset": 214260,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 4,
+          "value": 27
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 5996,
+      "offset": 214276,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 3012
+        }
+      ]
+    },
+    {
+      "relative_offset": 6008,
+      "offset": 214288,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 4,
+          "value": 27
+        },
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 6024,
+      "offset": 214304,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 4,
+          "value": 27
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 6048,
+      "offset": 214328,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 4912
+        }
+      ]
+    },
+    {
+      "relative_offset": 6064,
+      "offset": 214344,
+      "opcode": 198,
+      "handler": "Script_SetEntityActionAndWait",
+      "args": [
+        {
+          "mode": 0,
+          "value": 18
+        }
+      ]
+    },
+    {
+      "relative_offset": 16308,
+      "offset": 224588,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 3
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 16324,
+      "offset": 224604,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "relative_offset": 16336,
+      "offset": 224616,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 16348,
+      "offset": 224628,
+      "opcode": 90,
+      "handler": "Entity_SetField",
+      "args": [
+        {
+          "mode": 0,
+          "value": 43
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 16364,
+      "offset": 224644,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 35
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 16380,
+      "offset": 224660,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 14
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 16404,
+      "offset": 224684,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 8224
+        }
+      ]
+    },
+    {
+      "relative_offset": 16420,
+      "offset": 224700,
+      "opcode": 151,
+      "handler": "Pm_ScriptStopCurrentEntity",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "relative_offset": 16432,
+      "offset": 224712,
+      "opcode": 10,
+      "handler": "Script_AssignValue",
+      "args": [
+        {
+          "mode": 1,
+          "value": 16
+        },
+        {
+          "mode": 0,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "relative_offset": 16448,
+      "offset": 224728,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 21
+        }
+      ]
+    },
+    {
+      "relative_offset": 16460,
+      "offset": 224740,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 18
+        }
+      ]
+    },
+    {
+      "relative_offset": 16472,
+      "offset": 224752,
+      "opcode": 24,
+      "handler": "Entity_FindNodeById",
+      "args": [
+        {
+          "mode": 1,
+          "value": 19
+        }
+      ]
+    },
+    {
+      "relative_offset": 16484,
+      "offset": 224764,
+      "opcode": 90,
+      "handler": "Entity_SetField",
+      "args": [
+        {
+          "mode": 0,
+          "value": 81
+        },
+        {
+          "mode": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "relative_offset": 16500,
+      "offset": 224780,
+      "opcode": 9,
+      "handler": "Script_EvalExpr",
+      "args": [
+        {
+          "mode": 0,
+          "value": 11
+        },
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 1,
+          "value": 44
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 16524,
+      "offset": 224804,
+      "opcode": 5,
+      "handler": "Script_JumpIfZero",
+      "args": [
+        {
+          "mode": 3,
+          "value": 0
+        },
+        {
+          "mode": 0,
+          "value": 8288
+        }
+      ]
+    },
+    {
+      "relative_offset": 16540,
+      "offset": 224820,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "relative_offset": 16552,
+      "offset": 224832,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 16564,
+      "offset": 224844,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 8314
+        }
+      ]
+    },
+    {
+      "relative_offset": 16576,
+      "offset": 224856,
+      "opcode": 77,
+      "handler": "Script_SetEntityField1C",
+      "args": [
+        {
+          "mode": 0,
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "relative_offset": 16588,
+      "offset": 224868,
+      "opcode": 46,
+      "handler": "Entity_SetCurrentActionMode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 16600,
+      "offset": 224880,
+      "opcode": 42,
+      "handler": "Script_SetBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "relative_offset": 16616,
+      "offset": 224896,
+      "opcode": 18,
+      "handler": "Script_SpawnChildNode",
+      "args": [
+        {
+          "mode": 0,
+          "value": 8896
+        }
+      ]
+    },
+    {
+      "relative_offset": 16628,
+      "offset": 224908,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "relative_offset": 16644,
+      "offset": 224924,
+      "opcode": 40,
+      "handler": "Script_ClearBit",
+      "args": [
+        {
+          "mode": 1,
+          "value": 22
+        },
+        {
+          "mode": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "relative_offset": 16660,
+      "offset": 224940,
+      "opcode": 0,
+      "handler": "Script_JumpToEntityOffset",
+      "args": [
+        {
+          "mode": 0,
+          "value": 1694
+        }
+      ]
+    }
+  ],
+  "region_polygon": [
+    [
+      2647,
+      -5931
+    ],
+    [
+      -149,
+      -6105
+    ],
+    [
+      602,
+      -9769
+    ],
+    [
+      2419,
+      -9588
+    ]
+  ],
+  "path_polygons": [
+    [
+      [
+        578,
+        -10357
+      ],
+      [
+        518,
+        -6650
+      ],
+      [
+        2464,
+        -5890
+      ],
+      [
+        3563,
+        -6315
+      ]
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  ],
+  "initial_child_scan_offsets": [
+    2080,
+    17792,
+    3388,
+    20816,
+    3252,
+    3156
+  ],
+  "distance_rule": "signed32 sum of absolute fixed16 XYZ differences; Manhattan, not Euclidean",
+  "gates": {
+    "melee": "distance<1300",
+    "orb_only": "1300<=distance<=1700",
+    "middle": "1700<distance<=2000: explicit rand outcome0 orb;1/2 beams only if triggers all0 and Aya stiffness pair!=2",
+    "far": "distance>2000: beams only if triggers all0 and Aya stiffness pair!=2",
+    "outer": "interrupt/movement/completion/ready-latch gates must admit entry first"
+  },
+  "stationary_boundary_table": [
+    {
+      "distance": 1299,
+      "random_input": 0,
+      "action": "melee",
+      "random_consumed": false
+    },
+    {
+      "distance": 1299,
+      "random_input": 1,
+      "action": "melee",
+      "random_consumed": false
+    },
+    {
+      "distance": 1299,
+      "random_input": 2,
+      "action": "melee",
+      "random_consumed": false
+    },
+    {
+      "distance": 1300,
+      "random_input": 0,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1300,
+      "random_input": 1,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1300,
+      "random_input": 2,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1700,
+      "random_input": 0,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1700,
+      "random_input": 1,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1700,
+      "random_input": 2,
+      "action": "orb",
+      "random_consumed": false
+    },
+    {
+      "distance": 1701,
+      "random_input": 0,
+      "action": "orb",
+      "random_consumed": true
+    },
+    {
+      "distance": 1701,
+      "random_input": 1,
+      "action": "beams",
+      "random_consumed": true
+    },
+    {
+      "distance": 1701,
+      "random_input": 2,
+      "action": "beams",
+      "random_consumed": true
+    },
+    {
+      "distance": 2000,
+      "random_input": 0,
+      "action": "orb",
+      "random_consumed": true
+    },
+    {
+      "distance": 2000,
+      "random_input": 1,
+      "action": "beams",
+      "random_consumed": true
+    },
+    {
+      "distance": 2000,
+      "random_input": 2,
+      "action": "beams",
+      "random_consumed": true
+    },
+    {
+      "distance": 2001,
+      "random_input": 0,
+      "action": "beams",
+      "random_consumed": false
+    },
+    {
+      "distance": 2001,
+      "random_input": 1,
+      "action": "beams",
+      "random_consumed": false
+    },
+    {
+      "distance": 2001,
+      "random_input": 2,
+      "action": "beams",
+      "random_consumed": false
+    }
+  ],
+  "cases": [
+    {
+      "name": "far_after_charge",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          196608000,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 0,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 0,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 196608000,
+        "path_result": 0,
+        "chooser_update": 3,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 2,
+            "charge": 9060,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 3,
+            "charge": 9000,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [
+          {
+            "owner": "helper6",
+            "start_update": 10,
+            "target_x": 1900,
+            "target_z": -4800,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper5",
+            "start_update": 10,
+            "target_x": 1900,
+            "target_z": -7200,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper4",
+            "start_update": 10,
+            "target_x": 1900,
+            "target_z": -6000,
+            "duration": 300,
+            "interval": 300,
+            "scale": 65536
+          }
+        ],
+        "action": "beams",
+        "decision_update": 10,
+        "pre_turn_calls": 8,
+        "action_random_consumed": false,
+        "mode": 0,
+        "formation_random_consumed": false,
+        "formation_choice": null,
+        "targets_fixed": [
+          [
+            124518400,
+            -393216000
+          ],
+          [
+            124518400,
+            -471859200
+          ],
+          [
+            124518400,
+            -314572800
+          ]
+        ],
+        "center_turn_calls": 1,
+        "formation_entry_update": 11,
+        "launch_timing": {
+          "scope": "Conditional uninterrupted formation tail; entry/pose/targets/idle helpers/PM capacity supplied",
+          "ready_for_balance": false,
+          "turn_calls": 1,
+          "trigger_update": 11,
+          "accepted": [
+            true,
+            true,
+            true
+          ],
+          "actor_order": [
+            3,
+            6,
+            5,
+            4
+          ],
+          "target_yaw": 3072,
+          "linked_beams": [
+            {
+              "owner": "helper6",
+              "start_update": 10,
+              "target_x": 1900,
+              "target_z": -4800,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper5",
+              "start_update": 10,
+              "target_x": 1900,
+              "target_z": -7200,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper4",
+              "start_update": 10,
+              "target_x": 1900,
+              "target_z": -6000,
+              "duration": 300,
+              "interval": 300,
+              "scale": 65536
+            }
+          ],
+          "events": [
+            {
+              "owner": "helper6",
+              "trigger_update": 11,
+              "helper_resume_update": 11,
+              "first_effect_update": 11,
+              "controller_spawn": 57,
+              "beam_floor_valid": true,
+              "earliest_contact": 69,
+              "earliest_delivery": 70,
+              "effect_release": 401,
+              "trigger_clear": 403
+            },
+            {
+              "owner": "helper5",
+              "trigger_update": 11,
+              "helper_resume_update": 11,
+              "first_effect_update": 11,
+              "controller_spawn": 57,
+              "beam_floor_valid": true,
+              "earliest_contact": 69,
+              "earliest_delivery": 70,
+              "effect_release": 401,
+              "trigger_clear": 402
+            },
+            {
+              "owner": "helper4",
+              "trigger_update": 11,
+              "helper_resume_update": 11,
+              "first_effect_update": 11,
+              "controller_spawn": 57,
+              "beam_floor_valid": true,
+              "earliest_contact": 69,
+              "earliest_delivery": 70,
+              "effect_release": 401,
+              "trigger_clear": 402
+            }
+          ],
+          "parent_wait_finished": 98
+        }
+      }
+    },
+    {
+      "name": "far_aya_locked",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          196608000,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 0,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 0,
+        "path_index": 1,
+        "player_flags": 128,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 196608000,
+        "path_result": 0,
+        "chooser_update": 3,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 2,
+            "charge": 9060,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 3,
+            "charge": 9000,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [],
+        "action": "orb",
+        "decision_update": 10,
+        "pre_turn_calls": 8,
+        "action_random_consumed": false
+      }
+    },
+    {
+      "name": "far_helper_busy",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          196608000,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 0,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 0,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          1,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 196608000,
+        "path_result": 0,
+        "chooser_update": 3,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 2,
+            "charge": 9060,
+            "ready_latch": 0,
+            "gate": "wait"
+          },
+          {
+            "update": 3,
+            "charge": 9000,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [],
+        "action": "orb",
+        "decision_update": 10,
+        "pre_turn_calls": 8,
+        "action_random_consumed": false
+      }
+    },
+    {
+      "name": "far_path_movement_boundary",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          163840000,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 0,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 1,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 163840000,
+        "path_result": 1,
+        "chooser_update": 1,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 1,
+            "gate": "move"
+          }
+        ],
+        "linked_beams": [],
+        "action": "move",
+        "reason": "source movement setup boundary"
+      }
+    },
+    {
+      "name": "far_region2_after_movement",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          163840000,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 4,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 1,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0,
+        "formation_choice": 1
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 163840000,
+        "path_result": 1,
+        "chooser_update": 1,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [
+          {
+            "owner": "helper6",
+            "start_update": 8,
+            "target_x": 1400,
+            "target_z": -5250,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper5",
+            "start_update": 8,
+            "target_x": 1400,
+            "target_z": -6750,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper4",
+            "start_update": 8,
+            "target_x": 3400,
+            "target_z": -6500,
+            "duration": 300,
+            "interval": 300,
+            "scale": 65536
+          }
+        ],
+        "action": "beams",
+        "decision_update": 8,
+        "pre_turn_calls": 8,
+        "action_random_consumed": false,
+        "mode": 2,
+        "formation_random_consumed": true,
+        "formation_choice": 1,
+        "targets_fixed": [
+          [
+            222822400,
+            -425984000
+          ],
+          [
+            91750400,
+            -442368000
+          ],
+          [
+            91750400,
+            -344064000
+          ]
+        ],
+        "center_turn_calls": 0,
+        "formation_entry_update": 9,
+        "launch_timing": {
+          "scope": "Conditional uninterrupted formation tail; entry/pose/targets/idle helpers/PM capacity supplied",
+          "ready_for_balance": false,
+          "turn_calls": 1,
+          "trigger_update": 9,
+          "accepted": [
+            true,
+            true,
+            true
+          ],
+          "actor_order": [
+            3,
+            6,
+            5,
+            4
+          ],
+          "target_yaw": 3167,
+          "linked_beams": [
+            {
+              "owner": "helper6",
+              "start_update": 8,
+              "target_x": 1400,
+              "target_z": -5250,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper5",
+              "start_update": 8,
+              "target_x": 1400,
+              "target_z": -6750,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper4",
+              "start_update": 8,
+              "target_x": 3400,
+              "target_z": -6500,
+              "duration": 300,
+              "interval": 300,
+              "scale": 65536
+            }
+          ],
+          "events": [
+            {
+              "owner": "helper6",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 401
+            },
+            {
+              "owner": "helper5",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 400
+            },
+            {
+              "owner": "helper4",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 400
+            }
+          ],
+          "parent_wait_finished": 96
+        }
+      }
+    },
+    {
+      "name": "middle_roll0",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          117964800,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 4,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 1,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0,
+        "random_choice": 0
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 117964800,
+        "path_result": 0,
+        "chooser_update": 1,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [],
+        "action": "orb",
+        "decision_update": 8,
+        "pre_turn_calls": 8,
+        "action_random_consumed": true
+      }
+    },
+    {
+      "name": "middle_roll1",
+      "inputs": {
+        "start_update": 1,
+        "boss_position": [
+          0,
+          -122748928,
+          -393216000
+        ],
+        "player_position": [
+          117964800,
+          -122748928,
+          -393216000
+        ],
+        "current_yaw": 0,
+        "script_bits": 4,
+        "committed_action": 0,
+        "completed_beam": 0,
+        "initial_charge": 8990,
+        "charge_step": 70,
+        "ready_latch": 1,
+        "path_index": 1,
+        "player_flags": 0,
+        "triggers": [
+          0,
+          0,
+          0
+        ],
+        "scale": 65536,
+        "pm_free_slots": 3,
+        "helpers_ready": true,
+        "enemy_core_flags": 0,
+        "actor_flags": 0,
+        "random_choice": 1,
+        "formation_choice": 2
+      },
+      "result": {
+        "scope": "One initialized static-world chooser -> formation path; no outer movement/reaction replay",
+        "ready_for_balance": false,
+        "room_sha256": "33945ea349f89b211fb4233108d0a0ff37d05a9972e3c670f5ece5c9e55c0d35",
+        "distance": 117964800,
+        "path_result": 0,
+        "chooser_update": 1,
+        "charge_trace": [
+          {
+            "update": 1,
+            "charge": 8990,
+            "ready_latch": 1,
+            "gate": "decide"
+          }
+        ],
+        "linked_beams": [
+          {
+            "owner": "helper6",
+            "start_update": 8,
+            "target_x": 700,
+            "target_z": -5250,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper5",
+            "start_update": 8,
+            "target_x": 700,
+            "target_z": -6750,
+            "duration": 300,
+            "interval": 140,
+            "scale": 65536
+          },
+          {
+            "owner": "helper4",
+            "start_update": 8,
+            "target_x": 2700,
+            "target_z": -5500,
+            "duration": 300,
+            "interval": 300,
+            "scale": 65536
+          }
+        ],
+        "action": "beams",
+        "decision_update": 8,
+        "pre_turn_calls": 8,
+        "action_random_consumed": true,
+        "mode": 2,
+        "formation_random_consumed": true,
+        "formation_choice": 2,
+        "targets_fixed": [
+          [
+            176947200,
+            -360448000
+          ],
+          [
+            45875200,
+            -442368000
+          ],
+          [
+            45875200,
+            -344064000
+          ]
+        ],
+        "center_turn_calls": 0,
+        "formation_entry_update": 9,
+        "launch_timing": {
+          "scope": "Conditional uninterrupted formation tail; entry/pose/targets/idle helpers/PM capacity supplied",
+          "ready_for_balance": false,
+          "turn_calls": 1,
+          "trigger_update": 9,
+          "accepted": [
+            true,
+            true,
+            true
+          ],
+          "actor_order": [
+            3,
+            6,
+            5,
+            4
+          ],
+          "target_yaw": 2953,
+          "linked_beams": [
+            {
+              "owner": "helper6",
+              "start_update": 8,
+              "target_x": 700,
+              "target_z": -5250,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper5",
+              "start_update": 8,
+              "target_x": 700,
+              "target_z": -6750,
+              "duration": 300,
+              "interval": 140,
+              "scale": 65536
+            },
+            {
+              "owner": "helper4",
+              "start_update": 8,
+              "target_x": 2700,
+              "target_z": -5500,
+              "duration": 300,
+              "interval": 300,
+              "scale": 65536
+            }
+          ],
+          "events": [
+            {
+              "owner": "helper6",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 401
+            },
+            {
+              "owner": "helper5",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 400
+            },
+            {
+              "owner": "helper4",
+              "trigger_update": 9,
+              "helper_resume_update": 9,
+              "first_effect_update": 9,
+              "controller_spawn": 55,
+              "beam_floor_valid": true,
+              "earliest_contact": 67,
+              "earliest_delivery": 68,
+              "effect_release": 399,
+              "trigger_clear": 400
+            }
+          ],
+          "parent_wait_finished": 96
+        }
+      }
+    }
+  ],
+  "limits": [
+    "initialized chooser resume input, not startup/cutscene timeline",
+    "fixed pose and state except source charge/latch",
+    "movement boundary reported, not simulated",
+    "outer event bits may bypass readiness",
+    "choice outcomes explicit, no probability claim",
+    "poison/incapacity/dead actors rejected",
+    "one volley overlay; do not also count generic attacks for the same boss"
+  ]
+}

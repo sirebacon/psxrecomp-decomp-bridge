@@ -1,0 +1,83 @@
+{
+  "snapshot": "D:\\Recomp Games\\psxrecomp-decomp-bridge\\findings\\live-timing-session\\saves\\scph1001\\state_80072534_disc2_slot09.pst",
+  "sha256": "60b77d5fbdacf9b8c044926a32c1a84a7c248463f84c02eea92345b639e363a8",
+  "aya_hp_level": 320,
+  "aya_rank": 33,
+  "enemies": [
+    {
+      "entity": "0x800bf210",
+      "core": "0x800a5d5c",
+      "model_index": 2,
+      "rank": 37,
+      "kind": 3,
+      "charge": 9000,
+      "charge_step": 120,
+      "hp": 10,
+      "defense": 100,
+      "periodic_damage": 68,
+      "flags": "0x40a00000",
+      "action_slot": 5,
+      "effect_chance": 40,
+      "effect_pointer": "0x800a5dc8",
+      "effect": {
+        "state": 2,
+        "effect_type": 0,
+        "enter_mode": 14,
+        "exit_mode": 15,
+        "enter_step": 65536,
+        "exit_step": 65536,
+        "power": 177,
+        "category": 0,
+        "hit_frame": 0
+      }
+    },
+    {
+      "entity": "0x800bfc10",
+      "core": "0x800a5e38",
+      "model_index": 5,
+      "rank": 37,
+      "kind": 1,
+      "charge": 0,
+      "charge_step": 0,
+      "hp": 1001600,
+      "defense": 85,
+      "periodic_damage": 8,
+      "flags": "0x0",
+      "action_slot": 0,
+      "effect_chance": 0,
+      "effect_pointer": "0x0"
+    },
+    {
+      "entity": "0x800bf990",
+      "core": "0x800a5f14",
+      "model_index": 6,
+      "rank": 37,
+      "kind": 1,
+      "charge": 0,
+      "charge_step": 0,
+      "hp": 1001750,
+      "defense": 70,
+      "periodic_damage": 8,
+      "flags": "0x0",
+      "action_slot": 0,
+      "effect_chance": 0,
+      "effect_pointer": "0x0"
+    },
+    {
+      "entity": "0x800bf710",
+      "core": "0x800a5ff0",
+      "model_index": 7,
+      "rank": 37,
+      "kind": 1,
+      "charge": 0,
+      "charge_step": 0,
+      "hp": 1001900,
+      "defense": 55,
+      "periodic_damage": 8,
+      "flags": "0x0",
+      "action_slot": 0,
+      "effect_chance": 0,
+      "effect_pointer": "0x0"
+    }
+  ]
+}
