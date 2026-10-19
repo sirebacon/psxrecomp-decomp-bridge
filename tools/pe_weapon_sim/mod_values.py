@@ -30,7 +30,8 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--stage', required=True); ap.add_argument('--rules', required=True)
     ap.add_argument('--seeds', type=int, default=2)
     ap.add_argument('--effects', nargs='*')                  # subset of mods (default all)
-    ap.add_argument('--tag', default=None)                   # output name suffix (defaults to --rules)
+    ap.add_argument('--tag', default=None)
+    ap.add_argument('--assumption', default='logged_player_serial')                   # output name suffix (defaults to --rules)
     a = ap.parse_args()
     from .enemy_identity import FIRST_RUN_SHARED_CELLS as C, MULTI_KIND
     cells = {**C, MULTI_KIND: 1}
@@ -40,7 +41,7 @@ def main():
     if a.stage == 'Disc2':
         ords = [b for b in battles if not b['boss']]
         battles = [b for b in battles if b['boss']] + ords[::4]
-    assumption = CR.ASSUMPTIONS['logged_player_serial']
+    assumption = CR.ASSUMPTIONS[a.assumption]
     ref = {b['seed']: b for b in CR.builds([a.stage], a.seeds, ['C'])}
     out = []
     for cls, wid in guns(a.stage).items():
@@ -51,9 +52,10 @@ def main():
             for seed in range(1, a.seeds + 1):
                 b = dict(aya=ref[seed]['aya'], armor=ref[seed]['armor'])
                 for i, battle in enumerate(battles):
-                    r = CR.run_fight(rules, cfg, b, battle, 'logged_player_serial', assumption, seed * 7919 + i, cells)
+                    r = CR.run_fight(rules, cfg, b, battle, a.assumption, assumption, seed * 7919 + i, cells)
                     out.append(dict(cls=cls, eff=eff, seed=seed, battle=i, boss=battle['boss'], won=r['won'], time=r['time'],
-                                    damage=r['damage_taken'], rounds=r['rounds']))
+                                    damage=r['damage_taken'], rounds=r['rounds'], hits=r['hits_taken'], counters=r['counters'],
+                                    counter_hits=r['counter_hits'], counter_damage=r['counter_damage'], counter_updates=r['counter_updates']))
         print(cls, len(out), flush=True)
     summ = {}
     for cls in guns(a.stage):
@@ -66,7 +68,9 @@ def main():
                 summ['%s|%s|%s' % (cls, 'boss' if enc else 'ord', eff)] = dict(
                     n=len(rr), time=statistics.mean(r['time'] for r, _ in pairs), time_none=statistics.mean(b['time'] for _, b in pairs),
                     damage=statistics.mean(r['damage'] for r, _ in pairs), damage_none=statistics.mean(b['damage'] for _, b in pairs),
-                    won=statistics.mean(r['won'] for r, _ in pairs), won_none=statistics.mean(b['won'] for _, b in pairs))
+                    won=statistics.mean(r['won'] for r, _ in pairs), won_none=statistics.mean(b['won'] for _, b in pairs),
+                    **{m: statistics.mean(r.get(m, 0) for r, _ in pairs) for m in ('hits', 'counters', 'counter_hits', 'counter_damage', 'counter_updates')},
+                    hits_none=statistics.mean(b.get('hits', 0) for _, b in pairs))
     (ROOT / ('pe-mod-values-%s-%s-2026-10-19.json' % (a.stage, a.tag or a.rules))).write_text(json.dumps(dict(summary=summ, stage=a.stage, rules=a.rules, seeds=a.seeds), indent=1), encoding='utf-8')
 
 

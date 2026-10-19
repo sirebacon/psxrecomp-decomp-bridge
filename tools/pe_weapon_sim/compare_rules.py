@@ -48,6 +48,11 @@ ASSUMPTIONS = {
     # a 30-update menu reaction in the paused menu, no evasion fit. Matches the log's ordinary damage (1.15x)
     # and time per turn (pe-calibration-serial-2026-10-19.md).
     'logged_player_serial': dict(contact='early', untimed=(10, 10), hit=0.75, ambiguous='first', reaction=30, reaction_paused=True),
+    # Counter study (2026-10-19): the calibrated player who also dodges 60% of melee swings when free (the early-game
+    # fit); counter_guard: a counter keeps the gauge, so the gauge guard still halves hits (Entity_ResolveDropTable);
+    # counter_cancel: the player may abort a counter to dodge.
+    'dodger': dict(contact='early', untimed=(10, 10), hit=0.75, ambiguous='first', reaction=30, reaction_paused=True, evade_melee=0.6, counter_guard=True),
+    'dodger_cancel': dict(contact='early', untimed=(10, 10), hit=0.75, ambiguous='first', reaction=30, reaction_paused=True, evade_melee=0.6, counter_guard=True, counter_cancel=True),
 }
 
 METRICS = ('won', 'time', 'damage_taken', 'rounds', 'reloads', 'switches', 'death', 'status_total',
@@ -76,6 +81,9 @@ def options_for(a, shared_cells):
     if a.get('reaction'): o['reaction_updates'] = a['reaction']           # calibrated from the play log (8.2 vs 5.7 s/turn)
     if a.get('evade'): o['player_evade'] = a['evade']
     if a.get('reaction_paused'): o['reaction_paused'] = True
+    if a.get('evade_melee'): o['player_evade_melee'] = a['evade_melee']
+    if a.get('counter_guard'): o['counter_guard'] = True
+    if a.get('counter_cancel'): o['counter_cancel'] = True
     if IDENTITY_RANK[0]: o['identity_rank'] = True             # source: counter rank from the enemy identity
     if SERIAL[0]: o['serial_action'] = True                    # behaviour, fitted to the play log
     if CALIBRATED[0]:
@@ -225,7 +233,8 @@ def run_fight(rules_dict, cfg, b, battle, a_name, a, seed, cells):
                 death=int(not st['won'] and st['damage_taken'] >= opts['hp']),
                 status_total=sum(v for k, v in st.items() if k.startswith('status_') and k != 'status_already'),
                 fallback_hits=st.get('legacy_damage_hits', 0), untimed_strikes=st.get('strike_timing_untimed', 0),
-                strikes=strikes, hits_taken=st.get('hits_taken', 0))
+                strikes=strikes, hits_taken=st.get('hits_taken', 0), counters=st.get('counters', 0),
+                counter_hits=st.get('counter_hits_taken', 0), counter_damage=st.get('counter_damage_taken', 0), counter_updates=st.get('counter_updates', 0))
 
 
 def bootstrap(diffs, n=2000, seed=1):

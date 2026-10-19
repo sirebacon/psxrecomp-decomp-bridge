@@ -117,6 +117,8 @@ EXPERIMENTS.update({"AAn_%d" % c: dict(all_mode_crowd_c=c / 10, all_mode_multi_o
 # PE study: PEv = vanilla Parasite Energy (vanilla heals, no half-bar powers / items) under the mod's combat rules;
 # PEh_<a>_<b>_<c> = mod PE with Heal 1/2/3 at a/b/c % of max HP (mod CURRENT: 15/30/65).
 EXPERIMENTS['PEv'] = dict(pe_mode='vanilla')
+# CTR_<k>: counter roll's HP level x k/10 (the removed 'Counter chance %' boost; the logged run used x5).
+EXPERIMENTS.update({'CTR_%d' % k: dict(counter_level_mult=k / 10) for k in (25, 50)})
 # RoFE: final R-E candidate. Installed RoF 5 / 7 / 10 mods only: volley 200% (40 / 29 / 20% per bullet), follow loop
 # at most 4 frames (never below the hit frame), per-shot hold removed. Built-in RoF and RoF 2 / 3 unchanged.
 EXPERIMENTS['RoFE'] = dict(rof_fire_cadence={5: 4, 7: 4, 10: 4}, rof_no_hold=True, rof_mod_hit_pct={5: 40, 7: 29, 10: 20})
@@ -135,7 +137,7 @@ for _k in (15, 20, 30):
 EXPERIMENTS.update({"AAo_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 35, 40, 45, 50, 60)})
 
 # Experiment keys the source backend honours (others were built for the earlier abstract engine).
-SOURCE_BACKEND_KEYS = {'all_mode_hp_cap', 'rof_no_hold', 'rof_mod_hit_pct', 'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_damage_pct', 'all_mode_crowd_c', 'pe_mode', 'pe_heal_pct', 'rof_fire_speed', 'rof_fire_cadence', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',
+SOURCE_BACKEND_KEYS = {'counter_level_mult', 'all_mode_hp_cap', 'rof_no_hold', 'rof_mod_hit_pct', 'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_damage_pct', 'all_mode_crowd_c', 'pe_mode', 'pe_heal_pct', 'rof_fire_speed', 'rof_fire_cadence', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',
                        'graze_bands', 'keepaway_threshold_scale', 'counter_mult', 'hit_pct', 'crit_points', 'crit_convert_pct',
                        'elem_resist', 'elem_neutral', 'elem_weak', 'quickdraw_bonus', 'poison_pct', 'status_avg', 'status_resist'}
 

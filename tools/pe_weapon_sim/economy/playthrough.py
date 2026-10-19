@@ -1,4 +1,4 @@
-﻿"""One continuous playthrough: explicit state transitions with a transaction log.
+"""One continuous playthrough: explicit state transitions with a transaction log.
 
 Random streams (independent, seeded from the run seed): enc (profile transformations, gear
 timing), loot (rare cascade), hits (combat feedback), policy (casual randomness). Matched
@@ -380,6 +380,7 @@ class Run:
         vj = sum(int(r.get("vanilla", 0)) for r in b.get("rare", []) if r.get("kind") == "loot")
         if self.econ["junk_economy"] and self.has("junk"):
             j = self.loot.battle_junk(b["exp"], hits_total, b["boss"], self.loot_view())
+            j = int(round(j * self.econ.get("junk_phase_scale", {}).get(self.phase, 1.0)))   # sink study: per-stage Junk scale
             self.add_junk(j + vj, "battle")
         elif not self.econ["junk_economy"]:
             self.add_junk(vj, "vanilla junk")

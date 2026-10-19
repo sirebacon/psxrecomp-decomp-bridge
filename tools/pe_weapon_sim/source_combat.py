@@ -18,7 +18,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
     options=dict(options or {})
     allowed={'hp','reserve_ammo','weapons','weapon_policy','menu_updates','stream_updates',
              'half_bar','initial_state','trace','enemy_angles','enemy_defaults','enemy_profiles',
-             'counter_hp_level','player_rank','counter_reaction_updates','static_enemy_catalog','enemy_action_timing','shared_cells','contact_timing','effect_actions','enemy_choice','melee_window','melee_reach','called_slots','reaction_updates','switch_cost','hit_trace','player_status','projectile_height','linked_beams','beam_player','beam_formation','boss_beam_choice','atb_guard','logged_charge','player_evade','reaction_paused','serial_action','pe','player_max_hp','player_evade_melee','identity_rank','steals','contact_damage'}
+             'counter_hp_level','player_rank','counter_reaction_updates','static_enemy_catalog','enemy_action_timing','shared_cells','contact_timing','effect_actions','enemy_choice','melee_window','melee_reach','called_slots','reaction_updates','switch_cost','hit_trace','player_status','projectile_height','linked_beams','beam_player','beam_formation','boss_beam_choice','atb_guard','logged_charge','player_evade','reaction_paused','serial_action','pe','player_max_hp','player_evade_melee','identity_rank','steals','contact_damage','counter_guard','counter_cancel'}
     if set(options)-allowed: raise ValueError('unknown source combat options')
     hz=rules.get('battle_update_hz',59.9/2)
     if hz<=0: raise ValueError('positive battle_update_hz required')
@@ -251,6 +251,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
         amount=max(0,min(amount,taken-healed));healed+=amount;return amount
 
     hold=[0]                # post-revive immunity updates (0x800000)
+    counter_active=[False]  # a counter-attack is playing (committed: no dodge, no gauge guard)
     contact=[0]             # Aya's 0x01000000 window (contact damage blocked)
     contact_vals={}
     if options.get('contact_damage'):
@@ -357,7 +358,8 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             result=beams.begin_update(hp-taken+healed,lambda:rng.randrange(100))
             for event in result['events']:
                 hurt=event['damage'] if not event['barrier'] else 0
-                taken+=hurt;st.add('hits_taken');st.add('beam_hits');st.add('beam_damage',hurt)
+                taken+=hurt;st.add('hits_taken')
+                if counter_active[0]:st.add('counter_hits_taken');st.add('counter_damage_taken',hurt)   # hit while a counter plays;st.add('beam_hits');st.add('beam_damage',hurt)
                 session.event('beam_hit',**event)
                 target=beams.counter_target(event['owner'])
                 if not event['barrier']:
@@ -427,7 +429,8 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                 # the gauge wait, calibrated from the play log (pe-calibration-atbguard-2026-10-19.md).
                 # Not while an attack or counter is committed: firing can't be cancelled (sitting duck).
                 st.add('evaded_strikes');continue
-            if options.get('player_evade_melee') and not session.action_busy and not (status and status.flags&0xC==0x4):
+            if options.get('player_evade_melee') and (not session.action_busy or (counter_active[0] and options.get('counter_cancel'))) and not (status and status.flags&0xC==0x4):
+                # counter_cancel (experiment): the player may abort a counter to step back, so a counter doesn't block the dodge.
                 # (Confusion: scene/player_movement.c rotates and mirrors the controls; the player can't step
                 # back reliably, so no melee dodge while confused. Labelled behaviour.)
                 # Player behaviour (labelled): stepping back from a melee swing during the gauge wait.
@@ -476,7 +479,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                         # Entity_ResolveDropTable (entity/combat.c): no barrier and atbGauge > 0 -> damage / 2.
                         # Opt-in atb_guard: the gauge is 0 from the attack commit through the action
                         # (flag 0x100 gates gain), so hits landing while Aya acts are not halved.
-                        charged_guard=p.get('charged_guard',False) or bool(options.get('atb_guard') and session.gauge>0 and not session.action_busy),
+                        charged_guard=p.get('charged_guard',False) or bool(options.get('atb_guard') and session.gauge>0 and (not session.action_busy or (counter_active[0] and options.get('counter_guard')))),
                         player_flags=p.get('player_flags',0)|(status.flags&0x1100 if status else 0x100 if pe and pe.haste_left>0 else 0))
                     if pe and pe.barrier:
                         # Entity_ResolveDropTable with AYA_BARRIER: no gauge halving, the damage drains PE
@@ -524,6 +527,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                     if beams:raise ValueError('beam encounters require source power profiles for enemy hits')
                     hurt=(enemy_dmg(f) if enemy_dmg else 1.6*f['level'])*guard
                 taken+=hurt;st.add('hits_taken')
+                if counter_active[0]:st.add('counter_hits_taken');st.add('counter_damage_taken',hurt)   # hit while a counter plays
                 if options.get('hit_trace'):
                     # Audit only: underscore keys are excluded from campaign aggregates.
                     tag='_hit|%s|%s|%d|%s|%s'%(f.get('loc'),f.get('name'),int(bool(f['boss'])),'power' if 'power' in p else 'fallback',p.get('action_slot','-'))
@@ -572,16 +576,18 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             # (field 41; CombatantIdentity {u8 rank; s8 kind}), Aya's is level (aya/stats.c fieldId04 = level + 1).
             try: rank=int(foes[target]['name'],16)&0xFF
             except (KeyError,TypeError,ValueError): pass
-        chance=counter_probability(options.get('counter_hp_level',aya.get('hp_level',aya['level']*10)),
+        chance=counter_probability(options.get('counter_hp_level',aya.get('hp_level',aya['level']*10)*rules.get('counter_level_mult',1)),
             options.get('player_rank',aya.get('rank',aya['level']))-rank)
         chance=min(1.,chance*rules.get('counter_mult',1.))
         st.add('counter_checks')
         if rng.randrange(100)>=round(chance*100): return
         st.add('counters')
+        counter_active[0]=True;u0=session.update
         session.attack(counter=True,rof=effect.get('rof',1),commands=1,mode=effect.get('mode'),
             targets=[f['i'] for f in foes if f['cur']>0 and not f.get('controller')],selected=target,
             target_alive=lambda i:foes[i]['cur']>0,target_angles={f['i']:f['angle'] for f in foes},
             player_angle=lambda i:signed16(foes[i]['angle']+0x800),on_hit=hit)
+        counter_active[0]=False;st.add('counter_updates',session.update-u0)
 
     session.on_idle=try_counter
 

@@ -18,7 +18,8 @@ this document is the agreed outcome.
 | **R-C** | Weapons | **M203 4 base attack +15** | Second slowest at Day 5; +15 crosses the same breakpoint as +20 / +25 |
 | **R-E** | Mods | **Installed RoF 5 / 7 / 10 become a real upgrade:** volley 200% of one shot (40 / 29 / 20% per bullet), follow animation at most 4 frames, per-shot hold removed. Installed mods only; built-in RoF and RoF 2 / 3 unchanged | RoF 5 / 7 / 10 currently make almost every gun slower (+8 to +25%), in vanilla and the current mod. Players read "more bullets" as an upgrade |
 | PE | Parasite Energy | **Keep the mod's PE changes** (half-bar quick powers and items, heals 15 / 30 / 65% of max HP) | They help (vanilla PE costs Disc2 bosses +6 s and +58 HP per fight). The exact heal percentages are not a balance lever |
-| Econ | Economy mod | **Keep the Normal preset numbers.** Keep rockets at 20 Junk. Open item: a late-game Junk sink or Disc2 taper | First Wayne gun lands at Day 5 on Normal (target: Day 4–5). The LAW80 stays ammo-gated. About 1,000 Junk is left unspent at the end on Normal |
+| Econ | Economy mod | **Keep the Normal preset numbers.** Keep rockets at 20 Junk. Late-game Junk: spend it rather than taper it (Wayne's repeat crafting as the sink; optional Disc2 Revive / Full Recover is a user decision) | First Wayne gun lands at Day 5 on Normal (target: Day 4–5). The LAW80 stays ammo-gated. About 1,000 Junk is left unspent at the end on Normal |
+| Keep | Mods | Vanilla Counter chance (studied: counters raise survivability, and a cancel option gains nothing) |
 | Keep | Mods | The mod's element, status, Critical and Quickdraw changes | Vanilla Heat / Frost slow Day 5 fights by 36% / 107% (resist ÷5); the mod fixes that. Critical goes from marginal to a real boss mod |
 
 Rejected along the way: Attack All power cuts of any strength (they floor weak guns at 1 damage
@@ -230,6 +231,39 @@ unaffected.
   the volley.
 - Menu row: "RoF mods: fast volleys", default on.
 
+### Counter-attack (studied 2026-10-19, no change)
+
+**Question (user):** with counters firing more often, is Aya less survivable, since a counter is a
+committed action (no dodge, no gauge guard)?
+
+**Method:** guns with the Counter effect against the same gun without it, at Day 5 and Disc2:
+- counter chance at vanilla, 2.5× and 5× (the removed "Counter chance %" boost the logged run
+  used);
+- a dodging player (60% of melee swings avoided when free, the early-game fit);
+- with and without a cancelable counter (the player may abort a counter to dodge).
+
+The study also counted hits and damage that land while a counter plays. Code: mod_values
+--effects Counter --assumption dodger|dodger_cancel; data pe-mod-values-*-c{10,50}-dodger*
+and pe-mod-values-*-ctr*.
+
+| Counter chance | Counters per fight | Fight time | Damage taken | Damage landing during counters |
+|---|---|---|---|---|
+| Vanilla | 0.2–0.9 | −5 to −29% | −2 to −23% | 0–7 HP |
+| ×5 (logged run) | 0.6–1.9 | −17 to −36% | −20 to −37% | 0.2–23 HP (1–5% of damage) |
+
+- **Counters make Aya more survivable, not less.** They end fights sooner, so fewer hits come in.
+- **Exposure while a counter plays is small.** Enemies can't start attacks during Aya's committed
+  action (game flag 0x100), only attacks already in flight land, and the gauge, which a counter
+  doesn't spend, still halves them.
+- **A cancelable counter gains almost nothing:** at most 4 HP per boss fight. It would also need
+  new mod logic, because the obvious lever is the HP-level stat behind the old level-up bug.
+  **Not recommended.**
+- **Likely cause of the "less survivable" feel:** the old Counter boost was implemented by
+  raising the HP level, which wiped level-up HP for the whole logged run. Aya played at 385 max
+  HP instead of 714 by level 33 (see pe-hp-level-bug).
+- **Keep vanilla counter chance.** A safe boost (an entry hook on the roll itself) would be a real
+  buff (2.5×: fights 14–31% shorter), but Counter is already a healthy mod.
+
 ### Watch list (no change proposed)
 
 - 3 Commands barely beats 2 Commands, except against Disc2 bosses.
@@ -284,7 +318,30 @@ It trades speed for damage taken, and it matters for boss fights.
 **Decisions:**
 - Keep the Normal preset as default.
 - Keep the Tool price cap (40 + 10 per purchase, max 100) and the rocket price (20).
-- **Open:**
+- **Late-game Junk sink (studied 2026-10-19).**
+  - **Disc2 flow on Normal:** about 1,200 Junk earned over 81 battles (~15 per battle); about 600
+    spent (Wayne gun 300, mods 240, Tools 65); about 930 left at the end (casual players ~1,320).
+
+  | Option | Junk left at end (casual / optimizer / balanced) | Effect on what players buy |
+  |---|---|---|
+  | Now | 1,324 / 928 / 947 | — |
+  | Disc2 Junk ×0.7 | 1,023 / 645 / 661 | none (Tools 5.2 → 5.0, attack and Wayne gun unchanged) |
+  | Disc2 Junk ×0.5 | 857 / 478 / 492 | none (Tools 5.2 → 4.8) |
+  | A 2nd Wayne gun | 1,015 / 541 / 635 | a second class (e.g. LAW80 or M10B) |
+  | A 3rd Wayne gun | 721 / 237 / 324 | three classes |
+
+  - **Reading:** the surplus is unused money, not lost power. Tapering changes nothing players buy.
+  - **Recommendation:** spend it instead of shrinking it.
+    1. Make Wayne's repeat crafting the late sink. The game already crafts on every 300-Junk
+       hand-in; show progress to the next gun (decision 31's label already does) and present the
+       2nd / 3rd gun as a second class (rocket launcher for crowds, shotgun for close range).
+    2. Rockets at 20 Junk already turn surplus into LAW80 uses (about 50 rockets).
+    3. Optionally sell Disc2-only premium consumables. Revive and Full Recover were left out of
+       Requisition by default; adding them at high prices (e.g. 200 / 150) is a sink that also
+       eases Disc2 bosses (2–4% deaths in the benchmark). **User decision.**
+    4. Leftover Junk carries into EX Game (decision 15), so it isn't wasted.
+  - **Only if late-game scarcity is wanted:** taper Disc2 Junk to ×0.7.
+- **Also noted:**
   - late-game Junk surplus (about 1,000 on Normal, 1,800 on Relaxed). Options: a Disc2-only Junk
     taper, or a late sink (e.g. Super Tool or premium Codex installs). Needs one economy run
     once a direction is picked.
