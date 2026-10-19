@@ -51,6 +51,56 @@ def literal_identities():
     return out
 
 
+# Sentinel entry in a shared-cells dict (not a real cell): enables multi_kind_identities() keys.
+MULTI_KIND = -1
+
+
+@lru_cache(maxsize=1)
+def multi_kind_identities():
+    """{(map, actor_type): (rank, kinds)} for scripts that set one literal rank (field 41) but
+    several literal kinds (field 42), e.g. room 245 actors 6-8: kind 2 at setup, kind 4 later
+    (logged boss 0x0421). Every write to fields 41/42 must be literal; each literal kind is a
+    value the script can leave in the core, so each (kind << 8) | rank is a candidate identity.
+    Opt-in through MULTI_KIND in the cells passed to identity_keys (historical default unchanged)."""
+    inventory = json.loads((ROOT / 'pe-enemy-scripts-2026-10-18.json').read_text(encoding='utf-8'))
+    out = {}
+    for room in inventory['rooms']:
+        if room['disc'] != 1: continue
+        for script in room.get('scripts', []):
+            vals, other = defaultdict(set), set()
+            for n in script['facts']:
+                a = n['args']
+                if n['handler'] != 'Entity_SetField' or not a or a[0] not in (_lit(41), _lit(42)): continue
+                if len(a) == 2 and a[1]['mode'] == 0: vals[a[0]['value']].add(a[1]['value'])
+                else: other.add(a[0]['value'])
+            if not other and len(vals[41]) == 1 and len(vals[42]) > 1:
+                out[room['map'], script['actor_type']] = (next(iter(vals[41])), tuple(sorted(vals[42])))
+    return out
+
+
+@lru_cache(maxsize=1)
+def rank_default_identities():
+    """{(map, actor_type): kind << 8} for scripts that write one literal kind (field 42) and never
+    write the rank (field 41), which keeps the combatant template's 0: room 34 actor 4 and room 123
+    actors 2-4 -> logged 0x0100. Opt-in with MULTI_KIND (identity fixes)."""
+    inventory = json.loads((ROOT / 'pe-enemy-scripts-2026-10-18.json').read_text(encoding='utf-8'))
+    out = {}
+    for room in inventory['rooms']:
+        if room['disc'] != 1: continue
+        for script in room.get('scripts', []):
+            kinds, rank_writes = set(), 0
+            for n in script['facts']:
+                a = n['args']
+                if n['handler'] != 'Entity_SetField' or not a: continue
+                if a[0] == _lit(41): rank_writes += 1
+                if a[0] == _lit(42):
+                    if len(a) == 2 and a[1]['mode'] == 0: kinds.add(a[1]['value'])
+                    else: kinds.add(None)
+            if len(kinds) == 1 and None not in kinds and rank_writes == 0:
+                out[room['map'], script['actor_type']] = next(iter(kinds)) << 8
+    return out
+
+
 @lru_cache(maxsize=1)
 def scaled_rank_rules():
     """{(map, actor_type): dict(cell, multiplier, offsets)} for exact five-instruction idioms."""
@@ -100,6 +150,11 @@ def identity_keys(cells=None):
             if alt is not None and alt != ident:
                 keys.append((alt, 'scaled_rank cell%d x%d' % (rule['cell'], rule['multiplier'])))
         out[key] = keys
+    if cells and cells.get(MULTI_KIND):
+        for key, (rank, kinds) in multi_kind_identities().items():
+            if key not in out: out[key] = [((k << 8) | rank, 'literal kind %d of %s' % (k, '/'.join(map(str, kinds)))) for k in kinds]
+        for key, ident in rank_default_identities().items():
+            if key not in out: out[key] = [(ident, 'literal kind, template rank 0')]
     return out
 
 

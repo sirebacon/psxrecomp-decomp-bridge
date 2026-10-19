@@ -1,0 +1,1072 @@
+{
+ "scope": "landed incoming hits in a replay of run_current_model with hit_trace (bounds ('early',))",
+ "extra": {
+  "called_slots": {
+   "contact": "BOUND"
+  }
+ },
+ "fights": 3072,
+ "hits": 6410,
+ "fallback_hits": 1119,
+ "fallback_share": 0.1746,
+ "by_group": {
+  "normal": {
+   "identities": 23,
+   "fallback_hits": 625,
+   "power_hits": 2988
+  },
+  "boss": {
+   "identities": 16,
+   "fallback_hits": 494,
+   "power_hits": 2303
+  }
+ },
+ "counters": {
+  "called_slot_foes": 4392,
+  "called_slot_matches": 3624,
+  "called_slot_unguarded_multi": 1608,
+  "choice_matches": 1320,
+  "choice_strikes_slot0": 1653,
+  "choice_strikes_slot1": 944,
+  "choice_strikes_slot2": 166,
+  "choice_strikes_slot3": 2599,
+  "choice_strikes_slot4": 956,
+  "choice_strikes_slot5": 402,
+  "choice_waits": 419,
+  "explicit_power_hits": 5291,
+  "incoming_status_unmodeled": 93,
+  "legacy_damage_hits": 1119,
+  "melee_reach_misses": 957,
+  "melee_reach_strikes": 2412,
+  "status_already": 1151,
+  "status_buffs_cleared": 163,
+  "status_confusion": 62,
+  "status_darkness": 72,
+  "status_defense_down": 119,
+  "status_halve_hp": 4,
+  "status_hp_to_1": 64,
+  "status_poison": 512,
+  "status_stiffness_lock": 41,
+  "status_stiffness_slow": 619,
+  "strike_timing_effect": 583,
+  "strike_timing_module": 754,
+  "strike_timing_task": 1248,
+  "strike_timing_untimed": 1372,
+  "strike_timing_window": 2763
+ },
+ "strikes": [
+  {
+   "map": "146",
+   "id": "0x0013",
+   "boss": false,
+   "timing": "module",
+   "slot": "3",
+   "n": 754
+  },
+  {
+   "map": "154",
+   "id": "0x0015",
+   "boss": true,
+   "timing": "task",
+   "slot": "3",
+   "n": 511
+  },
+  {
+   "map": "152",
+   "id": "0x0012",
+   "boss": false,
+   "timing": "effect",
+   "slot": "3",
+   "n": 493
+  },
+  {
+   "map": "149",
+   "id": "0x0014",
+   "boss": true,
+   "timing": "window",
+   "slot": "0",
+   "n": 403
+  },
+  {
+   "map": "154",
+   "id": "0x0014",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 346
+  },
+  {
+   "map": "156",
+   "id": "0x0216",
+   "boss": true,
+   "timing": "task",
+   "slot": "4",
+   "n": 313
+  },
+  {
+   "map": "156",
+   "id": "0x0216",
+   "boss": true,
+   "timing": "window",
+   "slot": "0",
+   "n": 258
+  },
+  {
+   "map": "380",
+   "id": "0x0217",
+   "boss": true,
+   "timing": "task",
+   "slot": "4",
+   "n": 195
+  },
+  {
+   "map": "350",
+   "id": "0x0225",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 187
+  },
+  {
+   "map": "380",
+   "id": "0x0217",
+   "boss": true,
+   "timing": "window",
+   "slot": "0",
+   "n": 185
+  },
+  {
+   "map": "186",
+   "id": "0x0019",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 170
+  },
+  {
+   "map": "256",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 150
+  },
+  {
+   "map": "256",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "window",
+   "slot": "1",
+   "n": 147
+  },
+  {
+   "map": "429",
+   "id": "0x0026",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 146
+  },
+  {
+   "map": "350",
+   "id": "0x0225",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "5",
+   "n": 134
+  },
+  {
+   "map": "429",
+   "id": "0x0026",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "5",
+   "n": 131
+  },
+  {
+   "map": "243",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 128
+  },
+  {
+   "map": "429",
+   "id": "0x0026",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "4",
+   "n": 119
+  },
+  {
+   "map": "256",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "4",
+   "n": 109
+  },
+  {
+   "map": "159",
+   "id": "0x0016",
+   "boss": true,
+   "timing": "window",
+   "slot": "0",
+   "n": 108
+  },
+  {
+   "map": "243",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "window",
+   "slot": "2",
+   "n": 94
+  },
+  {
+   "map": "149",
+   "id": "0x0014",
+   "boss": true,
+   "timing": "effect",
+   "slot": "3",
+   "n": 90
+  },
+  {
+   "map": "428",
+   "id": "0x0225",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "4",
+   "n": 87
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "window",
+   "slot": "0",
+   "n": 85
+  },
+  {
+   "map": "246",
+   "id": "0x001D",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 83
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "4",
+   "n": 82
+  },
+  {
+   "map": "242",
+   "id": "0x001F",
+   "boss": false,
+   "timing": "task",
+   "slot": "3",
+   "n": 81
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "5",
+   "n": 77
+  },
+  {
+   "map": "269",
+   "id": "0x0220",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 76
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "window",
+   "slot": "1",
+   "n": 75
+  },
+  {
+   "map": "186",
+   "id": "0x0017",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 73
+  },
+  {
+   "map": "163",
+   "id": "0x0017",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 71
+  },
+  {
+   "map": "243",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "task",
+   "slot": "3",
+   "n": 67
+  },
+  {
+   "map": "269",
+   "id": "0x0220",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "5",
+   "n": 60
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 56
+  },
+  {
+   "map": "186",
+   "id": "0x0017",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 52
+  },
+  {
+   "map": "167",
+   "id": "0x0016",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 52
+  },
+  {
+   "map": "242",
+   "id": "0x001F",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 49
+  },
+  {
+   "map": "163",
+   "id": "0x0017",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 47
+  },
+  {
+   "map": "220",
+   "id": "0x001D",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 45
+  },
+  {
+   "map": "242",
+   "id": "0x001F",
+   "boss": false,
+   "timing": "task",
+   "slot": "4",
+   "n": 41
+  },
+  {
+   "map": "66",
+   "id": "0x0008",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 30
+  },
+  {
+   "map": "358",
+   "id": "0x000C",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 27
+  },
+  {
+   "map": "246",
+   "id": "0x001E",
+   "boss": false,
+   "timing": "window",
+   "slot": "2",
+   "n": 25
+  },
+  {
+   "map": "205",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "task",
+   "slot": "3",
+   "n": 25
+  },
+  {
+   "map": "65",
+   "id": "0x000B",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 20
+  },
+  {
+   "map": "428",
+   "id": "0x0225",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 20
+  },
+  {
+   "map": "65",
+   "id": "0x000B",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 19
+  },
+  {
+   "map": "269",
+   "id": "0x021B",
+   "boss": true,
+   "timing": "window",
+   "slot": "2",
+   "n": 17
+  },
+  {
+   "map": "168",
+   "id": "0x0018",
+   "boss": false,
+   "timing": "window",
+   "slot": "2",
+   "n": 16
+  },
+  {
+   "map": "63",
+   "id": "0x000A",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 14
+  },
+  {
+   "map": "205",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "window",
+   "slot": "2",
+   "n": 14
+  },
+  {
+   "map": "205",
+   "id": "0x0020",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 11
+  },
+  {
+   "map": "246",
+   "id": "0x001E",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 11
+  },
+  {
+   "map": "65",
+   "id": "0x000B",
+   "boss": false,
+   "timing": "window",
+   "slot": "0",
+   "n": 10
+  },
+  {
+   "map": "221",
+   "id": "0x001F",
+   "boss": true,
+   "timing": "task",
+   "slot": "3",
+   "n": 10
+  },
+  {
+   "map": "168",
+   "id": "0x0018",
+   "boss": false,
+   "timing": "window",
+   "slot": "1",
+   "n": 5
+  },
+  {
+   "map": "221",
+   "id": "0x001F",
+   "boss": true,
+   "timing": "task",
+   "slot": "4",
+   "n": 5
+  },
+  {
+   "map": "221",
+   "id": "0x001F",
+   "boss": true,
+   "timing": "window",
+   "slot": "1",
+   "n": 5
+  },
+  {
+   "map": "269",
+   "id": "0x021B",
+   "boss": true,
+   "timing": "untimed",
+   "slot": "4",
+   "n": 5
+  },
+  {
+   "map": "63",
+   "id": "0x000A",
+   "boss": false,
+   "timing": "untimed",
+   "slot": "3",
+   "n": 1
+  }
+ ],
+ "identities": [
+  {
+   "map": "273",
+   "id": "0x0125",
+   "boss": false,
+   "fallback_hits": 512,
+   "power_hits": 0,
+   "fallback_damage": 33896.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.4576,
+   "encounters": {
+    "Disc2/close_normal": 182,
+    "Disc2/groups": 330
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "245",
+   "id": "0x0421",
+   "boss": true,
+   "fallback_hits": 188,
+   "power_hits": 0,
+   "fallback_damage": 15481.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.168,
+   "encounters": {
+    "Disc2/keepaway_boss": 112,
+    "Disc2/stationary_boss": 76
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "429",
+   "id": "0x0426",
+   "boss": true,
+   "fallback_hits": 182,
+   "power_hits": 0,
+   "fallback_damage": 6988.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.1626,
+   "encounters": {
+    "Disc2/keepaway_boss": 101,
+    "Disc2/stationary_boss": 81
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "333",
+   "id": "0x001A",
+   "boss": false,
+   "fallback_hits": 74,
+   "power_hits": 0,
+   "fallback_damage": 2128.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.0661,
+   "encounters": {
+    "Disc2/close_normal": 21,
+    "Disc2/groups": 53
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "1": [
+      4,
+      5
+     ],
+     "3": [
+      5,
+      6
+     ]
+    },
+    "slot_reasons": {
+     "1": "actors disagree",
+     "3": "actors disagree"
+    }
+   }
+  },
+  {
+   "map": "269",
+   "id": "0x041B",
+   "boss": true,
+   "fallback_hits": 54,
+   "power_hits": 0,
+   "fallback_damage": 3369.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0483,
+   "encounters": {
+    "Disc2/keepaway_boss": 29,
+    "Disc2/stationary_boss": 25
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "188",
+   "id": "0x021A",
+   "boss": true,
+   "fallback_hits": 50,
+   "power_hits": 0,
+   "fallback_damage": 1600.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.0447,
+   "encounters": {
+    "Disc2/keepaway_boss": 39,
+    "Disc2/stationary_boss": 11
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "263",
+   "id": "0x001A",
+   "boss": false,
+   "fallback_hits": 39,
+   "power_hits": 0,
+   "fallback_damage": 1435.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.0349,
+   "encounters": {
+    "Disc2/close_normal": 7,
+    "Disc2/groups": 32
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "1": [
+      7,
+      8
+     ],
+     "3": [
+      7,
+      9
+     ]
+    },
+    "slot_reasons": {
+     "1": "actors disagree",
+     "3": "actors disagree"
+    }
+   }
+  },
+  {
+   "map": "210",
+   "id": "0x001D",
+   "boss": true,
+   "fallback_hits": 20,
+   "power_hits": 0,
+   "fallback_damage": 1344.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.0179,
+   "encounters": {
+    "Disc2/keepaway_boss": 15,
+    "Disc2/stationary_boss": 5
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "error: explicit shared scale cell 11 required"
+    }
+   }
+  },
+  {
+   "map": "154",
+   "id": "0x0014",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 346,
+   "fallback_damage": 0,
+   "power_damage": 4378.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "146",
+   "id": "0x0013",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 754,
+   "fallback_damage": 0,
+   "power_damage": 11711.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "156",
+   "id": "0x0216",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 523,
+   "fallback_damage": 0,
+   "power_damage": 9438.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "154",
+   "id": "0x0015",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 511,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "159",
+   "id": "0x0016",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 108,
+   "fallback_damage": 0,
+   "power_damage": 102.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "66",
+   "id": "0x0008",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 24,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "246",
+   "id": "0x001E",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 34,
+   "fallback_damage": 0,
+   "power_damage": 394.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "242",
+   "id": "0x001F",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 145,
+   "fallback_damage": 0,
+   "power_damage": 4548.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "358",
+   "id": "0x000C",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 5,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "243",
+   "id": "0x0020",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 269,
+   "fallback_damage": 0,
+   "power_damage": 8199.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "63",
+   "id": "0x000A",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 15,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "186",
+   "id": "0x0017",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 38,
+   "fallback_damage": 0,
+   "power_damage": 59.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "168",
+   "id": "0x0018",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 20,
+   "fallback_damage": 0,
+   "power_damage": 111.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "256",
+   "id": "0x0223",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 285,
+   "fallback_damage": 0,
+   "power_damage": 29126.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "428",
+   "id": "0x0225",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 78,
+   "fallback_damage": 0,
+   "power_damage": 9191.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "152",
+   "id": "0x0012",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 493,
+   "fallback_damage": 0,
+   "power_damage": 3768.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "380",
+   "id": "0x0217",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 337,
+   "fallback_damage": 0,
+   "power_damage": 7230.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "220",
+   "id": "0x001D",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 7,
+   "fallback_damage": 0,
+   "power_damage": 151.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "350",
+   "id": "0x0225",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 231,
+   "fallback_damage": 0,
+   "power_damage": 29787.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "429",
+   "id": "0x0026",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 304,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "167",
+   "id": "0x0016",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 27,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "269",
+   "id": "0x0220",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 101,
+   "fallback_damage": 0,
+   "power_damage": 13642.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "149",
+   "id": "0x0014",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 90,
+   "fallback_damage": 0,
+   "power_damage": 5648.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "246",
+   "id": "0x001D",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 7,
+   "fallback_damage": 0,
+   "power_damage": 182.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "65",
+   "id": "0x000B",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 17,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "163",
+   "id": "0x0017",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 83,
+   "fallback_damage": 0,
+   "power_damage": 9.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "186",
+   "id": "0x0019",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 121,
+   "fallback_damage": 0,
+   "power_damage": 1889.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "205",
+   "id": "0x0020",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 48,
+   "fallback_damage": 0,
+   "power_damage": 1337.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 243,
+   "fallback_damage": 0,
+   "power_damage": 21093.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "269",
+   "id": "0x021B",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 12,
+   "fallback_damage": 0,
+   "power_damage": 927.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "221",
+   "id": "0x001F",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 15,
+   "fallback_damage": 0,
+   "power_damage": 431.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  }
+ ]
+}

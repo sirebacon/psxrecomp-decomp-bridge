@@ -1,0 +1,838 @@
+{
+ "scope": "landed incoming hits in a replay of run_current_model with hit_trace (bounds ('early', 'late'))",
+ "extra": {},
+ "fights": 6144,
+ "hits": 16247,
+ "fallback_hits": 9123,
+ "fallback_share": 0.5615,
+ "by_group": {
+  "normal": {
+   "identities": 22,
+   "fallback_hits": 6744,
+   "power_hits": 5091
+  },
+  "boss": {
+   "identities": 16,
+   "fallback_hits": 2379,
+   "power_hits": 2033
+  }
+ },
+ "identities": [
+  {
+   "map": "146",
+   "id": "0x0013",
+   "boss": false,
+   "fallback_hits": 3896,
+   "power_hits": 0,
+   "fallback_damage": 105971.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.4271,
+   "encounters": {
+    "D5/close_normal": 993,
+    "D5/groups": 2903
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "3": [
+      6
+     ]
+    },
+    "slot_reasons": {
+     "3": "resolved (power 98)"
+    }
+   }
+  },
+  {
+   "map": "273",
+   "id": "0x0125",
+   "boss": false,
+   "fallback_hits": 960,
+   "power_hits": 0,
+   "fallback_damage": 63580.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.1052,
+   "encounters": {
+    "Disc2/close_normal": 355,
+    "Disc2/groups": 605
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "154",
+   "id": "0x0015",
+   "boss": true,
+   "fallback_hits": 578,
+   "power_hits": 0,
+   "fallback_damage": 15721.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0634,
+   "encounters": {
+    "D5/keepaway_boss": 350,
+    "D5/stationary_boss": 228
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "3": [
+      7
+     ]
+    },
+    "slot_reasons": {
+     "3": "resolved (power 78)"
+    }
+   }
+  },
+  {
+   "map": "429",
+   "id": "0x0026",
+   "boss": false,
+   "fallback_hits": 485,
+   "power_hits": 0,
+   "fallback_damage": 41904.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.0532,
+   "encounters": {
+    "Disc2/close_normal": 183,
+    "Disc2/groups": 302
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "3": [
+      3
+     ],
+     "4": [
+      3
+     ],
+     "5": [
+      3
+     ]
+    },
+    "slot_reasons": {
+     "3": "resolved (power 0)",
+     "4": "resolved (power 0)",
+     "5": "resolved (power 0)"
+    }
+   }
+  },
+  {
+   "map": "256",
+   "id": "0x0223",
+   "boss": true,
+   "fallback_hits": 408,
+   "power_hits": 0,
+   "fallback_damage": 30681.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0447,
+   "encounters": {
+    "Disc2/keepaway_boss": 230,
+    "Disc2/stationary_boss": 178
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      2
+     ],
+     "3": [
+      2
+     ],
+     "4": [
+      2
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 220)",
+     "3": "resolved (power 190)",
+     "4": "resolved (power 200)"
+    }
+   }
+  },
+  {
+   "map": "245",
+   "id": "0x0421",
+   "boss": true,
+   "fallback_hits": 376,
+   "power_hits": 0,
+   "fallback_damage": 30963.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.0412,
+   "encounters": {
+    "Disc2/keepaway_boss": 224,
+    "Disc2/stationary_boss": 152
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "429",
+   "id": "0x0426",
+   "boss": true,
+   "fallback_hits": 364,
+   "power_hits": 0,
+   "fallback_damage": 13977.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0399,
+   "encounters": {
+    "Disc2/keepaway_boss": 202,
+    "Disc2/stationary_boss": 162
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "243",
+   "id": "0x0020",
+   "boss": false,
+   "fallback_hits": 334,
+   "power_hits": 0,
+   "fallback_damage": 25116.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0366,
+   "encounters": {
+    "Disc2/close_normal": 74,
+    "Disc2/groups": 260
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      3
+     ],
+     "2": [
+      3
+     ],
+     "3": [
+      3
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 154)",
+     "2": "resolved (power 168)",
+     "3": "resolved (power 130)"
+    }
+   }
+  },
+  {
+   "map": "269",
+   "id": "0x0220",
+   "boss": true,
+   "fallback_hits": 228,
+   "power_hits": 0,
+   "fallback_damage": 14227.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.025,
+   "encounters": {
+    "Disc2/keepaway_boss": 138,
+    "Disc2/stationary_boss": 90
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "3": [
+      3
+     ],
+     "5": [
+      3
+     ]
+    },
+    "slot_reasons": {
+     "3": "resolved (power 138)",
+     "5": "resolved (power 0)"
+    }
+   }
+  },
+  {
+   "map": "242",
+   "id": "0x001F",
+   "boss": false,
+   "fallback_hits": 204,
+   "power_hits": 0,
+   "fallback_damage": 9465.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0224,
+   "encounters": {
+    "Disc2/close_normal": 63,
+    "Disc2/groups": 141
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ],
+     "3": [
+      5
+     ],
+     "4": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 162)",
+     "3": "resolved (power 124)",
+     "4": "resolved (power 162)"
+    }
+   }
+  },
+  {
+   "map": "186",
+   "id": "0x0019",
+   "boss": false,
+   "fallback_hits": 179,
+   "power_hits": 0,
+   "fallback_damage": 6587.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.0196,
+   "encounters": {
+    "Disc2/close_normal": 66,
+    "Disc2/groups": 113
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      4
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 142)"
+    }
+   }
+  },
+  {
+   "map": "428",
+   "id": "0x0225",
+   "boss": true,
+   "fallback_hits": 162,
+   "power_hits": 0,
+   "fallback_damage": 7516.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0178,
+   "encounters": {
+    "Disc2/keepaway_boss": 88,
+    "Disc2/stationary_boss": 74
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "3": [
+      2
+     ],
+     "4": [
+      2
+     ]
+    },
+    "slot_reasons": {
+     "3": "resolved (power 168)",
+     "4": "resolved (power 178)"
+    }
+   }
+  },
+  {
+   "map": "333",
+   "id": "0x001A",
+   "boss": false,
+   "fallback_hits": 151,
+   "power_hits": 0,
+   "fallback_damage": 4289.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0166,
+   "encounters": {
+    "Disc2/close_normal": 38,
+    "Disc2/groups": 113
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "1": [
+      4,
+      5
+     ],
+     "3": [
+      5,
+      6
+     ]
+    },
+    "slot_reasons": {
+     "1": "actors disagree",
+     "3": "actors disagree"
+    }
+   }
+  },
+  {
+   "map": "246",
+   "id": "0x001D",
+   "boss": false,
+   "fallback_hits": 113,
+   "power_hits": 0,
+   "fallback_damage": 7593.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0124,
+   "encounters": {
+    "Disc2/close_normal": 37,
+    "Disc2/groups": 76
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      6
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 152)"
+    }
+   }
+  },
+  {
+   "map": "269",
+   "id": "0x041B",
+   "boss": true,
+   "fallback_hits": 108,
+   "power_hits": 0,
+   "fallback_damage": 6739.2,
+   "power_damage": 0,
+   "share_of_fallback": 0.0118,
+   "encounters": {
+    "Disc2/keepaway_boss": 58,
+    "Disc2/stationary_boss": 50
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "188",
+   "id": "0x021A",
+   "boss": true,
+   "fallback_hits": 100,
+   "power_hits": 0,
+   "fallback_damage": 3200.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.011,
+   "encounters": {
+    "Disc2/keepaway_boss": 78,
+    "Disc2/stationary_boss": 22
+   },
+   "why": {
+    "static": false,
+    "called_slots": {},
+    "reason": "no attack calls in the identity scripts (overlay-driven or unresolved identity)"
+   }
+  },
+  {
+   "map": "186",
+   "id": "0x0017",
+   "boss": false,
+   "fallback_hits": 85,
+   "power_hits": 0,
+   "fallback_damage": 2856.0,
+   "power_damage": 0,
+   "share_of_fallback": 0.0093,
+   "encounters": {
+    "Disc2/close_normal": 18,
+    "Disc2/groups": 67
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ],
+     "3": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 123)",
+     "3": "resolved (power 110)"
+    }
+   }
+  },
+  {
+   "map": "205",
+   "id": "0x0020",
+   "boss": false,
+   "fallback_hits": 84,
+   "power_hits": 0,
+   "fallback_damage": 6316.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0092,
+   "encounters": {
+    "Disc2/close_normal": 32,
+    "Disc2/groups": 52
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      4
+     ],
+     "2": [
+      4
+     ],
+     "3": [
+      4
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 154)",
+     "2": "resolved (power 168)",
+     "3": "resolved (power 130)"
+    }
+   }
+  },
+  {
+   "map": "263",
+   "id": "0x001A",
+   "boss": false,
+   "fallback_hits": 71,
+   "power_hits": 0,
+   "fallback_damage": 2612.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0078,
+   "encounters": {
+    "Disc2/close_normal": 12,
+    "Disc2/groups": 59
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "1": [
+      7,
+      8
+     ],
+     "3": [
+      7,
+      9
+     ]
+    },
+    "slot_reasons": {
+     "1": "actors disagree",
+     "3": "actors disagree"
+    }
+   }
+  },
+  {
+   "map": "246",
+   "id": "0x001E",
+   "boss": false,
+   "fallback_hits": 58,
+   "power_hits": 0,
+   "fallback_damage": 2598.4,
+   "power_damage": 0,
+   "share_of_fallback": 0.0064,
+   "encounters": {
+    "Disc2/close_normal": 11,
+    "Disc2/groups": 47
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ],
+     "2": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 150)",
+     "2": "resolved (power 137)"
+    }
+   }
+  },
+  {
+   "map": "167",
+   "id": "0x0016",
+   "boss": false,
+   "fallback_hits": 57,
+   "power_hits": 0,
+   "fallback_damage": 1732.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0062,
+   "encounters": {
+    "Disc2/close_normal": 14,
+    "Disc2/groups": 43
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      8
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 110)"
+    }
+   }
+  },
+  {
+   "map": "220",
+   "id": "0x001D",
+   "boss": false,
+   "fallback_hits": 56,
+   "power_hits": 0,
+   "fallback_damage": 2060.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0061,
+   "encounters": {
+    "Disc2/close_normal": 19,
+    "Disc2/groups": 37
+   },
+   "why": {
+    "static": false,
+    "called_slots": {
+     "1": [
+      4
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 152)"
+    }
+   }
+  },
+  {
+   "map": "210",
+   "id": "0x001D",
+   "boss": true,
+   "fallback_hits": 38,
+   "power_hits": 0,
+   "fallback_damage": 2553.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0042,
+   "encounters": {
+    "Disc2/keepaway_boss": 28,
+    "Disc2/stationary_boss": 10
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "error: explicit shared scale cell 11 required"
+    }
+   }
+  },
+  {
+   "map": "221",
+   "id": "0x001F",
+   "boss": true,
+   "fallback_hits": 17,
+   "power_hits": 0,
+   "fallback_damage": 788.8,
+   "power_damage": 0,
+   "share_of_fallback": 0.0019,
+   "encounters": {
+    "Disc2/keepaway_boss": 17
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      5
+     ],
+     "3": [
+      5
+     ],
+     "4": [
+      5
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 162)",
+     "3": "resolved (power 124)",
+     "4": "resolved (power 162)"
+    }
+   }
+  },
+  {
+   "map": "168",
+   "id": "0x0018",
+   "boss": false,
+   "fallback_hits": 11,
+   "power_hits": 0,
+   "fallback_damage": 369.6,
+   "power_damage": 0,
+   "share_of_fallback": 0.0012,
+   "encounters": {
+    "Disc2/groups": 11
+   },
+   "why": {
+    "static": true,
+    "called_slots": {
+     "1": [
+      9
+     ],
+     "2": [
+      9
+     ]
+    },
+    "slot_reasons": {
+     "1": "resolved (power 129)",
+     "2": "resolved (power 139)"
+    }
+   }
+  },
+  {
+   "map": "154",
+   "id": "0x0014",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 3619,
+   "fallback_damage": 0,
+   "power_damage": 102212.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "156",
+   "id": "0x0216",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 808,
+   "fallback_damage": 0,
+   "power_damage": 15101.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "159",
+   "id": "0x0016",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 204,
+   "fallback_damage": 0,
+   "power_damage": 204.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "66",
+   "id": "0x0008",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 44,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "358",
+   "id": "0x000C",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 8,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "63",
+   "id": "0x000A",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 22,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "152",
+   "id": "0x0012",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 837,
+   "fallback_damage": 0,
+   "power_damage": 6425.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "380",
+   "id": "0x0217",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 504,
+   "fallback_damage": 0,
+   "power_damage": 12986.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "163",
+   "id": "0x0017",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 148,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "350",
+   "id": "0x0225",
+   "boss": false,
+   "fallback_hits": 0,
+   "power_hits": 413,
+   "fallback_damage": 0,
+   "power_damage": 45634.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "149",
+   "id": "0x0014",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 183,
+   "fallback_damage": 0,
+   "power_damage": 11454.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "432",
+   "id": "0x0223",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 306,
+   "fallback_damage": 0,
+   "power_damage": 13035.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  },
+  {
+   "map": "269",
+   "id": "0x021B",
+   "boss": true,
+   "fallback_hits": 0,
+   "power_hits": 28,
+   "fallback_damage": 0,
+   "power_damage": 0.0,
+   "share_of_fallback": 0.0,
+   "encounters": {}
+  }
+ ]
+}

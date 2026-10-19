@@ -1,4 +1,4 @@
-﻿"""Conservative common action-power extraction. No action selection is invented.
+"""Conservative common action-power extraction. No action selection is invented.
 
 Only literals or an adjacent unique-CFG-predecessor multiply/shift pair are
 accepted. External shared scales are required, never replaced with 1.0 silently.
@@ -44,8 +44,10 @@ def evaluate_power(expression,shared_cells):
 
 
 @lru_cache(maxsize=4)
-def records(cells=()):
-    """cells: optional shared cells adding the scaled-rank identities (enemy_identity)."""
+def records(cells=(),default_critical=False):
+    """cells: optional shared cells adding the scaled-rank identities (enemy_identity).
+    default_critical: a script that never writes field 0x3F keeps the template value, 0
+    (battle/enemy_slots.c Entity_AllocSlot copies g_EnemyCombatantInitial; byte 0x90 = 0)."""
     decoded=json.loads((ROOT/'pe-enemy-actions-2026-10-18.json').read_text(encoding='utf-8'))
     from .enemy_identity import identity_keys
     keys=identity_keys(dict(cells))
@@ -56,6 +58,7 @@ def records(cells=()):
             and n['args'][0]==dict(mode=0,value=63) and n['args'][1]['mode']==0]
         all_chance=[n for n in row['nodes'] if n['handler']=='Entity_SetField' and n['args'][0]==dict(mode=0,value=63)]
         critical=chance[0]&255 if chance and len(chance)==len(all_chance) and len(set(chance))==1 else None
+        if default_critical and not all_chance:critical=0
         declarations=defaultdict(list)
         for node in row['nodes']:
             if node['handler'] in DECLARATIONS and node['args'][0]['mode']==0:
@@ -64,7 +67,7 @@ def records(cells=()):
             for node in nodes:
                 expression=power_expression(row,node);a=node['args']
                 entry=dict(map=row['map'],actor_type=row['actor_type'],slot=slot,
-                    declaration_offset=node['offset'],expression=expression,critical_chance=critical,
+                    declaration_offset=node['offset'],expression=expression,critical_chance=critical,critical_default=bool(default_critical and not all_chance),
                     effect_type=a[1]['value'] if a[1]['mode']==0 else None,
                     identity=identities.get((row['map'],row['actor_type'])))
                 extracted.append(entry)
@@ -81,11 +84,29 @@ def records(cells=()):
     return extracted,catalog
 
 
-def power_profile(foe,slot,shared_cells,scaled_identities=False):
+@lru_cache(maxsize=None)
+def room_v80_cells(map_id):
+    """Cells a room's scripts set with the shared-scale idiom N{cell} = V80 (else 65536), as N10
+    is set elsewhere (enemy_identity FIRST_RUN_PROVENANCE). In such a room the cell carries the
+    run's V80, so it takes the value known for N10."""
+    from .decode_enemy_actions import flow
+    from .enemy_reach import room_blob
+    inv=json.loads((ROOT/'pe-enemy-scripts-2026-10-18.json').read_text(encoding='utf-8'))
+    room=next((r for r in inv['rooms'] if r['disc']==1 and r['map']==int(map_id)),None)
+    if room is None:return frozenset()
+    blob=room_blob(map_id);out=set()
+    for sc in room.get('scripts',[]):
+        for n in flow(blob,sc['start'],sc['end'],inv['handlers'])['nodes']:
+            a=n['args']
+            if n['handler']=='Script_AssignValue' and len(a)==2 and a[0]['mode']==4 and a[1]==dict(mode=2,value=80):out.add(a[0]['value'])
+    return frozenset(out)
+
+
+def power_profile(foe,slot,shared_cells,scaled_identities=False,default_critical=False,room_cells=False):
     try:key=(int(foe['loc']),int(foe['name'],16),slot)
     except (KeyError,ValueError,TypeError):return {}
     from .enemy_identity import cells_key
-    entry=records(cells_key(shared_cells) if scaled_identities else ())[1].get(key)
+    entry=records(cells_key(shared_cells) if scaled_identities else (),default_critical)[1].get(key)
     if entry is None and scaled_identities:
         # Power held in a local on an identity-keyed path (local_power), evaluated at these cells.
         from .local_power import catalog as local_catalog
@@ -94,5 +115,13 @@ def power_profile(foe,slot,shared_cells,scaled_identities=False):
             return dict(power=local['power'],action_slot=slot,effect_type=local['effect_type'],
                 critical_chance=local['critical_chance'],power_source='local path '+local['path'])
     if entry is None:return {}
-    return dict(power=evaluate_power(entry['expression'],shared_cells),action_slot=slot,
+    cells_used=shared_cells
+    if room_cells and entry['expression']['kind']=='scaled':
+        c=entry['expression']['shared_cell']
+        known={int(k):v for k,v in shared_cells.items()}
+        if c not in known and 10 in known and c in room_v80_cells(foe['loc']):
+            cells_used={**known,c:known[10]}            # same V80 source, this room's cell index
+    out=dict(power=evaluate_power(entry['expression'],cells_used),action_slot=slot,
         effect_type=entry['effect_type'],critical_chance=entry['critical_chance'])
+    if entry.get('critical_default'):out['critical_source']='template default 0'
+    return out

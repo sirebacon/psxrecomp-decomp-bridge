@@ -1,8 +1,289 @@
 # Claude / Codex simulation handoff
 
-Last updated: October 18, 2026, by Codex.
+Last updated: October 19, 2026, by Claude.
 
 ## Start here
+
+**Latest (Codex, Oct 18): user authorized a current-model rerun after Claude's work.**
+The former rerun hold is superseded by that explicit request. Completed **6,144 fights**
+outside the game with the latest ordinary-enemy options enabled. Read
+`pe-current-model-balance-2026-10-18.md`; raw records, options, and SHA256 provenance are in
+`data/pe-current-model-balance-2026-10-18.json`. Reproduce with
+`PYTHONPATH=tools python -m pe_weapon_sim.run_current_model`.
+
+- Full discovery: **284 tests passed**. Separate beam validation: **125 tests passed**.
+- Eight frozen earned campaign seeds per group; D5/Disc2; four encounter types;
+  six repetitions; early/late melee contact bounds. Recomputed source Aya stats and
+  armor, replaying historical AT purchase counts. Enabled shared-cell identities,
+  source power, distance choices, melee windows/reach, contact/effect actions, and
+  incoming player status. No campaign reoptimization or gameplay interaction.
+- Disc2 controlled_machine (P90): **99.48-100% wins**, **5.90-5.96 s** mean fight time.
+  Controlled handgun (USP TU): 89.06-90.10%, 9.80-9.94 s; shotgun (M10B):
+  88.54-90.10%, 11.21-11.26 s; rifle (MAG): 89.06-89.58%, 9.02 s;
+  grenade policy (HK40 on six seeds, M8000 on two): 84.38-86.46%, 10.86-10.97 s.
+  Policy labels describe frozen campaigns; do not present grenade policy as a pure
+  HK40 benchmark. D5 and Disc2 rankings differ.
+- **7,124 explicit-power hits / 9,123 fallback-damage hits** (43.85% source power).
+  9,296/11,424 enemy appearances matched static declarations; 2,640 choice matches.
+  1,760/4,933 reach-tested melee strikes missed. Status: 663 poison applications,
+  119 stiffness-slow applications. Feature match counters overlap, not additive coverage.
+- Controlled HP385 and ample reserves999; step90/windup10/recovery10 fallback;
+  slot0 fallback power selection; overlapping choice guards use lowest slot.
+  Source geometry is same-floor/facing/idle-pose, not continuous navigation.
+  Full repeated boss AI/beam formations remain incomplete and are not enabled in
+  this balance suite. Source maximum HP remains unverified against a clean save.
+- Input fingerprint comparison found **no simulation source or consumed data changes**
+  during the run. The only changed fingerprint was the beam-validation JSON rewritten
+  by the independent validation command; it is an output, not a combat input.
+- Best next payoff: resolve the remaining fallback power/action identities and inspect
+  which encounters drive losses before proposing balance edits. These results measure
+  current frozen loadouts under explicit scenarios, not final retail balance.
+
+
+**Latest (Claude, Oct 19, step 5): class benchmark, exhaustive battles, balance recommendations.**
+Read `pe-balance-recommendations-2026-10-19.md`. New in `compare_rules`:
+- `--builds class`: equal-investment class guns (`run_benchmark.CLASS_GUNS`). Aya is the same
+  seed's frozen group-C build, so only the gun differs.
+- `--all-battles`: every logged battle once per build. Random battle sampling moved Disc2
+  results by ±1–2 s.
+- `--encounters ordinary|boss`.
+- Per-group ordinary / boss table in reports; `resummarize(stem)` rebuilds a report from
+  saved rows.
+- Weapon-table proposals: `cfg:@G3A3.power+45,5.rof+1`, combinable as `exp:X|cfg:...`.
+
+Other changes:
+- New experiments `AAo_30..60` (`all_mode_ordinary_only`: no Attack All cut in boss battles).
+- `secondary_test --proposal`.
+- Tests: `test_compare_rules.py`. Full suite 311 + 5 OK.
+
+Recommendations, not built into the mod:
+- **R-A `AAo_40`:**
+  - Disc2 ordinary P90 3.2 → 5.7 s (others 7.7–9.5); bosses unchanged.
+  - `AAm_40` without the boss exemption drops P90 boss wins 0.73 → 0.49.
+- **R-B G3A3 +45 power:** D5 rifle 34.7 → 21.7 s.
+- **R-C M203 4 +20 power:** 28.1 → 22.5 s.
+- **R-D:** switch-cost change is low priority.
+
+Disc2 boss numbers remain an incomplete scenario and drive no recommendation. R-A has a
+concrete mod spec:
+- hook `pe_on_damage`;
+- condition: Attack All (`turn & 0xC0 == 0xC0`), at least 2 live enemy slots, and no slot with
+  status2 bit 0x40000;
+- the boss bit is the same one the logger's `boss` label uses.
+
+**Step 5b, boss identities** (`pe-boss-identity-multikind-2026-10-19.md`):
+- Bosses 188 / 245 / 269 / 429 write several literal kinds (field 42: 2 then 4), so
+  `literal_identities` skipped them.
+- New opt-in: `MULTI_KIND` sentinel cell, `enemy_identity.multi_kind_identities`, and
+  `compare_rules --multi-kind`.
+- Same opt-in: silent actors (`enemy_choice.silent_identity`). Their flow has no command,
+  effect or PM send: 269 0x041B and 273 0x0125.
+- Disc2 boss fallback share 0.52 → **0.00**. The untimed share (0.60) is now the main boss
+  gap.
+- Untimed task-effect controllers:
+  - 245: SeekingTrail.
+  - 269: GroundSweep / OrbitTrailBurst / RisingSpray.
+  - 256 131 / 132, 428, 429, 432: unnamed.
+- All room overlays load at 0x8018EFE8.
+
+**Step 5c, gauge guard** (`pe-calibration-atbguard-2026-10-19.md`):
+- `Entity_ResolveDropTable` halves incoming damage while Aya's `atbGauge` is above 0 and no
+  barrier is up. The main `source_combat` hit path never applied this.
+- New opt-in `atb_guard`: halved unless Aya is mid-action. Flags `--atb-guard` on
+  `calibrate_logged` and `compare_rules`.
+- Corrected calibration reading: the per-hit damage overshoot was the real issue.
+  - Day 1–4 ordinary per hit is now 11.8 vs 10.6 logged.
+  - Total damage ratio 2.45 → 1.86.
+  - Hit frequency remains 1.4–1.6× high.
+- Use `--atb-guard --multi-kind` for new comparisons.
+
+**Step 7f, Energy Shot live check:**
+- The user cast it in room 273: 572 damage, PE 1420/1420, level 33, defense 85.
+- energy_shot_damage reproduces it exactly with base 219; save inputs give 566.
+- Full defense and the integer level factor are confirmed.
+
+**Step 7e, Aya's side closed:**
+- Medic, Full Recover and Scan powers.
+- Cure items (cure, or immunity when not afflicted).
+- Literal source steals (opt-in `--steals`).
+- `--logged-items` replay.
+- `rules.VALIDATION` has rows for PE, items, revive and steals.
+- Final calibration `pe-calibration-logged-aya-final-2026-10-19`: ordinary 1.04× (r 0.75);
+  bosses 0.64× (Disc2 noisy).
+- From here on, work is enemy-side: room 273, out-of-reach boss turns, 350 / 428 / 432,
+  room 332, 0x001E.
+- Use the full flag set for rebalance re-runs. 354 tests OK.
+
+**Step 7d, Aya's side completed** (`pe-aya-pe-items-2026-10-19.md`, "completion pass"):
+- Source:
+  - Preraise / Revive (half HP, PE / 4);
+  - Gene Heal (tick + drain);
+  - Energy Shot formula (not in the log, unvalidated);
+  - armor auto-medicine and auto-cure;
+  - counter rank = identity low byte (opt-in `--identity-rank`).
+- Labelled: confusion disables the melee dodge.
+- `rules.VALIDATION`: four rows promoted. What's left as A / L on Aya's side is player behaviour
+  only.
+- Best calibration `pe-calibration-logged-best-rank-2026-10-19`: ordinary 1.04×, bosses 0.73×.
+- 352 tests OK.
+
+**Step 7c, logged casts, spell effects, controllers** (`pe-calibration-casts-2026-10-19.md`):
+- Source: Haste sets 0x100 (defense term × 3/10); Barrier drains PE instead of HP; Detox; Slow
+  (charge × 3/5); Confuse (3–5 skipped cycles).
+- Calibration flags: `--logged-casts`, `--multi-kind`, `--boss-cap 400`, `--controllers`.
+  - 10-HP boss cores in rooms 123 and 273 are untargetable; the other +1000000 values are phase
+    offsets.
+- Current best (all flags): ordinary 1.04× (r 0.75), bosses 0.84× (r 0.57), fallback 0.
+  - Day 5 ordinary 1.06× and bosses 0.98×: that gap was the player's casts.
+- Scripted boss HP from the per-slot hit log:
+  - room 188 second phase 300 (script `Entity_SetField` 44 / 45);
+  - parts removed unengaged dropped (room 269: 2635 → 1067 vs 960 logged);
+  - controllers untargetable.
+- Aya's dealt per turn matches the log in every group.
+- Best run `pe-calibration-logged-best-2026-10-19`: ordinary 1.04× (r 0.75); bosses 0.67×
+  (r 0.71).
+  - Remaining boss gap: out-of-reach turns in 188 / 245 / 256 / 350 (1.2–2.4 rounds per turn;
+    arena movement not modelled) and 273 (0x0325 not ported).
+- 349 tests OK.
+
+**Step 7b, PE powers pause enemies** (user observation): PE casts are a paused advance (no
+strikes, no regen; `pe_pause_s`). Items stay committed. Current best calibration is
+`--serial --pe --evade-melee-early 0.6 --atb-guard --logged-charge --reaction 30 --reaction-paused`
+(`pe-calibration-logged-serial-pe-pause-2026-10-19`):
+- ordinary 0.93× (Day 2–4 1.05, Disc2 1.00, Day 5 0.64);
+- bosses 0.83× (Day 5 0.56, Disc2 0.76).
+
+Next up is the Day 5 gap. 343 tests OK.
+
+**Step 7, Aya's side** (`pe-aya-pe-items-2026-10-19.md`):
+- PE regen, spells and items from source; mod half-bar rules; opt-in `pe` and `--pe`.
+- The calibration now includes PE battles: ordinary 1.07×, bosses 0.93×.
+- `player_max_hp` for HP-share statuses.
+- Ordinary enemies: early melee dodge 0.6 (--evade-melee-early, user-confirmed behaviour) gives ordinary 0.93× and Day 2–4 1.07×. 0x0100 = template-rank silent parts. Open: 0x001E (217 / 226), Day 1 (small sample).
+
+**Step 6c:**
+- Beacons and pulses for bosses 5, 23, 89 and 123.
+- Room 86 phase pick (`phase_powers`); `melee_window` accepts repeated declarations with
+  identical timing.
+- 350 investigated: geometry needs runtime configuration. Details in
+  `pe-effect-ports-2026-10-19.md` (second pass).
+
+**Step 6b, effect ports** (`pe-effect-ports-2026-10-19.md`):
+- Timelines from decompiled source for:
+  - 0x001A (melee per species, OrbitFlare, LineBurst);
+  - boss 188 (PhasedSpark; WaveSpark is visual, so slot 4 is harmless);
+  - boss 269 (GroundSweep, RisingSpray, grab);
+  - boss 245 (Seeking / Scatter trails);
+  - 0x000C (MotionParticles eruption strip).
+- Remaining untimed: 350, 5, 23, 89, 123, 273, 348; 428 / 429 / 432 have no symbols.
+
+**Step 6, serial rule and room 256 ports** (`pe-calibration-serial-2026-10-19.md`).
+- Game flag 0x100 is set during Aya's committed action:
+  - enemy charge and status (`Battle_UpdateEnemy`) and enemy script nodes freeze, so no new
+    attacks start;
+  - attacks already animating still land (the user's "sitting duck");
+  - Aya's gauge doesn't fill.
+- Opt-in `serial_action` / `--serial`; `reaction_paused`; `player_evade` no longer applies
+  while committed.
+- New set `logged_player_serial` (reaction 30 paused, no evasion): ordinary damage 1.15×,
+  time per turn matched. It replaces the fitted 0.55 evasion.
+- `room_m256.py` ports the 256 boss trail (132, slot 3) and the swing + scatter drops
+  (131 + class 76, slot 4).
+  - `task_actions` now looks behind the swing class for a RoomM256 program.
+  - The trail's contact is sensitive to its turn scale (810, source range 800–820 when facing
+    Aya).
+- Species picks also take the picked actor's melee window: 0x1A slot 1 is now window-timed.
+
+**Step 5d, charge fallback and player evasion.**
+- `logged_charge.py`: the play log's runtime charge step, used as a fallback for 29
+  identities that otherwise got the placeholder 90. The 105 catalogued identities match the
+  log exactly. Opt-in `logged_charge` / `--logged-charge`.
+- `player_evade`: player behaviour, fitted value 0.55. `compare_rules` assumption set
+  `logged_player` = reaction 75 + evade 0.55.
+- Full calibration, ordinary battles: damage 15.6 logged vs 16.4 simulated (1.05×);
+  8.20 vs 8.22 s per turn.
+- Recommended for absolute numbers:
+  `--atb-guard --logged-charge --multi-kind --assumptions logged_player,...`
+- Day 5 bosses remain near zero damage (room 332 0x0015 power lead).
+
+**Claude, Oct 19, step 4: baseline balance on the improved model + first rebalance tests.**
+Read `pe-baseline-current-rules-2026-10-19.md` (CURRENT rules; 8 seeds × 6 campaign battles
+per build/stage; sets default / late / human_reaction / far_player). Comparisons now use the
+source level table's max HP (level 33 = 621) instead of the HP-bugged 385. Disc2 ordinary
+fallback share is 5–8% (was 60%), helped by:
+- per-room scale cells (`enemy_power.room_v80_cells`: room 210 uses N11 = V80);
+- labelled species picks for 0x1A / 0x1D (`called_slots` variants).
+
+Findings:
+- D5 is mostly a G23 comparison; every build wins.
+- **Disc2 ordinary: the P90 with Attack All dominates** (1.8 s, 0 damage vs MAG 8.2 s), stable
+  across assumption sets.
+- Disc2 bosses remain an incomplete scenario: 188 / 245 / 429 unresolved; 256 / 428 / 432 / 350
+  effects untimed.
+- S1 shotgun proximity: no measurable effect on campaign battles. D5 "shotgun" builds hold a
+  G23; Disc2 M10B −0.04..−0.57 s, every CI spans 0.
+
+New experiments `AA_50..80` (Attack All per-bullet power). `rules.SOURCE_BACKEND_KEYS` lists
+the keys the source backend honours, and `compare_rules` refuses proposals using others.
+
+**Claude, Oct 18, accuracy plan step 3: play-log calibration.** Read
+`pe-calibration-logged-2026-10-18.md`. The logger's `secs` is seconds/10 (use frames/59.9).
+The logged run had the old Counter boost ×5 (replay with `--log-era`). With that and the
+`walk` policy, turns per battle match (2.35 vs 2.13, r 0.66). Incoming damage per hit matches,
+but frequency is about 2× high: the remaining placeholders plus player spacing. Also new:
+- More effect ports: homing flash (0x17 rooms 162/163), twelve elements (0x17 rooms
+  167–173/186), paired glow (0x11), three particles.
+- A `noeffect` plan kind: slot 3+ with no effect object can't damage (e.g. 0x0A slot 3).
+- An option for timing/power slot realignment in `called_slots` mode.
+- An opt-in `reaction_updates` player policy.
+- Comparison assumption sets `human_reaction` and `far_player`.
+Relative comparisons are supported; absolute survival is not yet.
+
+**Claude, Oct 18, accuracy plan step 2: effect attacks get source timelines.** Read
+`pe-effect-timelines-2026-10-18.md`. `room_handlers.py` resolves effect id → room overlay
+program; `room_modules.py` ports the FieldFx object engine plus falling burst, three particles,
+timed spawn, burst orb, sound burst, spark ring and burst sparks; `homing_throw.py` ports the
+thrown projectile and ground eruption. Untimed strikes 69% → 20% (early audit). Remaining
+untimed: 429 0x26 (no symbols), room 350 hand sparks, 0x17, bosses 256/432/428/269.
+`compare_rules.py` is the comparison workflow (matched seeds, campaign battles, assumption
+sets incl. `geometry_upper`). 308 tests. Next: the remaining effects, player movement during
+effects, then calibration against the 175 logged battles.
+
+**Claude, Oct 18, accuracy plan step 1: fallback-hit audit + called slots.** Read
+`pe-fallback-hit-audit-2026-10-18.md`. Audit replay reproduces the published run exactly
+(9,123/16,247 fallback). The cause was the slot-0 default on enemies that never call slot 0
+(146 0x13 alone 42.7%). Opt-in `source_options['called_slots']` uses each identity's called
+slots with per-slot timing+power, plus the template critical chance 0 (retail EXE
+g_EnemyCombatantInitial). Fallback 56.15% → 11.12% (ordinary 8.2%, bosses 19.9%), and what
+remains is labelled. **New largest gap: 69% of executed strikes use the untimed 10/10
+placeholder** (slot 3+ effects; PM programs 0–84 aren't decompiled). Next: rebalance
+comparison workflow with sensitivity to that placeholder, then the player-loop and
+progression validation.
+Reproduce: `python -m pe_weapon_sim.audit_fallback_hits --bound both [--extra ...]`;
+`python -m unittest pe_weapon_sim.tests.test_called_slots`.
+
+**Claude, Oct 18, seventh pass: melee reach from hit-sphere geometry.** Read
+`pe-melee-reach-2026-10-18.md`. `enemy_reach.py` ports the model layout, animation decode
+and bone hierarchy; validated read-only against live Eve sphere entries (11/12 samples within
+7 units, YXZ). Reach for 187/198 melee actions (`data/pe-enemy-reach-2026-10-18.json`);
+script attack distances sit just inside reach (330/407, 350/373, 700/714, 300/402), with
+exceptions the farming enemy (630 vs 576) and 0x17 slot 1 (1000 vs 633). Opt-in
+`source_options['melee_reach']` (already used by Codex's rerun above). 284 tests.
+
+**Latest (Claude, Oct 18, sixth pass): melee contact windows — correction.** Read
+`pe-melee-contact-window-2026-10-18.md`. A slot 0-2 hit needs 3D sphere contact with the
+record's contact ids while the record is in state 1 (Entity_CheckActionIdMatch); the category
+1/3 frame crossing *closes* that window (state 3) and is not the hit. `decode_enemy_actions`
+timing = window close + 1 and assumes a hit always lands. `melee_window.py` gives windows for
+all 198 melee actions (cat 0/2/3); opt-in `source_options['melee_window']`; enemy_choice uses
+it. Ordinary timing 322 → 348/383. Next: reach (sphere geometry). 275 tests. Hold respected.
+
+**Latest (Claude, Oct 18, fifth pass): enemy decisions (distance-gated attack choice).** Read
+`pe-enemy-choice-2026-10-18.md`. `enemy_choice.py` derives each attack call's distance guard
+from the room scripts (Entity_GetDistanceComponents comparisons, state dispatch, diamonds);
+`GatedEnemy` picks the slot by current distance at full charge, else holds 30-59 updates.
+Opt-in `source_options['enemy_choice']`. 83/383 ordinary appearances gated (65 multi-slot,
+65 with a dead band); 60 have at least one timed slot, none all. 267 tests pass. Hold respected.
 
 **Latest (Claude, Oct 18, fourth pass): Aya's incoming status.** Read
 `pe-player-status-2026-10-18.md`. `player_status.py` ports Battle_ApplyEnemyAttack and Aya's

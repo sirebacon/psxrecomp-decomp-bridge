@@ -1,0 +1,87 @@
+{
+ "source": "read-only live probe (port 4378), Eve fight, 2026-10-18; actor 0x800bf210 (Eve, move_speed 5324), one atomic read per sample of entity + animation_entries; model and animation decoded from RAM with enemy_reach",
+ "spheres": 9,
+ "samples": [
+  {
+   "order": "YXZ",
+   "counter_frame": 15,
+   "decoded_frame": 15,
+   "max_error": 5.8
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 16,
+   "decoded_frame": 16,
+   "max_error": 6.1
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 18,
+   "decoded_frame": 17,
+   "max_error": 6.2
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 19,
+   "decoded_frame": 18,
+   "max_error": 6.2
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 21,
+   "decoded_frame": 20,
+   "max_error": 6.0
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 22,
+   "decoded_frame": 21,
+   "max_error": 5.0
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 0,
+   "decoded_frame": 0,
+   "max_error": 651.3
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 1,
+   "decoded_frame": 1,
+   "max_error": 5.0
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 3,
+   "decoded_frame": 1,
+   "max_error": 5.9
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 5,
+   "decoded_frame": 3,
+   "max_error": 4.5
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 6,
+   "decoded_frame": 4,
+   "max_error": 7.0
+  },
+  {
+   "order": "YXZ",
+   "counter_frame": 7,
+   "decoded_frame": 6,
+   "max_error": 5.5
+  }
+ ],
+ "summary": {
+  "samples": 12,
+  "within_7_units": 11,
+  "order_best": {
+   "YXZ": 12,
+   "XYZ": 0,
+   "ZYX": 0
+  }
+ }
+}

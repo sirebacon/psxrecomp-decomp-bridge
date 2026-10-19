@@ -91,6 +91,19 @@ EXPERIMENTS.update({
     "X_all1": dict(all_first_cmd_only=True),            # Attack All only on the first command of a turn
 })
 
+# Phase 4 (2026-10-19, source backend): Attack All per-bullet power (P90 Attack All dominates
+# Disc2 group fights in the source model). Applied in engine.bullet for eff mode 'all'.
+EXPERIMENTS.update({"AA_%d" % p: dict(all_mode_power_pct=p) for p in (50, 60, 70, 80)})
+# AAm: the cut applies only while two or more enemies are alive (single targets keep full power).
+EXPERIMENTS.update({"AAm_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True) for p in (30, 40, 50, 60, 70)})
+# AAo: as AAm, but never in a battle that contains a boss (boss fights with adds keep full Attack All).
+EXPERIMENTS.update({"AAo_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 40, 50, 60)})
+
+# Experiment keys the source backend honours (others were built for the earlier abstract engine).
+SOURCE_BACKEND_KEYS = {'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',
+                       'graze_bands', 'keepaway_threshold_scale', 'counter_mult', 'hit_pct', 'crit_points', 'crit_convert_pct',
+                       'elem_resist', 'elem_neutral', 'elem_weak', 'quickdraw_bonus', 'poison_pct', 'status_avg', 'status_resist'}
+
 
 def combine(*names):
     """CURRENT + several experiments; the mag_scale / stagger dicts of later ones replace earlier ones."""
@@ -139,7 +152,7 @@ VALIDATION = [
     ("Range in game units = 150 * sqrt(range stat + bonus)", "D", "Inv_BuildWeaponList (battle/commands.c)"),
     ("ATB gain per tick = stat22 * factor[kind] / 10; full 9000; Slow -40%, Haste +50%", "D", "Battle_SetupEnemyAnims g_BattleActionOffenseScale; Battle main update"),
     ("ATB factor by kind: hg 10, sg 8, mg 10, rifle 8, gl 8, rocket 4, Maeda 10, club 20", "R", "g_BattleActionOffenseScale 0x800106D4 (save-state RAM)"),
-    ("Animation loops by kind (windup, per-shot, recovery, hit frame)", "R", "g_BattleActionAnimRows 0x800106A4; absolute frames not measured"),
+    ("Animation loops by kind (windup, per-shot, recovery, hit frame)", "D", "g_BattleActionAnimRows 0x800106A4 + weapon-bank frame counts (findings/data/pe-animation-extract-2026-10-18.json), stepped by source_battle.attack (source backend)"),
     ("Quickdraw: stat22 % chance of a full bar at battle start", "D", "Battle_CheckDropChance (battle/context.c)"),
     ("Counter: after an enemy hit, chance L/1000 .. L/5000 by rank (L = HP level = level*10)", "D", "Battle_RollEnemySpawn; Battle_GetAgilityBonus reads stats.levels[0]"),
     ("Tool transfer: bonuses add to destination (cap 999), source zeroed", "D", "armor_capacity.c TRANSFER_STAT"),
@@ -148,7 +161,15 @@ VALIDATION = [
     ("Enemy distance profiles (normal / boss / keep-away)", "L", "hitq + reach rows"),
     ("Seconds per tick / animation frame scale", "L", "battle rows secs/turns (handgun ~1.4 s per turn)"),
     ("Enemy attack interval and damage", "A", "1.0-1.4 s; damage from hurt rows only for the Day 5 boss"),
-    ("Aya ATB does not fill while she is acting", "A", "Battle update skips the fill on state 0x2600 (not mapped)"),
-    ("Counter rank difference", "A", "ranks not mapped; equal rank assumed"),
-    ("Player repositioning time", "A", "policy parameter (stand / approach)"),
+    ("Aya ATB does not fill while she is acting", "D", "menu/main_update.c Menu_MainUpdate: no gauge gain while game flag 0x100 (committed action, player_turn.c / turn.c)"),
+    ("Counter rank difference", "D", "context.c Battle_RollEnemySpawn: s8(Aya rank = level - enemy identity low byte); opt-in identity_rank (default: enemy level)"),
+    ("PE regen, costs, heals, Haste/Barrier/Detox/Medic/Slow/Confuse/Gene Heal/Preraise/Full Recover", "D", "Menu_MainUpdate; Battle_ApplySpellEffect; Entity_UpdateTimers (parasite_energy.py, opt-in pe)"),
+    ("Haste cuts the defense term to 3/10; Barrier drains PE instead of HP", "D", "Entity_ResolveDropTable (entity/combat.c)"),
+    ("Energy Shot power (PE-scaled, full defense, all PE spent)", "D", "Battle_ResolveHit state 0x100000; phase.c. Live cast 2026-10-19: 572 logged = formula with base 219 (full defense, integer level factor); save inputs give 566"),
+    ("Preraise / Revive: HP maxHP/2, PE/4, gauge 0, ailments cleared", "D", "encounter.c phase 3; Battle_StepVictory case 7; Battle_ResetEnemyStats"),
+    ("Items: Medicine 45/90/180/400, Full Recover, cures (cure or one-use immunity); armor auto-medicine / auto-cure", "D", "Battle_ApplyDamage; Entity_UpdateTimers effect 0x4000 / 0x8000"),
+    ("Enemy steals (item / ammo) only with armor bit 0x10, 40%", "D", "Battle_ApplyEnemyAttack (literal; opt-in steals)"),
+    ("PE powers pause the enemies and can't be interrupted; items are a committed action", "L", "user observation 2026-10-19 (consistent with Pm_StopLowerHalf / flag 0x100)"),
+    ("Player reaction, melee dodge, cast / item choices", "L", "play-log calibration (reaction 30 paused, melee dodge 0.6 Days 1-4, --logged-casts / --logged-items)"),
+    ("Player repositioning time", "R", "walk 440 units/s measured live (scene/player_movement.c: 5.0 x moveFactor x moveSpeed per update); when to walk is a policy parameter"),
 ]

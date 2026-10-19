@@ -16,7 +16,7 @@ effect 2 "RESIST STIFFNESS" and 5 "RESIST CONFUSION"; the bits are used as the c
 Combat effects modelled: poison HP loss, darkness forces weapon range to 200, stiffness (slow
 or lock) slows ATB gain (and lock stops modelled movement), 0x1000 cuts the defense term to
 3/10 (Entity_ResolveDropTable), HP-fraction effects 8 / 9 / 16, buff clear 2 (Haste only here).
-Confusion (3) and steals (10-13) are tracked as unmodelled.
+Confusion (3) only scrambles movement controls (scene/player_movement.c), so source_combat turns off the\nplayer's melee dodge while confused; steals (10-13) are tracked as unmodelled (inventory only).
 """
 from dataclasses import dataclass, field
 

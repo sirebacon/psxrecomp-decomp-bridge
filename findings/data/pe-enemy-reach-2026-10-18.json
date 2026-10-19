@@ -1,0 +1,1767 @@
+{
+ "scope": "melee reach per slot 0-2 action: largest origin distance with contact-part / Aya sphere overlap in the contact window (same floor, facing each other, Aya idle pose)",
+ "validation": "pe-hit-sphere-validation-2026-10-18.json",
+ "actions": [
+  {
+   "map": 12,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 622.2,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 3481
+  },
+  {
+   "map": 13,
+   "actor_type": 2,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 14,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 14,
+   "actor_type": 7,
+   "slot": 0,
+   "reach": null,
+   "frame": null,
+   "part": null,
+   "move_speed": 4096
+  },
+  {
+   "map": 14,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 360.4,
+   "frame": 1,
+   "part": 17,
+   "move_speed": 4096
+  },
+  {
+   "map": 22,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 134.0,
+   "frame": 16,
+   "part": 2,
+   "move_speed": 3276
+  },
+  {
+   "map": 22,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 338.3,
+   "frame": 1,
+   "part": 17,
+   "move_speed": 3276
+  },
+  {
+   "map": 23,
+   "actor_type": 2,
+   "slot": 0,
+   "reach": 588.8,
+   "frame": 5,
+   "part": 16,
+   "move_speed": 4096
+  },
+  {
+   "map": 27,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 28,
+   "actor_type": 7,
+   "slot": 0,
+   "reach": 653.2,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 3686
+  },
+  {
+   "map": 28,
+   "actor_type": 8,
+   "slot": 0,
+   "reach": 1864.0,
+   "frame": 7,
+   "part": 6,
+   "move_speed": 3686
+  },
+  {
+   "map": 28,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 510.0,
+   "frame": 3,
+   "part": 7,
+   "move_speed": 3686
+  },
+  {
+   "map": 32,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 1864.0,
+   "frame": 7,
+   "part": 6,
+   "move_speed": 3686
+  },
+  {
+   "map": 32,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 510.0,
+   "frame": 3,
+   "part": 7,
+   "move_speed": 3686
+  },
+  {
+   "map": 34,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 1797.4,
+   "frame": 14,
+   "part": 51,
+   "move_speed": 4505
+  },
+  {
+   "map": 34,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1897.5,
+   "frame": 3,
+   "part": 51,
+   "move_speed": 4505
+  },
+  {
+   "map": 34,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 586.3,
+   "frame": 21,
+   "part": 16,
+   "move_speed": 4505
+  },
+  {
+   "map": 59,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 530.7,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4505
+  },
+  {
+   "map": 59,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 506.6,
+   "frame": 0,
+   "part": 3,
+   "move_speed": 7372
+  },
+  {
+   "map": 61,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 62,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 530.7,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4505
+  },
+  {
+   "map": 63,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 575.9,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 65,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": -35.7,
+   "frame": 5,
+   "part": 26,
+   "move_speed": 4096
+  },
+  {
+   "map": 65,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 179.5,
+   "frame": 0,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 66,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 506.6,
+   "frame": 0,
+   "part": 3,
+   "move_speed": 7372
+  },
+  {
+   "map": 67,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 67,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 506.6,
+   "frame": 0,
+   "part": 3,
+   "move_speed": 7372
+  },
+  {
+   "map": 75,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 75,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1444.1,
+   "frame": 10,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 75,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 78,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 506.6,
+   "frame": 0,
+   "part": 3,
+   "move_speed": 7372
+  },
+  {
+   "map": 78,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 530.7,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4505
+  },
+  {
+   "map": 80,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 80,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1444.1,
+   "frame": 10,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 80,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 80,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 81,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 82,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 506.6,
+   "frame": 0,
+   "part": 3,
+   "move_speed": 7372
+  },
+  {
+   "map": 82,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 82,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1444.1,
+   "frame": 10,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 82,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 956.4,
+   "frame": 0,
+   "part": 13,
+   "move_speed": 4096
+  },
+  {
+   "map": 83,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 575.9,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 85,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": -35.7,
+   "frame": 5,
+   "part": 26,
+   "move_speed": 4096
+  },
+  {
+   "map": 85,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 179.5,
+   "frame": 0,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 87,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": -35.7,
+   "frame": 5,
+   "part": 26,
+   "move_speed": 4096
+  },
+  {
+   "map": 87,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 179.5,
+   "frame": 0,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 87,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 89,
+   "actor_type": 1,
+   "slot": 0,
+   "reach": 516.1,
+   "frame": 5,
+   "part": 16,
+   "move_speed": 3276
+  },
+  {
+   "map": 100,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 100,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 104,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 107,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 373.5,
+   "frame": 1,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 107,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 422.4,
+   "frame": 2,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 107,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 111,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 373.5,
+   "frame": 1,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 111,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 422.4,
+   "frame": 2,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 113,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 113,
+   "actor_type": 7,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 114,
+   "actor_type": 6,
+   "slot": 0,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 114,
+   "actor_type": 6,
+   "slot": 1,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 115,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 118,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 481.3,
+   "frame": 1,
+   "part": 6,
+   "move_speed": 5324
+  },
+  {
+   "map": 118,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 523.3,
+   "frame": 2,
+   "part": 6,
+   "move_speed": 5324
+  },
+  {
+   "map": 120,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 120,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 121,
+   "actor_type": 8,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 121,
+   "actor_type": 9,
+   "slot": 0,
+   "reach": 714.4,
+   "frame": 5,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 122,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 122,
+   "actor_type": 5,
+   "slot": 0,
+   "reach": 373.5,
+   "frame": 1,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 122,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 422.4,
+   "frame": 2,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 146,
+   "actor_type": 7,
+   "slot": 0,
+   "reach": 402.4,
+   "frame": 2,
+   "part": 4,
+   "move_speed": 3686
+  },
+  {
+   "map": 149,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 340.8,
+   "frame": 12,
+   "part": 22,
+   "move_speed": 8192
+  },
+  {
+   "map": 153,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 402.4,
+   "frame": 2,
+   "part": 4,
+   "move_speed": 3686
+  },
+  {
+   "map": 154,
+   "actor_type": 9,
+   "slot": 0,
+   "reach": 402.4,
+   "frame": 2,
+   "part": 4,
+   "move_speed": 3686
+  },
+  {
+   "map": 156,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 1482.9,
+   "frame": 3,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 159,
+   "actor_type": 1,
+   "slot": 0,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 162,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 632.5,
+   "frame": 1,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 162,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 538.4,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4710
+  },
+  {
+   "map": 163,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 632.5,
+   "frame": 1,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 163,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 538.4,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4710
+  },
+  {
+   "map": 167,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 217.9,
+   "frame": 2,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 167,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 538.4,
+   "frame": 1,
+   "part": 3,
+   "move_speed": 4710
+  },
+  {
+   "map": 168,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 217.9,
+   "frame": 2,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 168,
+   "actor_type": 9,
+   "slot": 1,
+   "reach": 1579.2,
+   "frame": 8,
+   "part": 6,
+   "move_speed": 3072
+  },
+  {
+   "map": 168,
+   "actor_type": 9,
+   "slot": 2,
+   "reach": 717.7,
+   "frame": 11,
+   "part": 2,
+   "move_speed": 3072
+  },
+  {
+   "map": 169,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 1579.2,
+   "frame": 8,
+   "part": 6,
+   "move_speed": 3072
+  },
+  {
+   "map": 169,
+   "actor_type": 7,
+   "slot": 2,
+   "reach": 717.7,
+   "frame": 11,
+   "part": 2,
+   "move_speed": 3072
+  },
+  {
+   "map": 169,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 217.9,
+   "frame": 2,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 173,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 217.9,
+   "frame": 2,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 186,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1074.3,
+   "frame": 5,
+   "part": 30,
+   "move_speed": 3276
+  },
+  {
+   "map": 186,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 217.9,
+   "frame": 2,
+   "part": 17,
+   "move_speed": 5120
+  },
+  {
+   "map": 187,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1074.3,
+   "frame": 5,
+   "part": 30,
+   "move_speed": 3276
+  },
+  {
+   "map": 188,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1558.2,
+   "frame": 8,
+   "part": 15,
+   "move_speed": 4096
+  },
+  {
+   "map": 188,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 894.4,
+   "frame": 7,
+   "part": 15,
+   "move_speed": 4096
+  },
+  {
+   "map": 188,
+   "actor_type": 6,
+   "slot": 2,
+   "reach": 527.5,
+   "frame": 7,
+   "part": 3,
+   "move_speed": 4096
+  },
+  {
+   "map": 188,
+   "actor_type": 7,
+   "slot": 2,
+   "reach": 459.7,
+   "frame": 3,
+   "part": 1,
+   "move_speed": 4096
+  },
+  {
+   "map": 188,
+   "actor_type": 8,
+   "slot": 2,
+   "reach": 896.4,
+   "frame": 4,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 197,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 197,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 197,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 197,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 198,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 198,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 198,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 198,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 199,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 199,
+   "actor_type": 6,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 199,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 199,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 201,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 203,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 203,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 203,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 203,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 205,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1836.2,
+   "frame": 2,
+   "part": 38,
+   "move_speed": 2703
+  },
+  {
+   "map": 205,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1150.4,
+   "frame": 1,
+   "part": 8,
+   "move_speed": 2703
+  },
+  {
+   "map": 206,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 206,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 206,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 206,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 207,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 207,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 210,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 214,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 214,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 214,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 217,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 217,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 218,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 218,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 218,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 219,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 219,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 219,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 220,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 220,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 220,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 221,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 223,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 223,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 223,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 223,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 224,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 224,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 224,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 224,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 226,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 226,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 229,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 229,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 229,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 229,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 231,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 231,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 231,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1836.2,
+   "frame": 2,
+   "part": 38,
+   "move_speed": 2703
+  },
+  {
+   "map": 231,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1150.4,
+   "frame": 1,
+   "part": 8,
+   "move_speed": 2703
+  },
+  {
+   "map": 231,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 232,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 540.6,
+   "frame": 3,
+   "part": 8,
+   "move_speed": 4096
+  },
+  {
+   "map": 233,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 233,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 234,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 234,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 234,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1836.2,
+   "frame": 2,
+   "part": 38,
+   "move_speed": 2703
+  },
+  {
+   "map": 234,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 1150.4,
+   "frame": 1,
+   "part": 8,
+   "move_speed": 2703
+  },
+  {
+   "map": 234,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 242,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 242,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 242,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 242,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 243,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 1836.2,
+   "frame": 2,
+   "part": 38,
+   "move_speed": 2703
+  },
+  {
+   "map": 243,
+   "actor_type": 3,
+   "slot": 2,
+   "reach": 1150.4,
+   "frame": 1,
+   "part": 8,
+   "move_speed": 2703
+  },
+  {
+   "map": 245,
+   "actor_type": 6,
+   "slot": 2,
+   "reach": 833.9,
+   "frame": 20,
+   "part": 5,
+   "move_speed": 2252
+  },
+  {
+   "map": 245,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 1059.0,
+   "frame": 4,
+   "part": 5,
+   "move_speed": 2252
+  },
+  {
+   "map": 246,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": 1047.0,
+   "frame": 3,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 246,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 1149.0,
+   "frame": 5,
+   "part": 6,
+   "move_speed": 4096
+  },
+  {
+   "map": 246,
+   "actor_type": 6,
+   "slot": 1,
+   "reach": 201.4,
+   "frame": 20,
+   "part": 21,
+   "move_speed": 3072
+  },
+  {
+   "map": 246,
+   "actor_type": 7,
+   "slot": 1,
+   "reach": 453.5,
+   "frame": 5,
+   "part": 9,
+   "move_speed": 2867
+  },
+  {
+   "map": 256,
+   "actor_type": 2,
+   "slot": 1,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 263,
+   "actor_type": 7,
+   "slot": 1,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 263,
+   "actor_type": 8,
+   "slot": 1,
+   "reach": 561.4,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 6144
+  },
+  {
+   "map": 265,
+   "actor_type": 3,
+   "slot": 1,
+   "reach": 561.4,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 6144
+  },
+  {
+   "map": 265,
+   "actor_type": 4,
+   "slot": 1,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 269,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": null,
+   "frame": null,
+   "part": null,
+   "move_speed": 3276
+  },
+  {
+   "map": 269,
+   "actor_type": 4,
+   "slot": 2,
+   "reach": null,
+   "frame": null,
+   "part": null,
+   "move_speed": 3276
+  },
+  {
+   "map": 269,
+   "actor_type": 5,
+   "slot": 1,
+   "reach": null,
+   "frame": null,
+   "part": null,
+   "move_speed": 3276
+  },
+  {
+   "map": 269,
+   "actor_type": 5,
+   "slot": 2,
+   "reach": 964.5,
+   "frame": 2,
+   "part": 6,
+   "move_speed": 3276
+  },
+  {
+   "map": 328,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 402.4,
+   "frame": 2,
+   "part": 4,
+   "move_speed": 3686
+  },
+  {
+   "map": 333,
+   "actor_type": 4,
+   "slot": 1,
+   "reach": 406.8,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 333,
+   "actor_type": 5,
+   "slot": 1,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 348,
+   "actor_type": 2,
+   "slot": 2,
+   "reach": 652.8,
+   "frame": 20,
+   "part": 16,
+   "move_speed": 5324
+  },
+  {
+   "map": 350,
+   "actor_type": 2,
+   "slot": 0,
+   "error": "move_speed not literal"
+  },
+  {
+   "map": 358,
+   "actor_type": 4,
+   "slot": 0,
+   "reach": 575.9,
+   "frame": 3,
+   "part": 11,
+   "move_speed": 4096
+  },
+  {
+   "map": 358,
+   "actor_type": 6,
+   "slot": 0,
+   "reach": 241.5,
+   "frame": 1,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 380,
+   "actor_type": 3,
+   "slot": 0,
+   "reach": 1482.9,
+   "frame": 3,
+   "part": 18,
+   "move_speed": 4096
+  },
+  {
+   "map": 429,
+   "actor_type": 2,
+   "slot": 0,
+   "reach": 670.1,
+   "frame": 4,
+   "part": 42,
+   "move_speed": 4096
+  },
+  {
+   "map": 429,
+   "actor_type": 2,
+   "slot": 1,
+   "reach": 604.2,
+   "frame": 15,
+   "part": 17,
+   "move_speed": 4096
+  },
+  {
+   "map": 432,
+   "actor_type": 2,
+   "slot": 0,
+   "reach": 632.7,
+   "frame": 6,
+   "part": 20,
+   "move_speed": 3276
+  },
+  {
+   "map": 432,
+   "actor_type": 2,
+   "slot": 1,
+   "reach": 733.7,
+   "frame": 35,
+   "part": 20,
+   "move_speed": 3276
+  }
+ ]
+}

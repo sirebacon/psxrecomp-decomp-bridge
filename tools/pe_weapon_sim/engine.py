@@ -137,7 +137,8 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
     def done():
         if threshold:
             return any(foes[i]["dealt"] >= hp for i, hp in threshold.items())
-        return not alive()
+        # A 'controller' foe (untargetable boss core, e.g. room 123 0x0312) doesn't have to die.
+        return not [f for f in alive() if not f.get("controller")]
 
     def element_pct(f):
         if not (eff.get("heat") or eff.get("frost")) or kind == 6:
@@ -188,6 +189,10 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
             st.add("miss"); return
         st.add(react)
         power = (offense / 5.0 + cfg["power"]) * hitp / 100.0
+        if eff.get("mode") == "all" and rules.get("all_mode_power_pct") and (
+                not rules.get("all_mode_multi_only") or sum(1 for o in foes if o["cur"] > 0) >= 2) and (
+                not rules.get("all_mode_ordinary_only") or not any(o.get("boss") for o in foes)):
+            power = power * rules["all_mode_power_pct"] / 100.0      # experiment AA_* (Attack All per-bullet power)
         dmg = power - f["defense"] / (1 if kind == 8 else split)
         landed_positive = dmg > 0
         if landed_positive:
@@ -221,6 +226,10 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
         st.add("overkill", max(0.0, dmg - f["cur"]))
         st.add("damage", min(dmg, max(0.0, f["cur"])))
         f["cur"] -= dmg; f["dealt"] += dmg
+        if f["cur"] <= 0 and f.get("phase2_hp"):
+            # Scripted second phase: the room script refills HP once at the threshold (room 188
+            # actor 5 Entity_SetField 44/45 = 300 when HP < 1000000).
+            f["cur"] = float(f.pop("phase2_hp")); st.add("phase2_refills")
 
     if rules.get('combat_backend')=='source':
         if timing!='overlap': raise ValueError('source combat currently models ordinary overlap scheduling')

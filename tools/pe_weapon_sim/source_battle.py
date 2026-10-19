@@ -75,7 +75,7 @@ class BattleSession:
         self.gauge=gauge;self.costume=costume;self.update=0;self.events=[]
         self.rng=random.Random(seed)
         self.on_update=on_update;self.should_stop=should_stop or (lambda:False)
-        self.slow=False;self.haste=False
+        self.slow=False;self.haste=False;self.serial=False
         self.on_idle=None;self.action_busy=False
 
     @property
@@ -95,7 +95,8 @@ class BattleSession:
         if not isinstance(count,int) or count<0: raise ValueError('nonnegative integer update count required')
         for _ in range(count):
             if self.stopped: break
-            self.gauge=step_gauge(self.gauge,self.gain,menu_mode=0 if paused else 1)
+            self.gauge=step_gauge(self.gauge,self.gain,menu_mode=0 if paused else 1,
+                game_flags=0x100 if self.serial and self.action_busy else 0)   # flag 0x100 during actions
             self.update+=1
             if self.on_update: self.on_update(self,paused)
             if self.on_idle and not paused and not self.action_busy and not self.stopped:
@@ -115,7 +116,7 @@ class BattleSession:
         if amount: self.event('ammo_transfer',amount=amount,pool=pool,loaded=self.gun.loaded)
         return amount
 
-    def switch(self,destination,*,half_bar=True,menu_updates=0,stream_updates=0,cancel=False):
+    def switch(self,destination,*,half_bar=True,menu_updates=0,stream_updates=0,cancel=False,free=False):
         """One equip turn. Explicit stream wait holds mode13, while gauge can refill.
 
         No predicted disk latency. Menu is paused. No queue can fire in this turn.
@@ -123,7 +124,9 @@ class BattleSession:
         """
         if destination not in self.guns or destination==self.equipped: raise ValueError('different owned gun required')
         if min(menu_updates,stream_updates)<0: raise ValueError('negative delay')
-        self.wait_gauge(HALF if half_bar else FULL);saved=self.gauge
+        # free (candidate rule, not retail): no gauge wait and no gauge cost; the equip clip still plays.
+        if not free: self.wait_gauge(HALF if half_bar else FULL)
+        saved=self.gauge
         if self.stopped: return
         if cancel and (not half_bar or saved>=FULL): raise ValueError('only borrowed cancellation modeled')
         self.action_busy=True
@@ -132,7 +135,7 @@ class BattleSession:
         if cancel:
             self.event('switch_cancel',gauge=self.gauge);self.action_busy=False;return
         old=self.equipped;self.equipped=destination
-        self.gauge=saved-HALF if half_bar else 0
+        self.gauge=saved if free else (saved-HALF if half_bar else 0)
         self.event('weapon_change',old=old,gauge=self.gauge,loaded=self.gun.loaded)
         # encounter.c releases the mode13 hold after bank streaming is ready;
         # completion checks animPrev, hence frame_count+1 battle calls.
