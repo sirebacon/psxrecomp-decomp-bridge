@@ -79,15 +79,71 @@ Robustness:
   - Day 2–4 weapons (not in the benchmark yet);
   - anything about which guns players buy.
 
+## Investment: BP and the Junk economy
+
+The class benchmark gives each gun one fixed investment:
+- Day 5: +12 attack;
+- Disc2: 30 / 10 / 10 bonuses plus 2 Commands and Quickdraw.
+
+Real investment depends on BP and on the Junk economy, and both interact with the proposals.
+
+**BP (bonus points):**
+- Earned per battle as base − factor × hits taken (fewer hits, more BP); banked and paid at
+  level-up; BP after the final level-up is wasted.
+- One weapon stat point = 100 BP.
+- The phase-3 economy runs earned about 5,400 BP per campaign and spent about 4,200. 1,300–3,400 of
+  that went to attack (+13 to +34); the rest went to Active Time, capacity, range, bullets and
+  armor.
+
+**Junk economy:**
+- The Mod Catalog lets any gun get Attack All or 2 / 3 Commands after a dismantle.
+- Rare Tool drops, the Requisition shop and salvage raise attack investment.
+- Tool transfers carry bought bonuses between guns.
+
+**How investment touches each proposal:**
+- **R-A:** applies to every Attack All volley, including catalog Attack All on non-P90 guns, which
+  may out-hit the P90. Slowing the P90 also means more hits taken and so less BP: a campaign-level
+  feedback the fixed benchmark can't see.
+- **R-B / R-C:** base-power buffs weigh less when a lot of bought attack sits on top. The right
+  size depends on the BP-attack range at Day 4–5.
+- **BP floor mod** (`pe_bonus_points_floor.c`, refills to 999 every frame, ships enabled by
+  default): with it on, investment is effectively unlimited, class gaps shrink, and base buffs
+  matter much less.
+- **OPEN DECISION (user):** is the BP floor part of normal play or a testing convenience?
+  Suggestion: an opt-in Relaxed preset, with balance tuned for normal BP.
+
+**Investment profiles to sweep across** (per stage: Day 4, Day 5, Disc2):
+
+| Profile | BP | Junk economy |
+|---|---|---|
+| Vanilla | earned normally, floor off | off |
+| Mod, Normal | earned normally; attack-first and spread spenders | on, Normal preset |
+| Mod, heavy | earned normally, attack-first | Grind preset |
+| BP floor on | effectively maxed | any (upper bound) |
+
+**Method:**
+1. Get BP and Junk per stage from playthrough runs (the economy simulator's BP ledger and
+   spending policies), re-run on the calibrated combat model so earnings reflect real hits taken.
+   The logged playthrough is the anchor: its endgame gun was 0x64 with +32 attack.
+2. Run the strength sweeps across all profiles, plus a catalog Attack All loadout on a non-P90 gun.
+3. One playthrough-level check per proposal for the BP feedback loop.
+4. A change passes if it holds across the non-floor profiles. A change that only balances at one
+   investment level points to the economy knob to adjust (BP payout, Tool price, catalog access);
+   record those here for the economy balancing (phase 7).
+
 ## Simulations still to run
 
 Ordered by how much they could change the decisions.
 
-1. **Strength sweeps** (cheap, directly decision-relevant):
+0. **Investment profiles** (BP and Junk economy per stage; see above). They come first because the
+   sweeps run across them.
+1. **Strength sweeps** (directly decision-relevant):
    - R-A at 35 / 40 / 45%;
    - R-B at +35 / +40 / +45;
    - R-C at +15 / +20 / +25;
-   - on the class benchmark and the campaign-earned builds, all three assumption sets.
+   - on the class benchmark and the campaign-earned builds, all three assumption sets, every
+     investment profile;
+   - plus catalog Attack All on a non-P90 gun.
 2. **Day 2–4 class benchmark.** The benchmark has Day 4 guns (`CLASS_GUNS['Day4']`) but no Day 2–4
    builds. Needs an Aya build per stage from the log, then the same three-way run. The G3A3 and
    the Attack All guns are used before Day 5.
