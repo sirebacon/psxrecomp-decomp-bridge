@@ -166,6 +166,13 @@ def builds(stages, seeds, groups=None):
         yield dict(group=group, phase=phase, seed=seed, cfg=cfg, aya=aya, armor=armor)
 
 
+# Attack investment per stage from the investment profiles (pe-investment-profiles-2026-10-19): bonus
+# attack / range / bullets on the carried gun at the end of the stage, low = casual / logged, high = optimizer.
+INVEST = {'D5': {'low': [12, 8, 10], 'typical': [18, 12, 15], 'high': [25, 15, 20]},
+          'Disc2': {'low': [35, 15, 17], 'typical': [50, 18, 24], 'high': [68, 20, 30]}}
+INVEST_LEVEL = [None]        # set by --invest
+
+
 def class_builds(stages, seeds, classes=None):
     """Equal-investment class benchmark: each class's representative gun (run_benchmark.CLASS_GUNS:
     Day 5 guns for D5, Wayne guns for Disc2). D5: Day-5 attack investment, built-in effects only;
@@ -176,13 +183,16 @@ def class_builds(stages, seeds, classes=None):
     for ph in stages:
         guns = dict(CLASS_GUNS['Day5' if ph == 'D5' else 'Wayne'])
         if ph == 'Disc2': guns.update(CLASS_GUNS.get('WayneRocket', {}))     # LAW80 (Disc 2 only)
+        if ph == 'Disc2': guns['rifle_aa'] = guns['rifle']                   # MAG with a catalog-installed Attack All
         if classes: guns = {c: w for c, w in guns.items() if c in classes}
-        elif ph == 'Disc2': guns.pop('rocket', None)                        # opt-in: keeps earlier runs reproducible
+        elif ph == 'Disc2': guns.pop('rocket', None); guns.pop('rifle_aa', None)   # opt-in: keeps earlier runs reproducible
         ref = {b['seed']: b for b in builds([ph], seeds, ['C'])}
         for cls, wid in guns.items():
             g = Gun(W[wid])
             if ph == 'D5': g.invested[0] = STAGE_INVEST['Day5']; mods = []
             else: g.invested = [30, 10, 10]; mods = ['2Cmd', 'Quickdraw']
+            if INVEST_LEVEL[0]: g.invested = list(INVEST[ph][INVEST_LEVEL[0]])
+            if cls == 'rifle_aa': mods = mods + ['AttackAll']
             cfg = gun_cfg(g, mods)
             for seed in range(1, seeds + 1):
                 yield dict(group='class_' + cls, phase=ph, seed=seed, cfg=cfg, aya=ref[seed]['aya'], armor=ref[seed]['armor'], gun=W[wid].name)
@@ -242,6 +252,7 @@ def main(argv=None):
     ap.add_argument('--serial', action='store_true')         # source: flag 0x100 freezes enemies / Aya's gauge during her action
     ap.add_argument('--calibrated', action='store_true')     # full calibrated model (implies --serial --atb-guard --logged-charge --multi-kind --identity-rank)
     ap.add_argument('--base', default='current', choices=('current', 'vanilla'))   # baseline ruleset
+    ap.add_argument('--invest', choices=('low', 'typical', 'high'))   # class benchmark investment level (INVEST)
     ap.add_argument('--classes', nargs='*')                  # class benchmark subset, e.g. rocket (Disc2 LAW80)
     ap.add_argument('--rockets', type=int)                   # rocket reserve (pool 1); default 999 like the other pools
     ap.add_argument('--all-battles', action='store_true')    # every logged battle once per build (no battle sampling noise)
@@ -255,6 +266,7 @@ def main(argv=None):
         from .enemy_identity import MULTI_KIND
         cells = {**cells, MULTI_KIND: 1}
     if a.rockets is not None: ROCKETS[0] = a.rockets
+    INVEST_LEVEL[0] = a.invest
     prop_rules, cfg_tf = proposal_from(a.proposal)
     sets = a.assumptions.split(',')
     battles = {p: [x for x in campaign_battles(p) if a.encounters == 'all' or x['boss'] == (a.encounters == 'boss')] for p in a.stages}

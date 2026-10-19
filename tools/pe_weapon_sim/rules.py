@@ -97,7 +97,7 @@ EXPERIMENTS.update({"AA_%d" % p: dict(all_mode_power_pct=p) for p in (50, 60, 70
 # AAm: the cut applies only while two or more enemies are alive (single targets keep full power).
 EXPERIMENTS.update({"AAm_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True) for p in (30, 40, 50, 60, 70)})
 # AAo: as AAm, but never in a battle that contains a boss (boss fights with adds keep full Attack All).
-EXPERIMENTS.update({"AAo_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 40, 50, 60)})
+EXPERIMENTS.update({"AAo_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 35, 40, 45, 50, 60)})
 
 # Experiment keys the source backend honours (others were built for the earlier abstract engine).
 SOURCE_BACKEND_KEYS = {'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',

@@ -10,12 +10,13 @@ that says what we're leaning toward and why.
 
 | ID | Change | Current lean | Evidence so far | Still needed before deciding |
 |---|---|---|---|---|
-| R-A | Attack All per-bullet power cut to **40%** when 2+ enemies are alive and no boss is present | Leaning yes, at 40% | Disc2 P90 crowd fights 4.9 → 8.6 s (others 11.9–14.9 s); damage 0.4 → 4.1 (others 6.1–9.2). 30% overshoots: P90 no faster than the handgun and takes the most damage | Sweep 35 / 40 / 45%; check 40% on the campaign-earned builds; Day 2–4 Attack All guns; try in game |
-| R-B | G3A3 base attack **+45** | Leaning yes | Day 5 ordinary 48.5 → 28.7 s, damage 93.7 → 44.6; lands inside the Day 5 pack (27–33 s) | Sweep +35 / +40 / +45; check the G3A3's Day 4 use (benchmark doesn't cover Day 2–4 yet) |
-| R-C | M203 4 base attack **+20** | Leaning yes | Day 5 ordinary 40.2 → 31.8 s; boss 59.4 → 52.0 s | Sweep +15 / +20 / +25; check frost-resistant rooms separately |
+| R-A | Attack All per-bullet power cut to **40%** when 2+ enemies are alive and no boss is present | **Yes at 40%** (sweep done) | At every investment level, Attack All guns stay 1.4–1.7× faster than the handgun: P90 4.5 → 7.0–8.1 s, catalog Attack All MAG 5.5 → 8.3–9.0 s. Bosses are untouched. 35% = alternative for damage parity; 45% still near 2×; 30% overshoots | Day 2–4 Attack All guns; try in game |
+| R-B | G3A3 base attack **+45** | **Yes at +45** (sweep done) | The only value that works at low investment (+35 / +40 leave it at 34 s, still slowest). +45 gives 27.5–28.9 s at every level, no overshoot (pack 24–31.5 s); the Day 5 boss loss disappears at typical / high investment | The G3A3's Day 4 use (Day 2–4 benchmark) |
+| R-C | M203 4 base attack **+15** (revised from +20) | **Yes at +15** (sweep done) | +15, +20 and +25 give the same result (39 → 31.4–31.8 s; boss 57 → 49 s): +15 already crosses the breakpoint. At high investment the M203 4 is in the pack even without a buff | Frost-resistant rooms separately; Day 2–4 |
 | R-D | Weapon switching cost | No change for now | Switching is a convenience while one gun covers both roles | Revisit after Disc2 bosses are reliable and if two-gun loadouts matter |
 
 Rejected so far:
+- **R-C at +20:** +15 gives the same effect with a smaller change.
 - **AAo_30** (Attack All at 30%): overshoots on the calibrated model.
 - **Global Attack All cuts** (any strength, always on): wreck single-target and boss use.
 - **S1 shotgun proximity bonus**: no measurable effect on campaign battles.
@@ -188,16 +189,66 @@ and the LAW80 (one of Wayne's six 300-Junk guns). The LAW80 is now an opt-in Dis
   nothing because supply resets each fight. Rocket balance hinges on rockets available per
   campaign (finds plus Requisition rocket purchases), which needs a campaign-level check.
 
+### Rocket supply per campaign (done)
+
+| | Rockets |
+|---|---|
+| **Demand:** LAW80 as main gun, per ordinary Disc2 fight | 1.45 |
+| **Demand:** per boss fight | 4.2–4.6 |
+| **Demand:** over the logged run's 105 Disc2 battles | about 190 |
+| **Free supply in the logged run** (a one-time 9 rockets around room 333 in Disc2; no rocket drops, the pool was 0 before Disc2) | 9 |
+| **Bought supply:** Requisition sells rockets at 20 Junk each (`pe_loot_shop.c`); an optimizer ends Disc2 on Normal with about 980 Junk to spare | at most ~50 |
+
+**Verdict:** the LAW80 is ammo-gated.
+- Mod economy: enough rockets for roughly a third of Disc2 fights, if every spare Junk goes to
+  rockets.
+- Vanilla: about 6 fights' worth.
+
+It is a strong special-purpose weapon, not a main crowd gun, so its crowd speed doesn't undercut
+R-A. Re-check if rocket prices drop (the Relaxed preset prices at 75%) or rockets get added to
+drops.
+
+### Strength sweeps (done, 2026-10-19)
+
+Calibrated model; class benchmark at low / typical / high investment (Day 5 attack +12 / +18 / +25;
+Disc2 +35 / +50 / +68); every logged battle, 3 seeds; Day 5 also under slow menus. Data:
+`pe-sweep-{d5,d2}-*-2026-10-19`, tabulated by `report_sweeps.py` into `pe-sweeps-2026-10-19.json`.
+
+**Damage moves in breakpoints** (hits needed per kill), so results step instead of sliding.
+
+Day 5 ordinary fights (mod now → swept G3A3 / M203 4 buffs):
+
+| Class | Low | Typical | High |
+|---|---|---|---|
+| Rifle G3A3: now | 48.5 s | 47.7 s | 45.7 s |
+| Rifle: +35 / +40 / +45 | 34.0 / 34.0 / **28.9** | 34.0 / 28.9 / **28.9** | 28.9 / 28.9 / **27.5** |
+| Grenade M203 4: now | 39.3 s | 39.4 s | 31.7 s |
+| Grenade: +15 / +20 / +25 | **31.8** / 31.8 / 31.8 | **31.4** / 31.4 / 31.4 | **30.9** / 30.9 / 29.8 |
+| Rest of the pack (handgun, machine, shotgun) | 26.5–31.5 | 25.5–26.6 | 24.2–26.4 |
+
+Disc2 ordinary fights (Attack All strength):
+
+| Class | Mod now | 35% | 40% | 45% |
+|---|---|---|---|---|
+| P90 | 4.4–4.8 s | 7.9–9.5 | **7.0–8.1** | 6.1–7.5 |
+| MAG + catalog Attack All | 5.4–5.5 s | 9.1–10.7 | **8.3–9.0** | 7.4–8.4 |
+| Single-target guns (unchanged) | 11.6–14.7 s | | | |
+| LAW80 (ammo-gated) | 6.3–6.4 s | | | |
+| Attack All guns' damage taken | 0.4 | 3.6–7.6 | **3.0–5.1** | 1.9–4.3 |
+| Single-target guns' damage taken | 5.1–9.2 | | | |
+
+- Single-target Disc2 guns barely respond to investment (plateau).
+- Catalog Attack All on the MAG is as strong as the P90, which confirms R-A has to apply to every
+  Attack All gun.
+- Bosses are unchanged by R-A at every strength.
 ## Simulations still to run
 
 Ordered by how much they could change the decisions.
 
 0. ~~Investment profiles~~ **done** (see above). Sweeps run at low / typical / high attack
    investment per stage.
-0b. **Rocket supply per campaign:** rockets found plus Requisition purchases, against the rockets
-   a LAW80 / AT4 player fires per stage. Decides whether the LAW80's crowd speed is real or
-   ammo-limited, and so whether R-A needs a rocket counterpart.
-1. **Strength sweeps** (directly decision-relevant):
+0b. ~~Rocket supply per campaign~~ **done:** the LAW80 is ammo-gated (see above).
+1. ~~Strength sweeps~~ **done** (see above). Kept for reference:
    - R-A at 35 / 40 / 45%;
    - R-B at +35 / +40 / +45;
    - R-C at +15 / +20 / +25;
@@ -229,7 +280,7 @@ Ordered by how much they could change the decisions.
     status2 bit 0x40000 (boss).
   - Effect: `atk_pm = atk_pm * 400 / 1000`.
   - Menu row: "Attack All power % (crowds)", default 40, vanilla 100.
-- **R-B / R-C:** single weapon-table edits (G3A3 base attack +45, M203 4 base attack +20).
+- **R-B / R-C:** single weapon-table edits (G3A3 base attack +45, M203 4 base attack +15).
 - **Reproduce the comparisons:**
   ```
   PYTHONPATH=tools python -m pe_weapon_sim.compare_rules --builds class --all-battles \
@@ -247,6 +298,7 @@ Ordered by how much they could change the decisions.
 | 2026-10-19 | R-A strength revised 40% → 30% | Serial-action model made long volleys protective |
 | 2026-10-19 | R-A revised back to 40% | Calibrated model (contact damage, Parasite Energy, full enemy roster): 30% overshoots |
 | 2026-10-19 | R-B, R-C kept | Confirmed on the calibrated model |
+| 2026-10-19 | R-A 40% and R-B +45 confirmed; R-C reduced to +15 | Strength sweeps across investment levels |
 | — | Nothing built or tested in game yet | Waiting on the sweeps and the Day 2–4 benchmark |
 
 ## Related files
