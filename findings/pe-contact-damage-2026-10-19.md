@@ -96,7 +96,7 @@ Calibration `pe-calibration-logged-contact-v5-2026-10-19`:
 **Remaining Disc2 boss gap = player behaviour:**
 - Rooms 245 / 256: club turns (`acts` 8:7 / 8:6) and weapon swaps.
 - Room 188: 5 volleys in 11 turns.
-- Room 350: still open.
+- Room 350: arena distance. The log's reach row has the boss in the graze band for 33% of ready frames\n  (4754 / 14206; graze = ×0.3 damage), against 2–14% elsewhere. With the generic boss distance profile the\n  sim lands harder hits (68 vs ~50) and twice as many per turn, and kills in 5 turns instead of 17. It\n  needs room-specific geometry (the runtime configuration noted in pe-effect-ports).
 
 The sim fires a full volley every turn and kills 2–3× sooner, so it takes less damage. Replaying
 the logged weapon / club turns would close this; it isn't an enemy-model error.
