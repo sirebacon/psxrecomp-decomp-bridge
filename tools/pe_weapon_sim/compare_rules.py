@@ -58,12 +58,13 @@ ATB_GUARD = [False]          # set by --atb-guard (module-level so run_fight / s
 LOGGED_CHARGE = [False]      # set by --logged-charge
 SERIAL = [False]             # set by --serial
 IDENTITY_RANK = [False]      # set by --identity-rank
-CALIBRATED = [False]         # set by --calibrated: the play-log-calibrated model (see options_for / campaign_battles)
+CALIBRATED = [False]         # set by --calibrated
+ROCKETS = [None]             # set by --rockets: reserve of rocket rounds (ammo pool 1): the play-log-calibrated model (see options_for / campaign_battles)
 
 
 def options_for(a, shared_cells):
     o = json.loads(json.dumps(BASE_OPTIONS))
-    o['reserve_ammo'] = {0: 999, 1: 999, 2: 999}
+    o['reserve_ammo'] = {0: 999, 1: 999 if ROCKETS[0] is None else ROCKETS[0], 2: 999}
     o.update(shared_cells=shared_cells, contact_timing=a['contact'], melee_window=a['contact'],
              enemy_choice=dict(contact=a['contact'], ambiguous=a['ambiguous'], untimed=a['untimed'], throw_lateral=a.get('throw_lateral', 0)),
              called_slots=dict(contact=a['contact'], untimed=a['untimed'], throw_lateral=a.get('throw_lateral', 0)))
@@ -165,7 +166,7 @@ def builds(stages, seeds, groups=None):
         yield dict(group=group, phase=phase, seed=seed, cfg=cfg, aya=aya, armor=armor)
 
 
-def class_builds(stages, seeds):
+def class_builds(stages, seeds, classes=None):
     """Equal-investment class benchmark: each class's representative gun (run_benchmark.CLASS_GUNS:
     Day 5 guns for D5, Wayne guns for Disc2). D5: Day-5 attack investment, built-in effects only;
     Disc2: endgame investment [30, 10, 10] + 2 Commands + Quickdraw (the universal core). Aya (level,
@@ -173,7 +174,10 @@ def class_builds(stages, seeds):
     from .run_benchmark import W, gun_cfg, CLASS_GUNS, STAGE_INVEST
     from .progression import Gun
     for ph in stages:
-        guns = CLASS_GUNS['Day5' if ph == 'D5' else 'Wayne']
+        guns = dict(CLASS_GUNS['Day5' if ph == 'D5' else 'Wayne'])
+        if ph == 'Disc2': guns.update(CLASS_GUNS.get('WayneRocket', {}))     # LAW80 (Disc 2 only)
+        if classes: guns = {c: w for c, w in guns.items() if c in classes}
+        elif ph == 'Disc2': guns.pop('rocket', None)                        # opt-in: keeps earlier runs reproducible
         ref = {b['seed']: b for b in builds([ph], seeds, ['C'])}
         for cls, wid in guns.items():
             g = Gun(W[wid])
@@ -238,6 +242,8 @@ def main(argv=None):
     ap.add_argument('--serial', action='store_true')         # source: flag 0x100 freezes enemies / Aya's gauge during her action
     ap.add_argument('--calibrated', action='store_true')     # full calibrated model (implies --serial --atb-guard --logged-charge --multi-kind --identity-rank)
     ap.add_argument('--base', default='current', choices=('current', 'vanilla'))   # baseline ruleset
+    ap.add_argument('--classes', nargs='*')                  # class benchmark subset, e.g. rocket (Disc2 LAW80)
+    ap.add_argument('--rockets', type=int)                   # rocket reserve (pool 1); default 999 like the other pools
     ap.add_argument('--all-battles', action='store_true')    # every logged battle once per build (no battle sampling noise)
     ap.add_argument('--encounters', default='all', choices=('all', 'ordinary', 'boss'))   # boss: enough boss samples per group
     a = ap.parse_args(argv)
@@ -248,11 +254,12 @@ def main(argv=None):
     if a.multi_kind:
         from .enemy_identity import MULTI_KIND
         cells = {**cells, MULTI_KIND: 1}
+    if a.rockets is not None: ROCKETS[0] = a.rockets
     prop_rules, cfg_tf = proposal_from(a.proposal)
     sets = a.assumptions.split(',')
     battles = {p: [x for x in campaign_battles(p) if a.encounters == 'all' or x['boss'] == (a.encounters == 'boss')] for p in a.stages}
     rows = []
-    for b in (class_builds(a.stages, a.seeds) if a.builds == 'class' else builds(a.stages, a.seeds, a.groups)):
+    for b in (class_builds(a.stages, a.seeds, a.classes) if a.builds == 'class' else builds(a.stages, a.seeds, a.groups)):
         for i in range(len(battles[b['phase']]) if a.all_battles else a.fights):
             if a.all_battles: battle = battles[b['phase']][i]
             else:

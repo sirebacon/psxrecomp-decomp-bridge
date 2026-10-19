@@ -1,0 +1,2328 @@
+{
+ "n": 40,
+ "cells": {
+  "vanilla|A|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 14.75,
+    "p10": 14,
+    "p50": 15,
+    "p90": 16
+   },
+   "range": 6.775,
+   "bullets": 8.975,
+   "level": 18,
+   "bp_earned": 979.65,
+   "bp_spent": 390,
+   "bp_attack": 100,
+   "bp_pending": 589.65,
+   "tools": 1.475,
+   "junk": 23,
+   "kinds": {
+    "1": 0.05,
+    "3": 0.85,
+    "4": 0.1
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "MP5K",
+    "M16A1",
+    "G19"
+   ]
+  },
+  "vanilla|A|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 17.325,
+    "p10": 16,
+    "p50": 18,
+    "p90": 19
+   },
+   "range": 7.025,
+   "bullets": 11.325,
+   "level": 24,
+   "bp_earned": 1373.75,
+   "bp_spent": 612.5,
+   "bp_attack": 217.5,
+   "bp_pending": 761.25,
+   "tools": 0.975,
+   "junk": 23,
+   "kinds": {
+    "1": 0.075,
+    "3": 0.925
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "G23",
+    "M9 2"
+   ]
+  },
+  "vanilla|A|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 39.6,
+    "p10": 38,
+    "p50": 40,
+    "p90": 41
+   },
+   "range": 16.45,
+   "bullets": 16.25,
+   "level": 33,
+   "bp_earned": 4212.975,
+   "bp_spent": 3222.5,
+   "bp_attack": 1440,
+   "bp_pending": 990.475,
+   "tools": 2.15,
+   "junk": 53,
+   "kinds": {
+    "1": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.85
+   },
+   "guns": [
+    "M8000"
+   ]
+  },
+  "vanilla|C|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 18.475,
+    "p10": 15,
+    "p50": 19,
+    "p90": 21
+   },
+   "range": 3.975,
+   "bullets": 10.05,
+   "level": 18,
+   "bp_earned": 985.05,
+   "bp_spent": 912.5,
+   "bp_attack": 650,
+   "bp_pending": 72.55,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.2,
+    "3": 0.75,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "SG550"
+   ]
+  },
+  "vanilla|C|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 20.85,
+    "p10": 18,
+    "p50": 21,
+    "p90": 23
+   },
+   "range": 3.975,
+   "bullets": 13.775,
+   "level": 24,
+   "bp_earned": 1384.1,
+   "bp_spent": 1330,
+   "bp_attack": 787.5,
+   "bp_pending": 54.1,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.2,
+    "3": 0.75,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "SG550"
+   ]
+  },
+  "vanilla|C|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 49.875,
+    "p10": 45,
+    "p50": 51,
+    "p90": 55
+   },
+   "range": 10.95,
+   "bullets": 19.225,
+   "level": 33,
+   "bp_earned": 4337.475,
+   "bp_spent": 3592.5,
+   "bp_attack": 2575,
+   "bp_pending": 744.975,
+   "tools": 0,
+   "junk": 53,
+   "kinds": {
+    "1": 0.9,
+    "3": 0.1
+   },
+   "strong": {
+    "2Cmd": 0.8,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.325
+   },
+   "guns": [
+    "M8000",
+    "G23",
+    "M11"
+   ]
+  },
+  "vanilla|I|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 14.825,
+    "p10": 14,
+    "p50": 15,
+    "p90": 16
+   },
+   "range": 5.125,
+   "bullets": 8.45,
+   "level": 18,
+   "bp_earned": 985.2,
+   "bp_spent": 910,
+   "bp_attack": 290,
+   "bp_pending": 75.2,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.075,
+    "3": 0.825,
+    "4": 0.1
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "SG550",
+    "M9 2"
+   ]
+  },
+  "vanilla|I|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.925,
+    "p10": 16,
+    "p50": 17,
+    "p90": 18
+   },
+   "range": 5.925,
+   "bullets": 10.45,
+   "level": 24,
+   "bp_earned": 1369.95,
+   "bp_spent": 1302.5,
+   "bp_attack": 400,
+   "bp_pending": 67.45,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.075,
+    "3": 0.825,
+    "4": 0.1
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "SG550",
+    "M9 2"
+   ]
+  },
+  "vanilla|I|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 26.5,
+    "p10": 0,
+    "p50": 34,
+    "p90": 36
+   },
+   "range": 10.1,
+   "bullets": 13.25,
+   "level": 33,
+   "bp_earned": 4181.725,
+   "bp_spent": 3500,
+   "bp_attack": 1037.5,
+   "bp_pending": 681.725,
+   "tools": 0,
+   "junk": 53,
+   "kinds": {
+    "1": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.175
+   },
+   "guns": [
+    "M8000"
+   ]
+  },
+  "vanilla|S_wpn|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 17.025,
+    "p10": 15,
+    "p50": 17,
+    "p90": 19
+   },
+   "range": 6,
+   "bullets": 9.575,
+   "level": 18,
+   "bp_earned": 979.4,
+   "bp_spent": 907.5,
+   "bp_attack": 507.5,
+   "bp_pending": 71.9,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.075,
+    "3": 0.775,
+    "4": 0.15
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "SG550",
+    "M9 2"
+   ]
+  },
+  "vanilla|S_wpn|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 20.25,
+    "p10": 19,
+    "p50": 20,
+    "p90": 22
+   },
+   "range": 7,
+   "bullets": 11.375,
+   "level": 24,
+   "bp_earned": 1369.2,
+   "bp_spent": 1310,
+   "bp_attack": 730,
+   "bp_pending": 59.2,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.075,
+    "3": 0.775,
+    "4": 0.15
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "SG550",
+    "M9 2"
+   ]
+  },
+  "vanilla|S_wpn|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 43.225,
+    "p10": 43,
+    "p50": 45,
+    "p90": 48
+   },
+   "range": 14.775,
+   "bullets": 18.15,
+   "level": 33,
+   "bp_earned": 4204.275,
+   "bp_spent": 3542.5,
+   "bp_attack": 2125,
+   "bp_pending": 661.775,
+   "tools": 0,
+   "junk": 53,
+   "kinds": {
+    "1": 1.0
+   },
+   "strong": {
+    "2Cmd": 0.775,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.225
+   },
+   "guns": [
+    "M8000",
+    "G23"
+   ]
+  },
+  "vanilla|S_end|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 11.25,
+    "p10": 10,
+    "p50": 12,
+    "p90": 13
+   },
+   "range": 3.75,
+   "bullets": 6.95,
+   "level": 18,
+   "bp_earned": 967.425,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 967.425,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.25,
+    "3": 0.7,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "SG550"
+   ]
+  },
+  "vanilla|S_end|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 12.15,
+    "p10": 11,
+    "p50": 13,
+    "p90": 14
+   },
+   "range": 3.85,
+   "bullets": 7.85,
+   "level": 24,
+   "bp_earned": 1337.025,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1337.025,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.3,
+    "3": 0.65,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "G23",
+    "SG550"
+   ]
+  },
+  "vanilla|S_end|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 35.525,
+    "p10": 23,
+    "p50": 40,
+    "p90": 42
+   },
+   "range": 5.6,
+   "bullets": 8.775,
+   "level": 33,
+   "bp_earned": 4194.625,
+   "bp_spent": 3390,
+   "bp_attack": 1845,
+   "bp_pending": 804.625,
+   "tools": 0,
+   "junk": 53,
+   "kinds": {
+    "1": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.1
+   },
+   "guns": [
+    "M8000"
+   ]
+  },
+  "vanilla|F|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 18.475,
+    "p10": 15,
+    "p50": 19,
+    "p90": 21
+   },
+   "range": 3.975,
+   "bullets": 10.05,
+   "level": 18,
+   "bp_earned": 985.05,
+   "bp_spent": 912.5,
+   "bp_attack": 650,
+   "bp_pending": 72.55,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.2,
+    "3": 0.75,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "SG550"
+   ]
+  },
+  "vanilla|F|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 20.85,
+    "p10": 18,
+    "p50": 21,
+    "p90": 23
+   },
+   "range": 3.975,
+   "bullets": 13.775,
+   "level": 24,
+   "bp_earned": 1384.1,
+   "bp_spent": 1330,
+   "bp_attack": 787.5,
+   "bp_pending": 54.1,
+   "tools": 0,
+   "junk": 23,
+   "kinds": {
+    "1": 0.2,
+    "3": 0.75,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M11",
+    "M9 2",
+    "SG550"
+   ]
+  },
+  "vanilla|F|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 60.25,
+    "p10": 53,
+    "p50": 61,
+    "p90": 67
+   },
+   "range": 12.4,
+   "bullets": 19.225,
+   "level": 33,
+   "bp_earned": 5575.975,
+   "bp_spent": 4775,
+   "bp_attack": 3612.5,
+   "bp_pending": 800.975,
+   "tools": 0,
+   "junk": 169,
+   "kinds": {
+    "1": 0.9,
+    "3": 0.1
+   },
+   "strong": {
+    "2Cmd": 0.8,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.325
+   },
+   "guns": [
+    "M8000",
+    "G23",
+    "M11"
+   ]
+  },
+  "normal|A|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.55,
+    "p10": 13,
+    "p50": 14,
+    "p90": 15
+   },
+   "range": 7.175,
+   "bullets": 9.275,
+   "level": 18,
+   "bp_earned": 977.65,
+   "bp_spent": 392.5,
+   "bp_attack": 100,
+   "bp_pending": 585.15,
+   "tools": 3.15,
+   "junk": 381.525,
+   "kinds": {
+    "1": 0.375,
+    "3": 0.2,
+    "4": 0.425
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "G19",
+    "M9 2",
+    "M11"
+   ]
+  },
+  "normal|A|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.25,
+    "p10": 15,
+    "p50": 16,
+    "p90": 18
+   },
+   "range": 9.725,
+   "bullets": 12.225,
+   "level": 24,
+   "bp_earned": 1489.15,
+   "bp_spent": 615,
+   "bp_attack": 220,
+   "bp_pending": 874.15,
+   "tools": 2.55,
+   "junk": 353.1,
+   "kinds": {
+    "1": 0.025,
+    "3": 0.975
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.975,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "P90",
+    "G23"
+   ]
+  },
+  "normal|A|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 40.05,
+    "p10": 36,
+    "p50": 40,
+    "p90": 45
+   },
+   "range": 17.2,
+   "bullets": 17.125,
+   "level": 33,
+   "bp_earned": 5545.975,
+   "bp_spent": 4025,
+   "bp_attack": 1815,
+   "bp_pending": 1520.975,
+   "tools": 8.975,
+   "junk": 1343.5,
+   "kinds": {
+    "3": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.875,
+    "Quickdraw": 0.95
+   },
+   "guns": [
+    "P90"
+   ]
+  },
+  "normal|C|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 17.975,
+    "p10": 13,
+    "p50": 18,
+    "p90": 24
+   },
+   "range": 9.6,
+   "bullets": 16.175,
+   "level": 18,
+   "bp_earned": 1001.8,
+   "bp_spent": 922.5,
+   "bp_attack": 487.5,
+   "bp_pending": 79.3,
+   "tools": 1.55,
+   "junk": 69.475,
+   "kinds": {
+    "1": 0.475,
+    "3": 0.175,
+    "4": 0.35
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "normal|C|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 21.775,
+    "p10": 16,
+    "p50": 22,
+    "p90": 28
+   },
+   "range": 11.65,
+   "bullets": 19.6,
+   "level": 24,
+   "bp_earned": 1420.375,
+   "bp_spent": 1360,
+   "bp_attack": 607.5,
+   "bp_pending": 60.375,
+   "tools": 1.325,
+   "junk": 347.225,
+   "kinds": {
+    "1": 0.925,
+    "3": 0.025,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "M11"
+   ]
+  },
+  "normal|C|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 55.55,
+    "p10": 48,
+    "p50": 56,
+    "p90": 65
+   },
+   "range": 14.825,
+   "bullets": 29.3,
+   "level": 33,
+   "bp_earned": 5452.35,
+   "bp_spent": 4290,
+   "bp_attack": 2860,
+   "bp_pending": 1162.35,
+   "tools": 5.5,
+   "junk": 979.775,
+   "kinds": {
+    "3": 0.025,
+    "4": 0.975
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.025,
+    "Quickdraw": 0.35
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "normal|I|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 16.25,
+    "p10": 12,
+    "p50": 16,
+    "p90": 21
+   },
+   "range": 10.8,
+   "bullets": 13.075,
+   "level": 18,
+   "bp_earned": 999.8,
+   "bp_spent": 920,
+   "bp_attack": 300,
+   "bp_pending": 79.8,
+   "tools": 1.4,
+   "junk": 83.95,
+   "kinds": {
+    "1": 0.375,
+    "3": 0.2,
+    "4": 0.425
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "G19",
+    "M11",
+    "M9 2"
+   ]
+  },
+  "normal|I|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 19.825,
+    "p10": 15,
+    "p50": 19,
+    "p90": 25
+   },
+   "range": 13.65,
+   "bullets": 15.075,
+   "level": 24,
+   "bp_earned": 1408.8,
+   "bp_spent": 1345,
+   "bp_attack": 400,
+   "bp_pending": 63.8,
+   "tools": 1.2,
+   "junk": 355.775,
+   "kinds": {
+    "1": 0.95,
+    "3": 0.025,
+    "4": 0.025
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "M9 2",
+    "M11",
+    "SG550"
+   ]
+  },
+  "normal|I|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 40.05,
+    "p10": 34,
+    "p50": 40,
+    "p90": 46
+   },
+   "range": 21.45,
+   "bullets": 23.475,
+   "level": 33,
+   "bp_earned": 5405.8,
+   "bp_spent": 4287.5,
+   "bp_attack": 1300,
+   "bp_pending": 1118.3,
+   "tools": 5.375,
+   "junk": 1003.75,
+   "kinds": {
+    "3": 0.025,
+    "4": 0.975
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.025,
+    "Quickdraw": 0.525
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "normal|S_wpn|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 18.425,
+    "p10": 14,
+    "p50": 18,
+    "p90": 24
+   },
+   "range": 11.375,
+   "bullets": 14.025,
+   "level": 18,
+   "bp_earned": 1005.175,
+   "bp_spent": 930,
+   "bp_attack": 530,
+   "bp_pending": 75.175,
+   "tools": 1.575,
+   "junk": 66.675,
+   "kinds": {
+    "1": 0.475,
+    "3": 0.1,
+    "4": 0.425
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "G19",
+    "M9 2",
+    "M11"
+   ]
+  },
+  "normal|S_wpn|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 23.375,
+    "p10": 19,
+    "p50": 23,
+    "p90": 28
+   },
+   "range": 14.375,
+   "bullets": 16,
+   "level": 24,
+   "bp_earned": 1424.575,
+   "bp_spent": 1362.5,
+   "bp_attack": 767.5,
+   "bp_pending": 62.075,
+   "tools": 1.3,
+   "junk": 331.325,
+   "kinds": {
+    "1": 0.95,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "M9 2",
+    "G19"
+   ]
+  },
+  "normal|S_wpn|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 52.6,
+    "p10": 46,
+    "p50": 52,
+    "p90": 58
+   },
+   "range": 23.625,
+   "bullets": 26.05,
+   "level": 33,
+   "bp_earned": 5412.525,
+   "bp_spent": 4267.5,
+   "bp_attack": 2520,
+   "bp_pending": 1145.025,
+   "tools": 5.4,
+   "junk": 969.975,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.325
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "normal|S_end|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.6,
+    "p10": 10,
+    "p50": 14,
+    "p90": 18
+   },
+   "range": 9.55,
+   "bullets": 12.025,
+   "level": 18,
+   "bp_earned": 988.85,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 988.85,
+   "tools": 1.625,
+   "junk": 70.675,
+   "kinds": {
+    "1": 0.375,
+    "3": 0.225,
+    "4": 0.4
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "M11",
+    "G19"
+   ]
+  },
+  "normal|S_end|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.025,
+    "p10": 12,
+    "p50": 16,
+    "p90": 20
+   },
+   "range": 11.675,
+   "bullets": 13.075,
+   "level": 24,
+   "bp_earned": 1390.375,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1390.375,
+   "tools": 1.425,
+   "junk": 343.525,
+   "kinds": {
+    "1": 0.975,
+    "4": 0.025
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "M9 2",
+    "G19",
+    "SG550"
+   ]
+  },
+  "normal|S_end|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 66.35,
+    "p10": 60,
+    "p50": 66,
+    "p90": 72
+   },
+   "range": 14.975,
+   "bullets": 21.075,
+   "level": 33,
+   "bp_earned": 5369.375,
+   "bp_spent": 4200,
+   "bp_attack": 3872.5,
+   "bp_pending": 1169.375,
+   "tools": 5.725,
+   "junk": 981.925,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.325
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "normal|F|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 18.05,
+    "p10": 13,
+    "p50": 18,
+    "p90": 24
+   },
+   "range": 9.575,
+   "bullets": 16.05,
+   "level": 18,
+   "bp_earned": 1001.85,
+   "bp_spent": 922.5,
+   "bp_attack": 487.5,
+   "bp_pending": 79.35,
+   "tools": 1.625,
+   "junk": 62.85,
+   "kinds": {
+    "1": 0.475,
+    "3": 0.175,
+    "4": 0.35
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "normal|F|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 21.875,
+    "p10": 16,
+    "p50": 22,
+    "p90": 28
+   },
+   "range": 11.6,
+   "bullets": 19.525,
+   "level": 24,
+   "bp_earned": 1420.875,
+   "bp_spent": 1362.5,
+   "bp_attack": 607.5,
+   "bp_pending": 58.375,
+   "tools": 1.425,
+   "junk": 336.925,
+   "kinds": {
+    "1": 0.95,
+    "3": 0.025,
+    "4": 0.025
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "M11",
+    "SG550"
+   ]
+  },
+  "normal|F|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 67.325,
+    "p10": 62,
+    "p50": 67,
+    "p90": 74
+   },
+   "range": 17.5,
+   "bullets": 30.875,
+   "level": 33,
+   "bp_earned": 6694.1,
+   "bp_spent": 5377.5,
+   "bp_attack": 4025,
+   "bp_pending": 1316.6,
+   "tools": 5.675,
+   "junk": 843.8,
+   "kinds": {
+    "3": 0.025,
+    "4": 0.975
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 1.0,
+    "Quickdraw": 0.95
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "relaxed|A|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.8,
+    "p10": 13,
+    "p50": 14,
+    "p90": 16
+   },
+   "range": 7.5,
+   "bullets": 9.25,
+   "level": 18,
+   "bp_earned": 976.975,
+   "bp_spent": 392.5,
+   "bp_attack": 100,
+   "bp_pending": 584.475,
+   "tools": 3.225,
+   "junk": 499.775,
+   "kinds": {
+    "1": 0.35,
+    "3": 0.125,
+    "4": 0.525
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "relaxed|A|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.525,
+    "p10": 15,
+    "p50": 17,
+    "p90": 20
+   },
+   "range": 9.85,
+   "bullets": 12.475,
+   "level": 24,
+   "bp_earned": 1491.95,
+   "bp_spent": 612.5,
+   "bp_attack": 215,
+   "bp_pending": 879.45,
+   "tools": 2.55,
+   "junk": 620.925,
+   "kinds": {
+    "3": 1.0
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 1.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "P90"
+   ]
+  },
+  "relaxed|A|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 41.425,
+    "p10": 36,
+    "p50": 42,
+    "p90": 48
+   },
+   "range": 17.675,
+   "bullets": 18.2,
+   "level": 33,
+   "bp_earned": 5553.225,
+   "bp_spent": 4025,
+   "bp_attack": 1812.5,
+   "bp_pending": 1528.225,
+   "tools": 9.075,
+   "junk": 2115.7,
+   "kinds": {
+    "3": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.925,
+    "Quickdraw": 0.95
+   },
+   "guns": [
+    "P90"
+   ]
+  },
+  "relaxed|C|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 19.3,
+    "p10": 14,
+    "p50": 19,
+    "p90": 25
+   },
+   "range": 10.125,
+   "bullets": 17.35,
+   "level": 18,
+   "bp_earned": 1006.45,
+   "bp_spent": 925,
+   "bp_attack": 467.5,
+   "bp_pending": 81.45,
+   "tools": 3.1,
+   "junk": 128.975,
+   "kinds": {
+    "1": 0.525,
+    "3": 0.15,
+    "4": 0.325
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M9 2",
+    "SG550",
+    "G19",
+    "M11"
+   ]
+  },
+  "relaxed|C|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 22.875,
+    "p10": 17,
+    "p50": 23,
+    "p90": 28
+   },
+   "range": 12.65,
+   "bullets": 21.625,
+   "level": 24,
+   "bp_earned": 1433.65,
+   "bp_spent": 1375,
+   "bp_attack": 597.5,
+   "bp_pending": 58.65,
+   "tools": 3.025,
+   "junk": 520.125,
+   "kinds": {
+    "1": 0.95,
+    "4": 0.05
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "MAG"
+   ]
+  },
+  "relaxed|C|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 58.05,
+    "p10": 51,
+    "p50": 58,
+    "p90": 66
+   },
+   "range": 17.25,
+   "bullets": 32.9,
+   "level": 33,
+   "bp_earned": 5459.8,
+   "bp_spent": 4307.5,
+   "bp_attack": 2905,
+   "bp_pending": 1152.3,
+   "tools": 7.25,
+   "junk": 1804.05,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.75
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "relaxed|I|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 17.6,
+    "p10": 14,
+    "p50": 16,
+    "p90": 22
+   },
+   "range": 11.5,
+   "bullets": 13.975,
+   "level": 18,
+   "bp_earned": 1007,
+   "bp_spent": 922.5,
+   "bp_attack": 297.5,
+   "bp_pending": 84.5,
+   "tools": 2.4,
+   "junk": 186.375,
+   "kinds": {
+    "1": 0.575,
+    "3": 0.225,
+    "4": 0.2
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M9 2",
+    "M11",
+    "SG550",
+    "G19"
+   ]
+  },
+  "relaxed|I|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 21.1,
+    "p10": 17,
+    "p50": 20,
+    "p90": 25
+   },
+   "range": 14.675,
+   "bullets": 16.75,
+   "level": 24,
+   "bp_earned": 1442.475,
+   "bp_spent": 1372.5,
+   "bp_attack": 400,
+   "bp_pending": 69.975,
+   "tools": 2.175,
+   "junk": 556.35,
+   "kinds": {
+    "1": 0.85,
+    "4": 0.15
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "MAG",
+    "M9 2"
+   ]
+  },
+  "relaxed|I|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 42.025,
+    "p10": 36,
+    "p50": 42,
+    "p90": 48
+   },
+   "range": 24.075,
+   "bullets": 27.075,
+   "level": 33,
+   "bp_earned": 5447.2,
+   "bp_spent": 4335,
+   "bp_attack": 1305,
+   "bp_pending": 1112.2,
+   "tools": 6.45,
+   "junk": 1908.225,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.85
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "relaxed|S_wpn|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 19.775,
+    "p10": 16,
+    "p50": 19,
+    "p90": 24
+   },
+   "range": 11.975,
+   "bullets": 14.95,
+   "level": 18,
+   "bp_earned": 1012.15,
+   "bp_spent": 925,
+   "bp_attack": 525,
+   "bp_pending": 87.15,
+   "tools": 3.025,
+   "junk": 135.475,
+   "kinds": {
+    "1": 0.5,
+    "3": 0.225,
+    "4": 0.275
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "M9 2",
+    "SG550",
+    "M11",
+    "G19"
+   ]
+  },
+  "relaxed|S_wpn|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 24.725,
+    "p10": 21,
+    "p50": 25,
+    "p90": 29
+   },
+   "range": 15.525,
+   "bullets": 17.825,
+   "level": 24,
+   "bp_earned": 1446.25,
+   "bp_spent": 1387.5,
+   "bp_attack": 790,
+   "bp_pending": 58.75,
+   "tools": 3,
+   "junk": 510.725,
+   "kinds": {
+    "1": 0.925,
+    "4": 0.075
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "MAG",
+    "M9 2"
+   ]
+  },
+  "relaxed|S_wpn|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 54.3,
+    "p10": 49,
+    "p50": 54,
+    "p90": 62
+   },
+   "range": 26.075,
+   "bullets": 29.825,
+   "level": 33,
+   "bp_earned": 5478.075,
+   "bp_spent": 4317.5,
+   "bp_attack": 2545,
+   "bp_pending": 1160.575,
+   "tools": 7.25,
+   "junk": 1805.825,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.725
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "relaxed|S_end|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 15.175,
+    "p10": 12,
+    "p50": 14,
+    "p90": 19
+   },
+   "range": 10,
+   "bullets": 12.975,
+   "level": 18,
+   "bp_earned": 1001.125,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1001.125,
+   "tools": 3.125,
+   "junk": 129.875,
+   "kinds": {
+    "1": 0.25,
+    "3": 0.3,
+    "4": 0.45
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M11",
+    "G19",
+    "M9 2"
+   ]
+  },
+  "relaxed|S_end|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 17.425,
+    "p10": 14,
+    "p50": 16,
+    "p90": 21
+   },
+   "range": 12.9,
+   "bullets": 14.55,
+   "level": 24,
+   "bp_earned": 1410.5,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1410.5,
+   "tools": 3.05,
+   "junk": 528.35,
+   "kinds": {
+    "1": 0.975,
+    "4": 0.025
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "MAG"
+   ]
+  },
+  "relaxed|S_end|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 68.3,
+    "p10": 61,
+    "p50": 68,
+    "p90": 76
+   },
+   "range": 17.5,
+   "bullets": 24.225,
+   "level": 33,
+   "bp_earned": 5360.35,
+   "bp_spent": 4205,
+   "bp_attack": 3880,
+   "bp_pending": 1155.35,
+   "tools": 7.25,
+   "junk": 1803.6,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.7
+   },
+   "guns": [
+    "MAG"
+   ]
+  },
+  "grind|A|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.575,
+    "p10": 12,
+    "p50": 14,
+    "p90": 15
+   },
+   "range": 7.2,
+   "bullets": 8.925,
+   "level": 18,
+   "bp_earned": 979.65,
+   "bp_spent": 392.5,
+   "bp_attack": 100,
+   "bp_pending": 587.15,
+   "tools": 2.925,
+   "junk": 272.95,
+   "kinds": {
+    "1": 0.3,
+    "3": 0.175,
+    "4": 0.525
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "grind|A|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.225,
+    "p10": 15,
+    "p50": 16,
+    "p90": 19
+   },
+   "range": 8.625,
+   "bullets": 11.5,
+   "level": 24,
+   "bp_earned": 1387.125,
+   "bp_spent": 612.5,
+   "bp_attack": 217.5,
+   "bp_pending": 774.625,
+   "tools": 2.325,
+   "junk": 391.75,
+   "kinds": {
+    "1": 0.5,
+    "3": 0.225,
+    "4": 0.275
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.225,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "P90",
+    "M9 2"
+   ]
+  },
+  "grind|A|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 38.9,
+    "p10": 36,
+    "p50": 39,
+    "p90": 43
+   },
+   "range": 17.575,
+   "bullets": 17.125,
+   "level": 33,
+   "bp_earned": 5449.05,
+   "bp_spent": 3920,
+   "bp_attack": 1740,
+   "bp_pending": 1529.05,
+   "tools": 8.025,
+   "junk": 790.6,
+   "kinds": {
+    "3": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.65,
+    "Quickdraw": 0.925
+   },
+   "guns": [
+    "P90"
+   ]
+  },
+  "grind|C|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 15.7,
+    "p10": 12,
+    "p50": 15,
+    "p90": 19
+   },
+   "range": 8.525,
+   "bullets": 14.9,
+   "level": 18,
+   "bp_earned": 993.9,
+   "bp_spent": 912.5,
+   "bp_attack": 512.5,
+   "bp_pending": 81.4,
+   "tools": 0.95,
+   "junk": 48.475,
+   "kinds": {
+    "1": 0.525,
+    "3": 0.15,
+    "4": 0.325
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "grind|C|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 18.2,
+    "p10": 16,
+    "p50": 19,
+    "p90": 22
+   },
+   "range": 9.675,
+   "bullets": 17.45,
+   "level": 24,
+   "bp_earned": 1397.825,
+   "bp_spent": 1327.5,
+   "bp_attack": 647.5,
+   "bp_pending": 70.325,
+   "tools": 0.525,
+   "junk": 272.575,
+   "kinds": {
+    "1": 0.8,
+    "3": 0.075,
+    "4": 0.125
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "M9 2",
+    "M11"
+   ]
+  },
+  "grind|C|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 49.925,
+    "p10": 42,
+    "p50": 50,
+    "p90": 56
+   },
+   "range": 14.225,
+   "bullets": 27.625,
+   "level": 33,
+   "bp_earned": 5202.275,
+   "bp_spent": 4057.5,
+   "bp_attack": 2610,
+   "bp_pending": 1144.775,
+   "tools": 4.275,
+   "junk": 482.95,
+   "kinds": {
+    "3": 0.15,
+    "4": 0.85
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.15,
+    "Quickdraw": 0.225
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "grind|I|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.65,
+    "p10": 11,
+    "p50": 13,
+    "p90": 16
+   },
+   "range": 9.625,
+   "bullets": 12.175,
+   "level": 18,
+   "bp_earned": 988.225,
+   "bp_spent": 900,
+   "bp_attack": 292.5,
+   "bp_pending": 88.225,
+   "tools": 0.85,
+   "junk": 57.675,
+   "kinds": {
+    "1": 0.3,
+    "3": 0.175,
+    "4": 0.525
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "G19",
+    "M11",
+    "M9 2"
+   ]
+  },
+  "grind|I|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16.625,
+    "p10": 14,
+    "p50": 16,
+    "p90": 19
+   },
+   "range": 12,
+   "bullets": 14.525,
+   "level": 24,
+   "bp_earned": 1389.175,
+   "bp_spent": 1320,
+   "bp_attack": 400,
+   "bp_pending": 69.175,
+   "tools": 0.45,
+   "junk": 281.35,
+   "kinds": {
+    "1": 0.825,
+    "3": 0.05,
+    "4": 0.125
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "G19",
+    "M9 2"
+   ]
+  },
+  "grind|I|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 35.5,
+    "p10": 31,
+    "p50": 35,
+    "p90": 40
+   },
+   "range": 20.025,
+   "bullets": 22.375,
+   "level": 33,
+   "bp_earned": 5236.775,
+   "bp_spent": 4110,
+   "bp_attack": 1250,
+   "bp_pending": 1126.775,
+   "tools": 3.95,
+   "junk": 529.2,
+   "kinds": {
+    "3": 0.35,
+    "4": 0.65
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.35,
+    "Quickdraw": 0.725
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "grind|S_wpn|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 15.875,
+    "p10": 13,
+    "p50": 16,
+    "p90": 19
+   },
+   "range": 10.175,
+   "bullets": 13.175,
+   "level": 18,
+   "bp_earned": 994.625,
+   "bp_spent": 915,
+   "bp_attack": 515,
+   "bp_pending": 79.625,
+   "tools": 0.825,
+   "junk": 48,
+   "kinds": {
+    "1": 0.45,
+    "3": 0.1,
+    "4": 0.45
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "grind|S_wpn|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 19.675,
+    "p10": 17,
+    "p50": 20,
+    "p90": 24
+   },
+   "range": 12.35,
+   "bullets": 15.025,
+   "level": 24,
+   "bp_earned": 1404.825,
+   "bp_spent": 1342.5,
+   "bp_attack": 747.5,
+   "bp_pending": 62.325,
+   "tools": 0.45,
+   "junk": 273.875,
+   "kinds": {
+    "1": 0.825,
+    "3": 0.025,
+    "4": 0.15
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "SG550",
+    "M9 2",
+    "G19"
+   ]
+  },
+  "grind|S_wpn|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 47.6,
+    "p10": 44,
+    "p50": 47,
+    "p90": 53
+   },
+   "range": 21.775,
+   "bullets": 24.35,
+   "level": 33,
+   "bp_earned": 5249.175,
+   "bp_spent": 4115,
+   "bp_attack": 2450,
+   "bp_pending": 1134.175,
+   "tools": 4.25,
+   "junk": 490.05,
+   "kinds": {
+    "3": 0.3,
+    "4": 0.7
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.3,
+    "Quickdraw": 0.375
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "grind|S_end|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 11.575,
+    "p10": 9,
+    "p50": 11,
+    "p90": 14
+   },
+   "range": 8.55,
+   "bullets": 11.175,
+   "level": 18,
+   "bp_earned": 978.6,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 978.6,
+   "tools": 0.975,
+   "junk": 46.25,
+   "kinds": {
+    "1": 0.4,
+    "3": 0.125,
+    "4": 0.475
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "G19",
+    "M11"
+   ]
+  },
+  "grind|S_end|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 12.95,
+    "p10": 11,
+    "p50": 13,
+    "p90": 16
+   },
+   "range": 9.65,
+   "bullets": 11.75,
+   "level": 24,
+   "bp_earned": 1369.725,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1369.725,
+   "tools": 0.55,
+   "junk": 272.275,
+   "kinds": {
+    "1": 0.9,
+    "3": 0.025,
+    "4": 0.075
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "M9 2",
+    "SG550",
+    "G19"
+   ]
+  },
+  "grind|S_end|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 61.875,
+    "p10": 57,
+    "p50": 63,
+    "p90": 66
+   },
+   "range": 14.05,
+   "bullets": 18.05,
+   "level": 33,
+   "bp_earned": 5134.4,
+   "bp_spent": 3967.5,
+   "bp_attack": 3737.5,
+   "bp_pending": 1166.9,
+   "tools": 4.25,
+   "junk": 500.775,
+   "kinds": {
+    "3": 0.15,
+    "4": 0.85
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.15,
+    "Quickdraw": 0.25
+   },
+   "guns": [
+    "MAG",
+    "P90"
+   ]
+  },
+  "calibration|S_end|D2-4": {
+   "n": 40,
+   "attack": {
+    "mean": 13.6,
+    "p10": 10,
+    "p50": 14,
+    "p90": 18
+   },
+   "range": 9.575,
+   "bullets": 12.05,
+   "level": 18,
+   "bp_earned": 960.225,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 960.225,
+   "tools": 1.6,
+   "junk": 69.275,
+   "kinds": {
+    "1": 0.375,
+    "3": 0.225,
+    "4": 0.4
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "SG550",
+    "M9 2",
+    "M11",
+    "G19"
+   ]
+  },
+  "calibration|S_end|D5": {
+   "n": 40,
+   "attack": {
+    "mean": 16,
+    "p10": 12,
+    "p50": 16,
+    "p90": 20
+   },
+   "range": 11.625,
+   "bullets": 13.075,
+   "level": 24,
+   "bp_earned": 1291.125,
+   "bp_spent": 0,
+   "bp_attack": 0,
+   "bp_pending": 1291.125,
+   "tools": 1.425,
+   "junk": 335.4,
+   "kinds": {
+    "1": 0.975,
+    "4": 0.025
+   },
+   "strong": {
+    "2Cmd": 0.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.0
+   },
+   "guns": [
+    "G23",
+    "M9 2",
+    "G19",
+    "SG550"
+   ]
+  },
+  "calibration|S_end|Disc2": {
+   "n": 40,
+   "attack": {
+    "mean": 69.225,
+    "p10": 62,
+    "p50": 69,
+    "p90": 75
+   },
+   "range": 15.3,
+   "bullets": 21.85,
+   "level": 33,
+   "bp_earned": 5140.1,
+   "bp_spent": 4347.5,
+   "bp_attack": 4040,
+   "bp_pending": 792.6,
+   "tools": 4.975,
+   "junk": 1148.575,
+   "kinds": {
+    "4": 1.0
+   },
+   "strong": {
+    "2Cmd": 1.0,
+    "3Cmd": 0.0,
+    "AttackAll": 0.0,
+    "Quickdraw": 0.7
+   },
+   "guns": [
+    "MAG"
+   ]
+  }
+ },
+ "logged": {
+  "D2-4": {
+   "level": 18,
+   "gun": "0x7B",
+   "bonus": [
+    9,
+    5,
+    5
+   ]
+  },
+  "D5": {
+   "level": 21,
+   "gun": "0x89",
+   "bonus": [
+    12,
+    8,
+    10
+   ]
+  },
+  "Disc2": {
+   "level": 33,
+   "gun": "0x64",
+   "bonus": [
+    32,
+    12,
+    23
+   ],
+   "note": "+54 attack after a final 4,000 BP spend"
+  }
+ },
+ "econ": {
+  "vanilla": "vanilla",
+  "normal": "current",
+  "relaxed": "cur:preset=0",
+  "grind": "cur:preset=2"
+ }
+}

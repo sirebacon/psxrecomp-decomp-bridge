@@ -135,6 +135,8 @@ CLASS_GUNS = {   # representative guns per class and stage (main game; Wayne gun
     "Day4": {"handgun": 0x5B, "machine": 0x6F, "rifle": 0x7D, "grenade": 0x89},
     "Day5": {"handgun": 0x47, "machine": 0x72, "rifle": 0x7D, "shotgun": 0x6A, "grenade": 0x86},
     "Wayne": {"handgun": 0x66, "machine": 0x78, "rifle": 0x82, "shotgun": 0x6E, "grenade": 0x8F},
+    # Rocket launchers exist only in Disc 2 (AT4 Warehouse pickup, LAW80 from Wayne); opt-in via compare_rules --classes.
+    "WayneRocket": {"rocket": 0x92},
 }
 ALL_ENCS = list(N.ENCOUNTERS.keys())
 

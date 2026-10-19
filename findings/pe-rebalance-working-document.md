@@ -130,18 +130,79 @@ Real investment depends on BP and on the Junk economy, and both interact with th
    investment level points to the economy knob to adjust (BP payout, Tool price, catalog access);
    record those here for the economy balancing (phase 7).
 
+### Investment profiles: results (`pe-investment-profiles-2026-10-19`)
+
+40 playthroughs per economy setting × player policy:
+- BP anchored to the logged hits and scaled by gun strength;
+- Junk economy, rare drops, Tools and the Mod Catalog;
+- the BP floor is off (confirmed disabled in the user's config too).
+
+Attack bonus on the gun carried at the end of each stage, mean (p10–p90):
+
+| Player | Vanilla D5 | Mod Normal D5 | Vanilla Disc2 | Mod Normal Disc2 |
+|---|---|---|---|---|
+| Casual (A) | 17 (16–19) | 16 (15–18) | 40 | 40 (36–45) |
+| Balanced (I) | 17 | 20 (15–25) | 27 | 40 (34–46) |
+| Optimizer (C) | 21 | 22 (16–28) | 50 | 56 (48–65) |
+| Weapon stats only | 20 | 23 (19–28) | 43 | 53 (46–58) |
+| BP hoarder (logged habit) | 12 | 16 (12–20) | 36 | 66 (60–72), after a final spend |
+| Farmer | 21 | 22 | 60 | 67 (62–74) |
+
+- **Logged run (anchor):** +12 at Day 5 and +32 in Disc2, then +54 after the final spend.
+- **Calibration (logged route, the run's own hits, hoarder):** +16 at Day 5 and +69 at the end,
+  so the simulator overstates attack investment by about +4 and +15. The logged player also put
+  part of the final 4,000 BP into other stats.
+- **Relaxed vs Grind preset:** shifts attack by only ±1–3. BP dominates attack investment; the
+  Junk economy mostly changes Tools, Junk and effects.
+- **Strong effects:** 2 Commands is on almost every Disc2 gun (78–100%) and on none at Day 5.
+  Attack All, on the other hand, ends up on many casual players' guns in the mod economy (88–98%
+  of casual runs at Day 5 and Disc2, 0% in vanilla), via the catalog and found guns.
+  **R-A will affect far more players than just P90 users.**
+- **What this means for the sweeps:** the class benchmark's fixed investment (+12 at Day 5, +30
+  in Disc2) sits at the low end of real play. Sweeps run at three levels per stage:
+
+| Stage | Low | Typical | High |
+|---|---|---|---|
+| Day 5 attack bonus | +12 | +18 | +25 |
+| Disc2 attack bonus | +35 | +50 | +68 |
+
+Day 2–4: about +11 to +20.
+
+### Rocket launchers (added 2026-10-19)
+
+The class benchmark had no rocket class. Rockets exist only in Disc2: the AT4 (Warehouse pickup)
+and the LAW80 (one of Wayne's six 300-Junk guns). The LAW80 is now an opt-in Disc2 class
+(`compare_rules --classes rocket`). Results, calibrated player:
+
+| LAW80 | Vanilla | Current mod |
+|---|---|---|
+| Ordinary time | 7.9 s | 6.6 s |
+| Ordinary damage | 11.6 | 7.7 |
+| Boss win | 0.795 | 0.872 |
+| Boss time | 68 s | 56 s |
+
+- It is the **second-fastest crowd gun** after the P90 (splash) and the **weakest boss gun**.
+- **Interaction with R-A:** at 40%, the P90 drops to 8.6 s and the LAW80 (6.6 s) becomes the
+  fastest crowd gun. R-A has to be judged together with rockets.
+- **Ammo:** rockets come from a separate, scarce pool. A per-fight supply limit (20) changed
+  nothing because supply resets each fight. Rocket balance hinges on rockets available per
+  campaign (finds plus Requisition rocket purchases), which needs a campaign-level check.
+
 ## Simulations still to run
 
 Ordered by how much they could change the decisions.
 
-0. **Investment profiles** (BP and Junk economy per stage; see above). They come first because the
-   sweeps run across them.
+0. ~~Investment profiles~~ **done** (see above). Sweeps run at low / typical / high attack
+   investment per stage.
+0b. **Rocket supply per campaign:** rockets found plus Requisition purchases, against the rockets
+   a LAW80 / AT4 player fires per stage. Decides whether the LAW80's crowd speed is real or
+   ammo-limited, and so whether R-A needs a rocket counterpart.
 1. **Strength sweeps** (directly decision-relevant):
    - R-A at 35 / 40 / 45%;
    - R-B at +35 / +40 / +45;
    - R-C at +15 / +20 / +25;
-   - on the class benchmark and the campaign-earned builds, all three assumption sets, every
-     investment profile;
+   - on the class benchmark (now including the LAW80) and the campaign-earned builds, all three
+     assumption sets, at low / typical / high investment;
    - plus catalog Attack All on a non-P90 gun.
 2. **Day 2–4 class benchmark.** The benchmark has Day 4 guns (`CLASS_GUNS['Day4']`) but no Day 2–4
    builds. Needs an Aya build per stage from the log, then the same three-way run. The G3A3 and
