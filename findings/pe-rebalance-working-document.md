@@ -13,6 +13,8 @@ that says what we're leaning toward and why.
 | R-A | Attack All per-bullet power cut to **40%** when 2+ enemies are alive and no boss is present | **Yes at 40%** (sweep done) | At every investment level, Attack All guns stay 1.4–1.7× faster than the handgun: P90 4.5 → 7.0–8.1 s, catalog Attack All MAG 5.5 → 8.3–9.0 s. Bosses are untouched. 35% = alternative for damage parity; 45% still near 2×; 30% overshoots | Day 2–4 Attack All guns; try in game |
 | R-B | G3A3 base attack **+45** | **Yes at +45** (sweep done) | The only value that works at low investment (+35 / +40 leave it at 34 s, still slowest). +45 gives 27.5–28.9 s at every level, no overshoot (pack 24–31.5 s); the Day 5 boss loss disappears at typical / high investment | The G3A3's Day 4 use (Day 2–4 benchmark) |
 | R-C | M203 4 base attack **+15** (revised from +20) | **Yes at +15** (sweep done) | +15, +20 and +25 give the same result (39 → 31.4–31.8 s; boss 57 → 49 s): +15 already crosses the breakpoint. At high investment the M203 4 is in the pack even without a buff | Frost-resistant rooms separately; Day 2–4 |
+| R-E | Make RoF 5 / 7 / 10 worth taking (they slow most guns by 8–25%) | Candidate, not swept | Single-mod test: RoF 5 / 7 / 10 are net negative on almost every gun, in vanilla and the mod | Sweep per-bullet power and per-bullet firing time; decide whether RoF should be a general upgrade or a specialist mod |
+| R-A2 | Check R-A at Day 5 | Needed | Attack All is −48% at Day 5 (best single mod) and on 98% of casual Day 5 guns in the mod economy | Day 5 Attack All guns at 35 / 40 / 45% |
 | R-D | Weapon switching cost | No change for now | Switching is a convenience while one gun covers both roles | Revisit after Disc2 bosses are reliable and if two-gun loadouts matter |
 
 Rejected so far:
@@ -241,6 +243,77 @@ Disc2 ordinary fights (Attack All strength):
 - Catalog Attack All on the MAG is as strong as the P90, which confirms R-A has to apply to every
   Attack All gun.
 - Bosses are unchanged by R-A at every strength.
+### Gun mods: value of each mod on its own (done, 2026-10-19)
+
+Each class gun at typical investment, with one mod added versus none, against the stage's logged
+battles. Day 5: all 18 battles; Disc2: every boss and every 4th ordinary battle; 2 seeds;
+calibrated player; vanilla and current-mod rules. Code: `mod_values.py`; data:
+`pe-mod-values-{D5,Disc2}-{vanilla,current}-2026-10-19`.
+
+Numbers are the change in fight time versus no mod (negative = faster), averaged over the
+classes, with the spread across classes.
+
+**Ordinary fights, current mod:**
+
+| Mod | Day 5 | Disc2 | Notes |
+|---|---|---|---|
+| Attack All | **−48%** (−38 to −55) | −27% | Best single mod at Day 5 by far; R-A targets it |
+| Quickdraw | −16% | **−35%** | Best single mod in Disc2 crowds |
+| 2 Commands | −17% | −7% | Disc2 crowds die in one volley anyway |
+| 3 Commands | −17% | −6% | No better than 2 Commands in crowds |
+| Cyanide | −15% | −5% | Vanilla −22% at Day 5 |
+| Burst | −14% | −1% | |
+| Heat | −10% | +1% | **Vanilla +36% (a trap)**; the mod fixes it |
+| Counter | −6% | −10% | |
+| Critical | −6% | −7% | |
+| Acid | −5% | −2% | |
+| Tranq | −2% | −1% | Mainly cuts damage taken (−10 HP at Day 5) |
+| RoF 2 / RoF 3 | −5% / −1% | −3% / +2% | Helps the rifle a lot (−25% / −17%); hurts others |
+| Random | +4% | −2% | Shotgun +35% |
+| Frost | **+7%** | −5% | **Vanilla +107%**; still slightly negative at Day 5 |
+| RoF 5 | **+9%** | **+13%** | Slower on almost every gun |
+| RoF 7 | **+8%** | **+15%** | Slower on almost every gun |
+| RoF 10 | **+25%** | **+25%** | Up to +58% (shotgun) and +70% (LAW80) |
+
+**Boss fights, current mod:**
+
+| Mod | Day 5 | Disc2 |
+|---|---|---|
+| 3 Commands | −23% | **−48%** |
+| 2 Commands | −16% | **−37%** |
+| Attack All (bosses with adds) | −8% | −16% |
+| Counter | −3% | −15% |
+| Critical | −12% (vanilla −4%) | −12% (vanilla −10%) |
+| Heat / Frost | −9% / −4% | −11% / −12% (vanilla +3% / −3%) |
+| Quickdraw | −10% | −10% |
+| Cyanide | −5% | 0% (bosses immune) |
+| RoF 5 / 7 / 10 | +17% / +4% / +12% | +3% / +3% / +9% |
+
+**What this says:**
+1. **High rate-of-fire mods are traps.**
+   - RoF 5, 7 and 10 make most guns slower: more bullets, but each weaker, and the firing
+     animation grows with every bullet.
+   - The mod's RoF 7 / 10 per-bullet boost (18 / 13% → 20 / 15%) softened this but didn't fix it.
+   - Players will read "more bullets" as an upgrade. This is a candidate change (R-E below).
+2. **The mod's element and Critical changes work.**
+   - Vanilla Heat and Frost slow Day 5 fights by 36% and 107% (resist ÷5); in the mod they're
+     roughly neutral to positive.
+   - Critical goes from marginal to a real boss mod.
+   - Frost is still slightly negative at Day 5 (frost-resistant enemies).
+3. **Attack All dominates at Day 5 too** (−48% on every class), and casual players in the mod
+   economy have it on 98% of Day 5 guns. R-A has only been swept in Disc2 so far; it needs a Day 5
+   check with Attack All guns.
+4. **Commands are boss mods:** −37 to −48% on Disc2 bosses, small in crowds.
+   **Quickdraw is the crowd mod.** Both are healthy roles.
+5. **3 Commands barely beats 2 Commands** except against Disc2 bosses (−48% vs −37%).
+
+**Candidate R-E (not decided): make RoF 5 / 7 / 10 worth taking.** Options to simulate:
+- raise per-bullet power further;
+- shorten the per-bullet firing time;
+- relabel them as specialist mods (e.g. the RoF 2 / 3 rifle case) and accept the trade.
+
+Needs a sweep like R-A's.
+
 ## Simulations still to run
 
 Ordered by how much they could change the decisions.
