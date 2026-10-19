@@ -1,0 +1,51 @@
+# Rule comparison: CURRENT → exp:PEv on CURRENT (calibrated model)
+
+Equal-investment class benchmark guns (run_benchmark.CLASS_GUNS; D5 Day-5 investment, Disc2 [30,10,10] + 2Cmd + Quickdraw; Aya = the same seed frozen group-C build), campaign-frequency encounters (logged won battles), matched seeds; 2 seeds x every logged battle.
+Coverage labels: fallback hits use estimated damage; untimed strikes use the labelled placeholder timing (assumption sets vary both).
+
+Calibrated model (pe-calibration-logged-v7-2026-10-19): every logged foe resolved from source data, contact damage, Parasite Energy and items with the generic policy; Disc2 boss absolute levels are pessimistic for the player (the log player used clubs / held fire), comparisons are paired.
+
+| Assumptions | Stage | Group | Win base→prop (Δ, 95% CI) | Time s base→prop | Damage taken base→prop | Rounds | Reloads | Deaths | Fallback hit share | Untimed strike share |
+|---|---|---|---|---|---|---|---|---|---|---|
+| logged_player_serial | D5 | ALL | 0.994→0.994 (+0.000, [+0.000, +0.000]) | 41.43→41.59 | 50.9→51.6 | 10.2→10.2 | 0.0→0.0 | 0.000→0.000 | 0.00 | 0.13 |
+| logged_player_serial | D5 | ORDINARY | 1.000→1.000 (+0.000, [+0.000, +0.000]) | 31.84→31.84 | 46.8→46.8 | 9.9→9.9 | 0.0→0.0 | 0.000→0.000 | 0.00 | 0.00 |
+| logged_player_serial | D5 | BOSS | 0.988→0.988 (+0.000, [+0.000, +0.000]) | 53.41→53.77 | 56.1→57.7 | 10.6→10.6 | 0.0→0.0 | 0.000→0.000 | 0.00 | 0.20 |
+| logged_player_serial | Disc2 | ALL | 0.995→0.995 (+0.000, [-0.004, +0.004]) | 15.53→16.27 | 63.8→71.0 | 7.9→7.9 | 0.0→0.0 | 0.005→0.005 | 0.00 | 0.25 |
+| logged_player_serial | Disc2 | ORDINARY | 1.000→1.000 (+0.000, [+0.000, +0.000]) | 11.71→11.71 | 5.2→5.2 | 5.5→5.5 | 0.0→0.0 | 0.000→0.000 | 0.00 | 0.00 |
+| logged_player_serial | Disc2 | BOSS | 0.962→0.962 (+0.000, [-0.031, +0.031]) | 42.60→48.59 | 478.6→536.7 | 24.7→24.7 | 0.0→0.0 | 0.038→0.038 | 0.00 | 0.58 |
+
+## Per build group (ordinary and boss separate)
+
+| Assumptions | Stage | Group | n | Win base→prop | Time s base→prop | Damage taken base→prop | Reloads base→prop |
+|---|---|---|---|---|---|---|---|
+| logged_player_serial | D5 | class_grenade/ord | 20 | 1.000→1.000 | 37.98→37.98 | 60.0→60.0 | 0.0→0.0 |
+| logged_player_serial | D5 | class_grenade/boss | 16 | 1.000→1.000 | 58.42→59.85 | 69.6→76.2 | 0.0→0.0 |
+| logged_player_serial | D5 | class_handgun/ord | 20 | 1.000→1.000 | 25.32→25.32 | 33.0→33.0 | 0.0→0.0 |
+| logged_player_serial | D5 | class_handgun/boss | 16 | 1.000→1.000 | 38.12→38.25 | 47.5→48.4 | 0.0→0.0 |
+| logged_player_serial | D5 | class_machine/ord | 20 | 1.000→1.000 | 23.67→23.67 | 35.0→35.0 | 0.0→0.0 |
+| logged_player_serial | D5 | class_machine/boss | 16 | 1.000→1.000 | 33.91→33.91 | 44.1→44.1 | 0.1→0.1 |
+| logged_player_serial | D5 | class_rifle/ord | 20 | 1.000→1.000 | 46.04→46.04 | 76.8→76.8 | 0.0→0.0 |
+| logged_player_serial | D5 | class_rifle/boss | 16 | 0.938→0.938 | 81.63→81.90 | 63.1→63.7 | 0.0→0.0 |
+| logged_player_serial | D5 | class_shotgun/ord | 20 | 1.000→1.000 | 26.17→26.17 | 29.1→29.1 | 0.0→0.0 |
+| logged_player_serial | D5 | class_shotgun/boss | 16 | 1.000→1.000 | 54.96→54.96 | 56.1→56.1 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_grenade/ord | 184 | 1.000→1.000 | 14.31→14.31 | 7.5→7.5 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_grenade/boss | 26 | 0.923→0.962 | 58.19→69.23 | 760.2→830.2 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_handgun/ord | 184 | 1.000→1.000 | 11.80→11.80 | 5.7→5.7 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_handgun/boss | 26 | 0.962→0.962 | 34.09→37.79 | 389.2→426.5 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_machine/ord | 184 | 1.000→1.000 | 4.57→4.57 | 0.4→0.4 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_machine/boss | 26 | 1.000→1.000 | 24.91→30.87 | 159.0→326.6 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_rifle/ord | 184 | 1.000→1.000 | 14.81→14.81 | 7.2→7.2 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_rifle/boss | 26 | 1.000→0.962 | 43.62→49.63 | 516.6→567.0 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_shotgun/ord | 184 | 1.000→1.000 | 13.05→13.05 | 5.2→5.2 | 0.0→0.0 |
+| logged_player_serial | Disc2 | class_shotgun/boss | 26 | 0.923→0.923 | 52.19→55.40 | 568.1→533.4 | 0.2→0.2 |
+
+## Build ranking stability across assumption sets
+
+**D5**
+- logged_player_serial: Spearman vs default 1.00; order class_machine, class_handgun, class_shotgun, class_grenade, class_rifle
+- win-rate delta (proposal − baseline) by set: logged_player_serial +0.000
+
+**Disc2**
+- logged_player_serial: Spearman vs default 1.00; order class_machine, class_handgun, class_rifle, class_grenade, class_shotgun
+- win-rate delta (proposal − baseline) by set: logged_player_serial +0.000
+

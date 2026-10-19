@@ -1,0 +1,547 @@
+{
+ "summary": {
+  "handgun|ord|RoF2": {
+   "n": 20,
+   "time": 23.168614357262104,
+   "time_none": 23.540901502504173,
+   "damage": 29.4,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|ord|RoF3": {
+   "n": 20,
+   "time": 23.540901502504173,
+   "time_none": 23.540901502504173,
+   "damage": 29.75,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|ord|RoF5": {
+   "n": 20,
+   "time": 26.818030050083472,
+   "time_none": 23.540901502504173,
+   "damage": 36.65,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|ord|RoF7": {
+   "n": 20,
+   "time": 27.91652754590985,
+   "time_none": 23.540901502504173,
+   "damage": 39.15,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|ord|RoF10": {
+   "n": 20,
+   "time": 30.808013355592657,
+   "time_none": 23.540901502504173,
+   "damage": 46.3,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|ord|Quickdraw": {
+   "n": 20,
+   "time": 19.871452420701168,
+   "time_none": 23.540901502504173,
+   "damage": 18.45,
+   "damage_none": 29.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|RoF2": {
+   "n": 16,
+   "time": 30.770033388981638,
+   "time_none": 36.42737896494157,
+   "damage": 44.1875,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|RoF3": {
+   "n": 16,
+   "time": 36.42737896494157,
+   "time_none": 36.42737896494157,
+   "damage": 46.5625,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|RoF5": {
+   "n": 16,
+   "time": 33.49540901502504,
+   "time_none": 36.42737896494157,
+   "damage": 45.9375,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|RoF7": {
+   "n": 16,
+   "time": 38.87520868113523,
+   "time_none": 36.42737896494157,
+   "damage": 54.0625,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|RoF10": {
+   "n": 16,
+   "time": 41.84265442404007,
+   "time_none": 36.42737896494157,
+   "damage": 57.25,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "handgun|boss|Quickdraw": {
+   "n": 16,
+   "time": 26.216611018363942,
+   "time_none": 36.42737896494157,
+   "damage": 35.3125,
+   "damage_none": 46.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|RoF2": {
+   "n": 20,
+   "time": 21.67779632721202,
+   "time_none": 19.861435726210352,
+   "damage": 31.25,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|RoF3": {
+   "n": 20,
+   "time": 22.106844741235392,
+   "time_none": 19.861435726210352,
+   "damage": 31.25,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|RoF5": {
+   "n": 20,
+   "time": 20.485809682804675,
+   "time_none": 19.861435726210352,
+   "damage": 25.35,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|RoF7": {
+   "n": 20,
+   "time": 19.861435726210352,
+   "time_none": 19.861435726210352,
+   "damage": 23.2,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|RoF10": {
+   "n": 20,
+   "time": 22.629382303839733,
+   "time_none": 19.861435726210352,
+   "damage": 27.15,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|ord|Quickdraw": {
+   "n": 20,
+   "time": 15.480801335559265,
+   "time_none": 19.861435726210352,
+   "damage": 6.6,
+   "damage_none": 23.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|RoF2": {
+   "n": 16,
+   "time": 24.54298831385643,
+   "time_none": 26.56719532554257,
+   "damage": 32.625,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|RoF3": {
+   "n": 16,
+   "time": 26.82804674457429,
+   "time_none": 26.56719532554257,
+   "damage": 34.9375,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|RoF5": {
+   "n": 16,
+   "time": 29.342654424040067,
+   "time_none": 26.56719532554257,
+   "damage": 39.6875,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|RoF7": {
+   "n": 16,
+   "time": 26.56719532554257,
+   "time_none": 26.56719532554257,
+   "damage": 38.875,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|RoF10": {
+   "n": 16,
+   "time": 33.541318864774624,
+   "time_none": 26.56719532554257,
+   "damage": 44.3125,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "machine|boss|Quickdraw": {
+   "n": 16,
+   "time": 22.093071786310517,
+   "time_none": 26.56719532554257,
+   "damage": 27.6875,
+   "damage_none": 38.875,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|RoF2": {
+   "n": 20,
+   "time": 28.818030050083472,
+   "time_none": 46.04173622704508,
+   "damage": 38.9,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|RoF3": {
+   "n": 20,
+   "time": 29.7779632721202,
+   "time_none": 46.04173622704508,
+   "damage": 41.9,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|RoF5": {
+   "n": 20,
+   "time": 31.33889816360601,
+   "time_none": 46.04173622704508,
+   "damage": 44.4,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|RoF7": {
+   "n": 20,
+   "time": 34.330550918197,
+   "time_none": 46.04173622704508,
+   "damage": 48.1,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|RoF10": {
+   "n": 20,
+   "time": 36.29716193656093,
+   "time_none": 46.04173622704508,
+   "damage": 50.7,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|ord|Quickdraw": {
+   "n": 20,
+   "time": 40.47913188647746,
+   "time_none": 46.04173622704508,
+   "damage": 54.15,
+   "damage_none": 76.85,
+   "won": 1,
+   "won_none": 1
+  },
+  "rifle|boss|RoF2": {
+   "n": 16,
+   "time": 53.93572621035059,
+   "time_none": 81.62979966611019,
+   "damage": 54.125,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "rifle|boss|RoF3": {
+   "n": 16,
+   "time": 52.639816360601,
+   "time_none": 81.62979966611019,
+   "damage": 51.9375,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "rifle|boss|RoF5": {
+   "n": 16,
+   "time": 62.07011686143573,
+   "time_none": 81.62979966611019,
+   "damage": 53.25,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "rifle|boss|RoF7": {
+   "n": 16,
+   "time": 60.01043405676127,
+   "time_none": 81.62979966611019,
+   "damage": 53.1875,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "rifle|boss|RoF10": {
+   "n": 16,
+   "time": 73.70200333889817,
+   "time_none": 81.62979966611019,
+   "damage": 56.8125,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "rifle|boss|Quickdraw": {
+   "n": 16,
+   "time": 62.23080133555927,
+   "time_none": 81.62979966611019,
+   "damage": 64.5,
+   "damage_none": 63.125,
+   "won": 1,
+   "won_none": 0.9375
+  },
+  "shotgun|ord|RoF2": {
+   "n": 20,
+   "time": 24.58764607679466,
+   "time_none": 24.58764607679466,
+   "damage": 29.2,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|ord|RoF3": {
+   "n": 20,
+   "time": 25.228714524207014,
+   "time_none": 24.58764607679466,
+   "damage": 29.15,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|ord|RoF5": {
+   "n": 20,
+   "time": 25.542570951585976,
+   "time_none": 24.58764607679466,
+   "damage": 28.4,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|ord|RoF7": {
+   "n": 20,
+   "time": 27.357262103505846,
+   "time_none": 24.58764607679466,
+   "damage": 33.1,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|ord|RoF10": {
+   "n": 20,
+   "time": 28.562604340567614,
+   "time_none": 24.58764607679466,
+   "damage": 33.95,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|ord|Quickdraw": {
+   "n": 20,
+   "time": 18.312186978297163,
+   "time_none": 24.58764607679466,
+   "damage": 13.95,
+   "damage_none": 29.2,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|RoF2": {
+   "n": 16,
+   "time": 42.60434056761269,
+   "time_none": 42.60434056761269,
+   "damage": 43.5625,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|RoF3": {
+   "n": 16,
+   "time": 46.848914858096826,
+   "time_none": 42.60434056761269,
+   "damage": 43.625,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|RoF5": {
+   "n": 16,
+   "time": 56.45450751252087,
+   "time_none": 42.60434056761269,
+   "damage": 45.875,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|RoF7": {
+   "n": 16,
+   "time": 48.87938230383973,
+   "time_none": 42.60434056761269,
+   "damage": 42.375,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|RoF10": {
+   "n": 16,
+   "time": 51.28964941569282,
+   "time_none": 42.60434056761269,
+   "damage": 46.6875,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "shotgun|boss|Quickdraw": {
+   "n": 16,
+   "time": 32.18280467445743,
+   "time_none": 42.60434056761269,
+   "damage": 31.625,
+   "damage_none": 43.5625,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|RoF2": {
+   "n": 20,
+   "time": 28.058430717863107,
+   "time_none": 28.058430717863107,
+   "damage": 37.75,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|RoF3": {
+   "n": 20,
+   "time": 29.91652754590985,
+   "time_none": 28.058430717863107,
+   "damage": 40.7,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|RoF5": {
+   "n": 20,
+   "time": 29.01168614357262,
+   "time_none": 28.058430717863107,
+   "damage": 39.5,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|RoF7": {
+   "n": 20,
+   "time": 31.47245409015025,
+   "time_none": 28.058430717863107,
+   "damage": 44.15,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|RoF10": {
+   "n": 20,
+   "time": 34.42237061769616,
+   "time_none": 28.058430717863107,
+   "damage": 49.5,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|ord|Quickdraw": {
+   "n": 20,
+   "time": 23.09849749582638,
+   "time_none": 28.058430717863107,
+   "damage": 22.3,
+   "damage_none": 37.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|RoF2": {
+   "n": 16,
+   "time": 48.714524207011685,
+   "time_none": 48.714524207011685,
+   "damage": 51.75,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|RoF3": {
+   "n": 16,
+   "time": 47.50626043405676,
+   "time_none": 48.714524207011685,
+   "damage": 49.75,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|RoF5": {
+   "n": 16,
+   "time": 49.09015025041736,
+   "time_none": 48.714524207011685,
+   "damage": 50.6875,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|RoF7": {
+   "n": 16,
+   "time": 51.857262103505846,
+   "time_none": 48.714524207011685,
+   "damage": 54.0625,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|RoF10": {
+   "n": 16,
+   "time": 51.61936560934892,
+   "time_none": 48.714524207011685,
+   "damage": 49.875,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  },
+  "grenade|boss|Quickdraw": {
+   "n": 16,
+   "time": 36.23747913188648,
+   "time_none": 48.714524207011685,
+   "damage": 32.875,
+   "damage_none": 51.75,
+   "won": 1,
+   "won_none": 1
+  }
+ },
+ "stage": "D5",
+ "rules": "exp:RoFC_10_175",
+ "seeds": 2
+}

@@ -57,7 +57,7 @@ def liberate_power(offense, level, targets):
 
 class PE:
     def __init__(self, level, spells, start=None, pe_light=False, rules='current', heal_rules=None, heal_below=0.5,
-                 cast_updates=60, haste_bosses=True, max_hp=None, bag=None, script=None, items=None):
+                 cast_updates=60, haste_bosses=True, max_hp=None, bag=None, script=None, items=None, heal_pct=None):
         r = row(stat_level(3, value_at(level)))
         self.max = r['max_atk']; self.rate = r['atb_rate']; self.step = r['atb_step']
         self.pe = self.max if start is None else min(self.max, int(start * 65536))
@@ -68,6 +68,7 @@ class PE:
         self.haste_left = 0; self.max_hp = max_hp      # policy HP scale when the fight's hp cap is not Aya's max
         self.script = dict(script) if script else None  # logged casts to replay (choose_scripted)
         self.items = dict(items) if items else None     # logged item use to replay {item id: count}
+        self.heal_pct = dict(heal_pct) if heal_pct else HEAL_PCT   # mod heal percentages (experiment PEh_*)
         self.barrier = self.gene = self.preraise = False
         self.item_bar = 'half' if rules == 'current' else 'full'   # pe_atb_items.c: half-bar items are a mod feature
 
@@ -130,7 +131,7 @@ class PE:
 
     def heal_amount(self, spell, max_hp):
         v = HEAL_VANILLA[spell]
-        return max(v, max_hp * HEAL_PCT[spell] // 100) if self.heal_rules == 'current' else v
+        return max(v, max_hp * self.heal_pct[spell] // 100) if self.heal_rules == 'current' else v
 
     def choose(self, hp_now, max_hp, gauge, boss, first_turn, items_only=False):
         """(spell, bar cost) for this turn, or None. bar cost: 'half' (quick power) or 'full'."""

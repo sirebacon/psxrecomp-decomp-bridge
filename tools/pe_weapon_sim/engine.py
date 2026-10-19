@@ -102,6 +102,8 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
         raise ValueError('asset_queue currently supports ordinary queued shots only')
     commands = eff.get("commands", 1)
     hitp = rules["hit_pct"].get(rof, 100)
+    if eff.get("rof_mod") and rules.get("rof_mod_hit_pct") and rof in rules["rof_mod_hit_pct"]:
+        hitp = rules["rof_mod_hit_pct"][rof]          # R-E: installed RoF 5 / 7 / 10 mods only
     slow = bool(armor.get("slow_at"))
     stat22 = aya["stat22"] - (4 if slow else 0)              # Slow AT reads stat22 two levels lower (~-2/level, A)
     offense = aya["offense"] * (1 + 0.08 * armor.get("attack_levels", 0))
@@ -194,6 +196,17 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                 not rules.get("all_mode_ordinary_only") or not any(o.get("boss") for o in foes)):
             power = power * rules["all_mode_power_pct"] / 100.0      # experiment AA_* (Attack All per-bullet power)
         dmg = power - f["defense"] / (1 if kind == 8 else split)
+        if dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_damage_pct") and (
+                not rules.get("all_mode_multi_only") or sum(1 for o in foes if o["cur"] > 0) >= 2) and (
+                not rules.get("all_mode_ordinary_only") or not any(o.get("boss") for o in foes)):
+            dmg = dmg * rules["all_mode_damage_pct"] / 100.0        # experiment AAd_*: Attack All damage after defense
+        if dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_crowd_c") and not any(o.get("boss") for o in foes):
+            n_alive = sum(1 for o in foes if o["cur"] > 0)
+            if n_alive >= 2: dmg = dmg * min(1.0, rules["all_mode_crowd_c"] / n_alive)   # experiment AAn_*: crowd-scaled Attack All
+        if dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_hp_cap") and not any(o.get("boss") for o in foes) and sum(1 for o in foes if o["cur"] > 0) >= 2:
+            # experiment AAc_*: Attack All takes at most cap x the target's max HP per turn (f['aa_turn'] reset per attack)
+            room = rules["all_mode_hp_cap"] * f["hp"] - f.get("aa_turn", 0.0)
+            dmg = max(0.0, min(dmg, room)); f["aa_turn"] = f.get("aa_turn", 0.0) + dmg
         landed_positive = dmg > 0
         if landed_positive:
             dmg *= {"graze": graze_mult_for(rules, kind, f["boss"]), "crit": rules["crit_mult"],

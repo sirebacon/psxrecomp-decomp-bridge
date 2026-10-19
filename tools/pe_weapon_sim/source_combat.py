@@ -719,7 +719,11 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             target['dist']=want
         if stopped(): break
         st.add('turns');start=session.update
-        session.attack(rof=current['eff'].get('rof',1),commands=current['eff'].get('commands',1),
+        fs=(rules.get('rof_fire_speed') or {}).get(current['eff'].get('rof',1),1.0) if (current['eff'].get('rof_mod') or rules.get('rof_fire_speed_all')) else 1.0
+        fc=(rules.get('rof_fire_cadence') or {}).get(current['eff'].get('rof',1)) if (current['eff'].get('rof_mod') or rules.get('rof_fire_speed_all')) else None
+        for f_ in foes: f_['aa_turn']=0.0                # per-turn Attack All damage (experiment AAc_*)
+        nh=bool(fc and rules.get('rof_no_hold'))
+        session.attack(fire_speed=fs,fire_cadence=fc,no_hold=nh,rof=current['eff'].get('rof',1),commands=current['eff'].get('commands',1),
             mode=current['eff'].get('mode'),targets=[f['i'] for f in alive],selected=target['i'],
             target_alive=lambda i:foes[i]['cur']>0,target_angles={f['i']:f['angle'] for f in foes},
             player_angle=lambda i:signed16(foes[i]['angle']+0x800),on_hit=hit)

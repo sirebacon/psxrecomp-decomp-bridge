@@ -97,10 +97,45 @@ EXPERIMENTS.update({"AA_%d" % p: dict(all_mode_power_pct=p) for p in (50, 60, 70
 # AAm: the cut applies only while two or more enemies are alive (single targets keep full power).
 EXPERIMENTS.update({"AAm_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True) for p in (30, 40, 50, 60, 70)})
 # AAo: as AAm, but never in a battle that contains a boss (boss fights with adds keep full Attack All).
+# RoFT_<T>: every RoF level's volley totals T% of one shot's power (per bullet T/n %), the general-upgrade sweep
+# (R-E, 2026-10-19). Current: RoF2 120, RoF3 123, RoF5 125, RoF7 140, RoF10 150.
+EXPERIMENTS.update({"RoFT_%d" % t: dict(hit_pct={1: 100, **{n: round(t / n) for n in (2, 3, 5, 7, 10)}}) for t in (150, 175, 200, 225)})
+# AAd_<p>: Attack All damage x p% AFTER defense (2+ enemies alive, no boss). In the mod's pe_on_damage hook this is
+# scaling both the attack term and the target's defense by p. AAo_* scales attack only, which floors weak guns at 1.
+EXPERIMENTS.update({"AAd_%d" % p: dict(all_mode_damage_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 40, 50, 60, 70)})
+# RoFS_<k>: installed RoF 5 / 7 / 10 mods fire k x faster (Aya's animation step scaled during the volley); RoFST_<k>_<t>
+# adds volley power t% (hit_pct as RoFT). R-E general-upgrade sweep.
+# RoFC_<n>[_<t>]: installed RoF 5 / 7 / 10 volleys play the follow loop in at most n frames (mod: Aya's animation step x
+# follow / n during the volley), optionally with volley power t%.
+for _n in (6, 8, 10):
+    EXPERIMENTS["RoFC_%d" % _n] = dict(rof_fire_cadence={5: _n, 7: _n, 10: _n})
+    for _t in (175, 200):
+        EXPERIMENTS["RoFC_%d_%d" % (_n, _t)] = dict(rof_fire_cadence={5: _n, 7: _n, 10: _n}, hit_pct={1: 100, **{n: round(_t / n) for n in (2, 3, 5, 7, 10)}})
+# AAn_<c>: Attack All total output = c/10 x one volley: each target takes min(1, c / (10 N)) of the damage after defense, N =
+# live enemies, 2+ enemies, no boss. Crowd-scaled R-A (2026-10-19).
+EXPERIMENTS.update({"AAn_%d" % c: dict(all_mode_crowd_c=c / 10, all_mode_multi_only=True, all_mode_ordinary_only=True) for c in (12, 15, 20)})
+# PE study: PEv = vanilla Parasite Energy (vanilla heals, no half-bar powers / items) under the mod's combat rules;
+# PEh_<a>_<b>_<c> = mod PE with Heal 1/2/3 at a/b/c % of max HP (mod CURRENT: 15/30/65).
+EXPERIMENTS['PEv'] = dict(pe_mode='vanilla')
+# RoFE: final R-E candidate. Installed RoF 5 / 7 / 10 mods only: volley 200% (40 / 29 / 20% per bullet), follow loop
+# at most 4 frames (never below the hit frame), per-shot hold removed. Built-in RoF and RoF 2 / 3 unchanged.
+EXPERIMENTS['RoFE'] = dict(rof_fire_cadence={5: 4, 7: 4, 10: 4}, rof_no_hold=True, rof_mod_hit_pct={5: 40, 7: 29, 10: 20})
+# RoFCH_<n>_<t>: RoFC_<n>_<t> plus the per-shot hold (anim row 'per': handgun / grenade 5, rocket 20) removed.
+for _n, _t in ((6, 200), (6, 225), (4, 200), (4, 225)):
+    EXPERIMENTS['RoFCH_%d_%d' % (_n, _t)] = dict(rof_fire_cadence={5: _n, 7: _n, 10: _n}, rof_no_hold=True, hit_pct={1: 100, **{k: round(_t / k) for k in (2, 3, 5, 7, 10)}})
+# AAc_<p>: Attack All deals at most p% of a target's max HP per turn (2+ enemies, no boss): crowds need 2+ turns.
+EXPERIMENTS.update({'AAc_%d' % p: dict(all_mode_hp_cap=p / 100) for p in (40, 50, 60, 75)})
+EXPERIMENTS['AAc_50n'] = dict(all_mode_hp_cap=0.5, all_mode_crowd_c=2.0, all_mode_multi_only=True, all_mode_ordinary_only=True)
+for _h in ((10, 25, 50), (15, 30, 50), (20, 40, 65)):
+    EXPERIMENTS['PEh_%d_%d_%d' % _h] = dict(pe_heal_pct=dict(zip(('Heal1', 'Heal2', 'Heal3'), _h)))
+for _k in (15, 20, 30):
+    EXPERIMENTS["RoFS_%d" % _k] = dict(rof_fire_speed={5: _k / 10, 7: _k / 10, 10: _k / 10})
+    for _t in (175, 200):
+        EXPERIMENTS["RoFST_%d_%d" % (_k, _t)] = dict(rof_fire_speed={5: _k / 10, 7: _k / 10, 10: _k / 10}, hit_pct={1: 100, **{n: round(_t / n) for n in (2, 3, 5, 7, 10)}})
 EXPERIMENTS.update({"AAo_%d" % p: dict(all_mode_power_pct=p, all_mode_multi_only=True, all_mode_ordinary_only=True) for p in (30, 35, 40, 45, 50, 60)})
 
 # Experiment keys the source backend honours (others were built for the earlier abstract engine).
-SOURCE_BACKEND_KEYS = {'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',
+SOURCE_BACKEND_KEYS = {'all_mode_hp_cap', 'rof_no_hold', 'rof_mod_hit_pct', 'prox', 'mag_scale', 'all_mode_power_pct', 'all_mode_damage_pct', 'all_mode_crowd_c', 'pe_mode', 'pe_heal_pct', 'rof_fire_speed', 'rof_fire_cadence', 'all_mode_multi_only', 'all_mode_ordinary_only', 'graze_mult', 'graze_mult_short', 'graze_mult_boss',
                        'graze_bands', 'keepaway_threshold_scale', 'counter_mult', 'hit_pct', 'crit_points', 'crit_convert_pct',
                        'elem_resist', 'elem_neutral', 'elem_weak', 'quickdraw_bonus', 'poison_pct', 'status_avg', 'status_resist'}
 

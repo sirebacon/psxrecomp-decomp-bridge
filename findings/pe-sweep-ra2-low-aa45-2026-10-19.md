@@ -1,0 +1,44 @@
+# Rule comparison: CURRENT → exp:AAo_45 on CURRENT (calibrated model)
+
+Equal-investment class benchmark guns (run_benchmark.CLASS_GUNS; D5 Day-5 investment, Disc2 [30,10,10] + 2Cmd + Quickdraw; Aya = the same seed frozen group-C build), campaign-frequency encounters (logged won battles), matched seeds; 3 seeds x every logged battle.
+Coverage labels: fallback hits use estimated damage; untimed strikes use the labelled placeholder timing (assumption sets vary both).
+
+Calibrated model (pe-calibration-logged-v7-2026-10-19): every logged foe resolved from source data, contact damage, Parasite Energy and items with the generic policy; Disc2 boss absolute levels are pessimistic for the player (the log player used clubs / held fire), comparisons are paired.
+
+| Assumptions | Stage | Group | Win base→prop (Δ, 95% CI) | Time s base→prop | Damage taken base→prop | Rounds | Reloads | Deaths | Fallback hit share | Untimed strike share |
+|---|---|---|---|---|---|---|---|---|---|---|
+| logged_player_serial | D5 | ALL | 0.993→0.956 (-0.037, [-0.054, -0.022]) | 38.17→48.90 | 50.3→76.5 | 11.6→18.4 | 0.0→0.3 | 0.000→0.002 | 0.00 | 0.18 |
+| logged_player_serial | D5 | ORDINARY | 1.000→0.933 (-0.067, [-0.097, -0.040]) | 26.71→46.02 | 37.6→84.9 | 11.2→23.4 | 0.0→0.4 | 0.000→0.003 | 0.00 | 0.00 |
+| logged_player_serial | D5 | BOSS | 0.983→0.983 (+0.000, [+0.000, +0.000]) | 52.50→52.50 | 66.1→66.1 | 12.1→12.1 | 0.1→0.1 | 0.000→0.000 | 0.00 | 0.26 |
+
+## Per build group (ordinary and boss separate)
+
+| Assumptions | Stage | Group | n | Win base→prop | Time s base→prop | Damage taken base→prop | Reloads base→prop |
+|---|---|---|---|---|---|---|---|
+| logged_player_serial | D5 | class_grenade/ord | 30 | 1.000→1.000 | 39.34→39.34 | 72.9→72.9 | 0.0→0.0 |
+| logged_player_serial | D5 | class_grenade/boss | 24 | 1.000→1.000 | 56.99→56.99 | 82.1→82.1 | 0.0→0.0 |
+| logged_player_serial | D5 | class_grenade_aa/ord | 30 | 1.000→0.867 | 22.53→64.94 | 21.6→127.1 | 0.0→0.8 |
+| logged_player_serial | D5 | class_grenade_aa/boss | 24 | 1.000→1.000 | 42.61→42.61 | 72.5→72.5 | 0.0→0.0 |
+| logged_player_serial | D5 | class_handgun/ord | 30 | 1.000→1.000 | 27.66→27.66 | 44.8→44.8 | 0.0→0.0 |
+| logged_player_serial | D5 | class_handgun/boss | 24 | 0.958→0.958 | 56.87→56.87 | 58.2→58.2 | 0.0→0.0 |
+| logged_player_serial | D5 | class_handgun_aa/ord | 30 | 1.000→1.000 | 13.07→36.68 | 7.0→49.0 | 0.0→1.2 |
+| logged_player_serial | D5 | class_handgun_aa/boss | 24 | 1.000→1.000 | 31.66→31.66 | 44.4→44.4 | 0.1→0.1 |
+| logged_player_serial | D5 | class_machine/ord | 30 | 1.000→1.000 | 26.49→26.49 | 50.1→50.1 | 0.1→0.1 |
+| logged_player_serial | D5 | class_machine/boss | 24 | 1.000→1.000 | 41.22→41.22 | 56.1→56.1 | 0.2→0.2 |
+| logged_player_serial | D5 | class_machine_aa/ord | 30 | 1.000→1.000 | 12.78→38.57 | 8.5→78.6 | 0.1→1.6 |
+| logged_player_serial | D5 | class_machine_aa/boss | 24 | 0.958→0.958 | 52.45→52.45 | 55.2→55.2 | 0.2→0.2 |
+| logged_player_serial | D5 | class_rifle/ord | 30 | 1.000→1.000 | 48.48→48.48 | 94.2→94.2 | 0.0→0.0 |
+| logged_player_serial | D5 | class_rifle/boss | 24 | 0.958→0.958 | 78.61→78.61 | 83.5→83.5 | 0.0→0.0 |
+| logged_player_serial | D5 | class_rifle_aa/ord | 30 | 1.000→0.500 | 23.82→85.06 | 31.0→184.3 | 0.0→0.0 |
+| logged_player_serial | D5 | class_rifle_aa/boss | 24 | 0.958→0.958 | 60.85→60.85 | 79.0→79.0 | 0.0→0.0 |
+| logged_player_serial | D5 | class_shotgun/ord | 30 | 1.000→1.000 | 31.50→31.50 | 36.9→36.9 | 0.0→0.0 |
+| logged_player_serial | D5 | class_shotgun/boss | 24 | 1.000→1.000 | 55.64→55.64 | 65.2→65.2 | 0.0→0.0 |
+| logged_player_serial | D5 | class_shotgun_aa/ord | 30 | 1.000→0.967 | 21.41→61.52 | 9.1→111.0 | 0.0→0.9 |
+| logged_player_serial | D5 | class_shotgun_aa/boss | 24 | 1.000→1.000 | 48.13→48.13 | 65.1→65.1 | 0.0→0.0 |
+
+## Build ranking stability across assumption sets
+
+**D5**
+- logged_player_serial: Spearman vs default 1.00; order class_machine, class_handgun_aa, class_shotgun, class_grenade, class_handgun, class_machine_aa, class_shotgun_aa, class_rifle, class_grenade_aa, class_rifle_aa
+- win-rate delta (proposal − baseline) by set: logged_player_serial -0.037
+

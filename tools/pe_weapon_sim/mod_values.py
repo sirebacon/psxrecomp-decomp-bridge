@@ -29,11 +29,13 @@ def guns(stage):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--stage', required=True); ap.add_argument('--rules', required=True)
     ap.add_argument('--seeds', type=int, default=2)
+    ap.add_argument('--effects', nargs='*')                  # subset of mods (default all)
+    ap.add_argument('--tag', default=None)                   # output name suffix (defaults to --rules)
     a = ap.parse_args()
     from .enemy_identity import FIRST_RUN_SHARED_CELLS as C, MULTI_KIND
     cells = {**C, MULTI_KIND: 1}
     for flag in (CR.ATB_GUARD, CR.LOGGED_CHARGE, CR.SERIAL, CR.IDENTITY_RANK, CR.CALIBRATED): flag[0] = True
-    rules = R.VANILLA if a.rules == 'vanilla' else R.CURRENT
+    rules = R.VANILLA if a.rules == 'vanilla' else R.CURRENT if a.rules == 'current' else R.experimental(*a.rules[4:].split('+'))
     battles = CR.campaign_battles(a.stage)
     if a.stage == 'Disc2':
         ords = [b for b in battles if not b['boss']]
@@ -42,9 +44,10 @@ def main():
     ref = {b['seed']: b for b in CR.builds([a.stage], a.seeds, ['C'])}
     out = []
     for cls, wid in guns(a.stage).items():
-        for eff in ['none'] + EFFECTS:
+        for eff in ['none'] + (a.effects or EFFECTS):
             g = Gun(W[wid]); g.invested = list(CR.INVEST[a.stage]['typical'])
             cfg = gun_cfg(g, [] if eff == 'none' else [eff])
+            if eff.startswith('RoF'): cfg = dict(cfg, eff=dict(cfg['eff'], rof_mod=True))   # installed RoF (R-E fire speed applies)
             for seed in range(1, a.seeds + 1):
                 b = dict(aya=ref[seed]['aya'], armor=ref[seed]['armor'])
                 for i, battle in enumerate(battles):
@@ -56,7 +59,7 @@ def main():
     for cls in guns(a.stage):
         for enc in (False, True):
             base = {(r['seed'], r['battle']): r for r in out if r['cls'] == cls and r['eff'] == 'none' and r['boss'] == enc}
-            for eff in EFFECTS:
+            for eff in (a.effects or EFFECTS):
                 rr = [r for r in out if r['cls'] == cls and r['eff'] == eff and r['boss'] == enc]
                 if not rr: continue
                 pairs = [(r, base[(r['seed'], r['battle'])]) for r in rr]
@@ -64,7 +67,7 @@ def main():
                     n=len(rr), time=statistics.mean(r['time'] for r, _ in pairs), time_none=statistics.mean(b['time'] for _, b in pairs),
                     damage=statistics.mean(r['damage'] for r, _ in pairs), damage_none=statistics.mean(b['damage'] for _, b in pairs),
                     won=statistics.mean(r['won'] for r, _ in pairs), won_none=statistics.mean(b['won'] for _, b in pairs))
-    (ROOT / ('pe-mod-values-%s-%s-2026-10-19.json' % (a.stage, a.rules))).write_text(json.dumps(dict(summary=summ, stage=a.stage, rules=a.rules, seeds=a.seeds), indent=1), encoding='utf-8')
+    (ROOT / ('pe-mod-values-%s-%s-2026-10-19.json' % (a.stage, a.tag or a.rules))).write_text(json.dumps(dict(summary=summ, stage=a.stage, rules=a.rules, seeds=a.seeds), indent=1), encoding='utf-8')
 
 
 if __name__ == '__main__':

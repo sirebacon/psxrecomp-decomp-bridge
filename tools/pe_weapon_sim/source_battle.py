@@ -146,7 +146,7 @@ class BattleSession:
         self.action_busy=False
 
     def attack(self,*,rof=1,commands=1,mode=None,targets=(0,),selected=0,
-               target_alive=None,target_angles=None,player_angle=0,on_hit=None,max_updates=100000,counter=False):
+               target_alive=None,target_angles=None,player_angle=0,on_hit=None,max_updates=100000,counter=False,fire_speed=1.0,fire_cadence=None,no_hold=False):
         """Retail's player queue for supplied stable target geometry.
 
         target_alive(id) and on_hit(event) can update enemy health between hits.
@@ -165,6 +165,15 @@ class BattleSession:
         self.event('counter_start' if counter else 'attack_start',mode=mode,queue=[dict(q) for q in queue])
         if self.gun.loaded==0: self.reload() # Battle_DispatchEntityEffect
         frames=action_frames(self.gun.kind,self.costume)
+        if fire_speed>1:
+            # Experiment (R-E): Aya's animation step scaled during the volley -> aim / follow loops k x shorter.
+            frames=dict(frames);frames[6]=max(1,round(frames[6]/fire_speed));frames[7]=max(1,round(frames[7]/fire_speed))
+        trig=assets()['battle_animation_rows'][self.gun.kind][4]
+        if fire_cadence:
+            # Experiment (R-E): the follow loop of an installed RoF 5+ volley plays in at most fire_cadence frames.
+            frames=dict(frames);frames[7]=min(frames[7],fire_cadence)
+        if fire_speed>1 or fire_cadence:
+            frames[7]=max(frames[7],trig)      # never shorter than the hit frame (else the next shot drops the pending hit)
         w0,w1,per,retarget,trigger=assets()['battle_animation_rows'][self.gun.kind]
         frame=previous=0;pose='aim';hold=False;index=0;remaining=rof
         committed=True;pending=None
@@ -221,7 +230,7 @@ class BattleSession:
                     index+=1;committed=True;advance_slot()
                 elif self.gun.loaded or self.gun.kind==8:
                     pose='aim';frame=frames[6]-1;previous=0;hold=True
-                    w1=(w1+per)&255;advance_slot()
+                    w1=(w1+(0 if no_hold else per))&255;advance_slot()   # no_hold: experiment R-E (per-shot hold removed)
                 elif self.reload():
                     self.event('reload_start',target=target,clip_frames=frames[12])
                     pose='reload';frame=previous=0;hold=False;advance_slot()

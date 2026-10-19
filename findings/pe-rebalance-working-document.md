@@ -1,7 +1,6 @@
 # Parasite Eve weapon rebalance — working document
 
-**Status: DRAFT. Simulations are still running; nothing here is decided, built into the mod, or
-tested in the game.**
+**Status: DRAFT.** The agreed outcome is now in **`pe-rebalance-economy-basis.md`** (R-A as a 75% per-turn HP cap, R-B +45, R-C +15, R-E RoF fast volleys, PE and economy kept). This file keeps the working history.
 
 Last updated: October 19, 2026. Keep this file current as results come in: it is the single place
 that says what we're leaning toward and why.

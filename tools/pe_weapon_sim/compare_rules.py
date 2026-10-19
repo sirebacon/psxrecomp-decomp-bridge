@@ -90,13 +90,14 @@ def campaign_battles(phase):
     calibrate_logged's battles: scripted boss HP (controllers, phase 2, parts kept as controllers, unengaged
     parts dropped) and each battle's logged bag / known spells for Parasite Energy."""
     if CALIBRATED[0]:
-        from .calibrate_logged import battles, foe_for
+        from .calibrate_logged import battles, foe_for, setup
         out = []
         for b in battles():
             if b['phase'] != phase: continue
             foes = [x for x in (foe_for(f, True) for f in b['foes'] if not f.get('_unengaged')) if x]
+            _, aya, armor = setup(b)
             out.append(dict(map=b['map'], boss=b['boss'], foes=foes, logged=dict(secs=b['logged_secs'], taken=b['logged_taken']),
-                            bag=dict(b['bag']), known_spells=list(b['known_spells'])))
+                            bag=dict(b['bag']), known_spells=list(b['known_spells']), aya=aya, armor=armor, level=b['level']))
         return out
     camp = json.loads((ROOT / 'findings/data/pe-campaign-2026-10-17.json').read_text(encoding='utf-8'))
     out = []
@@ -168,12 +169,13 @@ def builds(stages, seeds, groups=None):
 
 # Attack investment per stage from the investment profiles (pe-investment-profiles-2026-10-19): bonus
 # attack / range / bullets on the carried gun at the end of the stage, low = casual / logged, high = optimizer.
-INVEST = {'D5': {'low': [12, 8, 10], 'typical': [18, 12, 15], 'high': [25, 15, 20]},
+INVEST = {'D2-4': {'low': [9, 5, 5], 'typical': [15, 10, 12], 'high': [20, 12, 16]},
+          'D5': {'low': [12, 8, 10], 'typical': [18, 12, 15], 'high': [25, 15, 20]},
           'Disc2': {'low': [35, 15, 17], 'typical': [50, 18, 24], 'high': [68, 20, 30]}}
 INVEST_LEVEL = [None]        # set by --invest
 
 
-def class_builds(stages, seeds, classes=None):
+def class_builds(stages, seeds, classes=None, logged_aya=False):
     """Equal-investment class benchmark: each class's representative gun (run_benchmark.CLASS_GUNS:
     Day 5 guns for D5, Wayne guns for Disc2). D5: Day-5 attack investment, built-in effects only;
     Disc2: endgame investment [30, 10, 10] + 2 Commands + Quickdraw (the universal core). Aya (level,
@@ -181,23 +183,25 @@ def class_builds(stages, seeds, classes=None):
     from .run_benchmark import W, gun_cfg, CLASS_GUNS, STAGE_INVEST
     from .progression import Gun
     for ph in stages:
-        guns = dict(CLASS_GUNS['Day5' if ph == 'D5' else 'Wayne'])
+        guns = dict(CLASS_GUNS['Day4' if ph == 'D2-4' else 'Day5' if ph == 'D5' else 'Wayne'])
         if ph == 'Disc2': guns.update(CLASS_GUNS.get('WayneRocket', {}))     # LAW80 (Disc 2 only)
-        if ph == 'Disc2': guns['rifle_aa'] = guns['rifle']                   # MAG with a catalog-installed Attack All
+        for c in list(guns): guns[c + '_aa'] = guns[c]                         # same gun with a catalog-installed Attack All
         if classes: guns = {c: w for c, w in guns.items() if c in classes}
-        elif ph == 'Disc2': guns.pop('rocket', None); guns.pop('rifle_aa', None)   # opt-in: keeps earlier runs reproducible
-        ref = {b['seed']: b for b in builds([ph], seeds, ['C'])}
+        else: guns = {c: w for c, w in guns.items() if not c.endswith('_aa') and c != 'rocket'}   # opt-in extras: earlier runs reproduce
+        ref = {} if logged_aya else {b['seed']: b for b in builds([ph], seeds, ['C'])}
         for cls, wid in guns.items():
             g = Gun(W[wid])
-            if ph == 'D5': g.invested[0] = STAGE_INVEST['Day5']; mods = []
+            if ph in ('D5', 'D2-4'): g.invested[0] = STAGE_INVEST['Day5' if ph == 'D5' else 'Day4']; mods = []
             else: g.invested = [30, 10, 10]; mods = ['2Cmd', 'Quickdraw']
             if INVEST_LEVEL[0]: g.invested = list(INVEST[ph][INVEST_LEVEL[0]])
-            if cls == 'rifle_aa': mods = mods + ['AttackAll']
+            if cls.endswith('_aa'): mods = mods + ['AttackAll']
             cfg = gun_cfg(g, mods)
             for seed in range(1, seeds + 1):
-                yield dict(group='class_' + cls, phase=ph, seed=seed, cfg=cfg, aya=ref[seed]['aya'], armor=ref[seed]['armor'], gun=W[wid].name)
+                yield dict(group='class_' + cls, phase=ph, seed=seed, cfg=cfg, aya=None if logged_aya else ref[seed]['aya'],
+                           armor=None if logged_aya else ref[seed]['armor'], gun=W[wid].name)
 
 def run_fight(rules_dict, cfg, b, battle, a_name, a, seed, cells):
+    if b.get('aya') is None: b = dict(b, aya=battle['aya'], armor=battle['armor'])   # classlog: the battle's logged Aya
     opts = options_for(a, cells)
     # Max HP from the source level table (live-read rows), not the HP-bugged save's 385.
     from .economy.source_stats import aya_stats
@@ -208,8 +212,9 @@ def run_fight(rules_dict, cfg, b, battle, a_name, a, seed, cells):
     if CALIBRATED[0]:
         # Parasite Energy and items with the generic policy (heal below half, Haste on bosses), the battle's
         # logged bag and spells known by then; vanilla rules: vanilla heals, no half-bar powers / items.
-        mode = 'vanilla' if rules_dict['name'] == 'vanilla' else 'current'
+        mode = rules_dict.get('pe_mode') or ('vanilla' if rules_dict['name'] == 'vanilla' else 'current')
         opts['pe'] = dict(spells=battle.get('known_spells', []), rules=mode, heal_rules=mode, max_hp=opts['hp'], bag=dict(battle.get('bag', {})))
+        if rules_dict.get('pe_heal_pct'): opts['pe']['heal_pct'] = dict(rules_dict['pe_heal_pct'])
         opts['player_max_hp'] = opts['hp']
     st = E.fight(source_behavior_rules(rules_dict), cfg, b['aya'], foes, prof, random.Random(seed),
                  armor=b['armor'], source_options=opts, time_cap=400 if (CALIBRATED[0] and battle['boss']) else 90, policy='walk')
@@ -244,7 +249,7 @@ def main(argv=None):
     ap.add_argument('--proposal', default='baseline'); ap.add_argument('--stages', nargs='+', default=['D5', 'Disc2'])
     ap.add_argument('--seeds', type=int, default=8); ap.add_argument('--fights', type=int, default=4)
     ap.add_argument('--groups', nargs='*'); ap.add_argument('--assumptions', default=','.join(ASSUMPTIONS))
-    ap.add_argument('--out', default=None); ap.add_argument('--builds', default='frozen', choices=('frozen', 'class'))
+    ap.add_argument('--out', default=None); ap.add_argument('--builds', default='frozen', choices=('frozen', 'class', 'classlog'))
     ap.add_argument('--multi-kind', action='store_true')     # opt-in identity fixes: several literal kinds (Disc2 bosses) + silent actors
     ap.add_argument('--atb-guard', action='store_true')      # source: incoming damage halved while the gauge is above 0
     ap.add_argument('--logged-charge', action='store_true')  # play-log charge step where scripts give none
@@ -271,7 +276,7 @@ def main(argv=None):
     sets = a.assumptions.split(',')
     battles = {p: [x for x in campaign_battles(p) if a.encounters == 'all' or x['boss'] == (a.encounters == 'boss')] for p in a.stages}
     rows = []
-    for b in (class_builds(a.stages, a.seeds, a.classes) if a.builds == 'class' else builds(a.stages, a.seeds, a.groups)):
+    for b in (class_builds(a.stages, a.seeds, a.classes, logged_aya=a.builds == 'classlog') if a.builds in ('class', 'classlog') else builds(a.stages, a.seeds, a.groups)):
         for i in range(len(battles[b['phase']]) if a.all_battles else a.fights):
             if a.all_battles: battle = battles[b['phase']][i]
             else:
