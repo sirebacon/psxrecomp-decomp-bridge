@@ -37,10 +37,22 @@ def energy_shot_damage(offense, gun_power, level, pe, max_pe, defense):
     """Battle_ResolveHit (battle/enemy_movement.c) with state 0x100000: base = stat1E/5 + the gun's power
     bonus; power = base * ((7*level + 120) / 160) * PE / maxPE + base (integers, PE in whole points);
     damage = power - full defense, at least 1. Live check 2026-10-19 (room 273, level 33, PE 1420/1420,
-    target defense 85): 572 logged = base 219 (the save-derived inputs give 217)."""
+    target defense 85): 572 logged = base 219. Liberate pins stat1E at 350 (70), so the gun's power bonus\n    was 149 in that state (the save on disk says 147)."""
     base = int(offense) // 5 + int(gun_power)
     power = base * ((level * 7 + 120) // 160) * int(pe) // max(1, int(max_pe)) + base
     return max(1, power - int(defense))
+
+
+LIBERATE_HITS = 7                 # play log: 7 hits per Liberate (rooms 273, 432)
+LIBERATE_UPDATES = 600            # ~20 s of hits in the log (enemies paused like any PE power; labelled)
+
+
+def liberate_power(offense, level, targets):
+    """Battle_ResolveHit (battle/enemy_movement.c) with state 0x80000:
+    (stat1E - 25 + level) * 6 * (1 + 0.1 * (targets - 1)) / 7 in doubles, truncated; damage = power -
+    full defense (at least 1). Live checks: room 273 (3 targets) 368 = 283+85 / 298+70 / 313+55;
+    room 432 (1 target) 306 = 256+50; both at level 33, stat1E 350."""
+    return int((int(offense) - 25 + level) * 6 * (1 + 0.1 * (targets - 1)) / 7)
 
 
 class PE:
@@ -67,6 +79,7 @@ class PE:
     def cost(self, spell):
         if spell == 'Barrier': return self.max // 3            # exp_or_acc -= maxAtk / 3, no PE Light cut
         if spell == 'EnergyShot': return 0x10000                # needs PE; the shot then spends all of it (phase.c)
+        if spell == 'Liberate': return 0x10000                  # phase.c also zeroes PE after the action
         c = COST[spell] << 16
         return c * 2 // 3 if self.pe_light else c
 
@@ -93,6 +106,7 @@ class PE:
         if not self.preraise and left('Preraise') and bar('Preraise'): return bar('Preraise')
         if not self.gene and hp_now <= 0.75 * max_hp and left('GeneHeal') and bar('GeneHeal'): return bar('GeneHeal')
         if self.pe >= self.max * 3 // 4 and left('EnergyShot') and bar('EnergyShot'): return bar('EnergyShot')
+        if left('Liberate') and bar('Liberate'): return bar('Liberate')
         for s in ('Slow', 'Confuse'):
             if left(s) and bar(s): return bar(s)
         return None

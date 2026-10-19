@@ -66,6 +66,12 @@ class PETests(unittest.TestCase):
         self.assertNotEqual(3 * 217 - 85 // 5, 572)                                  # defense isn't split by RoF
         self.assertEqual(energy_shot_damage(350, 147, 33, 710, 1420, 85), 349)       # half PE
 
+    def test_liberate_matches_log(self):
+        # Rooms 273 (3 targets, defenses 85/70/55 -> 283/298/313) and 432 (1 target, def 50 -> 256), level 33.
+        from pe_weapon_sim.parasite_energy import liberate_power
+        self.assertEqual([liberate_power(350, 33, 3) - d for d in (85, 70, 55)], [283, 298, 313])
+        self.assertEqual(liberate_power(350, 33, 1) - 50, 256)
+
     def test_haste_first_boss_turn(self):
         p = PE(25, ['Haste'], start=300)
         self.assertEqual(p.choose(300, 300, 9000, True, True), ('Haste', 'full'))

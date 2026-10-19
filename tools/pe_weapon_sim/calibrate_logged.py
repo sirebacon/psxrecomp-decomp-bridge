@@ -21,7 +21,7 @@ from .economy import equipment, evaluation, source_stats, tables
 # Marked bosses whose script refills HP at the 1000000 threshold (a second phase): room 188 actor 5
 # Entity_SetField 44/45 = 300; the log shows the reset (dmg 999660, left 300). All other marked foes end there.
 PHASE2_HP = {('188', '0x021A'): 300}
-LOGGED_CAST_SPELLS = {'Heal1', 'Heal2', 'Heal3', 'Detox', 'Haste', 'Barrier', 'Slow', 'Confuse', 'GeneHeal', 'Preraise', 'EnergyShot'}
+LOGGED_CAST_SPELLS = {'Heal1', 'Heal2', 'Heal3', 'Detox', 'Haste', 'Barrier', 'Slow', 'Confuse', 'GeneHeal', 'Preraise', 'EnergyShot', 'Liberate'}
 
 ROOT = Path(__file__).resolve().parents[2]
 

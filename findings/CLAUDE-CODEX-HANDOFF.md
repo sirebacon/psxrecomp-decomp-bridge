@@ -97,6 +97,12 @@ concrete mod spec:
   - Hit frequency remains 1.4–1.6× high.
 - Use `--atb-guard --multi-kind` for new comparisons.
 
+**Step 8b, room 273 and Liberate:**
+- Counters no longer hit untargetable controllers: room 273 goes 239 → 1091 (logged 1264).
+- Liberate is from source: 7 hits of power − full defense, matching rooms 273 / 432 exactly; room 432 goes 340 → 83 (logged 79).
+- Bosses now 0.68× (r 0.82).
+- The rest of the Disc2 boss gap is player behaviour (club turns, 245 / 256; few volleys, 188; 350 open).
+
 **Step 8, enemy body-contact damage** (`pe-contact-damage-2026-10-19.md`):
 - Source (Menu_MainUpdate):
   - flat contactDamage (script field 65) on hit-cylinder overlap;

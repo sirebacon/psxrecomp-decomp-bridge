@@ -557,6 +557,8 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
         if not effect.get('counter') or session.update<ready: return
         pending_counter=None
         if foes[target]['cur']<=0: return
+        if foes[target].get('controller'):
+            st.add('counter_controller_skipped');return       # untargetable core: the log never shows Aya hitting it
         if not enemy_profiles[target].get('counter_eligible',True): return
         rank=enemy_profiles[target].get('rank',foes[target].get('rank',foes[target]['level']))
         if options.get('identity_rank') and 'rank' not in enemy_profiles[target]:
@@ -571,7 +573,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
         if rng.randrange(100)>=round(chance*100): return
         st.add('counters')
         session.attack(counter=True,rof=effect.get('rof',1),commands=1,mode=effect.get('mode'),
-            targets=[f['i'] for f in foes if f['cur']>0],selected=target,
+            targets=[f['i'] for f in foes if f['cur']>0 and not f.get('controller')],selected=target,
             target_alive=lambda i:foes[i]['cur']>0,target_angles={f['i']:f['angle'] for f in foes},
             player_angle=lambda i:signed16(foes[i]['angle']+0x800),on_hit=hit)
 
@@ -637,6 +639,20 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                         dmg=energy_shot_damage(aya.get('offense',0),active_cfg()['power'],max(1,aya.get('level',1)),
                                                pe_before>>16,pe.max>>16,f.get('defense',0))
                         st.add('energy_shot_damage',min(dmg,max(0.,f['cur'])));f['dealt']+=dmg;f['cur']-=dmg
+                        if f['cur']<=0 and f.get('phase2_hp'): f['cur']=float(f.pop('phase2_hp'));st.add('phase2_refills')
+                    pe.pe=0
+                if spell=='Liberate':
+                    # State 0x80000 (Battle_ApplySpellEffect case 19): Battle_StepAyaAction visits targets;
+                    # each hit = liberate_power - full defense (Battle_ResolveHit), 7 hits in the log; enemies
+                    # paused for the extra ~20 s of the action; phase.c zeroes PE at its end.
+                    from .parasite_energy import liberate_power, LIBERATE_HITS, LIBERATE_UPDATES
+                    session.advance(max(0,LIBERATE_UPDATES-pe.cast_updates),paused=True)
+                    for _ in range(LIBERATE_HITS):
+                        alive=[f for f in foes if f['cur']>0 and not f.get('controller')]
+                        if not alive: break
+                        f=rng.choice(alive)
+                        dmg=max(1,liberate_power(aya.get('offense',0),max(1,aya.get('level',1)),len(alive))-int(f.get('defense',0)))
+                        st.add('liberate_damage',min(dmg,max(0.,f['cur'])));f['dealt']+=dmg;f['cur']-=dmg
                         if f['cur']<=0 and f.get('phase2_hp'): f['cur']=float(f.pop('phase2_hp'));st.add('phase2_refills')
                     pe.pe=0
                 if isinstance(spell,tuple):st.add('items_used');st.add('item_%02X'%spell[1])

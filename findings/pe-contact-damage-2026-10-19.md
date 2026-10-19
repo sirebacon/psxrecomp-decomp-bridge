@@ -70,6 +70,37 @@ jump by ±50 (pure noise).
 Refitting the early melee dodge for contact isn't worth it: 0.7 / 0.8 change Day 2–4 by less
 than the noise.
 
+## Follow-ups the same day: room 273 and Liberate
+
+**Room 273 — counters killed the controller.** The 10-HP core 0x0325, untargetable and the
+attacker, was hit by Aya's counters. Counters aim at whoever just hit her, and the counter target
+list included controllers. Normal attacks already skipped controllers. Counters now skip them too
+(the log never shows Aya damaging 0x0325). Result: 0x0325 strikes about every 3 s as its charge
+step (120) says, and room 273 goes from 239 to 1091 against 1264 logged.
+
+**Liberate** (Battle_ResolveHit state 0x80000):
+- Power = (stat1E − 25 + level) × 6 × (1 + 0.1·(targets − 1)) / 7; damage = power − full
+  defense; 7 hits per cast; all PE spent.
+- It matches the log exactly:
+  - room 273, 3 targets: 368 = 283 + 85 = 298 + 70 = 313 + 55;
+  - room 432, 1 target: 306 = 256 + 50.
+- That also pins Aya's offense at 350, so the Energy Shot 2-point gap was the gun's attack bonus
+  (149, not the save's 147).
+- Room 432: 340 → **83 vs 79**.
+
+Calibration `pe-calibration-logged-contact-v5-2026-10-19`:
+- ordinary 1.07× (r 0.76);
+- **bosses 0.68× (r 0.82)**;
+- Disc2 bosses 0.61× (r 0.72).
+
+**Remaining Disc2 boss gap = player behaviour:**
+- Rooms 245 / 256: club turns (`acts` 8:7 / 8:6) and weapon swaps.
+- Room 188: 5 volleys in 11 turns.
+- Room 350: still open.
+
+The sim fires a full volley every turn and kills 2–3× sooner, so it takes less damage. Replaying
+the logged weapon / club turns would close this; it isn't an enemy-model error.
+
 Files:
 - code: `contact_damage.py`, `logged_contact.py`, `enemy_choice.unarmed_actor`, `source_combat`
   (`contact_damage`, `hold`);
