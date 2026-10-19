@@ -1,0 +1,453 @@
+{
+ "rule": "A logged hurt counts as body contact when it equals the contactDamage of an enemy present in that\nbattle (contact_damage.contact_of), is >= 3 s after the previous contact-valued hurt (Aya's\n0x01000000 window is 90 updates; poison ticks repeat about every second), and is not a damage\nany present enemy's resolved strike could deal at that battle's level and armor (each called\nslot's power - stat20/5 - armor, plain / halved by the gauge / critical / both), so a strike that\nhappens to equal the contact value is not counted twice.\nRate = contacts per battle-minute (battles with a contact-capable enemy), per map; the simulator\napplies it per battle update while any contact-capable enemy is alive. Rebuild with\n  python -m pe_weapon_sim.logged_contact",
+ "default": {
+  "boss": 0.887,
+  "ord": 0.818
+ },
+ "maps": {
+  "12": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "22": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "23": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 2
+  },
+  "32": {
+   "rate": 4.056,
+   "contacts": 2,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "59": {
+   "rate": 0.477,
+   "contacts": 1,
+   "battles": 3,
+   "strike_matches_excluded": 0
+  },
+  "63": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "65": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "67": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 2
+  },
+  "80": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "81": {
+   "rate": 2.202,
+   "contacts": 2,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "82": {
+   "rate": 5.196,
+   "contacts": 4,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "83": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "85": {
+   "rate": 1.337,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "86": {
+   "rate": 0.346,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "87": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "89": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "104": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "107": {
+   "rate": 0.4,
+   "contacts": 1,
+   "battles": 3,
+   "strike_matches_excluded": 2
+  },
+  "111": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "113": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "114": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "115": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "121": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "122": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "123": {
+   "rate": 1.973,
+   "contacts": 7,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "126": {
+   "rate": 0.757,
+   "contacts": 6,
+   "battles": 3,
+   "strike_matches_excluded": 1
+  },
+  "146": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "147": {
+   "rate": 1.817,
+   "contacts": 6,
+   "battles": 2,
+   "strike_matches_excluded": 0
+  },
+  "149": {
+   "rate": 1.237,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "152": {
+   "rate": 2.864,
+   "contacts": 6,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "153": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "154": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 3
+  },
+  "156": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "162": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "163": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "167": {
+   "rate": 2.386,
+   "contacts": 5,
+   "battles": 2,
+   "strike_matches_excluded": 0
+  },
+  "169": {
+   "rate": 2.553,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "186": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "187": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "188": {
+   "rate": 0.782,
+   "contacts": 2,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "197": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "198": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "203": {
+   "rate": 1.361,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "205": {
+   "rate": 1.914,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "206": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 2,
+   "strike_matches_excluded": 0
+  },
+  "210": {
+   "rate": 1.214,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "214": {
+   "rate": 2.223,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "218": {
+   "rate": 1.089,
+   "contacts": 1,
+   "battles": 2,
+   "strike_matches_excluded": 1
+  },
+  "219": {
+   "rate": 1.767,
+   "contacts": 1,
+   "battles": 2,
+   "strike_matches_excluded": 0
+  },
+  "220": {
+   "rate": 2.182,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "224": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "226": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "231": {
+   "rate": 1.073,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "232": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "233": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "242": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "243": {
+   "rate": 0.961,
+   "contacts": 1,
+   "battles": 3,
+   "strike_matches_excluded": 0
+  },
+  "245": {
+   "rate": 3.62,
+   "contacts": 10,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "246": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "256": {
+   "rate": 1.489,
+   "contacts": 7,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "265": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "269": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "273": {
+   "rate": 0.255,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "324": {
+   "rate": 0.925,
+   "contacts": 1,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "327": {
+   "rate": 1.023,
+   "contacts": 3,
+   "battles": 2,
+   "strike_matches_excluded": 3
+  },
+  "328": {
+   "rate": 1.915,
+   "contacts": 5,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "332": {
+   "rate": 6.092,
+   "contacts": 6,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "333": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 3,
+   "strike_matches_excluded": 0
+  },
+  "350": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "358": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "380": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 1
+  },
+  "428": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "429": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  },
+  "432": {
+   "rate": 0.0,
+   "contacts": 0,
+   "battles": 1,
+   "strike_matches_excluded": 0
+  }
+ }
+}

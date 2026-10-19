@@ -268,6 +268,45 @@ def _flow_can_attack(m, actor):
                for n in cfg['nodes'])
 
 
+@lru_cache(maxsize=None)
+def _actor_arms(m, actor):
+    """(hp literals, armed) for an actor's decoded flow: HP literals are the L of the idiom
+    `EvalExpr 15 tmp, N10, L` + `EvalExpr 18 >> 16` + `Entity_SetField 44 tmp` (HP = N10 x L >> 16);
+    armed = it declares an action slot (Script_SetEntityAnim5/12Args) or runs Script_RunEntityCommand.
+    Without either it can't start a strike (an effect it spawns uses the current action's power,
+    which stays the template 0)."""
+    from .decode_enemy_actions import flow, sectors, BRIDGE, PROJECT
+    inv = json.loads((BRIDGE / 'findings/data/pe-enemy-scripts-2026-10-18.json').read_text())
+    room = next(r for r in inv['rooms'] if r['disc'] == 1 and r['map'] == m)
+    script = next(s for s in room['scripts'] if s['actor_type'] == actor)
+    with (PROJECT / 'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc 1).bin').open('rb') as disc:
+        cfg = flow(sectors(disc, room['lba'], room['sectors']), script['start'], script['end'], inv['handlers'])
+    nodes = sorted(cfg['nodes'], key=lambda n: n['offset'])
+    hps = set()
+    for i in range(len(nodes) - 2):
+        a, b, c = nodes[i:i + 3]
+        if (a['handler'] == 'Script_EvalExpr' and [x.get('mode') for x in a['args']] == [0, 3, 4, 0] and a['args'][0]['value'] == 15
+                and b['handler'] == 'Script_EvalExpr' and c['handler'] == 'Entity_SetField' and c['args'][0] == dict(mode=0, value=44)):
+            hps.add(a['args'][3]['value'])
+    armed = any(n['handler'] in ('Script_SetEntityAnim5Args', 'Script_SetEntityAnim12Args', 'Script_RunEntityCommand') for n in nodes)
+    return frozenset(hps), armed
+
+
+def unarmed_actor(foe, cells=None, v80=1.0):
+    """True when the identity is shared by several actor types, the foe's HP picks out the actor(s)
+    whose HP literal x V80 equals it, and none of those declares an action or runs a command (e.g.
+    room 332 0x0015: the 45-HP actor 7 only rams, the 170-HP actor 6 owns slot 3)."""
+    try: m, ident, hp = int(foe['loc']), int(foe['name'], 16), int(foe['hp'])
+    except (KeyError, ValueError, TypeError): return False
+    keys = identity_keys(dict(cells_key(cells)))
+    actors = [a for (mm, a), ids in keys.items() if mm == m and any(i == ident for i, _ in ids) and a != 0]
+    if len(actors) < 2: return False
+    try: info = {a: _actor_arms(m, a) for a in actors}
+    except StopIteration: return False
+    match = [a for a, (hps, _) in info.items() if any(int(h * v80) == hp for h in hps)]
+    return bool(match) and not any(info[a][1] for a in match)
+
+
 def silent_identity(foe, cells=None):
     """True when every actor resolving to the identity has an error-free decoded flow with no
     Script_RunEntityCommand, effect or PM send: it never starts an attack (e.g. room 269 actors

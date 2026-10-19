@@ -41,15 +41,18 @@ def raw_battles():
     camp = json.loads((ROOT / 'findings/data/pe-campaign-2026-10-17.json').read_text(encoding='utf-8'))
     # Per battle row, the enemy rows logged before it (in order) with each slot's hit list, so a
     # foe that only ever took one full-HP hit (a scripted removal) can be recognised.
-    enemies_before, pending, hits = {}, [], {}
+    enemies_before, hurts_before, pending, hits, hurts = {}, {}, [], {}, []
     for r in allrows:
-        if r['kind'] == 'hit':
+        if r['kind'] == 'hurt':
+            hurts.append((int(r['play_s']), int(kv(r['detail'])['dmg'])))
+        elif r['kind'] == 'hit':
             d = kv(r['detail']); hits.setdefault(d['slot'], []).append((int(d['dmg']), int(d['left'])))
         elif r['kind'] == 'enemy':
             d = kv(r['detail']); pending.append(dict(slot=d['slot'], id=d['id'], hp=int(d['hp']), hits=hits.pop(d['slot'], [])))
         elif r['kind'] == 'battle':
-            enemies_before[id(r)] = pending; pending, hits = [], {}
+            enemies_before[id(r)] = pending; hurts_before[id(r)] = hurts; pending, hits, hurts = [], {}, []
     by_detail = {(r['map'], r['detail']): enemies_before.get(id(r), []) for r in allrows if r['kind'] == 'battle'}
+    hurts_by = {(r['map'], r['detail']): hurts_before.get(id(r), []) for r in allrows if r['kind'] == 'battle'}
     out = []; j = 0
     for e in camp['events']:
         if e['type'] != 'battle': continue
@@ -57,7 +60,7 @@ def raw_battles():
         while j < len(rows):
             d = kv(rows[j]['detail']); r = rows[j]; j += 1
             if r['map'] == e['map'] and int(d['secs']) == int(e['secs']) and int(d['exp']) == int(e['exp']):
-                hit = dict(d, _enemies=by_detail.get((r['map'], r['detail']), [])); break
+                hit = dict(d, _enemies=by_detail.get((r['map'], r['detail']), []), _hurts=hurts_by.get((r['map'], r['detail']), [])); break
         out.append((tuple(e['t']), hit))
     return dict(out)
 
@@ -102,7 +105,7 @@ def battles():
                         armor=armor, logged_secs=int(d['frames']) / 59.9 if d else e['secs'] * 10.0, logged_taken=e['taken'],
                         logged_turns=int(d.get('turns', 0) or 0), logged_dealt=int(d.get('dealt', 0) or 0), logged_shots=int(d.get('shots', 0) or 0),
                         logged_reloads=int(d.get('reloads', 0) or 0), logged_swaps=int(d.get('wswaps', 0) or 0),
-                        pe_casts=d.get('casts', ''), acts=d.get('acts', ''), raw=bool(d),
+                        pe_casts=d.get('casts', ''), acts=d.get('acts', ''), raw=bool(d), hurts=d.get('_hurts', []),
                         pe_start=int(d['pe'].split('->')[0]) if d.get('pe') else None,
                         bag={int(x.split(':')[0], 16): int(x.split(':')[1]) for x in d.get('bag', '').split('/') if ':' in x}, _used=d.get('used', '')))
     for b in out:                                       # the logged bag is the end state: add back what was used
@@ -134,7 +137,7 @@ def setup(b):
     return cfg, aya, evaluation.armor_of(armor_item)
 
 
-def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb_guard=False, logged_charge=False, evade=0.0, reaction_paused=False, serial=False, pe=False, evade_melee=0.0, evade_melee_early=0.0, logged_casts=False, boss_cap=90, controllers=False, identity_rank=False, logged_items=False, steals=False):
+def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb_guard=False, logged_charge=False, evade=0.0, reaction_paused=False, serial=False, pe=False, evade_melee=0.0, evade_melee_early=0.0, logged_casts=False, boss_cap=90, controllers=False, identity_rank=False, logged_items=False, steals=False, contact=False, actor_by_hp=False):
     cfg, aya, armor = setup(b)
     opts = options_for(ASSUMPTIONS[a_name], cells); opts['hp'] = 10 ** 7
     opts['player_max_hp'] = source_stats.aya_stats(max(1, b['level']))['max_hp']   # HP-share statuses use real HP
@@ -143,6 +146,11 @@ def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb
     if logged_charge: opts['logged_charge'] = True    # play-log charge step where scripts give none (logged_charge.py)
     if evade: opts['player_evade'] = evade           # player behaviour assumption (share of strikes avoided)
     if reaction_paused: opts['reaction_paused'] = True  # the reaction time is spent in the paused command menu
+    if contact:
+        # contact_damage.py: contacts per battle-minute from the play log (hurt == contactDamage, >= 3 s apart).
+        opts['contact_damage'] = dict(ord=0.70, boss=0.77, logged=contact == 'logged')   # logged: per-room rate (logged_contact.py)
+    if actor_by_hp and opts.get('called_slots'):
+        opts['called_slots'] = dict(opts['called_slots'], actor_by_hp=True)   # enemy_choice.unarmed_actor (source)
     if steals: opts['steals'] = True                   # Battle_ApplyEnemyAttack item / ammo steals (source)
     if identity_rank: opts['identity_rank'] = True     # counter rank from the enemy identity (Battle_RollEnemySpawn)
     if serial: opts['serial_action'] = True             # source: enemies freeze (no new attacks) during Aya's action
@@ -242,6 +250,8 @@ def main(argv=None):
     ap.add_argument('--boss-cap', type=float, default=90, help='sim time cap (s) for boss battles; long logged boss fights exceed 90')
     ap.add_argument('--controllers', action='store_true', help='scripted boss HP: 10-HP cores untargetable, scripted second phases (PHASE2_HP)')
     ap.add_argument('--logged-items', action='store_true', help='with --pe --logged-casts: replay the logged item use')
+    ap.add_argument('--contact', nargs='?', const='global', default=False, help='enemy body-contact damage (source value); rate: global (default) or logged (per room)')
+    ap.add_argument('--actor-by-hp', action='store_true', help='resolve the actor of a shared identity by HP; unarmed actors never strike')
     ap.add_argument('--steals', action='store_true', help='enemy item / ammo steals (source)')
     ap.add_argument('--identity-rank', action='store_true', help='counter rank difference from the enemy identity low byte (source)')
     ap.add_argument('--multi-kind', action='store_true', help='resolve kind-switching bosses and silent parts (enemy_identity)')
@@ -253,7 +263,7 @@ def main(argv=None):
     bs = battles()
     for name in a.assumptions.split(','):
         for k, b in enumerate(bs):
-            r = run(b, name, a.fights, cells, a.policy, a.reaction, a.log_era, a.atb_guard, a.logged_charge, a.evade, a.reaction_paused, a.serial, a.pe, a.evade_melee, a.evade_melee_early, a.logged_casts, a.boss_cap, a.controllers, a.identity_rank, a.logged_items, a.steals)
+            r = run(b, name, a.fights, cells, a.policy, a.reaction, a.log_era, a.atb_guard, a.logged_charge, a.evade, a.reaction_paused, a.serial, a.pe, a.evade_melee, a.evade_melee_early, a.logged_casts, a.boss_cap, a.controllers, a.identity_rank, a.logged_items, a.steals, a.contact, a.actor_by_hp)
             rows.append(dict({x: b[x] for x in ('t', 'phase', 'map', 'level', 'boss', 'gun', 'gun_source', 'logged_secs', 'logged_taken',
                                                 'logged_turns', 'logged_dealt', 'logged_shots', 'logged_reloads', 'logged_swaps', 'pe_casts', 'acts')},
                              assumption=name, **r))

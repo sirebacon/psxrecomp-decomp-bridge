@@ -18,7 +18,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
     options=dict(options or {})
     allowed={'hp','reserve_ammo','weapons','weapon_policy','menu_updates','stream_updates',
              'half_bar','initial_state','trace','enemy_angles','enemy_defaults','enemy_profiles',
-             'counter_hp_level','player_rank','counter_reaction_updates','static_enemy_catalog','enemy_action_timing','shared_cells','contact_timing','effect_actions','enemy_choice','melee_window','melee_reach','called_slots','reaction_updates','switch_cost','hit_trace','player_status','projectile_height','linked_beams','beam_player','beam_formation','boss_beam_choice','atb_guard','logged_charge','player_evade','reaction_paused','serial_action','pe','player_max_hp','player_evade_melee','identity_rank','steals'}
+             'counter_hp_level','player_rank','counter_reaction_updates','static_enemy_catalog','enemy_action_timing','shared_cells','contact_timing','effect_actions','enemy_choice','melee_window','melee_reach','called_slots','reaction_updates','switch_cost','hit_trace','player_status','projectile_height','linked_beams','beam_player','beam_formation','boss_beam_choice','atb_guard','logged_charge','player_evade','reaction_paused','serial_action','pe','player_max_hp','player_evade_melee','identity_rank','steals','contact_damage'}
     if set(options)-allowed: raise ValueError('unknown source combat options')
     hz=rules.get('battle_update_hz',59.9/2)
     if hz<=0: raise ValueError('positive battle_update_hz required')
@@ -114,6 +114,11 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             if gated and any(p.get('variant') is not None for p in gated.values()):st.add('called_slot_variant_picks')
             st.add('called_slot_matches',int(bool(gated)));st.add('called_slot_foes')
             if gated and len(gated)>1:st.add('called_slot_unguarded_multi')
+            if gated and choice.get('actor_by_hp'):
+                # Opt-in: the foe's HP resolves its actor type within a shared identity; an actor with no
+                # declared action and no command can't strike (enemy_choice.unarmed_actor).
+                from .enemy_choice import unarmed_actor
+                if unarmed_actor(f,cells):gated=None;p['no_contact']=True;st.add('called_slot_unarmed_actor')
             if not gated and choice.get('silent'):
                 # Opt-in: every resolving actor's whole flow lacks commands / effects / PM sends
                 # (enemy_choice.silent_identity), so it never attacks; its strikes do nothing.
@@ -239,10 +244,21 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
         nonlocal healed
         amount=max(0,min(amount,taken-healed));healed+=amount;return amount
 
+    hold=[0]                # post-revive immunity updates (0x800000)
+    contact=[0]             # Aya's 0x01000000 window (contact damage blocked)
+    contact_vals={}
+    if options.get('contact_damage'):
+        from .contact_damage import contact_of
+        from .enemy_identity import cells_key
+        ck=cells_key(options.get('shared_cells',{}))
+        contact_vals={f['i']:contact_of(f,ck) for f in foes}
+        crng=random.Random(int.from_bytes(hashlib.sha256(('contact'+repr(rng.getstate())).encode()).digest()[:8],'little'))   # own stream, seeded without drawing
+
     def dead():
         """Out of HP, after Preraise / Revive (battle/encounter.c: phase 3 takes Preraise 0x800 first,
         then a Revive item 0x12; Battle_StepVictory case 7: HP = maxHP/2, PE >>= 2; Battle_ResetEnemyStats:
-        gauge 0, ailments and buffs cleared). Its 90-update enemy hold timer is not modelled."""
+        gauge 0, ailments and buffs cleared; mode 1 sets Aya 0x800000 with timer 0x5A: Menu_MainUpdate resolves no
+        enemy hit or contact while it runs -> 90 updates of immunity, hold_left)."""
         nonlocal healed
         if taken-healed<hp: return False
         if not pe: return True
@@ -252,6 +268,7 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
         healed=taken-hp+max_hp_real//2
         pe.pe>>=2;pe.barrier=pe.gene=False;pe.haste_left=0;session.haste=False;session.gauge=0
         if status: status.flags&=~0x1FFF
+        hold[0]=0x5A
         st.add('revived');st.add('revive_'+how)
         return False
 
@@ -311,6 +328,25 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                 if dead(): finished_at=now;return
             session.slow=slow or status.stiff
         if pe: upkeep()
+        if hold[0]: hold[0]-=1
+        if contact[0]: contact[0]-=1                 # Entity_UpdateTimers: g_AyaStatusEffectTimer
+        if contact_vals and not hold[0] and not contact[0]:
+            # contact_damage.py: flat contactDamage on cylinder overlap; when overlap happens is a
+            # labelled per-update hazard per live enemy (play-log contacts per enemy-minute).
+            cd=options['contact_damage'];boss_b=any(f['boss'] for f in foes)
+            if cd.get('logged'):
+                from .logged_contact import rate_for                 # per-room play-log rate (labelled data)
+                rate=rate_for(foes[0].get('loc'),boss_b)
+            else: rate=cd.get('boss' if boss_b else 'ord',0.0)
+            # Rate per battle-minute while any contact-capable enemy is alive (logged_contact.py); the
+            # touching enemy is one of them at random.
+            able=[f for f in foes if contact_vals.get(f['i'],0) and f['cur']>0 and not f.get('controller')]
+            if able and crng.random()<rate/60/hz:
+                v=contact_vals[crng.choice(able)['i']];contact[0]=0x5A
+                if pe and pe.barrier: st.add('contact_barrier')
+                else:
+                    taken+=v;st.add('contact_hits');st.add('contact_damage',v)
+                    if dead(): finished_at=now;return
         if beams:
             result=beams.begin_update(hp-taken+healed,lambda:rng.randrange(100))
             for event in result['events']:
@@ -402,6 +438,9 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
                     st.add('melee_reach_misses');continue
                 geometric=True
             if rng.random()<min(1.,(1. if rules.get('enemy_model')=='charge' and geometric else p.get('hit_probability',ENEMY_HIT))*(1+(close_risk if close else 0.))):
+                if hold[0]:
+                    st.add('revive_hold_blocked');continue      # 0x800000: Menu_MainUpdate resolves no hit
+                if contact_vals: contact[0]=0x5A               # a resolved strike opens the contact window too
                 barrier=False
                 st.add('explicit_power_hits' if 'power' in p else 'legacy_damage_hits')
                 if beams and 'power' in p:

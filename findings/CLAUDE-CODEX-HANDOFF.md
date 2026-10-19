@@ -97,6 +97,18 @@ concrete mod spec:
   - Hit frequency remains 1.4–1.6× high.
 - Use `--atb-guard --multi-kind` for new comparisons.
 
+**Step 8, enemy body-contact damage** (`pe-contact-damage-2026-10-19.md`):
+- Source (Menu_MainUpdate):
+  - flat contactDamage (script field 65) on hit-cylinder overlap;
+  - 90-update window (strikes open it too), Barrier blocks it;
+  - post-revive 0x800000 = 90 updates of immunity (now modelled as `hold`).
+- `enemy_choice.unarmed_actor`: a shared identity's actor resolved by HP; unarmed actors don't
+  strike (room 332's small 0x0015).
+- The contact rate is log-measured per room (`logged_contact.py`), with strike-matching hurts and
+  poison ticks excluded.
+- Calibration `pe-calibration-logged-contact-v3`: ordinary 1.07× (r 0.76); Day 5 bosses 1.02×.
+- Commit 1eee061 holds everything before this step. 358 tests OK.
+
 **Step 7f, Energy Shot live check:**
 - The user cast it in room 273: 572 damage, PE 1420/1420, level 33, defense 85.
 - energy_shot_damage reproduces it exactly with base 219; save inputs give 566.
