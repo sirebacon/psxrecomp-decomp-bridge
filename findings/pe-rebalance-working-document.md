@@ -1,0 +1,141 @@
+# Parasite Eve weapon rebalance — working document
+
+**Status: DRAFT. Simulations are still running; nothing here is decided, built into the mod, or
+tested in the game.**
+
+Last updated: October 19, 2026. Keep this file current as results come in: it is the single place
+that says what we're leaning toward and why.
+
+## Candidate changes
+
+| ID | Change | Current lean | Evidence so far | Still needed before deciding |
+|---|---|---|---|---|
+| R-A | Attack All per-bullet power cut to **40%** when 2+ enemies are alive and no boss is present | Leaning yes, at 40% | Disc2 P90 crowd fights 4.9 → 8.6 s (others 11.9–14.9 s); damage 0.4 → 4.1 (others 6.1–9.2). 30% overshoots: P90 no faster than the handgun and takes the most damage | Sweep 35 / 40 / 45%; check 40% on the campaign-earned builds; Day 2–4 Attack All guns; try in game |
+| R-B | G3A3 base attack **+45** | Leaning yes | Day 5 ordinary 48.5 → 28.7 s, damage 93.7 → 44.6; lands inside the Day 5 pack (27–33 s) | Sweep +35 / +40 / +45; check the G3A3's Day 4 use (benchmark doesn't cover Day 2–4 yet) |
+| R-C | M203 4 base attack **+20** | Leaning yes | Day 5 ordinary 40.2 → 31.8 s; boss 59.4 → 52.0 s | Sweep +15 / +20 / +25; check frost-resistant rooms separately |
+| R-D | Weapon switching cost | No change for now | Switching is a convenience while one gun covers both roles | Revisit after Disc2 bosses are reliable and if two-gun loadouts matter |
+
+Rejected so far:
+- **AAo_30** (Attack All at 30%): overshoots on the calibrated model.
+- **Global Attack All cuts** (any strength, always on): wreck single-target and boss use.
+- **S1 shotgun proximity bonus**: no measurable effect on campaign battles.
+
+## What the simulations have established
+
+Three-way comparison (vanilla / current mod / mod + proposals) on the calibrated model. Report page:
+<https://claude.ai/artifact/StkGFVGtDGe4dtxnE1hYUp> (private; local copy
+`findings/reports/pe-weapon-rebalance-2026-10-19.html`).
+
+### Vanilla vs the current mod
+- **The mod already fixes the Day 5 grenade launcher.** The M203 4 fires frost rounds. Vanilla cuts
+  elemental damage to a fifth against resistant enemies, so 60% of its Day 5 ordinary fights run
+  out the clock. The mod's 80% resist makes it viable.
+- **The P90's crowd dominance predates the mod.** Vanilla: 5.8 s vs 12.5–15.7 s for the other
+  Disc2 classes. The mod's RoF 10 boost sharpens it to 4.9 s.
+- **Disc2 got easier under the mod:** ordinary fights about 5% shorter, 10–30% less damage taken,
+  more boss fights won.
+- **The MAG's longer boss time in the mod is not a slowdown.** Vanilla loses 3 of 39 boss fights
+  with it, and losses end early.
+
+### Day 5 class spread (ordinary fights, calibrated player)
+
+| Class (gun) | Vanilla | Current mod | Mod + proposals |
+|---|---|---|---|
+| Handgun (M9 3) | 27.4 s | 27.4 s | 27.4 s |
+| Machine gun (MP5PDW) | 32.2 s | 28.5 s | 28.5 s |
+| Shotgun (M500) | 32.8 s | 32.8 s | 32.8 s |
+| Rifle (G3A3) | 48.7 s | 48.5 s | **28.7 s** |
+| Grenade (M203 4) | 78.1 s (40% won) | 40.2 s | **31.8 s** |
+
+### Disc2 class spread (ordinary fights, calibrated player)
+
+| Class (gun) | Vanilla | Current mod | Mod + AA 40% | Mod + AA 30% |
+|---|---|---|---|---|
+| Handgun (DE50AE7) | 12.5 s | 11.9 s | 11.9 s | 11.9 s |
+| Machine gun (P90) | 5.8 s | 4.9 s | **8.6 s** | 12.6 s |
+| Shotgun (M10B) | 14.0 s | 13.3 s | 13.3 s | 13.3 s |
+| Rifle (MAG) | 15.7 s | 14.9 s | 14.9 s | 14.9 s |
+| Grenade (HK40) | 15.2 s | 14.6 s | 14.6 s | 14.6 s |
+
+Robustness:
+- The same ordering holds under the slow-menu (+75 updates per turn) and keep-distance (×1.4)
+  assumption sets.
+- Under slow menus, 30% gets worse (P90 15.0 s, 21.9 damage).
+
+## How far to trust the model
+
+- **Calibration:** replaying every logged battle, ordinary damage is 1.05× of the log
+  (correlation 0.77), bosses 0.66× (0.82).
+  - Aya's damage per turn matches the log in every group.
+  - Energy Shot and Liberate match live casts exactly.
+- **High confidence:**
+  - Day 5 class ordering and the effect of R-B / R-C;
+  - R-A's effect on crowds;
+  - R-A doesn't touch boss fights;
+  - the vanilla → mod differences in ordinary fights.
+- **Medium:** absolute fight lengths. Calibrated to one player's log; real menus and movement vary.
+- **Directional only:**
+  - Disc2 boss numbers (the logged player used the club and held fire in four of those fights);
+  - Day 2–4 weapons (not in the benchmark yet);
+  - anything about which guns players buy.
+
+## Simulations still to run
+
+Ordered by how much they could change the decisions.
+
+1. **Strength sweeps** (cheap, directly decision-relevant):
+   - R-A at 35 / 40 / 45%;
+   - R-B at +35 / +40 / +45;
+   - R-C at +15 / +20 / +25;
+   - on the class benchmark and the campaign-earned builds, all three assumption sets.
+2. **Day 2–4 class benchmark.** The benchmark has Day 4 guns (`CLASS_GUNS['Day4']`) but no Day 2–4
+   builds. Needs an Aya build per stage from the log, then the same three-way run. The G3A3 and
+   the Attack All guns are used before Day 5.
+3. **Disc2 bosses replaying the logged weapon turns** (club turns, weapon swaps, held fire), so boss
+   balance can be judged. Also room 350's arena distances (the boss sits in the graze band a third
+   of the time).
+4. **Boss-specific checks:**
+   - the Day 5 rifle boss loss (1 in 24, under every rule set): which fight, and is it a gun
+     problem?
+   - the Disc2 shotgun's 0.92 boss win rate.
+5. **Two-gun loadouts and switching (R-D)** once Disc2 bosses are reliable.
+6. **Economy:** whether the changes shift which guns players buy (the economy model is
+   uncalibrated).
+7. **In-game test** of whatever survives the sweeps: build the changes behind Mod Effects menu
+   rows, play the matching fights, and compare with the predictions.
+
+## Implementation notes (for when a change is decided)
+
+- **R-A:**
+  - Location: `pe_mod_effects.c` `pe_on_damage`, at the entry of `Battle_StepEnemyMovement`
+    (0x80028574).
+  - Conditions: `(turn & 0xC0) == 0xC0`; 2+ active enemy slots with HP > 0; no active slot with
+    status2 bit 0x40000 (boss).
+  - Effect: `atk_pm = atk_pm * 400 / 1000`.
+  - Menu row: "Attack All power % (crowds)", default 40, vanilla 100.
+- **R-B / R-C:** single weapon-table edits (G3A3 base attack +45, M203 4 base attack +20).
+- **Reproduce the comparisons:**
+  ```
+  PYTHONPATH=tools python -m pe_weapon_sim.compare_rules --builds class --all-battles \
+    --stages D5 Disc2 --seeds 3 --calibrated \
+    --assumptions logged_player_serial,human_reaction,far_player \
+    --base vanilla --proposal baseline --out pe-compare-cal-vanilla-current-2026-10-19
+  ... --base current --proposal "exp:AAo_40|cfg:@G3A3.power+45,@M203_4.power+20"
+  ```
+  The three-way summary comes from `tools/pe_weapon_sim/report_rebalance.py`.
+
+## Decision log
+
+| Date | Decision | Why |
+|---|---|---|
+| 2026-10-19 | R-A strength revised 40% → 30% | Serial-action model made long volleys protective |
+| 2026-10-19 | R-A revised back to 40% | Calibrated model (contact damage, Parasite Energy, full enemy roster): 30% overshoots |
+| 2026-10-19 | R-B, R-C kept | Confirmed on the calibrated model |
+| — | Nothing built or tested in game yet | Waiting on the sweeps and the Day 2–4 benchmark |
+
+## Related files
+
+- `findings/pe-balance-recommendations-2026-10-19.md`: full history of the recommendations.
+- `findings/pe-calibration-casts-2026-10-19.md`, `findings/pe-contact-damage-2026-10-19.md`,
+  `findings/pe-aya-pe-items-2026-10-19.md`: model and calibration.
+- `findings/CLAUDE-CODEX-HANDOFF.md`: step-by-step log.
