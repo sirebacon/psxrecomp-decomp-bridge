@@ -106,11 +106,10 @@ Real investment depends on BP and on the Junk economy, and both interact with th
   feedback the fixed benchmark can't see.
 - **R-B / R-C:** base-power buffs weigh less when a lot of bought attack sits on top. The right
   size depends on the BP-attack range at Day 4–5.
-- **BP floor mod** (`pe_bonus_points_floor.c`, refills to 999 every frame, ships enabled by
-  default): with it on, investment is effectively unlimited, class gaps shrink, and base buffs
-  matter much less.
-- **OPEN DECISION (user):** is the BP floor part of normal play or a testing convenience?
-  Suggestion: an opt-in Relaxed preset, with balance tuned for normal BP.
+- **BP floor mod** (`pe_bonus_points_floor.c`, refills unspent BP to 999 every frame): a
+  Quality-of-Life convenience / cheat, **off by default** (`default_enabled = false` in its
+  manifest). It's not a balance target: balance is tuned for normal BP. "BP floor on" stays at
+  most as a sanity-check profile (does anything break with unlimited BP?).
 
 **Investment profiles to sweep across** (per stage: Day 4, Day 5, Disc2):
 
@@ -119,7 +118,7 @@ Real investment depends on BP and on the Junk economy, and both interact with th
 | Vanilla | earned normally, floor off | off |
 | Mod, Normal | earned normally; attack-first and spread spenders | on, Normal preset |
 | Mod, heavy | earned normally, attack-first | Grind preset |
-| BP floor on | effectively maxed | any (upper bound) |
+| BP floor on (optional sanity check) | effectively maxed | any |
 
 **Method:**
 1. Get BP and Junk per stage from playthrough runs (the economy simulator's BP ledger and
