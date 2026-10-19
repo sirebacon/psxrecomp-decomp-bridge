@@ -97,6 +97,13 @@ concrete mod spec:
   - Hit frequency remains 1.4–1.6× high.
 - Use `--atb-guard --multi-kind` for new comparisons.
 
+**Step 8c, enemy coverage complete:**
+- Shared identities resolved by HP (y_hp).
+- --borrow covers 0x001E in rooms 217 / 226 (agreed plans from 16 rooms).
+- Defense ≥ 200 / 0x0200 parts are kept as controllers (room 34's attacker 0x0307).
+- No unresolved foe left in the log; fallback 0.00.
+- Calibration v7: ordinary 1.05× (r 0.77), bosses 0.66× (r 0.82), Day 1 bosses 0.95×.
+
 **Step 8b, room 273 and Liberate:**
 - Counters no longer hit untargetable controllers: room 273 goes 239 → 1091 (logged 1264).
 - Liberate is from source: 7 hits of power − full defense, matching rooms 273 / 432 exactly; room 432 goes 340 → 83 (logged 79).

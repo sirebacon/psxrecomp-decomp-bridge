@@ -104,6 +104,32 @@ Calibration `pe-calibration-logged-contact-v5-2026-10-19`:
 The sim fires a full volley every turn and kills 2–3× sooner, so it takes less damage. Replaying
 the logged weapon / club turns would close this; it isn't an enemy-model error.
 
+## Enemy coverage pass (same day): no unresolved enemy left in the log
+
+| Fix | What | Effect |
+|---|---|---|
+| `called_plans(by_hp=True)` (with `--actor-by-hp`) | When the actors sharing an identity declare different attacks, the foe's logged HP picks the actor whose HP literal × V80 matches. Before, one was picked at random | 0x1D 200 / 240 HP, 0x1A 10 / 242, 0x21A 500 / 180 resolve deterministically |
+| `borrowed_plans` (`--borrow`, labelled) | A (room, identity) pair the room's scripts don't resolve uses the identity's plans from the other rooms when they all agree | 0x001E in rooms 217 / 226 (the long-standing "unexplained" one): 16 rooms agree on slots 1 / 2, power 150 / 137. Its logged HP / defense / charge equal those rooms' rank-30 actor, apparently an encounter carried in from a neighbouring room. Contact uses the same fallback (8) |
+| Defense ≥ 200 / 0x0200 parts kept as controllers (`--controllers`) | They were dropped as invulnerable parts, but room 34's 0x0307 is the attacker | Room 34: 0 → 8.5 (23 logged); room 156's 0x0200 helpers add 1-damage hits, matching the five logged 1s |
+
+Coverage over the log's battles: 397 foes with their own plan (12 of them resolved by HP),
+7 silent, 4 borrowed, and 0 unresolved apart from the variants the HP pick now settles. Fallback
+share is 0.00 for every group.
+
+Calibration `pe-calibration-logged-v7-2026-10-19`: ordinary 1.05× (r 0.77); bosses 0.66×
+(r 0.82). Including parts moved room 34 into the boss group and added both room-430 fights.
+
+| Group | Ratio |
+|---|---|
+| Day 1 bosses | **0.95** |
+| Day 2–4 bosses | 1.20 |
+| Day 5 bosses | 0.91 |
+| Disc2 bosses | 0.60 (player behaviour, see above) |
+| Day 1 ordinary | 6.2 on a 1.6 HP average |
+
+The Day 1 ordinary gap is the rat rooms 14 / 28 / 32, which the player dodged almost completely
+(user: lots of early melee dodging). Not fitted: tiny numbers, pure behaviour.
+
 Files:
 - code: `contact_damage.py`, `logged_contact.py`, `enemy_choice.unarmed_actor`, `source_combat`
   (`contact_damage`, `hold`);

@@ -110,10 +110,16 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             from .enemy_choice import called_plans
             choice=dict(options['called_slots'] if isinstance(options['called_slots'],dict) else {},ambiguous='uniform')
             vrng=random.Random(int.from_bytes(hashlib.sha256(('variant%d'%f['i']+repr(rng.getstate())).encode()).digest()[:8],'little')) if choice.get('variants',True) else None
-            gated=called_plans(f,cells,choice.get('contact','early'),untimed=tuple(choice.get('untimed',(10,10))),throw_lateral=choice.get('throw_lateral',0),variant_rng=vrng) or None
+            gated=called_plans(f,cells,choice.get('contact','early'),untimed=tuple(choice.get('untimed',(10,10))),throw_lateral=choice.get('throw_lateral',0),variant_rng=vrng,by_hp=bool(choice.get('actor_by_hp'))) or None
             if gated and any(p.get('variant') is not None for p in gated.values()):st.add('called_slot_variant_picks')
             st.add('called_slot_matches',int(bool(gated)));st.add('called_slot_foes')
             if gated and len(gated)>1:st.add('called_slot_unguarded_multi')
+            if not gated and choice.get('borrow'):
+                # Opt-in, labelled: the same identity's agreed plans from other rooms (enemy_choice.borrowed_plans).
+                from .enemy_choice import borrowed_plans
+                gated,_rooms=borrowed_plans(f,cells,contact=choice.get('contact','early'),untimed=tuple(choice.get('untimed',(10,10))))
+                gated=gated or None
+                if gated:st.add('called_slot_borrowed')
             if gated and choice.get('actor_by_hp'):
                 # Opt-in: the foe's HP resolves its actor type within a shared identity; an actor with no
                 # declared action and no command can't strike (enemy_choice.unarmed_actor).

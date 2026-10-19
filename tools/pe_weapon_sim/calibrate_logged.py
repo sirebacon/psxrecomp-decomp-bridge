@@ -84,9 +84,13 @@ def battles():
         boss_battle = any(x['boss'] for x in e['enemies'])
         for x, lr in zip(e['enemies'], logged):
             hp = x['hp'] - 1000000 if x['hp'] > 1000000 else x['hp']
-            if hp <= 0 or x['defense'] >= 200 or x['id'] == '0x0200': continue
+            if hp <= 0: continue
             f = dict(name=x['id'], loc=e['map'], hp=hp, level=max(1, round((x['defense'] - 3) / 1.6)), defense=x['defense'],
                      boss=x['boss'], heat=x['heat'], frost=x['frost'], cyanide=x['cyanide'], acid=x['acid'], tranq=x['tranq'])
+            if x['defense'] >= 200 or x['id'] == '0x0200':
+                # Never hit by Aya in the log (defense >= 200: room 34 0x0307; the 0x0200 helpers of rooms 156 / 380).
+                # Dropped by default; with --controllers they stay as untargetable attackers (foe_for).
+                f['_part'] = True
             # Scripted boss HP (used only with --controllers, see foe_for):
             if boss_battle and len(e['enemies']) > 1 and hp <= 10:
                 # Boss cores logged at 10 HP (room 123 0x0312, room 273 0x0325): never hit by Aya, the
@@ -120,7 +124,9 @@ def battles():
 
 
 def foe_for(f, controllers):
-    out = {k: v for k, v in f.items() if k not in ('_controller', '_phase2_hp', '_unengaged')}
+    if f.get('_part') and not controllers: return None
+    out = {k: v for k, v in f.items() if k not in ('_controller', '_phase2_hp', '_unengaged', '_part')}
+    if f.get('_part'): out['controller'] = True
     if controllers and f.get('_controller'): out['controller'] = True
     if controllers and f.get('_phase2_hp'): out['phase2_hp'] = f['_phase2_hp']
     return out
@@ -137,7 +143,7 @@ def setup(b):
     return cfg, aya, evaluation.armor_of(armor_item)
 
 
-def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb_guard=False, logged_charge=False, evade=0.0, reaction_paused=False, serial=False, pe=False, evade_melee=0.0, evade_melee_early=0.0, logged_casts=False, boss_cap=90, controllers=False, identity_rank=False, logged_items=False, steals=False, contact=False, actor_by_hp=False):
+def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb_guard=False, logged_charge=False, evade=0.0, reaction_paused=False, serial=False, pe=False, evade_melee=0.0, evade_melee_early=0.0, logged_casts=False, boss_cap=90, controllers=False, identity_rank=False, logged_items=False, steals=False, contact=False, actor_by_hp=False, borrow=False):
     cfg, aya, armor = setup(b)
     opts = options_for(ASSUMPTIONS[a_name], cells); opts['hp'] = 10 ** 7
     opts['player_max_hp'] = source_stats.aya_stats(max(1, b['level']))['max_hp']   # HP-share statuses use real HP
@@ -149,6 +155,8 @@ def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb
     if contact:
         # contact_damage.py: contacts per battle-minute from the play log (hurt == contactDamage, >= 3 s apart).
         opts['contact_damage'] = dict(ord=0.70, boss=0.77, logged=contact == 'logged')   # logged: per-room rate (logged_contact.py)
+    if borrow and opts.get('called_slots'):
+        opts['called_slots'] = dict(opts['called_slots'], borrow=True)        # enemy_choice.borrowed_plans (labelled)
     if actor_by_hp and opts.get('called_slots'):
         opts['called_slots'] = dict(opts['called_slots'], actor_by_hp=True)   # enemy_choice.unarmed_actor (source)
     if steals: opts['steals'] = True                   # Battle_ApplyEnemyAttack item / ammo steals (source)
@@ -180,7 +188,7 @@ def run(b, a_name, fights, cells, policy='stand', reaction=0, log_era=False, atb
     prof = PROF['boss'] if b['boss'] else PROF['normal']
     res = []
     for i in range(fights):
-        st = E.fight(source_behavior_rules(R.CURRENT), cfg, aya, [foe_for(f, controllers) for f in b['foes'] if not (controllers and f.get('_unengaged'))], prof,
+        st = E.fight(source_behavior_rules(R.CURRENT), cfg, aya, [x for x in (foe_for(f, controllers) for f in b['foes'] if not (controllers and f.get('_unengaged'))) if x], prof,
                      random.Random(zlib.crc32(repr((b['t'], i)).encode())), armor=armor, source_options=opts, time_cap=boss_cap if b['boss'] else 90, policy=policy)
         res.append(st)
     return dict(sim_secs=statistics.mean(s['time'] for s in res), sim_taken=statistics.mean(s['damage_taken'] for s in res),
@@ -251,6 +259,7 @@ def main(argv=None):
     ap.add_argument('--controllers', action='store_true', help='scripted boss HP: 10-HP cores untargetable, scripted second phases (PHASE2_HP)')
     ap.add_argument('--logged-items', action='store_true', help='with --pe --logged-casts: replay the logged item use')
     ap.add_argument('--contact', nargs='?', const='global', default=False, help='enemy body-contact damage (source value); rate: global (default) or logged (per room)')
+    ap.add_argument('--borrow', action='store_true', help='unresolved room/identity pairs use the agreed plans of the identity from other rooms')
     ap.add_argument('--actor-by-hp', action='store_true', help='resolve the actor of a shared identity by HP; unarmed actors never strike')
     ap.add_argument('--steals', action='store_true', help='enemy item / ammo steals (source)')
     ap.add_argument('--identity-rank', action='store_true', help='counter rank difference from the enemy identity low byte (source)')
@@ -263,7 +272,7 @@ def main(argv=None):
     bs = battles()
     for name in a.assumptions.split(','):
         for k, b in enumerate(bs):
-            r = run(b, name, a.fights, cells, a.policy, a.reaction, a.log_era, a.atb_guard, a.logged_charge, a.evade, a.reaction_paused, a.serial, a.pe, a.evade_melee, a.evade_melee_early, a.logged_casts, a.boss_cap, a.controllers, a.identity_rank, a.logged_items, a.steals, a.contact, a.actor_by_hp)
+            r = run(b, name, a.fights, cells, a.policy, a.reaction, a.log_era, a.atb_guard, a.logged_charge, a.evade, a.reaction_paused, a.serial, a.pe, a.evade_melee, a.evade_melee_early, a.logged_casts, a.boss_cap, a.controllers, a.identity_rank, a.logged_items, a.steals, a.contact, a.actor_by_hp, a.borrow)
             rows.append(dict({x: b[x] for x in ('t', 'phase', 'map', 'level', 'boss', 'gun', 'gun_source', 'logged_secs', 'logged_taken',
                                                 'logged_turns', 'logged_dealt', 'logged_shots', 'logged_reloads', 'logged_swaps', 'pe_casts', 'acts')},
                              assumption=name, **r))

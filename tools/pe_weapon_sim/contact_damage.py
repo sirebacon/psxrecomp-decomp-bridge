@@ -48,6 +48,11 @@ def contact_of(foe, cells=()):
     try: key = (int(foe['loc']), int(foe['name'], 16))
     except (KeyError, TypeError, ValueError): return 0
     vals = contact_table(cells).get(key, ())
+    if not vals:
+        # Identity unresolved in this room (e.g. 0x001E in 217 / 226): the species' value when every
+        # other room agrees (labelled, as enemy_choice.borrowed_plans).
+        other = {v for (m, i), v in contact_table(cells).items() if i == key[1]}
+        vals = next(iter(other)) if len(other) == 1 else ()
     if not vals: return 0
     if len(vals) > 1 and 'hp' in foe:
         # Several actor types share the identity (room 332: 170-HP actor 6 = 7, 45-HP actor 7 = 8):

@@ -268,6 +268,27 @@ def _flow_can_attack(m, actor):
                for n in cfg['nodes'])
 
 
+def borrowed_plans(foe, cells, **kw):
+    """Labelled fallback for a (room, identity) pair the room's own scripts don't resolve (e.g.
+    0x001E in rooms 217 / 226: their actors write rank 29, yet the log shows 0x001E with exactly the
+    HP / defense / charge of the rank-30 actor of rooms 198-246, apparently an encounter carried over
+    from a neighbouring room). An identity is a species, so use its plans from the other rooms when
+    every room that resolves it agrees on slots, timing kind and power. Returns (plans, rooms) or ({}, ())."""
+    try: m, ident = int(foe['loc']), int(foe['name'], 16)
+    except (KeyError, ValueError, TypeError): return {}, ()
+    keys = identity_keys(dict(cells_key(cells)))
+    rooms = sorted({mm for (mm, a), ids in keys.items() if mm != m and any(i == ident for i, _ in ids)})
+    found = {}
+    for r in rooms:
+        pl = called_plans(dict(foe, loc=str(r)), cells, **kw)
+        if pl: found[r] = pl
+    if not found: return {}, ()
+    sig = lambda pl: sorted((s, p['kind'], p.get('power', {}).get('power'), p.get('power', {}).get('effect_type')) for s, p in pl.items())
+    first = next(iter(found.values()))
+    if any(sig(pl) != sig(first) for pl in found.values()): return {}, ()
+    return first, tuple(found)
+
+
 @lru_cache(maxsize=None)
 def _actor_arms(m, actor):
     """(hp literals, armed) for an actor's decoded flow: HP literals are the L of the idiom
@@ -370,17 +391,25 @@ def variant_powers(foe, cells):
     return dict(out)
 
 
-def called_plans(foe, cells, contact='early', untimed=(10, 10), throw_lateral=0, variant_rng=None):
+def called_plans(foe, cells, contact='early', untimed=(10, 10), throw_lateral=0, variant_rng=None, by_hp=False):
     """slot_plans over the identity's called slots with no distance guard (choice unresolved
     when several), keeping only slots with source power."""
     rows = [dict(slot=s, interval=OPEN) for s in sorted(called_slots(foe, cells))]
     plans = slot_plans(foe, cells, contact, rows=rows, default_critical=True, untimed=untimed, throw_lateral=throw_lateral)
-    if variant_rng is not None and any(not p['power'] for p in plans.values()):
+    if (variant_rng is not None or by_hp) and any(not p['power'] for p in plans.values()):
         # Labelled: the species is not identified by the log; pick one actor's declarations.
+        # by_hp (source): the foe's logged HP matches one actor's HP literal x V80 -> that actor.
         variants = variant_powers(foe, cells)
         called = called_slots(foe, cells)
-        if variants:
+        actor = None
+        if variants and by_hp and 'hp' in foe:
+            try:
+                hit = [a for a in sorted(variants) if any(int(h) == int(foe['hp']) for h in _actor_arms(int(foe['loc']), a)[0])]
+            except StopIteration: hit = []
+            if len(hit) == 1: actor = hit[0]
+        if variants and actor is None and variant_rng is not None:
             actor = variant_rng.choice(sorted(variants))
+        if variants and actor is not None:
             for s, p in plans.items():
                 if not p['power'] and s in variants[actor] and actor in called.get(s, []):
                     p['power'] = dict(variants[actor][s]); p['variant'] = actor
