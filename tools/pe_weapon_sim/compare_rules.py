@@ -58,6 +58,7 @@ ATB_GUARD = [False]          # set by --atb-guard (module-level so run_fight / s
 LOGGED_CHARGE = [False]      # set by --logged-charge
 SERIAL = [False]             # set by --serial
 IDENTITY_RANK = [False]      # set by --identity-rank
+CALIBRATED = [False]         # set by --calibrated: the play-log-calibrated model (see options_for / campaign_battles)
 
 
 def options_for(a, shared_cells):
@@ -76,11 +77,26 @@ def options_for(a, shared_cells):
     if a.get('reaction_paused'): o['reaction_paused'] = True
     if IDENTITY_RANK[0]: o['identity_rank'] = True             # source: counter rank from the enemy identity
     if SERIAL[0]: o['serial_action'] = True                    # behaviour, fitted to the play log
+    if CALIBRATED[0]:
+        # pe-calibration-logged-v7-2026-10-19: body contact (per-room log rate), actor by HP, borrowed plans.
+        o['contact_damage'] = dict(ord=0.82, boss=0.89, logged=True)
+        o['called_slots'] = dict(o['called_slots'], actor_by_hp=True, borrow=True, silent=True)
     return o
 
 
 def campaign_battles(phase):
-    """Logged won battles of a phase as fight foes (the evaluation pool filters applied)."""
+    """Logged won battles of a phase as fight foes (the evaluation pool filters applied). With --calibrated,
+    calibrate_logged's battles: scripted boss HP (controllers, phase 2, parts kept as controllers, unengaged
+    parts dropped) and each battle's logged bag / known spells for Parasite Energy."""
+    if CALIBRATED[0]:
+        from .calibrate_logged import battles, foe_for
+        out = []
+        for b in battles():
+            if b['phase'] != phase: continue
+            foes = [x for x in (foe_for(f, True) for f in b['foes'] if not f.get('_unengaged')) if x]
+            out.append(dict(map=b['map'], boss=b['boss'], foes=foes, logged=dict(secs=b['logged_secs'], taken=b['logged_taken']),
+                            bag=dict(b['bag']), known_spells=list(b['known_spells'])))
+        return out
     camp = json.loads((ROOT / 'findings/data/pe-campaign-2026-10-17.json').read_text(encoding='utf-8'))
     out = []
     for e in camp['events']:
@@ -175,8 +191,14 @@ def run_fight(rules_dict, cfg, b, battle, a_name, a, seed, cells):
     prof = PROF['boss'] if battle['boss'] else PROF['normal']
     if a.get('distance_scale'): prof = N.Scaled(prof, a['distance_scale'])
     foes = [dict(f) for f in battle['foes']]
+    if CALIBRATED[0]:
+        # Parasite Energy and items with the generic policy (heal below half, Haste on bosses), the battle's
+        # logged bag and spells known by then; vanilla rules: vanilla heals, no half-bar powers / items.
+        mode = 'vanilla' if rules_dict['name'] == 'vanilla' else 'current'
+        opts['pe'] = dict(spells=battle.get('known_spells', []), rules=mode, heal_rules=mode, max_hp=opts['hp'], bag=dict(battle.get('bag', {})))
+        opts['player_max_hp'] = opts['hp']
     st = E.fight(source_behavior_rules(rules_dict), cfg, b['aya'], foes, prof, random.Random(seed),
-                 armor=b['armor'], source_options=opts, time_cap=90, policy='walk')
+                 armor=b['armor'], source_options=opts, time_cap=400 if (CALIBRATED[0] and battle['boss']) else 90, policy='walk')
     if st['ammo_balance'] != 0: raise AssertionError('ammo conservation')
     strikes = sum(v for k, v in st.items() if k.startswith('strike_timing_'))
     return dict(won=st['won'], time=st['time'], damage_taken=st['damage_taken'], rounds=st['rounds'],
@@ -214,10 +236,14 @@ def main(argv=None):
     ap.add_argument('--logged-charge', action='store_true')  # play-log charge step where scripts give none
     ap.add_argument('--identity-rank', action='store_true')  # source: Battle_RollEnemySpawn rank = identity low byte
     ap.add_argument('--serial', action='store_true')         # source: flag 0x100 freezes enemies / Aya's gauge during her action
+    ap.add_argument('--calibrated', action='store_true')     # full calibrated model (implies --serial --atb-guard --logged-charge --multi-kind --identity-rank)
+    ap.add_argument('--base', default='current', choices=('current', 'vanilla'))   # baseline ruleset
     ap.add_argument('--all-battles', action='store_true')    # every logged battle once per build (no battle sampling noise)
     ap.add_argument('--encounters', default='all', choices=('all', 'ordinary', 'boss'))   # boss: enough boss samples per group
     a = ap.parse_args(argv)
-    base_rules = R.CURRENT
+    base_rules = R.VANILLA if a.base == 'vanilla' else R.CURRENT
+    if a.calibrated: a.serial = a.atb_guard = a.logged_charge = a.multi_kind = a.identity_rank = True
+    CALIBRATED[0] = a.calibrated
     ATB_GUARD[0] = a.atb_guard; LOGGED_CHARGE[0] = a.logged_charge; SERIAL[0] = a.serial; IDENTITY_RANK[0] = a.identity_rank
     if a.multi_kind:
         from .enemy_identity import MULTI_KIND
@@ -242,7 +268,7 @@ def main(argv=None):
         print(b['group'], b['phase'], b['seed'], len(rows), file=sys.stderr, flush=True)
     summary = summarize(rows, sets, a.stages)
     stem = a.out or 'pe-compare-%s-2026-10-18' % a.proposal.replace(':', '_').replace('+', '_')
-    out = dict(proposal=a.proposal, builds=a.builds, multi_kind=a.multi_kind, atb_guard=a.atb_guard, logged_charge=a.logged_charge, serial=a.serial, identity_rank=a.identity_rank, encounters=a.encounters, all_battles=a.all_battles, stages=a.stages, seeds=a.seeds, fights=a.fights, assumptions={s: ASSUMPTIONS[s] for s in sets},
+    out = dict(proposal=a.proposal, base=a.base, calibrated=a.calibrated, builds=a.builds, multi_kind=a.multi_kind, atb_guard=a.atb_guard, logged_charge=a.logged_charge, serial=a.serial, identity_rank=a.identity_rank, encounters=a.encounters, all_battles=a.all_battles, stages=a.stages, seeds=a.seeds, fights=a.fights, assumptions={s: ASSUMPTIONS[s] for s in sets},
                summary=summary, rows=rows)
     (ROOT / 'findings/data' / (stem + '.json')).write_text(json.dumps(out, indent=1, default=list), encoding='utf-8')
     (ROOT / 'findings' / (stem + '.md')).write_text(report(out), encoding='utf-8')
@@ -293,10 +319,12 @@ def summarize(rows, sets, stages):
 
 def report(out):
     t = out['summary']['table']; st = out['summary']['stability']
-    L = ['# Rule comparison: %s vs baseline — October 18, 2026' % out['proposal'], '',
+    base_name = 'VANILLA' if out.get('base') == 'vanilla' else 'CURRENT'
+    prop_name = 'CURRENT (mod)' if out['proposal'] in (None, '', 'baseline') else out['proposal'] + ' on CURRENT'
+    L = ['# Rule comparison: %s → %s%s' % (base_name, prop_name, ' (calibrated model)' if out.get('calibrated') else ''), '',
          ('Equal-investment class benchmark guns (run_benchmark.CLASS_GUNS; D5 Day-5 investment, Disc2 [30,10,10] + 2Cmd + Quickdraw; Aya = the same seed frozen group-C build)' if out.get('builds') == 'class' else 'Fixed frozen builds') + ', campaign-frequency encounters (logged won battles), matched seeds; ' + ('%d seeds x every logged battle%s.' % (out['seeds'], '' if out.get('encounters', 'all') == 'all' else ' (' + out['encounters'] + ' only)') if out.get('all_battles') else '%d seeds x %d fights per build and stage.' % (out['seeds'], out['fights'])),
          'Coverage labels: fallback hits use estimated damage; untimed strikes use the labelled placeholder timing (assumption sets vary both).', '',
-         'Disc2 boss battles are an incomplete scenario: 188 / 245 / 429 boss identities have no resolved attacks and 256 / 428 / 432 / 350 effects use the untimed placeholder (see fallback / untimed shares).', '',
+         ('Calibrated model (pe-calibration-logged-v7-2026-10-19): every logged foe resolved from source data, contact damage, Parasite Energy and items with the generic policy; Disc2 boss absolute levels are pessimistic for the player (the log player used clubs / held fire), comparisons are paired.' if out.get('calibrated') else 'Disc2 boss battles are an incomplete scenario: 188 / 245 / 429 boss identities have no resolved attacks and 256 / 428 / 432 / 350 effects use the untimed placeholder (see fallback / untimed shares).'), '',
          '| Assumptions | Stage | Group | Win base→prop (Δ, 95% CI) | Time s base→prop | Damage taken base→prop | Rounds | Reloads | Deaths | Fallback hit share | Untimed strike share |',
          '|---|---|---|---|---|---|---|---|---|---|---|']
     for k, c in t.items():

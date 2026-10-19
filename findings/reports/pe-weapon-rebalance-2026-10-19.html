@@ -1,0 +1,369 @@
+<title>Parasite Eve Weapon Rebalance</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (about 68ch) with full-width data bands for charts and tables; a sticky assumption switch. */
+:root {
+  --bg: #f3f5f6;
+  --surface: #ffffff;
+  --ink: #1a2227;
+  --muted: #5b6870;
+  --rule: #d7dde1;
+  --vanilla: #9a9184;
+  --current: #3b6c8c;
+  --proposal: #b1303b;
+  --good: #2f7d4f;
+  --warn: #b0761c;
+  --chip: #e7ecef;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12171a; --surface: #1a2125; --ink: #e3e8eb; --muted: #9aa7ae; --rule: #2c363c;
+    --vanilla: #b3aa9c; --current: #6fa3c6; --proposal: #e2626b; --good: #5fbf86; --warn: #e0a54a; --chip: #232c31;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12171a; --surface: #1a2125; --ink: #e3e8eb; --muted: #9aa7ae; --rule: #2c363c;
+  --vanilla: #b3aa9c; --current: #6fa3c6; --proposal: #e2626b; --good: #5fbf86; --warn: #e0a54a; --chip: #232c31;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.1; margin: 0; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: 0.01em; }
+h2 { font-size: 1.9rem; font-weight: 600; margin-top: 56px; padding-top: 14px; border-top: 2px solid var(--ink); }
+h3 { font-size: 1.3rem; font-weight: 600; margin-top: 28px; }
+p { margin: 12px 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 1.15rem; color: var(--ink); margin-top: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; font-size: 0.9rem; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.9rem; margin: 10px 0 4px; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.sw.v { background: var(--vanilla); } .sw.c { background: var(--current); } .sw.p { background: var(--proposal); }
+.switch { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--rule); padding-block: 10px; margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.switch label { font-size: 0.85rem; color: var(--muted); }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.seg button { font: inherit; font-size: 0.85rem; background: var(--surface); color: var(--ink); border: 0; padding: 6px 12px; cursor: pointer; border-right: 1px solid var(--rule); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:focus-visible { outline: 2px solid var(--proposal); outline-offset: -2px; }
+.recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
+.rec { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; min-width: 0; }
+.rec .tag { font-family: var(--mono); font-size: 0.75rem; color: var(--proposal); font-weight: 600; letter-spacing: 0.06em; }
+.rec h3 { margin-top: 4px; font-size: 1.25rem; }
+.rec p { font-size: 0.95rem; margin: 8px 0 0; }
+.rec .delta { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 0.7rem; padding: 2px 7px; border-radius: 4px; background: var(--chip); color: var(--ink); letter-spacing: 0.04em; }
+.verdict.keep { color: var(--good); } .verdict.change { color: var(--proposal); } .verdict.note { color: var(--warn); }
+.band { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px; margin-top: 16px; min-width: 0; }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.chart h4 { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin: 0 0 2px; }
+.chart .sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 6px; }
+svg text { font-family: var(--body); fill: var(--ink); }
+svg .num { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+.tablebox { overflow-x: auto; margin-top: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-weight: 600; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+th:first-child, td:first-child, th.l, td.l { text-align: left; }
+td.cls { font-weight: 600; }
+td .gun { color: var(--muted); font-weight: 400; font-size: 0.82rem; margin-left: 4px; }
+td.v { color: var(--vanilla); } td.c { color: var(--current); } td.p { color: var(--proposal); font-weight: 600; }
+td.same { color: var(--muted); font-weight: 400; }
+tr.grp td { background: var(--chip); font-weight: 600; text-align: left; color: var(--ink); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.note { font-size: 0.88rem; color: var(--muted); }
+ul { padding-left: 1.2em; } li { margin: 6px 0; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; background: var(--chip); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+pre { font-family: var(--mono); font-size: 0.8rem; background: var(--chip); padding: 12px; border-radius: 6px; overflow-x: auto; margin: 10px 0; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 0.93rem; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; min-width: 0; }
+.trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px; }
+.trust div { border-left: 3px solid var(--rule); padding: 4px 0 4px 12px; font-size: 0.93rem; }
+.trust .hi { border-color: var(--good); } .trust .mid { border-color: var(--warn); } .trust .lo { border-color: var(--proposal); }
+.trust b { display: block; font-family: var(--display); font-size: 1.05rem; font-weight: 600; }
+@media (max-width: 560px) { body { font-size: 16px; } h2 { font-size: 1.6rem; } }
+@media (prefers-reduced-motion: no-preference) { .seg button { transition: background 120ms ease; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Parasite Eve mod · combat simulator · October 19, 2026</div>
+    <h1>Parasite Eve Weapon Rebalance</h1>
+    <p class="lede col">Vanilla rules, the current mod and the proposed adjustments, compared fight for fight on the calibrated simulator. Every weapon class is run through every battle from the logged playthrough, at Day 5 and in the Disc 2 endgame.</p>
+    <div class="meta">
+      <span>Calibrated model: ordinary-battle damage at 1.05× of the play log</span>
+      <span>5 classes × 3 seeds × every logged battle</span>
+      <span>3 player-assumption sets</span>
+    </div>
+  </header>
+
+  <h2>The short version</h2>
+  <div class="col">
+    <p>The mod already fixes the worst vanilla problems: the Day 5 grenade launcher stops failing, and most Disc 2 fights get shorter and safer. That leaves three imbalances in the current mod, and each has a small, targeted fix.</p>
+  </div>
+  <div class="recs">
+    <div class="rec">
+      <div class="tag">R-A · CROWD CUT</div>
+      <h3>Attack All at 40% with 2+ enemies, never vs bosses</h3>
+      <p>The P90 clears Disc 2 crowds 2.4–3× faster than any other class and takes almost no damage. At 40% it stays the crowd specialist (about 1.4× faster) without making the other guns pointless.</p>
+      <p><span class="verdict change">REVISED: 40% again, not 30%</span></p>
+      <div class="delta">P90 ordinary: 4.9 s → 8.6 s · others 11.9–14.9 s</div>
+    </div>
+    <div class="rec">
+      <div class="tag">R-B · RIFLE</div>
+      <h3>G3A3 attack +45</h3>
+      <p>The Day 5 rifle is the slowest class by a wide margin. With +45 it lands in the middle of the Day 5 pack, and takes half the damage it did.</p>
+      <p><span class="verdict keep">CONFIRMED</span></p>
+      <div class="delta">ordinary 48.5 s → 28.7 s · damage 93.7 → 44.6</div>
+    </div>
+    <div class="rec">
+      <div class="tag">R-C · GRENADE</div>
+      <h3>M203 4 attack +20</h3>
+      <p>Second-slowest Day 5 class, mostly because frost-resistant enemies soak its rounds. +20 closes the gap to the shotgun.</p>
+      <p><span class="verdict keep">CONFIRMED</span></p>
+      <div class="delta">ordinary 40.2 s → 31.8 s · boss 59.4 → 52.0 s</div>
+    </div>
+  </div>
+  <div class="col">
+    <p class="note">None of these changes affects boss fights except through the guns themselves (R-A is switched off when a boss is present). Nothing here has been built into the mod or tested in the game yet.</p>
+  </div>
+
+  <div class="switch" role="group" aria-label="Player assumption set">
+    <label for="setbtns">Player assumptions</label>
+    <div class="seg" id="setbtns">
+      <button type="button" data-set="logged_player_serial" aria-pressed="true">Calibrated player</button>
+      <button type="button" data-set="human_reaction">Slow menus (+75 updates)</button>
+      <button type="button" data-set="far_player">Keeps distance (×1.4)</button>
+    </div>
+    <div class="legend" aria-hidden="true"><span><i class="sw v"></i>Vanilla</span><span><i class="sw c"></i>Current mod</span><span><i class="sw p"></i>Mod + proposals</span></div>
+  </div>
+
+  <h2>Day 5: class by class</h2>
+  <div class="col">
+    <p>Each class uses its representative Day 5 gun with Day 5 attack investment and only its built-in effects. Aya's level, armor and stats are the same campaign build for every class, so only the gun differs. Times are the average fight length; damage is HP lost per fight.</p>
+  </div>
+  <div class="band"><div class="charts" id="d5charts"></div></div>
+  <div class="tablebox"><table id="d5table"></table></div>
+  <div class="col">
+    <h3>What changes between the three rule sets</h3>
+    <ul>
+      <li><b>Vanilla → mod, grenade.</b> The M203 4 fires frost rounds. Vanilla cuts elemental damage to a fifth against resistant enemies, and many Day 5 enemies resist frost, so fights run into the 90-second cap: only 40% of ordinary fights finish. The mod's resist (80% damage instead of 20%) makes the class viable.</li>
+      <li><b>Vanilla → mod, machine gun.</b> The mod's RoF 7/10 per-bullet boost and critical conversion take the MP5PDW from 32.2 s to 28.5 s.</li>
+      <li><b>Handgun and shotgun</b> are unchanged by the mod at Day 5: no element, no RoF 7/10, no Quickdraw at this stage.</li>
+      <li><b>Mod → proposal.</b> Only the G3A3 and the M203 4 change. Afterwards every Day 5 class clears ordinary battles in 27–33 s, against 27–49 s now.</li>
+      <li><b>Bosses.</b> The rifle stays the slowest boss gun (65 s vs 42–63 s for the others) and loses 1 boss fight in 24 under all three rule sets. That loss is one specific Day 5 boss fight, not a balance problem the proposal should chase.</li>
+    </ul>
+  </div>
+
+  <h2>Disc 2: class by class</h2>
+  <div class="col">
+    <p>Endgame guns from Wayne with equal investment: attack, range and capacity boosts of 30 / 10 / 10, plus 2 Commands and Quickdraw (the universal core of a finished build). 92 ordinary battles and 13 boss battles from the log, three seeds each.</p>
+  </div>
+  <div class="band"><div class="charts" id="d2charts"></div></div>
+  <div class="tablebox"><table id="d2table"></table></div>
+  <div class="col">
+    <h3>Reading the Disc 2 numbers</h3>
+    <ul>
+      <li><b>Vanilla → mod</b> is a modest across-the-board improvement: ordinary fights about 5% shorter, damage taken down 10–30%, more boss fights won (machine 0.97 → 1.00, rifle 0.92 → 1.00, handgun 0.92 → 0.97).</li>
+      <li><b>The P90 problem predates the mod.</b> Vanilla Attack All already clears crowds in 5.8 s against 12.5–15.7 s for the others; the mod's RoF 10 boost sharpens it to 4.9 s.</li>
+      <li><b>The MAG's boss time looks worse in the mod</b> (40 s → 47 s), but vanilla loses 3 of 39 boss fights with it, and losses end early. The mod wins all of them; the longer average is the cost of surviving, not a slowdown.</li>
+      <li><b>Boss columns don't move under the proposal.</b> Attack All's cut is off whenever a boss is present, and the Disc 2 guns aren't touched by R-B or R-C.</li>
+    </ul>
+  </div>
+
+  <h2>R-A in detail: how hard to cut Attack All</h2>
+  <div class="col">
+    <p>The cut applies per bullet when Attack All fires, at least two enemies are alive and no boss is present. Two strengths were run on the same fights.</p>
+  </div>
+  <div class="band"><div class="charts" id="racharts"></div></div>
+  <div class="tablebox"><table id="ratable"></table></div>
+  <div class="col">
+    <p><b>Why 40% and not 30%.</b> An earlier model (before contact damage, Parasite Energy and the full enemy roster) suggested 30%. On the calibrated model, 30% overshoots. The P90 becomes no faster than the handgun (12.6 s vs 11.9 s) while taking the most damage of any class (11.3 vs 6.1–9.2), so there would be no reason to carry it. At 40% it keeps a clear crowd edge (8.6 s, about 1.4× the handgun) and normal exposure (4.1 damage). The same ordering holds under the slow-menu and keep-distance assumptions.</p>
+    <p>The campaign-earned builds agree. The controlled P90 build goes from 3.3 s to 9.4 s at 30%, level with the other classes (9.4–10.3 s), but takes 8.2 damage against 2.0–4.3.</p>
+  </div>
+
+  <h2>Boss fights</h2>
+  <div class="col">
+    <p>Win rate and average length of boss fights per class. Day 5 bosses are well modelled (0.91× of logged damage). Disc 2 bosses are directional: in the log the player held fire or switched to the club for many turns in four of those fights, so simulated fights there are shorter and absolute damage is lower than the real thing.</p>
+  </div>
+  <div class="tablebox"><table id="bosstable"></table></div>
+
+  <h2>How robust is this</h2>
+  <div class="col">
+    <p>The recommendations should not depend on one guess about how people play. Each run was repeated under three player-assumption sets (use the switch above to see every table and chart under each):</p>
+    <dl class="kv">
+      <dt>Calibrated player</dt><dd>Fitted to the logged playthrough: a 1-second paused menu per turn; enemies can't start attacks while Aya's action is committed (game flag 0x100).</dd>
+      <dt>Slow menus</dt><dd>+75 battle updates (2.5 s) of real time per turn before acting.</dd>
+      <dt>Keeps distance</dt><dd>Enemy distances × 1.4: more grazes and misses, fewer melee hits.</dd>
+    </dl>
+    <p>Under all three, R-B and R-C put the rifle and grenade launcher inside the Day 5 pack, and 40% keeps the P90 fastest without dominating. Under slow menus the 30% variant gets worse (P90 15.0 s and 21.9 damage, the most of any class), which strengthens the case for 40%.</p>
+  </div>
+  <div class="trust">
+    <div class="hi"><b>High confidence</b>Day 5 class ordering and the effect of R-B / R-C; the vanilla → mod differences for ordinary fights.</div>
+    <div class="hi"><b>High confidence</b>R-A's effect on the P90 in crowds, and that it leaves boss fights alone.</div>
+    <div class="mid"><b>Medium</b>Absolute fight lengths. Calibrated to one player's log: about 1.05× logged damage for ordinary fights; real menus and movement vary.</div>
+    <div class="lo"><b>Directional only</b>Disc 2 boss numbers, Day 2–4 weapons (not in the class benchmark), and anything about which guns players buy.</div>
+  </div>
+
+  <h2>How the comparison works</h2>
+  <div class="col">
+    <dl class="kv">
+      <dt>Simulator</dt><dd>Source-level combat rebuilt from the decompiled game. Aya's offense, defense, statuses, Parasite Energy and items are all from game code. Every enemy in the log has its attacks from its own room scripts, plus body-contact damage.</dd>
+      <dt>Calibration</dt><dd>Replaying every logged battle: ordinary damage 1.05× of the log (correlation 0.77), bosses 0.66× (correlation 0.82). Aya's damage per turn matches the log in every group. Energy Shot and Liberate match live casts exactly.</dd>
+      <dt>Paired fights</dt><dd>Vanilla, mod and proposal fight the same battle with the same seed, build and assumption set, so differences are not sampling noise. Re-running the same rule set in a separate process reproduces ordinary results exactly and boss averages within about 1%.</dd>
+      <dt>Rule sets</dt><dd><b>Vanilla:</b> original rules and Parasite Energy heals. <b>Current mod:</b> elemental resist 80% (from 20%), neutral elements ×1.15 and best-of-two, status chance 60%, poison +25%, critical conversion, Quickdraw +15, RoF 7 / 10 bullets 20 / 15% (from 18 / 13), half-bar items, powers and weapon switch, percentage heals. <b>Proposal:</b> the current mod plus R-A, R-B and R-C.</dd>
+      <dt>Wins</dt><dd>A fight counts as won if every enemy dies before Aya does and within 90 s (400 s for bosses). Average times include lost fights, which usually end early.</dd>
+      <dt>Parasite Energy</dt><dd>The generic policy: heal below half HP with the best known heal, medicine from the battle's logged bag, Haste on the first boss turn. Spells and items are the ones the logged player had at that point.</dd>
+    </dl>
+  </div>
+
+  <h2>Implementing the three changes</h2>
+  <div class="col">
+    <h3>R-A · Attack All crowd cut</h3>
+    <p>It fits the existing per-hit hook: <code>pe_mod_effects.c</code> <code>pe_on_damage</code> at the entry of <code>Battle_StepEnemyMovement</code> (0x80028574), which already scales the attack term through <code>atk_pm</code>.</p>
+    <ul>
+      <li>Attack All: <code>(turn &amp; 0xC0) == 0xC0</code> (Battle_FillActionQueue mode 0xC0).</li>
+      <li>Two or more active enemy slots with HP above 0 (slots at <code>PE_ENEMY_SLOT_BASE</code>, 7 × 0xDC).</li>
+      <li>No active slot with status2 bit 0x40000, the "can't escape" boss bit the loot mods already read.</li>
+      <li>Then <code>atk_pm = atk_pm * 400 / 1000</code>, multiplying with the existing RoF 7 / 10 boost.</li>
+      <li>Add a Mod Effects row "Attack All power % (crowds)", default 40, vanilla 100.</li>
+    </ul>
+    <h3>R-B and R-C · weapon table edits</h3>
+    <ul>
+      <li>G3A3 base attack +45.</li>
+      <li>M203 4 base attack +20.</li>
+    </ul>
+    <p>Both are single weapon-table edits and touch no other gun (the MAG and HK40 are unchanged).</p>
+    <h3>Reproduce</h3>
+<pre>PYTHONPATH=tools python -m pe_weapon_sim.compare_rules --builds class --all-battles \
+  --stages D5 Disc2 --seeds 3 --calibrated \
+  --assumptions logged_player_serial,human_reaction,far_player \
+  --base vanilla --proposal baseline --out pe-compare-cal-vanilla-current-2026-10-19
+
+... --base current --proposal "exp:AAo_40|cfg:@G3A3.power+45,@M203_4.power+20"</pre>
+    <p class="note">Result files are in <code>findings/data/pe-compare-cal-*-2026-10-19.json</code>. The three-way summary is built by <code>tools/pe_weapon_sim/report_rebalance.py</code>.</p>
+  </div>
+</div>
+
+<script>
+const DATA = {"guns":{"D5|class_handgun":"M9 3","D5|class_machine":"MP5PDW","D5|class_rifle":"G3A3","D5|class_shotgun":"M500","D5|class_grenade":"M203 4","Disc2|class_handgun":"DE50AE7","Disc2|class_machine":"P90","Disc2|class_rifle":"MAG","Disc2|class_shotgun":"M10B","Disc2|class_grenade":"HK40"},"rows":[{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_grenade","enc":"ord","n":30,"won":{"vanilla":0.4,"current":1,"p30":1,"p40":1},"time":{"vanilla":78.131,"current":40.238,"p30":31.824,"p40":31.824},"damage_taken":{"vanilla":173.867,"current":74.067,"p30":48.3,"p40":48.3},"reloads":{"vanilla":1.4,"current":0.467,"p30":0.033,"p40":0.033},"death":{"vanilla":0.1,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_grenade","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":110.591,"current":59.438,"p30":51.973,"p40":51.973},"damage_taken":{"vanilla":289.792,"current":81.625,"p30":70.5,"p40":70.5},"reloads":{"vanilla":0.917,"current":0.167,"p30":0.125,"p40":0.125},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_handgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":27.353,"current":27.353,"p30":27.353,"p40":27.353},"damage_taken":{"vanilla":42.467,"current":42.467,"p30":42.467,"p40":42.467},"reloads":{"vanilla":0.2,"current":0.2,"p30":0.2,"p40":0.2},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_handgun","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":43.965,"current":43.879,"p30":43.879,"p40":43.879},"damage_taken":{"vanilla":56.5,"current":55.917,"p30":55.917,"p40":55.917},"reloads":{"vanilla":0.25,"current":0.25,"p30":0.25,"p40":0.25},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_machine","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":32.155,"current":28.471,"p30":28.471,"p40":28.471},"damage_taken":{"vanilla":67.333,"current":55.133,"p30":55.133,"p40":55.133},"reloads":{"vanilla":0.7,"current":0.333,"p30":0.333,"p40":0.333},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_machine","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":48.83,"current":42.492,"p30":42.492,"p40":42.492},"damage_taken":{"vanilla":66.958,"current":56.375,"p30":56.375,"p40":56.375},"reloads":{"vanilla":0.875,"current":0.625,"p30":0.625,"p40":0.625},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_rifle","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":48.713,"current":48.535,"p30":28.664,"p40":28.664},"damage_taken":{"vanilla":94.0,"current":93.7,"p30":44.633,"p40":44.633},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_rifle","enc":"boss","n":24,"won":{"vanilla":0.958,"current":0.958,"p30":0.958,"p40":0.958},"time":{"vanilla":81.362,"current":79.32,"p30":65.06,"p40":65.06},"damage_taken":{"vanilla":90.958,"current":83.625,"p30":64.5,"p40":64.5},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_shotgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":32.766,"current":32.766,"p30":32.766,"p40":32.766},"damage_taken":{"vanilla":39.167,"current":39.167,"p30":39.167,"p40":39.167},"reloads":{"vanilla":0.233,"current":0.233,"p30":0.233,"p40":0.233},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"D5","group":"class_shotgun","enc":"boss","n":24,"won":{"vanilla":0.958,"current":0.958,"p30":0.958,"p40":0.958},"time":{"vanilla":63.456,"current":63.456,"p30":63.456,"p40":63.456},"damage_taken":{"vanilla":64.875,"current":64.875,"p30":64.875,"p40":64.875},"reloads":{"vanilla":0.375,"current":0.375,"p30":0.375,"p40":0.375},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_grenade","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":15.209,"current":14.596,"p30":14.596,"p40":14.596},"damage_taken":{"vanilla":10.917,"current":9.188,"p30":9.188,"p40":9.188},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_grenade","enc":"boss","n":39,"won":{"vanilla":0.897,"current":0.949,"p30":0.949,"p40":0.949},"time":{"vanilla":73.992,"current":61.142,"p30":61.142,"p40":61.142},"damage_taken":{"vanilla":940.359,"current":796.923,"p30":796.923,"p40":796.923},"reloads":{"vanilla":0.077,"current":0.103,"p30":0.103,"p40":0.103},"death":{"vanilla":0.103,"current":0.051,"p30":0.051,"p40":0.051}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_handgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":12.485,"current":11.939,"p30":11.939,"p40":11.939},"damage_taken":{"vanilla":8.536,"current":6.072,"p30":6.072,"p40":6.072},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_handgun","enc":"boss","n":39,"won":{"vanilla":0.923,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":39.584,"current":36.26,"p30":36.26,"p40":36.26},"damage_taken":{"vanilla":403.487,"current":380.59,"p30":380.59,"p40":380.59},"reloads":{"vanilla":0.103,"current":0.128,"p30":0.128,"p40":0.128},"death":{"vanilla":0.077,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_machine","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":5.844,"current":4.939,"p30":12.573,"p40":8.587},"damage_taken":{"vanilla":1.297,"current":0.428,"p30":11.297,"p40":4.054},"reloads":{"vanilla":0,"current":0,"p30":0.022,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_machine","enc":"boss","n":39,"won":{"vanilla":0.974,"current":1,"p30":1,"p40":1},"time":{"vanilla":37.736,"current":26.769,"p30":26.769,"p40":26.769},"damage_taken":{"vanilla":421.487,"current":199.821,"p30":199.821,"p40":199.821},"reloads":{"vanilla":0.154,"current":0.051,"p30":0.051,"p40":0.051},"death":{"vanilla":0.026,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_rifle","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":15.713,"current":14.915,"p30":14.915,"p40":14.915},"damage_taken":{"vanilla":8.895,"current":7.83,"p30":7.83,"p40":7.83},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_rifle","enc":"boss","n":39,"won":{"vanilla":0.923,"current":1,"p30":1,"p40":1},"time":{"vanilla":40.262,"current":47.302,"p30":47.041,"p40":47.041},"damage_taken":{"vanilla":411.205,"current":662.051,"p30":649.641,"p40":649.641},"reloads":{"vanilla":0.077,"current":0.077,"p30":0.077,"p40":0.077},"death":{"vanilla":0.077,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_shotgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":13.963,"current":13.327,"p30":13.327,"p40":13.327},"damage_taken":{"vanilla":8.076,"current":6.351,"p30":6.351,"p40":6.351},"reloads":{"vanilla":0.007,"current":0.007,"p30":0.007,"p40":0.007},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"logged_player_serial","stage":"Disc2","group":"class_shotgun","enc":"boss","n":39,"won":{"vanilla":0.897,"current":0.923,"p30":0.923,"p40":0.923},"time":{"vanilla":64.74,"current":59.096,"p30":59.767,"p40":59.767},"damage_taken":{"vanilla":693.308,"current":633.564,"p30":651.641,"p40":651.641},"reloads":{"vanilla":0.795,"current":0.872,"p30":0.872,"p40":0.872},"death":{"vanilla":0.103,"current":0.077,"p30":0.077,"p40":0.077}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_grenade","enc":"ord","n":30,"won":{"vanilla":0.367,"current":1,"p30":1,"p40":1},"time":{"vanilla":83.002,"current":51.393,"p30":37.521,"p40":37.521},"damage_taken":{"vanilla":226.5,"current":131.6,"p30":93.6,"p40":93.6},"reloads":{"vanilla":0.9,"current":0.467,"p30":0.133,"p40":0.133},"death":{"vanilla":0.167,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_grenade","enc":"boss","n":24,"won":{"vanilla":0.958,"current":1,"p30":1,"p40":1},"time":{"vanilla":125.288,"current":65.519,"p30":55.373,"p40":55.373},"damage_taken":{"vanilla":367.708,"current":114.708,"p30":94.667,"p40":94.667},"reloads":{"vanilla":0.917,"current":0.25,"p30":0.125,"p40":0.125},"death":{"vanilla":0.042,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_handgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":31.971,"current":31.829,"p30":31.829,"p40":31.829},"damage_taken":{"vanilla":73.5,"current":73.5,"p30":73.5,"p40":73.5},"reloads":{"vanilla":0.067,"current":0.067,"p30":0.067,"p40":0.067},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_handgun","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":44.775,"current":43.546,"p30":43.546,"p40":43.546},"damage_taken":{"vanilla":73.208,"current":72.083,"p30":72.083,"p40":72.083},"reloads":{"vanilla":0.167,"current":0.167,"p30":0.167,"p40":0.167},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_machine","enc":"ord","n":30,"won":{"vanilla":0.967,"current":1,"p30":1,"p40":1},"time":{"vanilla":46.497,"current":38.5,"p30":38.5,"p40":38.5},"damage_taken":{"vanilla":130.367,"current":104.367,"p30":104.367,"p40":104.367},"reloads":{"vanilla":0.8,"current":0.533,"p30":0.533,"p40":0.533},"death":{"vanilla":0.033,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_machine","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":54.997,"current":47.634,"p30":47.634,"p40":47.634},"damage_taken":{"vanilla":77.167,"current":69.083,"p30":69.083,"p40":69.083},"reloads":{"vanilla":0.833,"current":0.75,"p30":0.75,"p40":0.75},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_rifle","enc":"ord","n":30,"won":{"vanilla":0.933,"current":1,"p30":1,"p40":1},"time":{"vanilla":58.543,"current":56.654,"p30":34.788,"p40":34.788},"damage_taken":{"vanilla":130.167,"current":125.9,"p30":85.133,"p40":85.133},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0.033,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_rifle","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":95.882,"current":82.275,"p30":61.441,"p40":61.441},"damage_taken":{"vanilla":194.542,"current":140.417,"p30":95.125,"p40":95.125},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_shotgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":37.912,"current":37.912,"p30":37.912,"p40":37.912},"damage_taken":{"vanilla":83.233,"current":83.233,"p30":83.233,"p40":83.233},"reloads":{"vanilla":0.233,"current":0.233,"p30":0.233,"p40":0.233},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"D5","group":"class_shotgun","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":63.785,"current":59.622,"p30":59.622,"p40":59.622},"damage_taken":{"vanilla":99.292,"current":86.917,"p30":86.917,"p40":86.917},"reloads":{"vanilla":0.417,"current":0.417,"p30":0.417,"p40":0.417},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_grenade","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":19.119,"current":18.531,"p30":18.531,"p40":18.531},"damage_taken":{"vanilla":21.417,"current":20.312,"p30":20.312,"p40":20.312},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_grenade","enc":"boss","n":39,"won":{"vanilla":0.846,"current":0.923,"p30":0.923,"p40":0.923},"time":{"vanilla":86.933,"current":78.723,"p30":78.723,"p40":78.723},"damage_taken":{"vanilla":1168.179,"current":1159.744,"p30":1159.744,"p40":1159.744},"reloads":{"vanilla":0.077,"current":0.077,"p30":0.077,"p40":0.077},"death":{"vanilla":0.154,"current":0.077,"p30":0.077,"p40":0.077}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_handgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":16.305,"current":15.854,"p30":15.854,"p40":15.854},"damage_taken":{"vanilla":17.304,"current":15.355,"p30":15.355,"p40":15.355},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_handgun","enc":"boss","n":39,"won":{"vanilla":0.872,"current":0.923,"p30":0.923,"p40":0.923},"time":{"vanilla":60.729,"current":60.354,"p30":60.362,"p40":60.362},"damage_taken":{"vanilla":843.923,"current":895.692,"p30":904.103,"p40":904.103},"reloads":{"vanilla":0.077,"current":0.128,"p30":0.128,"p40":0.128},"death":{"vanilla":0.128,"current":0.077,"p30":0.077,"p40":0.077}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_machine","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":0.996,"p40":1},"time":{"vanilla":7.372,"current":6.491,"p30":14.954,"p40":10.357},"damage_taken":{"vanilla":5.192,"current":2.674,"p30":21.862,"p40":11.145},"reloads":{"vanilla":0,"current":0,"p30":0.007,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_machine","enc":"boss","n":39,"won":{"vanilla":0.897,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":44.06,"current":39.503,"p30":39.503,"p40":39.503},"damage_taken":{"vanilla":609.692,"current":575.0,"p30":575.0,"p40":575.0},"reloads":{"vanilla":0.077,"current":0.103,"p30":0.103,"p40":0.103},"death":{"vanilla":0.103,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_rifle","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":19.773,"current":18.866,"p30":18.866,"p40":18.866},"damage_taken":{"vanilla":21.047,"current":18.88,"p30":18.88,"p40":18.88},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_rifle","enc":"boss","n":39,"won":{"vanilla":0.872,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":58.492,"current":56.579,"p30":56.579,"p40":56.579},"damage_taken":{"vanilla":769.436,"current":813.872,"p30":813.872,"p40":813.872},"reloads":{"vanilla":0.077,"current":0.077,"p30":0.077,"p40":0.077},"death":{"vanilla":0.128,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_shotgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":17.414,"current":16.685,"p30":16.685,"p40":16.685},"damage_taken":{"vanilla":17.812,"current":15.239,"p30":15.239,"p40":15.239},"reloads":{"vanilla":0.004,"current":0.004,"p30":0.004,"p40":0.004},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"human_reaction","stage":"Disc2","group":"class_shotgun","enc":"boss","n":39,"won":{"vanilla":0.872,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":77.816,"current":82.782,"p30":81.441,"p40":81.441},"damage_taken":{"vanilla":830.949,"current":1039.821,"p30":1016.154,"p40":1016.154},"reloads":{"vanilla":0.744,"current":0.923,"p30":0.897,"p40":0.897},"death":{"vanilla":0.128,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_grenade","enc":"ord","n":30,"won":{"vanilla":0.4,"current":1,"p30":1,"p40":1},"time":{"vanilla":75.578,"current":39.209,"p30":29.088,"p40":29.088},"damage_taken":{"vanilla":172.233,"current":72.3,"p30":48.633,"p40":48.633},"reloads":{"vanilla":1.533,"current":0.5,"p30":0,"p40":0},"death":{"vanilla":0.033,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_grenade","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":91.537,"current":50.477,"p30":42.134,"p40":42.134},"damage_taken":{"vanilla":216.375,"current":76.917,"p30":55.417,"p40":55.417},"reloads":{"vanilla":1.083,"current":0.167,"p30":0.125,"p40":0.125},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_handgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":25.572,"current":25.572,"p30":25.572,"p40":25.572},"damage_taken":{"vanilla":46.267,"current":46.267,"p30":46.267,"p40":46.267},"reloads":{"vanilla":0.2,"current":0.2,"p30":0.2,"p40":0.2},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_handgun","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":37.693,"current":36.902,"p30":36.902,"p40":36.902},"damage_taken":{"vanilla":52.542,"current":52.792,"p30":52.792,"p40":52.792},"reloads":{"vanilla":0.458,"current":0.458,"p30":0.458,"p40":0.458},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_machine","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":37.841,"current":32.883,"p30":32.883,"p40":32.883},"damage_taken":{"vanilla":81.9,"current":71.533,"p30":71.533,"p40":71.533},"reloads":{"vanilla":0.967,"current":0.767,"p30":0.767,"p40":0.767},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_machine","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":49.208,"current":46.454,"p30":46.454,"p40":46.454},"damage_taken":{"vanilla":70.625,"current":64.333,"p30":64.333,"p40":64.333},"reloads":{"vanilla":1.042,"current":0.958,"p30":0.958,"p40":0.958},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_rifle","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":45.882,"current":45.369,"p30":26.454,"p40":26.454},"damage_taken":{"vanilla":90.767,"current":89.967,"p30":42.567,"p40":42.567},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_rifle","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":63.826,"current":61.319,"p30":47.514,"p40":47.514},"damage_taken":{"vanilla":95.083,"current":83.0,"p30":61.583,"p40":61.583},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_shotgun","enc":"ord","n":30,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":30.977,"current":30.977,"p30":30.977,"p40":30.977},"damage_taken":{"vanilla":42.767,"current":42.767,"p30":42.767,"p40":42.767},"reloads":{"vanilla":0.333,"current":0.333,"p30":0.333,"p40":0.333},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"D5","group":"class_shotgun","enc":"boss","n":24,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":52.585,"current":52.238,"p30":52.238,"p40":52.238},"damage_taken":{"vanilla":66.75,"current":66.792,"p30":66.792,"p40":66.792},"reloads":{"vanilla":0.583,"current":0.583,"p30":0.583,"p40":0.583},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_grenade","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":13.068,"current":12.584,"p30":12.584,"p40":12.584},"damage_taken":{"vanilla":11.409,"current":10.105,"p30":10.105,"p40":10.105},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_grenade","enc":"boss","n":39,"won":{"vanilla":0.872,"current":0.923,"p30":0.923,"p40":0.923},"time":{"vanilla":60.932,"current":60.268,"p30":60.195,"p40":60.195},"damage_taken":{"vanilla":809.897,"current":896.385,"p30":892.154,"p40":892.154},"reloads":{"vanilla":0.103,"current":0.179,"p30":0.179,"p40":0.179},"death":{"vanilla":0.128,"current":0.077,"p30":0.077,"p40":0.077}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_handgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":10.553,"current":10.094,"p30":10.094,"p40":10.094},"damage_taken":{"vanilla":8.583,"current":7.163,"p30":7.163,"p40":7.163},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_handgun","enc":"boss","n":39,"won":{"vanilla":0.949,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":47.217,"current":38.025,"p30":37.806,"p40":37.806},"damage_taken":{"vanilla":613.769,"current":530.974,"p30":521.308,"p40":521.308},"reloads":{"vanilla":0.205,"current":0.179,"p30":0.179,"p40":0.179},"death":{"vanilla":0.051,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_machine","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":6.68,"current":5.832,"p30":13.821,"p40":9.779},"damage_taken":{"vanilla":3.025,"current":1.743,"p30":12.293,"p40":5.844},"reloads":{"vanilla":0,"current":0,"p30":0.043,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_machine","enc":"boss","n":39,"won":{"vanilla":0.949,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":36.948,"current":30.019,"p30":30.019,"p40":30.019},"damage_taken":{"vanilla":397.795,"current":334.692,"p30":334.692,"p40":334.692},"reloads":{"vanilla":0.103,"current":0.128,"p30":0.128,"p40":0.128},"death":{"vanilla":0.051,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_rifle","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":13.197,"current":12.473,"p30":12.473,"p40":12.473},"damage_taken":{"vanilla":8.725,"current":7.203,"p30":7.203,"p40":7.203},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":0},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_rifle","enc":"boss","n":39,"won":{"vanilla":0.949,"current":0.974,"p30":0.974,"p40":0.974},"time":{"vanilla":41.188,"current":37.33,"p30":37.33,"p40":37.33},"damage_taken":{"vanilla":467.436,"current":551.846,"p30":551.846,"p40":551.846},"reloads":{"vanilla":0.103,"current":0.077,"p30":0.077,"p40":0.077},"death":{"vanilla":0.051,"current":0.026,"p30":0.026,"p40":0.026}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_shotgun","enc":"ord","n":276,"won":{"vanilla":1,"current":1,"p30":1,"p40":1},"time":{"vanilla":13.298,"current":12.543,"p30":12.543,"p40":12.543},"damage_taken":{"vanilla":7.645,"current":6.051,"p30":6.051,"p40":6.051},"reloads":{"vanilla":0.004,"current":0.004,"p30":0.004,"p40":0.004},"death":{"vanilla":0,"current":0,"p30":0,"p40":0}},{"builds":"class","assumption":"far_player","stage":"Disc2","group":"class_shotgun","enc":"boss","n":39,"won":{"vanilla":0.872,"current":0.923,"p30":0.923,"p40":0.923},"time":{"vanilla":57.545,"current":58.543,"p30":59.111,"p40":59.111},"damage_taken":{"vanilla":550.872,"current":612.333,"p30":627.231,"p40":627.231},"reloads":{"vanilla":0.821,"current":0.949,"p30":0.949,"p40":0.949},"death":{"vanilla":0.128,"current":0.077,"p30":0.077,"p40":0.077}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_grenade","enc":"ord","n":20,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":39.28,"current":28.623,"p30":28.623,"p40":null},"damage_taken":{"vanilla":35.35,"current":33.0,"p30":33.0,"p40":null},"reloads":{"vanilla":0.1,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_grenade","enc":"boss","n":16,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":41.413,"current":39.86,"p30":39.86,"p40":null},"damage_taken":{"vanilla":65.062,"current":60.0,"p30":60.0,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_handgun","enc":"ord","n":20,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":29.424,"current":29.424,"p30":29.424,"p40":null},"damage_taken":{"vanilla":46.8,"current":46.8,"p30":46.8,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_handgun","enc":"boss","n":16,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":44.128,"current":44.128,"p30":44.128,"p40":null},"damage_taken":{"vanilla":52.25,"current":52.25,"p30":52.25,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_machine","enc":"ord","n":20,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":26.76,"current":26.76,"p30":26.76,"p40":null},"damage_taken":{"vanilla":36.9,"current":36.9,"p30":36.9,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_machine","enc":"boss","n":16,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":40.899,"current":40.899,"p30":40.899,"p40":null},"damage_taken":{"vanilla":43.312,"current":43.312,"p30":43.312,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_rifle","enc":"ord","n":20,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":34.8,"current":34.8,"p30":34.8,"p40":null},"damage_taken":{"vanilla":59.1,"current":59.1,"p30":59.1,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_rifle","enc":"boss","n":16,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":55.467,"current":54.589,"p30":54.589,"p40":null},"damage_taken":{"vanilla":60.875,"current":58.812,"p30":58.812,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_shotgun","enc":"ord","n":20,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":39.28,"current":28.623,"p30":28.623,"p40":null},"damage_taken":{"vanilla":35.35,"current":33.0,"p30":33.0,"p40":null},"reloads":{"vanilla":0.1,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"D5","group":"controlled_shotgun","enc":"boss","n":16,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":41.413,"current":39.86,"p30":39.86,"p40":null},"damage_taken":{"vanilla":65.062,"current":60.0,"p30":60.0,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_grenade","enc":"ord","n":184,"won":{"vanilla":0.995,"current":1,"p30":1,"p40":null},"time":{"vanilla":18.455,"current":9.593,"p30":9.593,"p40":null},"damage_taken":{"vanilla":9.299,"current":2.065,"p30":2.065,"p40":null},"reloads":{"vanilla":0.011,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_grenade","enc":"boss","n":26,"won":{"vanilla":0.962,"current":0.962,"p30":0.962,"p40":null},"time":{"vanilla":57.173,"current":43.52,"p30":43.52,"p40":null},"damage_taken":{"vanilla":546.808,"current":460.154,"p30":460.154,"p40":null},"reloads":{"vanilla":0.192,"current":0.115,"p30":0.115,"p40":null},"death":{"vanilla":0.038,"current":0.038,"p30":0.038,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_handgun","enc":"ord","n":184,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":17.337,"current":9.397,"p30":9.397,"p40":null},"damage_taken":{"vanilla":17.505,"current":4.255,"p30":4.255,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_handgun","enc":"boss","n":26,"won":{"vanilla":0.923,"current":0.962,"p30":0.962,"p40":null},"time":{"vanilla":59.041,"current":35.272,"p30":35.272,"p40":null},"damage_taken":{"vanilla":764.769,"current":383.462,"p30":381.808,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0.077,"current":0.038,"p30":0.038,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_machine","enc":"ord","n":184,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":6.485,"current":3.333,"p30":9.406,"p40":null},"damage_taken":{"vanilla":1.902,"current":0.043,"p30":8.196,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_machine","enc":"boss","n":26,"won":{"vanilla":0.962,"current":1,"p30":1,"p40":null},"time":{"vanilla":24.816,"current":18.26,"p30":18.577,"p40":null},"damage_taken":{"vanilla":242.231,"current":195.962,"p30":197.615,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0.038,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_rifle","enc":"ord","n":184,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":15.772,"current":9.905,"p30":9.905,"p40":null},"damage_taken":{"vanilla":8.511,"current":3.457,"p30":3.457,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_rifle","enc":"boss","n":26,"won":{"vanilla":0.962,"current":1,"p30":1,"p40":null},"time":{"vanilla":32.847,"current":28.278,"p30":28.278,"p40":null},"damage_taken":{"vanilla":285.962,"current":266.923,"p30":266.923,"p40":null},"reloads":{"vanilla":0,"current":0,"p30":0,"p40":null},"death":{"vanilla":0.038,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_shotgun","enc":"ord","n":184,"won":{"vanilla":1,"current":1,"p30":1,"p40":null},"time":{"vanilla":18.484,"current":10.303,"p30":10.303,"p40":null},"damage_taken":{"vanilla":6.761,"current":1.962,"p30":1.962,"p40":null},"reloads":{"vanilla":0.016,"current":0,"p30":0,"p40":null},"death":{"vanilla":0,"current":0,"p30":0,"p40":null}},{"builds":"frozen","assumption":"logged_player_serial","stage":"Disc2","group":"controlled_shotgun","enc":"boss","n":26,"won":{"vanilla":0.962,"current":0.962,"p30":0.962,"p40":null},"time":{"vanilla":45.247,"current":33.458,"p30":33.458,"p40":null},"damage_taken":{"vanilla":349.308,"current":223.0,"p30":223.0,"p40":null},"reloads":{"vanilla":0.115,"current":0.115,"p30":0.115,"p40":null},"death":{"vanilla":0.038,"current":0.038,"p30":0.038,"p40":null}}]};
+const CLASSES = ['handgun','machine','shotgun','rifle','grenade'];
+const LABEL = {handgun:'Handgun', machine:'Machine gun', shotgun:'Shotgun', rifle:'Rifle', grenade:'Grenade'};
+let SET = 'logged_player_serial';
+try { const s = localStorage.getItem('pe-rebalance-set'); if (s) SET = s; } catch (e) {}
+
+function row(builds, set, stage, group, enc) {
+  return DATA.rows.find(r => r.builds === builds && r.assumption === set && r.stage === stage && r.group === group && r.enc === enc);
+}
+function fmt(v, m) {
+  if (v === null || v === undefined) return '–';
+  if (m === 'won') return (v * 100).toFixed(v >= 0.995 ? 0 : 1) + '%';
+  return v >= 100 ? v.toFixed(0) : v.toFixed(1);
+}
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function bars(el, title, sub, stage, enc, metric, keys) {
+  const items = CLASSES.map(c => ({c, r: row('class', SET, stage, 'class_' + c, enc)})).filter(x => x.r);
+  const max = Math.max(...items.flatMap(x => keys.map(k => x.r[metric][k] || 0))) * 1.08 || 1;
+  const W = 460, L = 92, R = 44, barH = 7, gap = 2, groupH = keys.length * (barH + gap) + 12;
+  const H = items.length * groupH + 24;
+  const colors = {vanilla: css('--vanilla'), current: css('--current'), p30: css('--proposal'), p40: css('--proposal')};
+  const x = v => L + (W - L - R) * v / max;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${title}">`;
+  const step = niceStep(max);
+  for (let t = 0; t <= max; t += step) {
+    s += `<line x1="${x(t)}" x2="${x(t)}" y1="0" y2="${H - 18}" stroke="${css('--rule')}" stroke-width="1"/>`;
+    s += `<text class="num" x="${x(t)}" y="${H - 5}" text-anchor="middle">${t}</text>`;
+  }
+  items.forEach((it, i) => {
+    const y0 = i * groupH + 4;
+    s += `<text x="0" y="${y0 + groupH / 2}" font-size="12" dominant-baseline="middle">${LABEL[it.c]}</text>`;
+    keys.forEach((k, j) => {
+      const v = it.r[metric][k]; if (v === null) return;
+      const y = y0 + j * (barH + gap);
+      s += `<rect x="${L}" y="${y}" width="${Math.max(1, x(v) - L)}" height="${barH}" rx="1.5" fill="${colors[k]}" opacity="${k === 'p30' ? 0.45 : 1}"/>`;
+      s += `<text class="num" x="${x(v) + 4}" y="${y + barH - 0.5}">${fmt(v, metric)}</text>`;
+    });
+  });
+  s += '</svg>';
+  const d = document.createElement('div'); d.className = 'chart';
+  d.innerHTML = `<h4>${title}</h4><div class="sub">${sub}</div>` + s;
+  el.appendChild(d);
+}
+function niceStep(max) { const r = max / 5, p = Math.pow(10, Math.floor(Math.log10(r))); const m = r / p; return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; }
+
+function classTable(el, stage) {
+  const keys = ['vanilla', 'current', 'p40'];
+  let h = `<thead><tr><th class="l">Class</th><th>n</th><th colspan="3">Win rate</th><th colspan="3">Time (s)</th><th colspan="3">Damage taken</th><th colspan="3">Reloads</th></tr>
+  <tr><th></th><th></th>${['Win','Time','Dmg','Rel'].map(() => '<th>Van.</th><th>Mod</th><th>Prop.</th>').join('')}</tr></thead><tbody>`;
+  for (const enc of ['ord', 'boss']) {
+    h += `<tr class="grp"><td colspan="14">${enc === 'ord' ? 'Ordinary battles' : 'Boss battles'}</td></tr>`;
+    for (const c of CLASSES) {
+      const r = row('class', SET, stage, 'class_' + c, enc); if (!r) continue;
+      h += `<tr><td class="cls">${LABEL[c]}<span class="gun">${DATA.guns[stage + '|class_' + c] || ''}</span></td><td>${r.n}</td>`;
+      for (const m of ['won', 'time', 'damage_taken', 'reloads']) {
+        keys.forEach(k => {
+          const v = r[m][k], same = k === 'p40' && Math.abs((v ?? 0) - (r[m].current ?? 0)) < 1e-6;
+          h += `<td class="${k === 'vanilla' ? 'v' : k === 'current' ? 'c' : (same ? 'same' : 'p')}">${fmt(v, m)}</td>`;
+        });
+      }
+      h += '</tr>';
+    }
+  }
+  el.innerHTML = h + '</tbody>';
+}
+
+function raTable(el) {
+  let h = `<thead><tr><th class="l">Disc 2 ordinary</th><th>Mod time</th><th>30% time</th><th>40% time</th><th>Mod dmg</th><th>30% dmg</th><th>40% dmg</th></tr></thead><tbody>`;
+  for (const c of CLASSES) {
+    const r = row('class', SET, 'Disc2', 'class_' + c, 'ord'); if (!r) continue;
+    h += `<tr><td class="cls">${LABEL[c]}<span class="gun">${DATA.guns['Disc2|class_' + c] || ''}</span></td>
+      <td class="c">${fmt(r.time.current)}</td><td class="${c === 'machine' ? 'p' : 'same'}">${fmt(r.time.p30)}</td><td class="${c === 'machine' ? 'p' : 'same'}">${fmt(r.time.p40)}</td>
+      <td class="c">${fmt(r.damage_taken.current)}</td><td class="${c === 'machine' ? 'p' : 'same'}">${fmt(r.damage_taken.p30)}</td><td class="${c === 'machine' ? 'p' : 'same'}">${fmt(r.damage_taken.p40)}</td></tr>`;
+  }
+  el.innerHTML = h + '</tbody>';
+}
+
+function bossTable(el) {
+  let h = `<thead><tr><th class="l">Stage</th><th class="l">Class</th><th>n</th><th>Win van.</th><th>Win mod</th><th>Win prop.</th><th>Time van.</th><th>Time mod</th><th>Time prop.</th><th>Dmg van.</th><th>Dmg mod</th><th>Dmg prop.</th></tr></thead><tbody>`;
+  for (const stage of ['D5', 'Disc2']) {
+    for (const c of CLASSES) {
+      const r = row('class', SET, stage, 'class_' + c, 'boss'); if (!r) continue;
+      h += `<tr><td class="l">${stage === 'D5' ? 'Day 5' : 'Disc 2'}</td><td class="cls l">${LABEL[c]}<span class="gun">${DATA.guns[stage + '|class_' + c] || ''}</span></td><td>${r.n}</td>` +
+        ['won', 'time', 'damage_taken'].map(m => `<td class="v">${fmt(r[m].vanilla, m)}</td><td class="c">${fmt(r[m].current, m)}</td><td class="p">${fmt(r[m].p40, m)}</td>`).join('') + '</tr>';
+    }
+  }
+  el.innerHTML = h + '</tbody>';
+}
+
+function render() {
+  document.querySelectorAll('#setbtns button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === SET)));
+  const d5 = document.getElementById('d5charts'), d2 = document.getElementById('d2charts'), ra = document.getElementById('racharts');
+  d5.innerHTML = d2.innerHTML = ra.innerHTML = '';
+  const k3 = ['vanilla', 'current', 'p40'];
+  bars(d5, 'Ordinary fight length', 'seconds per fight, lower is faster', 'D5', 'ord', 'time', k3);
+  bars(d5, 'Damage taken, ordinary', 'HP lost per fight', 'D5', 'ord', 'damage_taken', k3);
+  bars(d2, 'Ordinary fight length', 'seconds per fight', 'Disc2', 'ord', 'time', k3);
+  bars(d2, 'Damage taken, ordinary', 'HP lost per fight', 'Disc2', 'ord', 'damage_taken', k3);
+  bars(ra, 'Fight length: mod, 30%, 40%', 'Disc 2 ordinary; pale red = 30%, solid = 40%', 'Disc2', 'ord', 'time', ['current', 'p30', 'p40']);
+  bars(ra, 'Damage taken: mod, 30%, 40%', 'Disc 2 ordinary', 'Disc2', 'ord', 'damage_taken', ['current', 'p30', 'p40']);
+  classTable(document.getElementById('d5table'), 'D5');
+  classTable(document.getElementById('d2table'), 'Disc2');
+  raTable(document.getElementById('ratable'));
+  bossTable(document.getElementById('bosstable'));
+}
+document.querySelectorAll('#setbtns button').forEach(b => b.addEventListener('click', () => {
+  SET = b.dataset.set; try { localStorage.setItem('pe-rebalance-set', SET); } catch (e) {}
+  render();
+}));
+if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render); } catch (e) {} }
+new MutationObserver(render).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+render();
+</script>

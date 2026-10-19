@@ -69,6 +69,7 @@ class PE:
         self.script = dict(script) if script else None  # logged casts to replay (choose_scripted)
         self.items = dict(items) if items else None     # logged item use to replay {item id: count}
         self.barrier = self.gene = self.preraise = False
+        self.item_bar = 'half' if rules == 'current' else 'full'   # pe_atb_items.c: half-bar items are a mod feature
 
     def regen(self):
         if self.pe >= self.max: return
@@ -115,16 +116,16 @@ class PE:
         """Replay of a logged battle's item use (self.items): medicine below heal_below (the largest
         logged one that fits the missing HP, else the smallest), a cure while its ailment is active.
         Items take half a bar in the mod (pe_atb_items.c). Labelled player behaviour."""
-        if not self.items or gauge < 4500: return None
+        if not self.items or gauge < (4500 if self.item_bar == 'half' else 9000): return None
         have = lambda i: self.items.get(i, 0) > 0 and self.bag.get(i, 0) > 0
         for ailment, item in (('poison', 0x0D), ('dark', 0x0E), ('confused', 0x0F), ('stiff', 0x10)):
-            if ailment in ailing and have(item): return ('item', item), 'half'
-        if ailing and have(0x11): return ('item', 0x11), 'half'
+            if ailment in ailing and have(item): return ('item', item), self.item_bar
+        if ailing and have(0x11): return ('item', 0x11), self.item_bar
         if hp_now <= self.heal_below * max_hp:
             meds = sorted((v, k) for k, v in MEDICINE.items() if have(k))
             fit = [k for v, k in meds if v <= max_hp - hp_now]
-            if fit or meds: return ('item', fit[-1] if fit else meds[0][1]), 'half'
-            if have(FULL_RECOVER): return ('item', FULL_RECOVER), 'half'
+            if fit or meds: return ('item', fit[-1] if fit else meds[0][1]), self.item_bar
+            if have(FULL_RECOVER): return ('item', FULL_RECOVER), self.item_bar
         return None
 
     def heal_amount(self, spell, max_hp):
@@ -142,11 +143,11 @@ class PE:
                 if spell == 'Heal3' and missing < self.heal_amount('Heal2', max_hp) and self.can('Heal2'): continue
                 half = self.rules == 'current' and spell in QUICK
                 if gauge >= 9000 or (half and gauge >= 4500): return spell, 'half' if half else 'full'
-            if gauge >= 4500 or gauge >= 9000:
+            if gauge >= (4500 if self.item_bar == 'half' else 9000):
                 meds = sorted((v, k) for k, v in MEDICINE.items() if self.bag.get(k))
                 fit = [k for v, k in meds if v <= missing] or [k for v, k in meds]
-                if fit: return ('item', fit[-1] if [k for v, k in meds if v <= missing] else fit[0]), 'half'
-                if self.bag.get(FULL_RECOVER) and hp_now <= 0.25 * max_hp: return ('item', FULL_RECOVER), 'half'
+                if fit: return ('item', fit[-1] if [k for v, k in meds if v <= missing] else fit[0]), self.item_bar
+                if self.bag.get(FULL_RECOVER) and hp_now <= 0.25 * max_hp: return ('item', FULL_RECOVER), self.item_bar
         return None
 
     def heal_of(self, action, max_hp):

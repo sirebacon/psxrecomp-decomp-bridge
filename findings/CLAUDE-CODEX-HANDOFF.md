@@ -97,6 +97,11 @@ concrete mod spec:
   - Hit frequency remains 1.4–1.6× high.
 - Use `--atb-guard --multi-kind` for new comparisons.
 
+**Step 9, rebalance re-run** (`pe-balance-recommendations-2026-10-19.md`, last section; report `findings/reports/pe-weapon-rebalance-2026-10-19.html`):
+- `compare_rules --calibrated --base vanilla` runs the three-way comparison.
+- R-A is back to AAo_40 (AAo_30 overshoots on the calibrated model); R-B and R-C are confirmed.
+- Vanilla's ÷5 elemental resist breaks the Day 5 M203 4.
+
 **Step 8c, enemy coverage complete:**
 - Shared identities resolved by HP (y_hp).
 - --borrow covers 0x001E in rooms 217 / 226 (agreed plans from 16 rooms).

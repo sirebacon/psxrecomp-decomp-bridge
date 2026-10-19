@@ -231,3 +231,35 @@ Aya's action is committed. This makes long Attack All volleys protective.
 
 Files: `pe-compare-class-allbattles-P1-serial-2026-10-19` and
 `pe-compare-class-ord-AAo30-serial-2026-10-19`.
+
+## Re-run on the calibrated model (later on October 19): R-A back to 40%
+
+Full three-way comparison: vanilla / current mod / mod + proposals. Model:
+- contact damage, Parasite Energy and items;
+- every logged foe resolved from source;
+- ordinary damage at 1.05× of the log.
+
+Report page: `findings/reports/pe-weapon-rebalance-2026-10-19.html`. Data:
+`pe-compare-cal-{vanilla-current,current-P30,current-P40,frozen-vanilla-current,frozen-current-P30}-2026-10-19`,
+summarised by `report_rebalance.py`.
+
+| Disc2 ordinary (calibrated player) | Mod | AAo_30 | AAo_40 |
+|---|---|---|---|
+| P90 time s | 4.9 | 12.6 | **8.6** |
+| P90 damage | 0.4 | 11.3 | **4.1** |
+| Other classes time s | 11.9–14.9 | same | same |
+| Other classes damage | 6.1–9.2 | same | same |
+
+- **AAo_30 overshoots.** The P90 becomes no faster than the handgun and takes the most damage
+  of any class; under slow menus it is worse still (15.0 s, 21.9 damage).
+- **AAo_40** keeps a clear crowd edge (about 1.4× the handgun) at normal exposure.
+- **Revised R-A: 40% per bullet with 2+ enemies alive, no boss battles.**
+- **R-B (G3A3 +45) and R-C (M203 4 +20) confirmed:**
+  - Day 5 ordinary time: rifle 48.5 → 28.7 s, grenade 40.2 → 31.8 s;
+  - every Day 5 class now lands at 27–33 s.
+- **Vanilla → mod findings:**
+  - Vanilla's elemental resist (÷5) makes the frost-firing M203 4 time out in 60% of Day 5
+    ordinary fights. The mod's 80% resist fixes that.
+  - The Disc2 P90 dominance already exists in vanilla (5.8 s vs 12.5–15.7).
+  - The MAG's longer mod boss time comes from vanilla losing 3 of 39 boss fights (losses end
+    early).
