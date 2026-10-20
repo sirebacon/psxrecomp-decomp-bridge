@@ -312,6 +312,76 @@ A creature can have several stat blocks (tougher copies later, forced fights, Ch
 | ? | 0x0200 | Chrysler (EX) | chrysler (291) | 200000 | 60 | 0 | 0/0 | - | heat, frost, cyanide, acid, tranq | nothing | nothing | scripted HP |
 | ? | 0x0017 | Chrysler (EX) | chrysler (391, 392, 394, 395) | 160 | 16 | 0 | 0/0 | frost | cyanide, acid, tranq | nothing | nothing | progress branch (V80 = 0) / unresolved branch; unresolved branch |
 
+## Mid-fight values
+
+Stat writes after the setup (`phases` in the extract): growth, phase changes and the real HP of
+scripted bosses. Each write's run of arithmetic is evaluated at the first-playthrough scale; *unknown*
+means the value is built from something the fight tracks (damage carried over, current HP). Death
+handling (HP set to 0) is left out. Window = room offsets of the evaluated instructions.
+
+- Scripted bosses: setup stores HP + 1,000,000; the next block writes the fighting HP (Actress 40,
+  Eve carriage 330, Giant Spider 450, Centipede 500, Crab 856, Eve final form 2200, ...).
+- Worms: max HP 120 at the start, then 150, 180 and 210 as each one dies (defense 13); the damage
+  already taken carries into the new maximum.
+- Centipede: the head's 500 is followed by a 300 HP phase that also switches the kind byte to 2, which
+  is why the log recorded it as 0x021A. Chrysler Centipede: 1200 then 300.
+- Ultimate Being: no separate 2nd-form block; the script tracks HP as a percentage of max and, below 60%,
+  clamps it to 60% (+ the scripted offset) to trigger the change. 4th form: 7992, then 999,999 and
+  499,999 in the special-bullet phase.
+
+| Name | ID | Map / actor | Window (room offsets) | HP write sector:byte | Writes |
+|---|---|---|---|---|---|
+| Actress | 0x0201 | 5 / 2 | 139488-140256 | 11117:320 | hp 40, hp_cap 40, defense 9, exp 0, rank 1, kind 2 |
+| Rat | 0x0002 | 13 / 2 | 32576-33428 | 12161:1988 | hp 13, hp_cap 13, defense 4, exp 2, rank 2, kind 0 |
+| Eve (rehearsal room) | 0x0204 | 23 / 2 | 301956-302808 | 14051:1720 | hp scripted 92, hp_cap 1000092, defense 5, exp 0, rank 4, kind 2 |
+| Alligator (tail) | 0x0100 | 34 / 4 | 171344-172056 | 16680:1992 | hp scripted 80, hp_cap 1000080, defense 6, kind 1 |
+| Alligator (body) | 0x0307 | 34 / 3 | 157100-157936 | 16673:1584 | hp 120, hp_cap 120, defense 200, exp 30, rank 7, kind 3 |
+| Worm | 0x020D | 86 / 3 | 99548-100364 | 30250:1988 | hp unknown, hp_cap 210, defense 13 |
+| Worm | 0x020D | 86 / 3 | 101036-101852 | 30251:1428 | hp unknown, hp_cap 180, defense 13 |
+| Worm | 0x020D | 86 / 3 | 102756-103572 | 30252:1100 | hp unknown, hp_cap 150, defense 13 |
+| Eve (carriage) | 0x020E | 89 / 1 | 328240-329028 | 31118:692 | hp 330, hp_cap 330, defense 13, exp 0, rank 14, kind 2 |
+| Sheeva (body) | 0x0312 | 123 / 1 | 229032-229884 | 38733:1836 | hp 10, hp_cap 10, defense 24, exp 1000, rank 18, kind 3 |
+| ? | 0x0200 | 156 / 4 | 230332-231020 | 46003:1524 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| ? | 0x0200 | 156 / 5 | 231756-232444 | 46004:900 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| ? | 0x0200 | 156 / 6 | 233180-233868 | 46005:276 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| ? | 0x0200 | 291 / 5 | 215296-215984 | 74591:824 | hp unknown, hp_cap unknown, defense unknown, kind 2 |
+| ? | 0x0200 | 291 / 6 | 216720-217408 | 74592:200 | hp unknown, hp_cap unknown, defense unknown, kind 2 |
+| ? | 0x0200 | 380 / 4 | 230772-231460 | 89181:1964 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| ? | 0x0200 | 380 / 5 | 232196-232884 | 89182:1340 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| ? | 0x0200 | 380 / 6 | 233620-234308 | 89183:716 | hp scripted 3392, hp_cap 1003392, defense 29, kind 2 |
+| Giant Spider (phase 1) | 0x0216 | 156 / 3 | 208444-209248 | 45992:1728 | hp 450, hp_cap 450, defense 33, exp 6500, rank 22, kind 2 |
+| Centipede (head, phase 1) | 0x041A | 188 / 5 | 247604-248440 | 51847:1976 | hp 500, hp_cap 500, defense 35, exp 10000, rank 26, kind 2 |
+| Centipede (head, phase 1) | 0x041A | 188 / 5 | 263256-263384 | 51855:1176 | hp 300, hp_cap 300, kind 2 |
+| Triceratops (phase 2) | 0x0421 | 245 / 7 | 208692-209392 | 65015:1976 | hp 900, hp_cap 900, defense 65, exp 0, rank 33, kind 2 |
+| Crab (body) | 0x0220 | 269 / 3 | 176208-177044 | 70013:212 | hp 856, hp_cap 856, defense 110, exp 2510, rank 32, kind 2 |
+| Eve (Statue of Liberty) part | 0x0125 | 273 / 5 | 299596-300244 | 71171:1156 | hp scripted 1600, hp_cap 1001600, defense 85, rank 37, kind 1 |
+| Eve (Statue of Liberty) part | 0x0125 | 273 / 6 | 300656-301304 | 71172:168 | hp scripted 1750, hp_cap 1001750, defense 70, rank 37, kind 1 |
+| Eve (Statue of Liberty) part | 0x0125 | 273 / 7 | 301716-302364 | 71172:1228 | hp scripted 1900, hp_cap 1001900, defense 55, rank 37, kind 1 |
+| Alligator (body) | 0x0307 | 348 / 2 | 168572-169408 | 84184:768 | hp 120, hp_cap 120, defense 200, exp 30, rank 7, kind 3 |
+| Alligator (body) | 0x0307 | 348 / 2 | 169836-170020 | 84184:1956 | hp unknown, hp_cap unknown |
+| Ultimate Being (1st) | 0x0225 | 350 / 2 | 230756-231656 | 84664:1512 | hp 1500, hp_cap 1500, defense 60, exp 0, rank 37, kind 2 |
+| Ultimate Being (1st) | 0x0225 | 350 / 2 | 232572-232876 | 84665:1380 | hp unknown |
+| Ultimate Being (1st) | 0x0225 | 350 / 2 | 246016-246216 | - | defense 98 |
+| Ultimate Being (1st) | 0x0225 | 350 / 2 | 246016-246216 | 84672:456 | hp scripted 1, defense 98 |
+| Ultimate Being form | 0x0225 | 350 / 3 | 247488-248388 | 84672:1860 | hp 950, hp_cap 950, defense 80, exp 0, rank 37, kind 2 |
+| Ultimate Being form | 0x0225 | 350 / 3 | 254168-254320 | - | defense 50 |
+| Ultimate Being form | 0x0225 | 350 / 3 | 254168-254320 | 84676:368 | hp scripted 1, defense 50 |
+| Giant Spider (phase 2) | 0x0217 | 380 / 3 | 208220-209056 | 89170:1504 | hp 400, hp_cap 400, defense 25, exp 6500, rank 23, kind 2 |
+| Ultimate Being (1st) | 0x0225 | 428 / 2 | 163524-164392 | 99381:1864 | hp 1500, hp_cap 1500, defense 50, exp 0, rank 37, kind 2 |
+| Ultimate Being (4th) | 0x0226 | 430 / 2 | 232076-232816 | 100013:784 | hp 7992, hp_cap 7992, defense 1200, exp 0, rank 38, kind 2 |
+| Ultimate Being (4th) | 0x0226 | 430 / 2 | 247016-247200 | 100020:1424 | hp 999999 |
+| Ultimate Being (4th) | 0x0226 | 430 / 2 | 247256-247272 | 100020:1512 | hp 499999 |
+| Eve (final form) | 0x0223 | 432 / 2 | 299440-300244 | 100429:564 | hp 2200, hp_cap 2200, defense 50, exp 10000, rank 35, kind 2 |
+| ? | 0x0200 | 291 / 4 | 214048-214560 | 74590:1448 | hp scripted 200000, hp_cap 1200000, defense 60, kind 2 |
+| Giant Spider (Chrysler) | 0x0218 | 291 / 3 | 195136-195780 | 74581:660 | hp 1000, hp_cap 1000, defense 60, exp 100, rank 24, kind 2 |
+| Centipede (Chrysler, head) | 0x0422 | 390 / 3 | 245992-246636 | 91097:316 | hp 1200, hp_cap 1200, defense 88, exp 800, rank 34, kind 2 |
+| Centipede (Chrysler, head) | 0x0422 | 390 / 3 | 261452-261564 | 91104:1420 | hp 300, hp_cap 300, kind 2 |
+| Triceratops (Chrysler, phase 1) | 0x0427 | 397 / 3 | 183536-184040 | 92620:1312 | hp 1200, hp_cap 1200, defense 140, exp 2500, rank 39, kind 2 |
+| Triceratops (Chrysler, phase 2) | 0x0427 | 397 / 4 | 197172-197644 | 92627:612 | hp 1600, hp_cap 1600, defense 96, exp 0, rank 39, kind 2 |
+| Crab (Chrysler, body) | 0x023B | 411 / 3 | 165732-166376 | 95534:1976 | hp 6400, hp_cap 6400, defense 160, exp 10000, rank 59, kind 2 |
+| Queen Bee | 0x024A | 418 / 5 | 268380-269024 | 96885:176 | hp 12000, hp_cap 12000, defense 200, exp 20000, rank 74, kind 2 |
+| Queen Bee | 0x024A | 418 / 5 | 281432-281472 | 96891:896 | hp unknown |
+
 ## Where in the data
 
 How to go back to any stat block. Rooms are read from "Parasite Eve (USA) (Disc N).bin" ("both" =

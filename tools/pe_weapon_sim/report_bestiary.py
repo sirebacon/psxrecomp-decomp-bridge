@@ -44,10 +44,19 @@ def source(room, e, v, same):
     """Where a stat block lives on disc, to go back to it: room offsets plus the disc sector."""
     def at(off): return dict(room_offset=off, sector=room['lba'] + off // 2048, byte=off % 2048)
     w = v.get('writes', {})
+    phases = []
+    for p in e.get('phases', []):
+        s = {k: p['stats'][k] for k in ('hp', 'hp_cap', 'defense', 'exp', 'rank', 'kind') if k in p.get('stats', {})}
+        if not s or set(s) <= {'hp', 'exp'} and all(x == 0 for x in s.values()): continue   # death handling
+        if 'hp' in s and isinstance(s['hp'], int) and s['hp'] >= SCRIPTED_HP: s['hp'] = 'scripted %d' % (s['hp'] - SCRIPTED_HP)
+        hp_at = p['writes'].get('hp', [])
+        row = dict(window=p['window'], stats=s, hp_write=[at(o) for o in hp_at])
+        if row not in phases: phases.append(row)     # one row per distinct result, not per branch
     return dict(disc='both' if room['map'] in same else room['disc'], map=room['map'], room_lba=room['lba'],
                 room_sectors=room['sectors'], actor=e['actor_type'], script_start=e['script_start'],
                 entry=v['entry'], how=v['how'],
-                writes={k: [at(o) for o in w[k]] for k in ('rank', 'kind', 'hp', 'exp', 'defense', 'drop', 'steal') if k in w})
+                writes={k: [at(o) for o in w[k]] for k in ('rank', 'kind', 'hp', 'exp', 'defense', 'drop', 'steal') if k in w},
+                phases=phases)
 
 
 def species():
@@ -193,7 +202,29 @@ def markdown(rows, unresolved, chk, ex):
                 name, r['id'], r['first'], where, r['hp'], r['defense'], r['exp'], r['bp'][0], r['bp'][1],
                 ', '.join(r['weak']) or '-', ', '.join(r['strong']) or '-', r['drop'], r['steal'], notes or ''))
         L.append('')
-    L += ['## Where in the data', '',
+    L += ['## Mid-fight values', '',
+          'Stat writes after the setup (`phases` in the extract): growth, phase changes and the real HP of',
+          'scripted bosses. Each write\'s run of arithmetic is evaluated at the first-playthrough scale; *unknown*',
+          'means the value is built from something the fight tracks (damage carried over, current HP). Death',
+          'handling (HP set to 0) is left out. Window = room offsets of the evaluated instructions.', '',
+          '- Scripted bosses: setup stores HP + 1,000,000; the next block writes the fighting HP (Actress 40,',
+          '  Eve carriage 330, Giant Spider 450, Centipede 500, Crab 856, Eve final form 2200, ...).',
+          '- Worms: max HP 120 at the start, then 150, 180 and 210 as each one dies (defense 13); the damage',
+          '  already taken carries into the new maximum.',
+          '- Centipede: the head\'s 500 is followed by a 300 HP phase that also switches the kind byte to 2, which',
+          '  is why the log recorded it as 0x021A. Chrysler Centipede: 1200 then 300.',
+          '- Ultimate Being: no separate 2nd-form block; the script tracks HP as a percentage of max and, below 60%,',
+          '  clamps it to 60% (+ the scripted offset) to trigger the change. 4th form: 7992, then 999,999 and',
+          '  499,999 in the special-bullet phase.', '',
+          '| Name | ID | Map / actor | Window (room offsets) | HP write sector:byte | Writes |', '|---|---|---|---|---|---|']
+    for r in rows:
+        for s in r['sources']:
+            for p in s['phases']:
+                L.append('| %s | %s | %d / %d | %d-%d | %s | %s |' % (
+                    r.get('name') or '?', r['id'], s['map'], s['actor'], p['window'][0], p['window'][1],
+                    ', '.join('%d:%d' % (h['sector'], h['byte']) for h in p['hp_write']) or '-',
+                    ', '.join('%s %s' % kv for kv in p['stats'].items())))
+    L += ['', '## Where in the data', '',
           'How to go back to any stat block. Rooms are read from "Parasite Eve (USA) (Disc N).bin" ("both" =',
           'byte-identical on the two discs) starting at the room LBA, 2048 user-data bytes per sector. Offsets',
           'are into that room blob; the HP sector / byte is where the HP-setting `Entity_SetField` instruction',

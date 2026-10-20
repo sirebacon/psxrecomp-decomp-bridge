@@ -33,7 +33,7 @@ from .script_decisions import signed as s32
 FIELDS = {0x29: 'rank', 0x2A: 'kind', 0x28: 'exp', 0x2C: 'hp', 0x3D: 'defense', 0x3E: 'charge',
           0x3F: 'crit', 0x45: 'poison', 0x5A: 'bp_base', 0x5B: 'bp_factor', 0x5C: 'drop',
           0x5D: 'steal', 0x64: 'cyanide', 0x65: 'acid', 0x66: 'tranq', 0x6A: 'steal_resist',
-          0x6B: 'heat', 0x6C: 'frost', 0x6D: 'boss'}
+          0x6B: 'heat', 0x6C: 'frost', 0x6D: 'boss', 0x3C: 'hp_cap'}
 BYTE = {'rank', 'kind', 'drop', 'steal', 'crit'}
 SIGNED16 = {'poison'}
 U16 = {'exp', 'defense', 'charge', 'bp_base', 'bp_factor'}   # EnemyCombatant widths (battle.h)
@@ -52,7 +52,7 @@ def stat_value(name, value):
     if name in SIGNED16:
         value &= 65535
         return value - 65536 if value >= 32768 else value
-    return value & 0xFFFFFFFF if name == 'hp' else value
+    return value & 0xFFFFFFFF if name in ('hp', 'hp_cap') else value
 
 
 def slugs():
@@ -73,7 +73,7 @@ def block(map_id):
     return None
 
 
-def evaluate_setup(cfg, start, variables, limit=200000, base=None, stop=None):
+def evaluate_setup(cfg, start, variables, limit=200000, base=None, stop=None, seed=()):
     """[(variant, probability, {field: (value, write offset)})] over the setup paths of one script.
 
     `start` is where evaluation begins; `base` (default `start`) is the script root that jump
@@ -87,7 +87,7 @@ def evaluate_setup(cfg, start, variables, limit=200000, base=None, stop=None):
     if not setters: return []
     last = max(setters)
     states = defaultdict(Fraction)          # (pc, mem, fields, variant) -> probability
-    states[(start, (), (), ())] = Fraction(1)
+    states[(start, tuple(sorted(seed)), (), ())] = Fraction(1)
     heap = [start]; queued = {start}; done = defaultdict(Fraction); steps = 0
     while heap:
         pc = heapq.heappop(heap); queued.discard(pc)
@@ -226,7 +226,40 @@ def room_enemies(blob, handlers, variables):
                                  for v in summarize(evaluate_setup(cfg, at, variables, base=start, stop=stop)) if keep(v)]
         except ValueError as exc:
             out.append(dict(actor_type=actor, script_start=start, error=str(exc))); continue
-        if variants: out.append(dict(actor_type=actor, script_start=start, script_end=end, variants=variants, flow_errors=len(cfg['errors'])))
+        if variants:
+            done = {o for v in variants for w in v['writes'].values() for o in w}
+            out.append(dict(actor_type=actor, script_start=start, script_end=end, variants=variants,
+                            phases=phase_blocks(cfg, start, done, variables), flow_errors=len(cfg['errors'])))
+    return out
+
+
+ARITH = {'Script_AssignValue', 'Script_EvalExpr', 'Entity_GetField', 'Entity_SetField', 'Script_JumpIfZero',
+         'Script_CondBranch', 'Script_Random', 'Script_TestBit', 'Script_SetBit', 'Script_ClearBit'}
+FIRST_RUN_SCALE = ((4, 10), 65536)   # shared cell N10 on a first playthrough (V80 = 65536)
+
+
+def phase_blocks(cfg, start, setup_writes, variables):
+    """Stat writes after the setup (boss growth, phase changes): each HP write's surrounding
+    run of arithmetic is evaluated with the first-run scale. A value built from a local the
+    window doesn't compute (damage carried over, current HP) stays 'unknown'."""
+    nodes = cfg['nodes']; out = []; seen = set()
+    for i, n in enumerate(nodes):
+        a = n['args']
+        if not (n['handler'] == 'Entity_SetField' and len(a) == 2 and a[0] == dict(mode=0, value=0x2C)) or n['offset'] in setup_writes:
+            continue
+        j = i
+        while j > 0 and nodes[j - 1]['handler'] in ARITH: j -= 1
+        k = i
+        while k + 1 < len(nodes) and nodes[k + 1]['handler'] in ARITH: k += 1
+        if nodes[j]['offset'] in seen: continue
+        seen.add(nodes[j]['offset'])
+        try:
+            paths = evaluate_setup(cfg, nodes[j]['offset'], variables, base=start, stop=nodes[k]['offset'] + 1,
+                                   seed=(FIRST_RUN_SCALE,))
+        except ValueError as exc:
+            out.append(dict(window=[nodes[j]['offset'], nodes[k]['offset']], error=str(exc))); continue
+        for v in summarize(paths):
+            out.append(dict(window=[nodes[j]['offset'], nodes[k]['offset']], variant=v['variant'], stats=v['stats'], writes=v['writes']))
     return out
 
 
