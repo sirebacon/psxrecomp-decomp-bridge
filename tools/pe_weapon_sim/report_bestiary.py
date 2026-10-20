@@ -17,6 +17,8 @@ EXTRACT = ROOT/'findings/data/pe-bestiary-extract-2026-10-19.json'
 CAMPAIGN = ROOT/'findings/data/pe-campaign-2026-10-17.json'
 OUT_JSON = ROOT/'findings/data/pe-bestiary-draft-2026-10-19.json'
 OUT_MD = ROOT/'findings/pe-bestiary-draft-2026-10-19.md'
+NAMES = ROOT/'findings/data/pe-bestiary-names-2026-10-19.json'
+SHRINE = ROOT/'findings/data/pe-enemy-names-rpgclassics.json'
 RESISTS = ('heat', 'frost', 'cyanide', 'acid', 'tranq')
 ORDER = ('Day 1', 'Days 1-2', 'Day 2', 'Day 3', 'Day 4', 'Days 4-5', 'Day 6', 'late addition', 'special scene', 'Chrysler (EX)')
 SCRIPTED_HP = 1000000   # scripted bosses: HP offset by 1,000,000, the script ends the fight
@@ -73,8 +75,29 @@ def species():
                         strong=[k for k in RESISTS if s.get(k) == 1], drop=odds(s.get('drop')), steal=odds(s.get('steal')),
                         role='helper' if not s.get('exp', 0) and not s.get('bp_base', 0) and not s.get('bp_factor', 0) else 'boss' if s.get('boss', 0) else 'regular',
                         variants=[] if g['main'] else sorted(g['notes'])))
+    names = {(i, hp, exp): (n, c, note) for i, hp, exp, n, c, note in json.loads(NAMES.read_text())['names']}
+    for r in out:
+        n = names.get((r['id'], r['hp'], r['exp']))
+        if n:
+            r['name'], r['confidence'], r['name_note'] = n
+            if r['role'] == 'helper': r['role'] = 'boss'      # a named boss part (claw, segment)
     out.sort(key=lambda r: (ORDER.index(r['first']) if r['first'] in ORDER else 99, r['maps'][0], r['id']))
     return out, unresolved
+
+
+def ex_scale(rows):
+    """EX-game HP scale implied by the shrine's EX HP for story enemies whose name matched."""
+    shrine = {n: ex for n, hp, ex, exp, area in json.loads(SHRINE.read_text())['regular']}
+    lo, hi, used, off = 0, 1 << 30, [], []
+    for r in rows:
+        if r['role'] != 'regular' or r.get('confidence') not in ('high', 'medium') or r['first'] == 'Chrysler (EX)': continue
+        ex = shrine.get(r['name'])
+        if not ex or not r['hp']: continue
+        a, b = -(-ex * 65536 // r['hp']), ((ex + 1) * 65536 - 1) // r['hp']
+        if max(lo, a) <= min(hi, b): lo, hi = max(lo, a), min(hi, b); used.append(r['name'])
+        else: off.append(r['name'])
+    return dict(n10_low=lo, n10_high=hi, ratio_low=round(lo / 65536, 4), ratio_high=round(hi / 65536, 4),
+                enemies=len(used), outliers=sorted(set(off)))
 
 
 def check(rows):
@@ -95,8 +118,9 @@ def check(rows):
     return dict(logged=len(logged), found=found, agree=agree, missing=sorted(missing))
 
 
-def markdown(rows, unresolved, chk):
+def markdown(rows, unresolved, chk, ex):
     regular, bosses, helpers = ([r for r in rows if r['role'] == k] for k in ('regular', 'boss', 'helper'))
+    named = [r for r in rows if r.get('name')]
     L = ['# Bestiary draft (extraction) — October 19, 2026', '',
          'Groundwork for a Junk-bought Bestiary. Every enemy stat block the room scripts set up, read',
          'offline from both US discs (`extract_bestiary`, then `report_bestiary`). **No mod changes.**', '',
@@ -117,7 +141,27 @@ def markdown(rows, unresolved, chk):
          '  (the first 42 enemy rows predate resistance logging and read as average).',
          '- Not found (%d): %s. Mostly bosses whose identity is set by another actor or computed.' % (len(chk['missing']), ', '.join('m%d %s' % k for k in chk['missing'])),
          '- Scripts the evaluator could not finish: %d.' % len(unresolved), '',
-         '## Coverage', '',
+         '## Names', '',
+         '- Names come from the RPGClassics Parasite Eve shrine (enemies and bosses pages), matched by HP, EXP',
+         '  and area (`findings/data/pe-bestiary-names-2026-10-19.json`; the shrine facts are in',
+         '  `pe-enemy-names-rpgclassics.json`). %d of %d stat blocks named: %d high, %d medium, %d low confidence.' % (
+             len(named), len(rows), *(sum(r['confidence'] == c for r in named) for c in ('high', 'medium', 'low'))),
+         '- Where the shrine and the game disagree, the game value is kept (the log confirms it): Slime 88 HP',
+         '  (shrine 80), Spawn 114 EXP (90), Lizard 896 EXP (986), Mole 462 EXP (457), Scorpion 390 HP (480).',
+         '  Tyrannosaur: the script sets 100,000 EXP, which the 16-bit EXP field wraps to 34,464.',
+         '- Chrysler Building enemies are written with their EX HP directly and match the shrine EX HP.',
+         '- EX Game scale for story enemies: the shrine EX HP of %d named enemies fits one scale of %.4f-%.4f x' % (ex['enemies'], ex['ratio_low'], ex['ratio_high']),
+         '  (shared cell N10 = %d-%d instead of 65536); off that scale: %s.' % (ex['n10_low'], ex['n10_high'], ', '.join(ex['outliers']) or 'none'),
+         '- Not extracted (identity or HP set by another actor): %s.' % ', '.join(json.loads(NAMES.read_text())['not_extracted']), '',
+         '## Creatures', '',
+         '| Creature | Story (HP / EXP) | Chrysler EX (HP / EXP) |', '|---|---|---|']
+    creatures = defaultdict(lambda: ([], []))
+    for r in named:
+        base = r['name'].split(' (')[0] if r['role'] == 'regular' else r['name']
+        creatures[base][r['first'] == 'Chrysler (EX)'].append('%s / %s' % (r['hp'], r['exp']))
+    for c, (story, chrysler) in creatures.items():
+        L.append('| %s | %s | %s |' % (c, ', '.join(dict.fromkeys(story)) or '-', ', '.join(dict.fromkeys(chrysler)) or '-'))
+    L += ['', '## Coverage', '',
          '| | Regular | Bosses / forced | Helpers (0 EXP, 0 BP) |', '|---|---:|---:|---:|']
     for b in ORDER:
         n1, n2, n3 = (sum(r['first'] == b for r in rs) for rs in (regular, bosses, helpers))
@@ -125,31 +169,31 @@ def markdown(rows, unresolved, chk):
     L += ['| **total distinct stat blocks** | **%d** | **%d** | **%d** |' % (len(regular), len(bosses), len(helpers)), '',
           "Bosses / forced = the can't-escape flag with a reward. Helpers are boss parts, props and scripted",
           'actors with no EXP or BP; they would not get Bestiary entries.', '',
-          'A distinct stat block is not always a distinct creature: the same monster can appear with a',
-          'tougher block later in the story. Naming pass will merge those.', '']
+          'A creature can have several stat blocks (tougher copies later, forced fights, Chrysler).', '']
     for title, rs in (('Regular enemies', regular), ('Bosses and forced fights', bosses), ('Helpers (not Bestiary entries)', helpers)):
-        L += ['## %s' % title, '', '| ID | First seen | Where (maps) | HP | Def | EXP | BP | Weak | Strong | Drop | Steal | Notes |',
-              '|---|---|---|---:|---:|---:|---|---|---|---|---|---|']
+        L += ['## %s' % title, '', '| Name | ID | First seen | Where (maps) | HP | Def | EXP | BP | Weak | Strong | Drop | Steal | Notes |',
+              '|---|---|---|---|---:|---:|---:|---|---|---|---|---|---|']
         for r in rs:
             where = '%s (%s)' % (', '.join(r['places']) or '-', ', '.join(map(str, r['maps'][:6])) + (' +%d' % (len(r['maps'])-6) if len(r['maps']) > 6 else ''))
-            notes = '; '.join((['scripted HP'] if r['scripted_hp'] else []) + r['variants'])
-            L.append('| %s | %s | %s | %s | %s | %s | %d/%d | %s | %s | %s | %s | %s |' % (
-                r['id'], r['first'], where, r['hp'], r['defense'], r['exp'], r['bp'][0], r['bp'][1],
+            notes = '; '.join((['scripted HP'] if r['scripted_hp'] else []) + ([r['name_note']] if r.get('name_note') else []) + r['variants'])
+            name = '%s%s' % (r['name'], '' if r['confidence'] == 'high' else ' (%s)' % r['confidence']) if r.get('name') else '?'
+            L.append('| %s | %s | %s | %s | %s | %s | %s | %d/%d | %s | %s | %s | %s | %s |' % (
+                name, r['id'], r['first'], where, r['hp'], r['defense'], r['exp'], r['bp'][0], r['bp'][1],
                 ', '.join(r['weak']) or '-', ', '.join(r['strong']) or '-', r['drop'], r['steal'], notes or ''))
         L.append('')
     L += ['## Next', '',
-          '1. Naming pass: tie each stat block to its creature (model / animation bank per actor type, room',
-          '   and story context) and merge blocks of the same creature.',
-          '2. EX Game: apply the EX scale (story variable V80) to the scaled enemies.',
+          '1. Extract the missing bosses (Eve fights, Worms, Sheeva, Ultimate Being) from the actors that set them up.',
+          '2. Read the EX scale from an EX-game save (story variable V80) to confirm the derived range.',
           '3. Decide the Junk tiers (for example name + HP free; weaknesses; drops and steals).', '']
     return '\n'.join(L)
 
 
 def main():
-    rows, unresolved = species(); chk = check(rows)
-    OUT_JSON.write_text(json.dumps(dict(source=EXTRACT.name, check=chk, unresolved=unresolved, enemies=rows), indent=1), encoding='utf-8')
-    OUT_MD.write_text(markdown(rows, unresolved, chk), encoding='utf-8')
+    rows, unresolved = species(); chk = check(rows); ex = ex_scale(rows)
+    OUT_JSON.write_text(json.dumps(dict(source=EXTRACT.name, check=chk, ex_scale=ex, unresolved=unresolved, enemies=rows), indent=1), encoding='utf-8')
+    OUT_MD.write_text(markdown(rows, unresolved, chk, ex), encoding='utf-8')
     print(json.dumps(dict(stat_blocks=len(rows), roles={k: sum(r['role'] == k for r in rows) for k in ('regular', 'boss', 'helper')}, unresolved=len(unresolved),
+                          named=sum(bool(r.get('name')) for r in rows), ex=ex,
                           **{k: v for k, v in chk.items() if k != 'missing'}, missing=len(chk['missing']))))
 
 
