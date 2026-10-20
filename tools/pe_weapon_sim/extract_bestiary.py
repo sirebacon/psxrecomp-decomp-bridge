@@ -73,11 +73,17 @@ def block(map_id):
     return None
 
 
-def evaluate_setup(cfg, start, variables, limit=20000):
-    """[(variant, probability, {field: value})] over the setup paths of one actor script."""
+def evaluate_setup(cfg, start, variables, limit=200000, base=None, stop=None):
+    """[(variant, probability, {field: (value, write offset)})] over the setup paths of one script.
+
+    `start` is where evaluation begins; `base` (default `start`) is the script root that jump
+    offsets are relative to; `stop` (exclusive) bounds the block, so later phase writes
+    (a boss's second-phase HP) don't overwrite the setup values."""
+    base = start if base is None else base
     by = {n['offset']: n for n in cfg['nodes']}
     setters = [n['offset'] for n in cfg['nodes'] if n['handler'] == 'Entity_SetField' and len(n['args']) == 2
-               and n['args'][0]['mode'] == 0 and (n['args'][0]['value'] & 255) in FIELDS]
+               and n['args'][0]['mode'] == 0 and (n['args'][0]['value'] & 255) in FIELDS and n['offset'] >= start
+               and (stop is None or n['offset'] < stop)]
     if not setters: return []
     last = max(setters)
     states = defaultdict(Fraction)          # (pc, mem, fields, variant) -> probability
@@ -90,7 +96,7 @@ def evaluate_setup(cfg, start, variables, limit=20000):
         for (pc_, mem_t, fields_t, variant), prob in batch:
             steps += 1
             if steps > limit: raise ValueError('setup evaluation limit')
-            for nxt, mem, fields, var, p in _step(by, pc, dict(mem_t), dict(fields_t), variant, prob, start, variables):
+            for nxt, mem, fields, var, p in _step(by, pc, dict(mem_t), dict(fields_t), variant, prob, base, variables):
                 if nxt is None or nxt > last or nxt not in by or nxt <= pc:
                     done[(var, tuple(sorted(fields.items())))] += p
                     continue
@@ -122,8 +128,9 @@ def _step(by, pc, mem, fields, variant, prob, base, variables):
 
     def branch(test_nonzero, target):
         if test_nonzero == UNKNOWN:
-            return [(nxt, mem, fields, variant + (('?%d' % pc, 1),), prob),
-                    (target, dict(mem), dict(fields), variant + (('?%d' % pc, 0),), prob)]
+            # One shared flag (not one label per branch) so the two sides can merge again.
+            v2 = variant if ('?', 1) in variant else tuple(sorted(variant + (('?', 1),)))
+            return [(nxt, mem, fields, v2, prob), (target, dict(mem), dict(fields), v2, prob)]
         return [(nxt if test_nonzero else target, mem, fields, variant, prob)]
 
     if h == 'Script_AssignValue' and len(a) == 2: write(a[0], read(a[1]))
@@ -141,10 +148,10 @@ def _step(by, pc, mem, fields, variant, prob, base, variables):
                 out.append((nxt, m2, dict(fields), variant, prob / (hi - lo)))
             return out
     elif h == 'Entity_GetField' and len(a) == 2:
-        k = read(a[0]); write(a[1], fields.get(k & 255, UNKNOWN) if k != UNKNOWN else UNKNOWN)
+        k = read(a[0]); write(a[1], fields.get(k & 255, (UNKNOWN,))[0] if k != UNKNOWN else UNKNOWN)
     elif h == 'Entity_SetField' and len(a) == 2:
         k = read(a[0])
-        if k != UNKNOWN: fields[k & 255] = read(a[1])
+        if k != UNKNOWN: fields[k & 255] = (read(a[1]), pc)     # value and where it was written
     elif h in ('Script_TestBit', 'Script_SetBit', 'Script_ClearBit') and len(a) >= 2:
         x, b = read(a[0]), read(a[1])
         v = UNKNOWN if UNKNOWN in (x, b) else (x & (1 << b) if h == 'Script_TestBit' else
@@ -173,16 +180,19 @@ def summarize(paths):
     """Group evaluated paths by variant: fixed stats plus drop / steal (and any varying) odds."""
     out = []
     by = defaultdict(list)
-    for var, p, f in paths: by[var].append((p, f))
-    for var, rows in sorted(by.items()):
-        total = sum(p for p, _ in rows); stats = {}
+    # Split by identity and HP too: an unresolved branch can choose between whole stat blocks.
+    ident = lambda f: tuple(str(f[k][0]) if k in f else '' for k in (0x29, 0x2A, 0x2C, 0x28))
+    for var, p, f in paths: by[(var, ident(f))].append((p, f))
+    for (var, _), rows in sorted(by.items()):
+        total = sum(p for p, _ in rows); stats = {}; writes = {}
         for key, name in FIELDS.items():
-            dist = defaultdict(Fraction)
+            dist = defaultdict(Fraction); at = set()
             for p, f in rows:
-                if key in f: dist[stat_value(name, f[key])] += p / total
+                if key in f: dist[stat_value(name, f[key][0])] += p / total; at.add(f[key][1])
             if not dist: continue
             stats[name] = next(iter(dist)) if len(dist) == 1 else {str(k): round(float(v), 4) for k, v in sorted(dist.items(), key=lambda kv: -kv[1])}
-        out.append(dict(variant=dict(var), stats=stats))
+            writes[name] = sorted(at)
+        out.append(dict(variant=dict(var), stats=stats, writes=writes))
     return out
 
 
@@ -196,19 +206,49 @@ def room_enemies(blob, handlers, variables):
     base = blocks[0]; count = word(blob, base + 4)
     if count > 256: raise ValueError('implausible relocation count')
     roots = [base + word(blob, base + 8 + 4 * i) for i in range(count)]
-    bounds = sorted(set(roots + [p for f in (24, 28, 32, 36, 40, 44, 48) for p in records(f)] + [len(blob)]))
+    # Other record tables bound the scripts, but some hold data words (e.g. map 217 table 36 has
+    # 131193): only 4-byte-aligned pointers inside the script area are boundaries.
+    bounds = sorted(set(roots + [p for f in (24, 28, 32, 36, 40, 44, 48) for p in records(f) if p % 4 == 0 and p > base]
+                        + [len(blob)]))
     out = []
     for actor, start in enumerate(roots):
         if actor == 0: continue
         end = next((v for v in bounds if v > start), len(blob))
         cfg = flow(blob, start, end, handlers)
+        keep = lambda v: 'hp' in v['stats'] and ('rank' in v['stats'] or 'kind' in v['stats'])
         try:
-            paths = evaluate_setup(cfg, start, variables)
+            variants = [dict(v, entry=start, how='script start') for v in summarize(evaluate_setup(cfg, start, variables)) if keep(v)]
+            if not variants:
+                # Boss scripts dispatch to their stat block (an event branch / callback): evaluate
+                # each block from its entry (after the last terminator above it) to its end.
+                for at, stop in block_entries(cfg):
+                    variants += [dict(v, entry=at, how='stat block entry')
+                                 for v in summarize(evaluate_setup(cfg, at, variables, base=start, stop=stop)) if keep(v)]
         except ValueError as exc:
-            out.append(dict(actor_type=actor, error=str(exc))); continue
-        variants = [v for v in summarize(paths) if 'hp' in v['stats'] and ('rank' in v['stats'] or 'kind' in v['stats'])]
-        if variants: out.append(dict(actor_type=actor, variants=variants, flow_errors=len(cfg['errors'])))
+            out.append(dict(actor_type=actor, script_start=start, error=str(exc))); continue
+        if variants: out.append(dict(actor_type=actor, script_start=start, script_end=end, variants=variants, flow_errors=len(cfg['errors'])))
     return out
+
+
+TERMINATORS = {'Entity_MarkCurrentNodeFree', 'Entity_MarkCurrentDead'}
+
+
+def block_entries(cfg):
+    """(entry, end) of each stat-writing block: from just after the nearest node-free / dead
+    marker above its first identity / HP write (skipping a jump that leaves the previous block)
+    to the next marker. Jumps inside the block (drop rolls) are followed by the evaluator."""
+    nodes = cfg['nodes']; blocks = []; i = 0
+    while i < len(nodes):
+        n = nodes[i]
+        if n['handler'] == 'Entity_SetField' and len(n['args']) == 2 and n['args'][0]['mode'] == 0 and n['args'][0]['value'] in (0x29, 0x2C):
+            j = i
+            while j > 0 and nodes[j - 1]['handler'] not in TERMINATORS: j -= 1
+            while j < i and nodes[j]['handler'] == 'Script_JumpToEntityOffset': j += 1
+            while i < len(nodes) and nodes[i]['handler'] not in TERMINATORS: i += 1
+            end = nodes[i]['offset'] if i < len(nodes) else nodes[-1]['offset'] + 1
+            if nodes[j]['offset'] not in [b[0] for b in blocks]: blocks.append((nodes[j]['offset'], end))
+        i += 1
+    return blocks
 
 
 def main():
@@ -239,6 +279,11 @@ def main():
     same = defaultdict(set)
     for r in rooms: same[r['map']].add(r.get('sha256'))
     out = dict(scope='Static setup evaluation of room actor scripts (see module docstring); not an AI trace.',
+               locate=('Every offset (script_start, entry, writes) is a byte offset into the room blob, the room\'s '
+                       'sectors read in order from `lba` (2048 user-data bytes each). Room offset X is in disc sector '
+                       'lba + X // 2048 at user-data byte X % 2048 of "Parasite Eve (USA) (Disc N).bin". Each write '
+                       'offset is the Entity_SetField instruction that sets that field; `entry` is where the '
+                       'evaluation started (script start, or the stat block a boss script dispatches to).'),
                snapshot_sha256=hashlib.sha256(snapshot.read_bytes()).hexdigest(),
                variables_sha256=hashlib.sha256(state.read_bytes()).hexdigest(),
                fields={hex(k): v for k, v in FIELDS.items()},

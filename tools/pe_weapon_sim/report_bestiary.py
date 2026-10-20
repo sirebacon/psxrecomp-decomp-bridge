@@ -40,6 +40,16 @@ def label(variant, snapshot):
     return ' / '.join((['progress branch (%s = 0)' % ', '.join(alt)] if alt else []) + (['unresolved branch'] if branch else []))
 
 
+def source(room, e, v, same):
+    """Where a stat block lives on disc, to go back to it: room offsets plus the disc sector."""
+    def at(off): return dict(room_offset=off, sector=room['lba'] + off // 2048, byte=off % 2048)
+    w = v.get('writes', {})
+    return dict(disc='both' if room['map'] in same else room['disc'], map=room['map'], room_lba=room['lba'],
+                room_sectors=room['sectors'], actor=e['actor_type'], script_start=e['script_start'],
+                entry=v['entry'], how=v['how'],
+                writes={k: [at(o) for o in w[k]] for k in ('rank', 'kind', 'hp', 'exp', 'defense', 'drop', 'steal') if k in w})
+
+
 def species():
     data = json.loads(EXTRACT.read_text())
     snapshot = json.loads((ROOT/'findings/data/pe-script-state-endgame-2026-10-18.json').read_text())['variables']
@@ -55,8 +65,9 @@ def species():
                     unresolved.append(dict(map=room['map'], actor=e['actor_type'], why='identity or HP varies')); continue
                 ident = (s.get('kind', 0) << 8) | s.get('rank', 0)
                 sig = json.dumps(dict(id=ident, **{k: s.get(k) for k in ('hp', 'defense', 'exp', 'bp_base', 'bp_factor', 'drop', 'steal', 'boss', 'crit', 'charge', *RESISTS)}), sort_keys=True)
-                g = groups.setdefault(sig, dict(id='0x%04X' % ident, stats=s, rooms=set(), notes=set(), main=False))
+                g = groups.setdefault(sig, dict(id='0x%04X' % ident, stats=s, rooms=set(), notes=set(), main=False, sources={}))
                 g['rooms'].add((room['map'], room['place'] or '', room['block'] or '', room['disc'] if room['map'] not in same else 0))
+                g['sources'].setdefault((room['map'], e['actor_type']), source(room, e, v, same))
                 note = label(v['variant'], snapshot)
                 if note: g['notes'].add(note)
                 else: g['main'] = True   # reached on the end-of-run path: no branch note needed
@@ -74,10 +85,11 @@ def species():
                         boss=bool(s.get('boss', 0)), weak=[k for k in RESISTS if s.get(k) == 2],
                         strong=[k for k in RESISTS if s.get(k) == 1], drop=odds(s.get('drop')), steal=odds(s.get('steal')),
                         role='helper' if not s.get('exp', 0) and not s.get('bp_base', 0) and not s.get('bp_factor', 0) else 'boss' if s.get('boss', 0) else 'regular',
-                        variants=[] if g['main'] else sorted(g['notes'])))
+                        variants=[] if g['main'] else sorted(g['notes']),
+                        sources=[g['sources'][k] for k in sorted(g['sources'])]))
     names = {(i, hp, exp): (n, c, note) for i, hp, exp, n, c, note in json.loads(NAMES.read_text())['names']}
     for r in out:
-        n = names.get((r['id'], r['hp'], r['exp']))
+        n = names.get((r['id'], r['hp'], r['exp'] if not isinstance(r['exp'], dict) else None))
         if n:
             r['name'], r['confidence'], r['name_note'] = n
             if r['role'] == 'helper': r['role'] = 'boss'      # a named boss part (claw, segment)
@@ -177,11 +189,29 @@ def markdown(rows, unresolved, chk, ex):
             where = '%s (%s)' % (', '.join(r['places']) or '-', ', '.join(map(str, r['maps'][:6])) + (' +%d' % (len(r['maps'])-6) if len(r['maps']) > 6 else ''))
             notes = '; '.join((['scripted HP'] if r['scripted_hp'] else []) + ([r['name_note']] if r.get('name_note') else []) + r['variants'])
             name = '%s%s' % (r['name'], '' if r['confidence'] == 'high' else ' (%s)' % r['confidence']) if r.get('name') else '?'
-            L.append('| %s | %s | %s | %s | %s | %s | %s | %d/%d | %s | %s | %s | %s | %s |' % (
+            L.append('| %s | %s | %s | %s | %s | %s | %s | %s/%s | %s | %s | %s | %s | %s |' % (
                 name, r['id'], r['first'], where, r['hp'], r['defense'], r['exp'], r['bp'][0], r['bp'][1],
                 ', '.join(r['weak']) or '-', ', '.join(r['strong']) or '-', r['drop'], r['steal'], notes or ''))
         L.append('')
-    L += ['## Next', '',
+    L += ['## Where in the data', '',
+          'How to go back to any stat block. Rooms are read from "Parasite Eve (USA) (Disc N).bin" ("both" =',
+          'byte-identical on the two discs) starting at the room LBA, 2048 user-data bytes per sector. Offsets',
+          'are into that room blob; the HP sector / byte is where the HP-setting `Entity_SetField` instruction',
+          'sits. *entry* is where evaluation started: the script start, or the stat block a boss script jumps',
+          'to. Full detail (rank, kind, EXP, defense, drop and steal writes) is in',
+          '`findings/data/pe-bestiary-draft-2026-10-19.json` (`sources`) and the raw',
+          '`pe-bestiary-extract-2026-10-19.json`. Re-run: `python -m pe_weapon_sim.extract_bestiary --out',
+          'findings/data/pe-bestiary-extract-2026-10-19.json` then `python -m pe_weapon_sim.report_bestiary`.', '',
+          '| Name | ID | HP | Disc | Map | Room LBA | Actor | Script start | Entry | HP write (room offset) | HP sector:byte |',
+          '|---|---|---:|---|---:|---:|---:|---:|---:|---:|---|']
+    for r in rows:
+        for s in r['sources']:
+            hp = s['writes'].get('hp', [{}])
+            L.append('| %s | %s | %s | %s | %d | %d | %d | %d | %d | %s | %s |' % (
+                r.get('name') or '?', r['id'], r['hp'], s['disc'], s['map'], s['room_lba'], s['actor'], s['script_start'],
+                s['entry'], ', '.join(str(h['room_offset']) for h in hp if h) or '-',
+                ', '.join('%d:%d' % (h['sector'], h['byte']) for h in hp if h) or '-'))
+    L += ['', '## Next', '',
           '1. Extract the missing bosses (Eve fights, Worms, Sheeva, Ultimate Being) from the actors that set them up.',
           '2. Read the EX scale from an EX-game save (story variable V80) to confirm the derived range.',
           '3. Decide the Junk tiers (for example name + HP free; weaknesses; drops and steals).', '']

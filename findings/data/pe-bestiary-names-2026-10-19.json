@@ -28,7 +28,22 @@
   ["0x0014", 201, 60, "Giant Slime", "high", ""],
   ["0x0216", 450, 6500, "Giant Spider (phase 1)", "high", "shrine total 860 = 450 + phase 2"],
   ["0x0217", 400, 6500, "Giant Spider (phase 2)", "medium", ""],
-  ["0x0016", 152, 0, "Hospital map 159 actor", "low", "unnamed; no reward"],
+  ["0x0016", 152, 20, "Hospital map 159 actor", "low", "unnamed; not in the shrine lists"],
+  ["0x0201", 40, 0, "Actress", "high", "first battle (map 5); scripted HP"],
+  ["0x0204", 92, 0, "Eve (rehearsal room)", "medium", "map 23; shrine 100"],
+  ["0x020D", 120, 80, "Worm", "medium", "map 86; shrine sizes 125 / 150 / 175 / 200 (the script grows the survivors)"],
+  ["0x020E", 330, 0, "Eve (carriage)", "medium", "map 89; shrine 320"],
+  ["0x0312", 10, 1000, "Sheeva (body)", "medium", "map 123; holds the 1000 EXP and BP for the three heads"],
+  ["0x0015", 0, 4, "Spawn (offspring)", "low", "HP written after spawn"],
+  ["0x0421", 400, 0, "Triceratops part", "low", "map 245; second actor of the fight"],
+  ["0x0325", 10, 0, "Eve (Statue of Liberty, reward holder)", "low", "map 273; BP 1000/20"],
+  ["0x0225", 1500, 0, "Ultimate Being (1st)", "high", "maps 350 / 428"],
+  ["0x0225", 950, 0, "Ultimate Being form", "low", "map 350; shrine 2nd form is 1600 body + 1200 wings"],
+  ["0x0226", 7992, 0, "Ultimate Being (4th)", "medium", "map 430; shrine 8000"],
+  ["0x0223", 2200, 10000, "Eve (final form)", "high", "map 432 (statue special scene)"],
+  ["0x0035", 670, 2, "Squirrel", "high", "Chrysler 51-60; also a forced copy in map 437"],
+  ["0x001F", 0, 8, "Spawn (offspring)", "low", "Chrysler; HP written after spawn"],
+  ["0x0231", 1200, 0, "Cockroach larva", "low", "map 404; grows into a second Cockroach"],
   ["0x0016", 99, 287, "Snake", "high", ""],
   ["0x0017", 135, 361, "Cat", "high", ""],
   ["0x0017", 112, 301, "Bat", "high", ""],
@@ -109,5 +124,5 @@
   ["0x0226", 3500, 0, "Ultimate Being (3rd)", "medium", "3500 matches the shrine"],
   ["0x0426", 3500, 0, "Ultimate Being (3rd)", "medium", ""]
  ],
- "not_extracted": ["Actress", "Eve (rehearsal room)", "Worm x4", "Eve (carriage)", "Ultimate Being (1st, 2nd, 4th)", "Squirrel (Chrysler)"]
+ "not_extracted": ["Worm growth sizes (150 / 175 / 200, set by the fight script)", "Ultimate Being (2nd form body 1600 / wings 1200)"]
 }
