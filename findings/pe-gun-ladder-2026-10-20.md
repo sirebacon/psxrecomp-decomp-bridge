@@ -224,3 +224,5 @@ R-B / R-C and R-F (seeded runs: guns R-F doesn't touch give the same times as th
 Verdict: within a class, every pickup now beats the one before it where it's found, and nothing passes the
 G3A3 / Wayne tier. Remaining spreads are class roles (machine guns in crowds, rifles on bosses) and
 the Wayne reward. Awaiting in-game checks.
+
+**Update (user, October 20, 2026):** SG550 set to +15 so the two NYPD rifles feel different (earlier check at +15: Day 2-4 1.12, Day 5 0.98, against the M16A1's 1.09 / 0.98). Built as M16A1 +25, SG550 +15, M203 +20, M203 2 +15.
