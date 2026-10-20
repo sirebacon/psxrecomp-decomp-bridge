@@ -202,3 +202,25 @@ expected (Wayne and museum guns replace them).
 Separate observation (not progression): on Disc 2, ordinary fights favour fast guns with 2 Commands (machine
 guns, handguns). Rifles and grenade launchers sit at 1.2-1.3 even for the G3A3 / MAG / M203 4, but rifles
 lead on bosses (MAG 25.6 s, G3A3 42.7 s vs handguns 30-48 s). No change proposed.
+
+## Final ladder with R-F as built (October 20, 2026)
+
+`run_gun_ladder --catalog --extra "@M16A1.power+25,@SG550.power+20,@M203.power+20,@M203_2.power+15"`;
+tables in `findings/pe-gun-ladder-final-rf-2026-10-20.md`. Every gun at every stage with Catalog installs,
+R-B / R-C and R-F (seeded runs: guns R-F doesn't touch give the same times as the catalog ladder).
+
+- **Day 2-4 (median 23.6 s):**
+  - M203 1.26 -> 1.01, now the best Central Park pickup (M9 1.19, P8 1.22).
+  - M16A1 / SG550 1.25 / 1.18 -> 1.09 each; they come before the G3A3 (0.74).
+  - Still ~25% behind the handguns found in the same NYPD visit (M9 2 0.85, M92F 0.88).
+- **Day 5 (median 30.1 s):**
+  - M16A1 / SG550 0.98, M203 2 1.03; every museum-era pickup is at or under 1.05.
+  - Wayne's guns lead (0.53-0.77).
+- **Disc 2:** unchanged picture. Day 3 guns trail (1.37-1.51, replaced by then); rifles and grenade launchers lag
+  in ordinary fights and rifles lead on bosses.
+- **M16A1 and SG550 now give identical times** (59 vs 60 attack after the bonus; neither runs dry in a fight),
+  so the two NYPD rifles play the same.
+
+Verdict: within a class, every pickup now beats the one before it where it's found, and nothing passes the
+G3A3 / Wayne tier. Remaining spreads are class roles (machine guns in crowds, rifles on bosses) and
+the Wayne reward. Awaiting in-game checks.
