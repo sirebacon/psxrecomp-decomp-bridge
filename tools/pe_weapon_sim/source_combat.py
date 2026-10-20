@@ -358,8 +358,8 @@ def run(rules,cfg,aya,foes,profile,rng,st,resolve_hit,done,*,stat22,guard,enemy_
             result=beams.begin_update(hp-taken+healed,lambda:rng.randrange(100))
             for event in result['events']:
                 hurt=event['damage'] if not event['barrier'] else 0
-                taken+=hurt;st.add('hits_taken')
-                if counter_active[0]:st.add('counter_hits_taken');st.add('counter_damage_taken',hurt)   # hit while a counter plays;st.add('beam_hits');st.add('beam_damage',hurt)
+                taken+=hurt;st.add('hits_taken');st.add('beam_hits');st.add('beam_damage',hurt)
+                if counter_active[0]:st.add('counter_hits_taken');st.add('counter_damage_taken',hurt)   # hit while a counter plays
                 session.event('beam_hit',**event)
                 target=beams.counter_target(event['owner'])
                 if not event['barrier']:
