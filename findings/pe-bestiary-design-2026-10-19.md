@@ -5,7 +5,8 @@ It is a **no-power** Junk sink for the rebalance + economy mod: it shows informa
 Aya stronger. **Nothing is built yet** (the "no mod changes" hold still applies).
 
 Data behind it: `findings/pe-bestiary-draft-2026-10-19.md` (every enemy stat block, names, drops /
-steals with odds, mid-fight values, disc locations). Junk figures: economy simulator, Normal preset,
+steals with odds, mid-fight values, disc locations) and `findings/pe-enemy-model-catalog-2026-10-19.md`
+(each creature's 3D model, its disc location and local renders, e.g. for a Bestiary picture). Junk figures: economy simulator, Normal preset,
 typical investment, 20 seeds per policy (`economy/playthrough.py`).
 
 ## Decisions (user, 2026-10-19)
