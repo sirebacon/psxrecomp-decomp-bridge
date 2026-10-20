@@ -20,6 +20,7 @@ Rebalanced / Custom) covers it.
 | R-A | Attack All: at most 75% of a target's max HP per turn, ordinary fights with 2+ enemies alive, bosses exempt | per hit, Attack All (`turn & 0xC0 == 0xC0`): the target's HP at its first hit this action is the reference; the hit's attack is cut so HP can't fall below reference - 75% max HP; a hit already past the line deals 1; the next battle frame tops HP back to the line if a hit still crossed it | "Attack All crowd cap %" 100 -> 75 |
 | R-E (power) | Installed RoF 5 / 7 / 10 (mod effects 3 / 4 / 5 without the built-in bit 0x20): volley 200% of one shot = 40 / 29 / 20% a bullet | per hit: attack term scaled from the game's per-shot % to the new one | "RoF 5 / 7 / 10 volley %" 125 / 126 / 130 (vanilla per-shot 25 / 18 / 13) -> 200 |
 | R-E (speed) | follow animation at most 4 frames; per-shot hold removed | during an installed-RoF volley: Aya's animation step scaled by follow frames / 4; the kind's hold byte in `g_BattleActionAnimRows` (`0x800106A4`) zeroed, restored after | "RoF mods: fast volleys" OFF -> ON |
+| R-F | Progression guns (2026-10-20, `pe-gun-ladder-2026-10-20.md`): M16A1 (0x79) +25, SG550 (0x7B) +20, M203 (0x83) +20, M203 2 (0x84) +15 | per hit, same as R-B / R-C (table `s_prog_guns`, shared lookup `pe_gun_bonus`) | "Progression gun bonuses" OFF -> ON |
 | PE, Econ, Counter, elements | keep | no change | — |
 
 The existing rows "RoF 7 per-shot %" / "RoF 10 per-shot %" (18 -> 20, 13 -> 15) are replaced by
@@ -53,6 +54,9 @@ resistances on one line.
 8. [x] Self-check for R-A: every gun hit's damage is predicted with the replica and compared with the
        HP the target lost; the `modfx` row shows `dmg_pred=matched/total`, and each miss gets a
        `dmgchk` row (first 8 a battle). PE `6101495`.
+9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
+       installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
+       untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
 
 ## Phase 2 — Collection (Bestiary + Wardrobe), design `pe-skins-bestiary-design-2026-10-19.md`
 
