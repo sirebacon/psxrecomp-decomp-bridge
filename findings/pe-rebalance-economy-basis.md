@@ -340,6 +340,10 @@ It trades speed for damage taken, and it matters for boss fights.
        Requisition by default; adding them at high prices (e.g. 200 / 150) is a sink that also
        eases Disc2 bosses (2–4% deaths in the benchmark). **User decision.**
     4. Leftover Junk carries into EX Game (decision 15), so it isn't wasted.
+    5. **Bestiary (decided 2026-10-19, no-power sink):** per-creature tiers (basics free; weaknesses
+       by Scan, 5 kills or Junk; loot by 15 kills or Junk), ~717 Junk to buy the whole story Bestiary,
+       about two-thirds of it on Disc 2; expected spend ~360–400 with kill and Scan unlocks. Chrysler
+       gets its own section (prices provisional). Design: `findings/pe-bestiary-design-2026-10-19.md`.
   - **Only if late-game scarcity is wanted:** taper Disc2 Junk to ×0.7.
 - **Also noted:**
   - late-game Junk surplus (about 1,000 on Normal, 1,800 on Relaxed). Options: a Disc2-only Junk
