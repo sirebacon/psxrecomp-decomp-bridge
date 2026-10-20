@@ -87,7 +87,7 @@ def retarget_row(blob, off, aya, md, mp, idle, corr, ratio):
     trs, angs = [], []
     for f in range(frames):
         tr, ang = R.anim_frame_at(blob, off, f)
-        angs.append(T.retarget_world(aya, ang, md, mp, idle, corr, straight=set(range(md['parts'])) - set(mp)))
+        angs.append(T.retarget_world(aya, ang, md, mp, idle, corr, straight=T.straight_parts(md)))
         trs.append([tr[0] * ratio, tr[1] * ratio, tr[2] * ratio])
     return encode_row(trs, angs, md['parts'], hit_vals)
 

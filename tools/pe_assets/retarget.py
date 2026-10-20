@@ -150,6 +150,17 @@ def semantic_mapping(src, dst):
     return m
 
 
+def straight_parts(dst):
+    """Unmapped segments to hold straight: pieces between the upper arm and the forearm (Maeda's elbow).
+    Other unmapped pieces (hair or extras past the skull, fingers past the hand) keep the character's
+    own idle angle, so hair hangs as it does in the game."""
+    d = chains(dst['cmds']); out = set()
+    for k in ('armA', 'armB'):
+        for i, lab in label_chain(dst, d[k], 'arm').items():
+            if lab[0] == 'between': out.add(d[k][i])
+    return out
+
+
 def world_rotations(md, ang):
     I = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]; cur = I; st = []; out = {}; parent = {}
     last = None
@@ -239,7 +250,7 @@ def main():
         tr, ang = R.anim_frame_at(blob, o, f)
         row = [R.render(aya, R.pose(aya, tr, ang), aya_vram, 'side', cell)]
         for name, md, vram, mp, idle, ratio, corr in targets:
-            tang = retarget_world(aya, ang, md, mp, idle, corr, straight=set(range(md['parts'])) - set(mp))
+            tang = retarget_world(aya, ang, md, mp, idle, corr, straight=straight_parts(md))
             row.append(R.render(md, R.pose(md, [int(tr[0] * ratio), int(tr[1] * ratio), int(tr[2] * ratio)], tang), vram, 'side', cell))
         out.append(('row %d frame %d/%d' % (s, f, frames), row))
     for k in range(0, len(out), 8):
