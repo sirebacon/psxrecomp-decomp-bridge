@@ -1,0 +1,325 @@
+[
+ {
+  "stage": "D2-4",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 25.46535893155259,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 25.57178631051753,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 26.575542570951587,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D5",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "ord": 25.168614357262104,
+  "ord_win": 1,
+  "boss": 38.01335559265443,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 36.74123539232053,
+  "ord_win": 1,
+  "boss": 55.086254869226494,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M79 2",
+  "id": 138,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   45,
+   68,
+   4
+  ],
+  "ord": 38.09682804674458,
+  "ord_win": 1,
+  "boss": 54.88592097941013,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "ord": 34.66110183639399,
+  "ord_win": 1,
+  "boss": 50.5008347245409,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 3",
+  "id": 133,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown Sewer",
+  "base": [
+   49,
+   71,
+   5
+  ],
+  "ord": 32.76126878130217,
+  "ord_win": 1,
+  "boss": 52.710072342793545,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M79 3",
+  "id": 139,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Subway",
+  "base": [
+   52,
+   68,
+   5
+  ],
+  "ord": 33.76293823038397,
+  "ord_win": 1,
+  "boss": 51.89760712298275,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 29.318864774624373,
+  "ord_win": 1,
+  "boss": 53.672787979966614,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 35.996661101836395,
+  "ord_win": 1,
+  "boss": 56.90595436839176,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "ord": 16.318308291597106,
+  "ord_win": 1,
+  "boss": 67.17863105175293,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 18.936004451864218,
+  "ord_win": 1,
+  "boss": 74.85809682804674,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M79 2",
+  "id": 138,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   45,
+   68,
+   4
+  ],
+  "ord": 20.155815247634948,
+  "ord_win": 1,
+  "boss": 72.8881469115192,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "ord": 17.504730105731774,
+  "ord_win": 1,
+  "boss": 57.362270450751254,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 3",
+  "id": 133,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown Sewer",
+  "base": [
+   49,
+   71,
+   5
+  ],
+  "ord": 19.8708959376739,
+  "ord_win": 1,
+  "boss": 71.38564273789649,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M79 3",
+  "id": 139,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Subway",
+  "base": [
+   52,
+   68,
+   5
+  ],
+  "ord": 15.946577629382304,
+  "ord_win": 1,
+  "boss": 57.362270450751254,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 16.796883695047303,
+  "ord_win": 1,
+  "boss": 61.56928213689483,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 16.903728436282695,
+  "ord_win": 1,
+  "boss": 76.56093489148581,
+  "boss_win": 1
+ }
+]

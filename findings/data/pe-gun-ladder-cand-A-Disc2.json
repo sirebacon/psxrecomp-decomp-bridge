@@ -1,0 +1,7852 @@
+{
+ "proposal": "exp:AAc_75+RoFE|cfg:@G3A3.power+45,@M203_4.power+15,@M16A1.power+30,@SG550.power+15,@M203.power+25,@M203_2.power+15,@M203_3.power+20,@M79_2.power+15,@M79_3.power+10,@PPK.power+10",
+ "base": "current",
+ "calibrated": true,
+ "builds": "classlog",
+ "multi_kind": true,
+ "atb_guard": true,
+ "logged_charge": true,
+ "serial": true,
+ "identity_rank": true,
+ "encounters": "all",
+ "all_battles": false,
+ "stages": [
+  "Disc2"
+ ],
+ "seeds": 4,
+ "fights": 4,
+ "assumptions": {
+  "default": {
+   "contact": "early",
+   "untimed": [
+    10,
+    10
+   ],
+   "hit": 0.75,
+   "ambiguous": "first"
+  }
+ },
+ "summary": {
+  "table": {
+   "default|Disc2|class_g5F": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 20.734557595993323,
+     "prop": 19.497078464106846,
+     "delta": -1.237479131886477,
+     "ci": [
+      -2.6189482470784635,
+      -0.08555926544240358
+     ]
+    },
+    "damage_taken": {
+     "base": 34.0625,
+     "prop": 27.75,
+     "delta": -6.3125,
+     "ci": [
+      -17.8125,
+      0.0
+     ]
+    },
+    "rounds": {
+     "base": 16.75,
+     "prop": 14.75,
+     "delta": -2,
+     "ci": [
+      -3,
+      -1.1875
+     ]
+    },
+    "reloads": {
+     "base": 0.1875,
+     "prop": 0.0625,
+     "delta": -0.125,
+     "ci": [
+      -0.3125,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.3125,
+     "prop": 0.1875,
+     "delta": -0.125,
+     "ci": [
+      -0.3125,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 2.125,
+     "prop": 2.0625,
+     "delta": -0.0625,
+     "ci": [
+      -0.3125,
+      0.1875
+     ]
+    },
+    "hits_taken": {
+     "base": 1.5625,
+     "prop": 1.5625,
+     "delta": 0,
+     "ci": [
+      -0.3125,
+      0.3125
+     ]
+    }
+   },
+   "default|Disc2|class_g79": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 25.928631051752923,
+     "prop": 19.59515859766277,
+     "delta": -6.33347245409015,
+     "ci": [
+      -12.291318864774624,
+      -1.379382303839733
+     ]
+    },
+    "damage_taken": {
+     "base": 57.625,
+     "prop": 45.9375,
+     "delta": -11.6875,
+     "ci": [
+      -29.5625,
+      0.0
+     ]
+    },
+    "rounds": {
+     "base": 9.0625,
+     "prop": 6.6875,
+     "delta": -2.375,
+     "ci": [
+      -4.5,
+      -0.6875
+     ]
+    },
+    "reloads": {
+     "base": 0.0625,
+     "prop": 0,
+     "delta": -0.0625,
+     "ci": [
+      -0.1875,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.4375,
+     "prop": 0.125,
+     "delta": -0.3125,
+     "ci": [
+      -0.6875,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 4.25,
+     "prop": 3.0625,
+     "delta": -1.1875,
+     "ci": [
+      -2.375,
+      -0.25
+     ]
+    },
+    "hits_taken": {
+     "base": 2.875,
+     "prop": 2,
+     "delta": -0.875,
+     "ci": [
+      -1.8125,
+      -0.125
+     ]
+    }
+   },
+   "default|Disc2|class_g7B": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 22.22245409015025,
+     "prop": 20.632303839732888,
+     "delta": -1.590150250417362,
+     "ci": [
+      -3.384808013355592,
+      -0.1794657762938232
+     ]
+    },
+    "damage_taken": {
+     "base": 53.125,
+     "prop": 45.9375,
+     "delta": -7.1875,
+     "ci": [
+      -16.875,
+      0.0
+     ]
+    },
+    "rounds": {
+     "base": 7.9375,
+     "prop": 7.125,
+     "delta": -0.8125,
+     "ci": [
+      -1.6875,
+      -0.25
+     ]
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.25,
+     "prop": 0.125,
+     "delta": -0.125,
+     "ci": [
+      -0.3125,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.5,
+     "prop": 3.1875,
+     "delta": -0.3125,
+     "ci": [
+      -0.6875,
+      0
+     ]
+    },
+    "hits_taken": {
+     "base": 2.3125,
+     "prop": 2,
+     "delta": -0.3125,
+     "ci": [
+      -0.6875,
+      0
+     ]
+    }
+   },
+   "default|Disc2|class_g83": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 26.026711185308848,
+     "prop": 22.431135225375627,
+     "delta": -3.595575959933223,
+     "ci": [
+      -7.698247078464109,
+      -0.8055091819699502
+     ]
+    },
+    "damage_taken": {
+     "base": 71.0625,
+     "prop": 49.625,
+     "delta": -21.4375,
+     "ci": [
+      -54.5,
+      -2.4375
+     ]
+    },
+    "rounds": {
+     "base": 6.4375,
+     "prop": 5.375,
+     "delta": -1.0625,
+     "ci": [
+      -2.1875,
+      -0.3125
+     ]
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.4375,
+     "prop": 0.375,
+     "delta": -0.0625,
+     "ci": [
+      -0.1875,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 5.125,
+     "prop": 4.3125,
+     "delta": -0.8125,
+     "ci": [
+      -1.4375,
+      -0.25
+     ]
+    },
+    "hits_taken": {
+     "base": 3.625,
+     "prop": 2.8125,
+     "delta": -0.8125,
+     "ci": [
+      -1.4375,
+      -0.25
+     ]
+    }
+   },
+   "default|Disc2|class_g84": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 22.70450751252087,
+     "prop": 19.995826377295494,
+     "delta": -2.708681135225376,
+     "ci": [
+      -5.411101836393991,
+      -0.5175292153589317
+     ]
+    },
+    "damage_taken": {
+     "base": 42.3125,
+     "prop": 39.6875,
+     "delta": -2.625,
+     "ci": [
+      -12.0625,
+      4.9375
+     ]
+    },
+    "rounds": {
+     "base": 7.5,
+     "prop": 6.625,
+     "delta": -0.875,
+     "ci": [
+      -1.5,
+      -0.375
+     ]
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.3125,
+     "prop": 0.25,
+     "delta": -0.0625,
+     "ci": [
+      -0.1875,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.6875,
+     "prop": 3.1875,
+     "delta": -0.5,
+     "ci": [
+      -1.125,
+      0
+     ]
+    },
+    "hits_taken": {
+     "base": 2.5,
+     "prop": 2.125,
+     "delta": -0.375,
+     "ci": [
+      -0.9375,
+      0.0625
+     ]
+    }
+   },
+   "default|Disc2|class_g85": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 24.20075125208681,
+     "prop": 23.090567612687813,
+     "delta": -1.1101836393989986,
+     "ci": [
+      -4.4803839732888155,
+      1.4670283806343911
+     ]
+    },
+    "damage_taken": {
+     "base": 35.5625,
+     "prop": 33.4375,
+     "delta": -2.125,
+     "ci": [
+      -15.0,
+      6.625
+     ]
+    },
+    "rounds": {
+     "base": 10.25,
+     "prop": 9.5,
+     "delta": -0.75,
+     "ci": [
+      -2.0625,
+      0.25
+     ]
+    },
+    "reloads": {
+     "base": 0.0625,
+     "prop": 0.0625,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.25,
+     "prop": 0.3125,
+     "delta": 0.0625,
+     "ci": [
+      0,
+      0.1875
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.0625,
+     "prop": 3.125,
+     "delta": 0.0625,
+     "ci": [
+      -0.375,
+      0.5
+     ]
+    },
+    "hits_taken": {
+     "base": 2,
+     "prop": 2,
+     "delta": 0,
+     "ci": [
+      -0.5,
+      0.5
+     ]
+    }
+   },
+   "default|Disc2|class_g8A": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 24.720367278797998,
+     "prop": 23.45158597662771,
+     "delta": -1.2687813021702845,
+     "ci": [
+      -5.425709515859768,
+      1.873956594323873
+     ]
+    },
+    "damage_taken": {
+     "base": 45.125,
+     "prop": 32.5625,
+     "delta": -12.5625,
+     "ci": [
+      -43.6875,
+      6.0
+     ]
+    },
+    "rounds": {
+     "base": 10.4375,
+     "prop": 10,
+     "delta": -0.4375,
+     "ci": [
+      -1.5625,
+      0.5625
+     ]
+    },
+    "reloads": {
+     "base": 0.0625,
+     "prop": 0.0625,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.25,
+     "prop": 0.3125,
+     "delta": 0.0625,
+     "ci": [
+      0,
+      0.1875
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.1875,
+     "prop": 3,
+     "delta": -0.1875,
+     "ci": [
+      -0.8125,
+      0.3125
+     ]
+    },
+    "hits_taken": {
+     "base": 2.125,
+     "prop": 1.875,
+     "delta": -0.25,
+     "ci": [
+      -0.875,
+      0.25
+     ]
+    }
+   },
+   "default|Disc2|class_g8B": {
+    "n": 16,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 19.664023372287147,
+     "prop": 18.535058430717864,
+     "delta": -1.1289649415692828,
+     "ci": [
+      -2.998747913188649,
+      -0.12938230383973293
+     ]
+    },
+    "damage_taken": {
+     "base": 34.5,
+     "prop": 30.8125,
+     "delta": -3.6875,
+     "ci": [
+      -11.0625,
+      0.0
+     ]
+    },
+    "rounds": {
+     "base": 6.4375,
+     "prop": 6.0625,
+     "delta": -0.375,
+     "ci": [
+      -0.6875,
+      -0.125
+     ]
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.1875,
+     "prop": 0.1875,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 2.75,
+     "prop": 2.6875,
+     "delta": -0.0625,
+     "ci": [
+      -0.1875,
+      0
+     ]
+    },
+    "hits_taken": {
+     "base": 1.6875,
+     "prop": 1.625,
+     "delta": -0.0625,
+     "ci": [
+      -0.1875,
+      0
+     ]
+    }
+   },
+   "default|Disc2|ALL": {
+    "n": 128,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 23.275250417362273,
+     "prop": 20.903589315525878,
+     "delta": -2.3716611018363944,
+     "ci": [
+      -3.583837646076795,
+      -1.3269511686143574
+     ]
+    },
+    "damage_taken": {
+     "base": 46.671875,
+     "prop": 38.21875,
+     "delta": -8.453125,
+     "ci": [
+      -14.9609375,
+      -3.4296875
+     ]
+    },
+    "rounds": {
+     "base": 9.3515625,
+     "prop": 8.265625,
+     "delta": -1.0859375,
+     "ci": [
+      -1.4921875,
+      -0.71875
+     ]
+    },
+    "reloads": {
+     "base": 0.046875,
+     "prop": 0.0234375,
+     "delta": -0.0234375,
+     "ci": [
+      -0.046875,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.3046875,
+     "prop": 0.234375,
+     "delta": -0.0703125,
+     "ci": [
+      -0.140625,
+      -0.015625
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.4609375,
+     "prop": 3.078125,
+     "delta": -0.3828125,
+     "ci": [
+      -0.6171875,
+      -0.1953125
+     ]
+    },
+    "hits_taken": {
+     "base": 2.3359375,
+     "prop": 2,
+     "delta": -0.3359375,
+     "ci": [
+      -0.5390625,
+      -0.1640625
+     ]
+    }
+   },
+   "default|Disc2|ORDINARY": {
+    "n": 120,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 19.041736227045075,
+     "prop": 17.80411797440178,
+     "delta": -1.2376182526432946,
+     "ci": [
+      -2.152754590984975,
+      -0.5281023928770174
+     ]
+    },
+    "damage_taken": {
+     "base": 19.7,
+     "prop": 18.433333333333334,
+     "delta": -1.2666666666666666,
+     "ci": [
+      -3.0833333333333335,
+      0.4583333333333333
+     ]
+    },
+    "rounds": {
+     "base": 7.125,
+     "prop": 6.416666666666667,
+     "delta": -0.7083333333333334,
+     "ci": [
+      -1.0083333333333333,
+      -0.44166666666666665
+     ]
+    },
+    "reloads": {
+     "base": 0.008333333333333333,
+     "prop": 0,
+     "delta": -0.008333333333333333,
+     "ci": [
+      -0.025,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0.325,
+     "prop": 0.25,
+     "delta": -0.075,
+     "ci": [
+      -0.15,
+      -0.016666666666666666
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 3.216666666666667,
+     "prop": 2.9583333333333335,
+     "delta": -0.25833333333333336,
+     "ci": [
+      -0.48333333333333334,
+      -0.075
+     ]
+    },
+    "hits_taken": {
+     "base": 2.066666666666667,
+     "prop": 1.8416666666666666,
+     "delta": -0.225,
+     "ci": [
+      -0.4166666666666667,
+      -0.05
+     ]
+    }
+   },
+   "default|Disc2|BOSS": {
+    "n": 8,
+    "won": {
+     "base": 1,
+     "prop": 1,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "time": {
+     "base": 86.7779632721202,
+     "prop": 67.39565943238732,
+     "delta": -19.38230383973289,
+     "ci": [
+      -25.434056761268785,
+      -12.913188647746246
+     ]
+    },
+    "damage_taken": {
+     "base": 451.25,
+     "prop": 335.0,
+     "delta": -116.25,
+     "ci": [
+      -166.0,
+      -70.5
+     ]
+    },
+    "rounds": {
+     "base": 42.75,
+     "prop": 36,
+     "delta": -6.75,
+     "ci": [
+      -9.375,
+      -4.625
+     ]
+    },
+    "reloads": {
+     "base": 0.625,
+     "prop": 0.375,
+     "delta": -0.25,
+     "ci": [
+      -0.625,
+      0
+     ]
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "death": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0,
+     "delta": 0,
+     "ci": [
+      0,
+      0
+     ]
+    },
+    "strikes": {
+     "base": 7.125,
+     "prop": 4.875,
+     "delta": -2.25,
+     "ci": [
+      -3.25,
+      -1.375
+     ]
+    },
+    "hits_taken": {
+     "base": 6.375,
+     "prop": 4.375,
+     "delta": -2,
+     "ci": [
+      -2.875,
+      -1.25
+     ]
+    }
+   },
+   "default|Disc2|class_g5F/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 17.364496382860324,
+     "prop": 16.318308291597106
+    },
+    "damage_taken": {
+     "base": 15.6,
+     "prop": 14.133333333333333
+    },
+    "rounds": {
+     "base": 12.733333333333333,
+     "prop": 10.933333333333334
+    },
+    "reloads": {
+     "base": 0.06666666666666667,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.3333333333333333,
+     "prop": 0.2
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 2,
+     "prop": 2
+    },
+    "hits_taken": {
+     "base": 1.4,
+     "prop": 1.4666666666666666
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g5F/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 71.28547579298832,
+     "prop": 67.17863105175293
+    },
+    "damage_taken": {
+     "base": 311.0,
+     "prop": 232.0
+    },
+    "rounds": {
+     "base": 77,
+     "prop": 72
+    },
+    "reloads": {
+     "base": 2,
+     "prop": 1
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 4,
+     "prop": 3
+    },
+    "hits_taken": {
+     "base": 4,
+     "prop": 3
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g79/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 21.34891485809683,
+     "prop": 16.796883695047303
+    },
+    "damage_taken": {
+     "base": 23.066666666666666,
+     "prop": 18.733333333333334
+    },
+    "rounds": {
+     "base": 6.866666666666666,
+     "prop": 5.266666666666667
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.4666666666666667,
+     "prop": 0.13333333333333333
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 3.933333333333333,
+     "prop": 2.933333333333333
+    },
+    "hits_taken": {
+     "base": 2.6,
+     "prop": 1.8
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g79/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 94.62437395659433,
+     "prop": 61.56928213689483
+    },
+    "damage_taken": {
+     "base": 576.0,
+     "prop": 454.0
+    },
+    "rounds": {
+     "base": 42,
+     "prop": 28
+    },
+    "reloads": {
+     "base": 1,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 9,
+     "prop": 5
+    },
+    "hits_taken": {
+     "base": 7,
+     "prop": 5
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g7B/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 17.92097941012799,
+     "prop": 16.903728436282695
+    },
+    "damage_taken": {
+     "base": 22.333333333333332,
+     "prop": 18.733333333333334
+    },
+    "rounds": {
+     "base": 5.866666666666666,
+     "prop": 5.4
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.26666666666666666,
+     "prop": 0.13333333333333333
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 3.2,
+     "prop": 2.933333333333333
+    },
+    "hits_taken": {
+     "base": 2.066666666666667,
+     "prop": 1.8
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g7B/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 86.74457429048414,
+     "prop": 76.56093489148581
+    },
+    "damage_taken": {
+     "base": 515.0,
+     "prop": 454.0
+    },
+    "rounds": {
+     "base": 39,
+     "prop": 33
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 8,
+     "prop": 7
+    },
+    "hits_taken": {
+     "base": 6,
+     "prop": 5
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g83/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 20.83249860879243,
+     "prop": 18.936004451864218
+    },
+    "damage_taken": {
+     "base": 32.266666666666666,
+     "prop": 25.2
+    },
+    "rounds": {
+     "base": 5,
+     "prop": 4.4
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.4666666666666667,
+     "prop": 0.4
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 4.666666666666667,
+     "prop": 4.066666666666666
+    },
+    "hits_taken": {
+     "base": 3.2,
+     "prop": 2.6
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g83/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 103.9398998330551,
+     "prop": 74.85809682804674
+    },
+    "damage_taken": {
+     "base": 653.0,
+     "prop": 416.0
+    },
+    "rounds": {
+     "base": 28,
+     "prop": 20
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 12,
+     "prop": 8
+    },
+    "hits_taken": {
+     "base": 10,
+     "prop": 6
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g84/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 19.327768503060657,
+     "prop": 17.504730105731774
+    },
+    "damage_taken": {
+     "base": 23.133333333333333,
+     "prop": 24.266666666666666
+    },
+    "rounds": {
+     "base": 5.933333333333334,
+     "prop": 5.266666666666667
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.3333333333333333,
+     "prop": 0.26666666666666666
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 3.6,
+     "prop": 3.1333333333333333
+    },
+    "hits_taken": {
+     "base": 2.3333333333333335,
+     "prop": 2
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g84/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 73.35559265442404,
+     "prop": 57.362270450751254
+    },
+    "damage_taken": {
+     "base": 330.0,
+     "prop": 271.0
+    },
+    "rounds": {
+     "base": 31,
+     "prop": 27
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 5,
+     "prop": 4
+    },
+    "hits_taken": {
+     "base": 5,
+     "prop": 4
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g85/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 19.62381747356706,
+     "prop": 19.8708959376739
+    },
+    "damage_taken": {
+     "base": 13.2,
+     "prop": 16.266666666666666
+    },
+    "rounds": {
+     "base": 7.8,
+     "prop": 7.533333333333333
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.26666666666666666,
+     "prop": 0.3333333333333333
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 2.8666666666666667,
+     "prop": 3.066666666666667
+    },
+    "hits_taken": {
+     "base": 1.7333333333333334,
+     "prop": 1.8666666666666667
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g85/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 92.85475792988314,
+     "prop": 71.38564273789649
+    },
+    "damage_taken": {
+     "base": 371.0,
+     "prop": 291.0
+    },
+    "rounds": {
+     "base": 47,
+     "prop": 39
+    },
+    "reloads": {
+     "base": 1,
+     "prop": 1
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 6,
+     "prop": 4
+    },
+    "hits_taken": {
+     "base": 6,
+     "prop": 4
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g8A/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 19.69282136894825,
+     "prop": 20.155815247634948
+    },
+    "damage_taken": {
+     "base": 13.2,
+     "prop": 15.333333333333334
+    },
+    "rounds": {
+     "base": 7.866666666666666,
+     "prop": 7.866666666666666
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.26666666666666666,
+     "prop": 0.3333333333333333
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 2.8666666666666667,
+     "prop": 2.933333333333333
+    },
+    "hits_taken": {
+     "base": 1.7333333333333334,
+     "prop": 1.7333333333333334
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g8A/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 100.13355592654425,
+     "prop": 72.8881469115192
+    },
+    "damage_taken": {
+     "base": 524.0,
+     "prop": 291.0
+    },
+    "rounds": {
+     "base": 49,
+     "prop": 42
+    },
+    "reloads": {
+     "base": 1,
+     "prop": 1
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 8,
+     "prop": 4
+    },
+    "hits_taken": {
+     "base": 8,
+     "prop": 4
+    },
+    "n": 1
+   },
+   "default|Disc2|class_g8B/ord": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 16.222593210907068,
+     "prop": 15.946577629382304
+    },
+    "damage_taken": {
+     "base": 14.8,
+     "prop": 14.8
+    },
+    "rounds": {
+     "base": 4.933333333333334,
+     "prop": 4.666666666666667
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0.2,
+     "prop": 0.2
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 2.6,
+     "prop": 2.6
+    },
+    "hits_taken": {
+     "base": 1.4666666666666666,
+     "prop": 1.4666666666666666
+    },
+    "n": 15
+   },
+   "default|Disc2|class_g8B/boss": {
+    "won": {
+     "base": 1,
+     "prop": 1
+    },
+    "time": {
+     "base": 71.28547579298832,
+     "prop": 57.362270450751254
+    },
+    "damage_taken": {
+     "base": 330.0,
+     "prop": 271.0
+    },
+    "rounds": {
+     "base": 29,
+     "prop": 27
+    },
+    "reloads": {
+     "base": 0,
+     "prop": 0
+    },
+    "switches": {
+     "base": 0,
+     "prop": 0
+    },
+    "death": {
+     "base": 0,
+     "prop": 0
+    },
+    "status_total": {
+     "base": 0,
+     "prop": 0
+    },
+    "fallback_hits": {
+     "base": 0,
+     "prop": 0
+    },
+    "untimed_strikes": {
+     "base": 0,
+     "prop": 0
+    },
+    "strikes": {
+     "base": 5,
+     "prop": 4
+    },
+    "hits_taken": {
+     "base": 5,
+     "prop": 4
+    },
+    "n": 1
+   }
+  },
+  "stability": {
+   "Disc2": {
+    "default": {
+     "spearman_vs_default": 1.0,
+     "order": [
+      "class_g8B",
+      "class_g5F",
+      "class_g79",
+      "class_g84",
+      "class_g7B",
+      "class_g83",
+      "class_g85",
+      "class_g8A"
+     ]
+    },
+    "win_delta_by_set": {
+     "default": 0
+    }
+   }
+  }
+ },
+ "rows": [
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.035058430717864,
+    "damage_taken": 0.0,
+    "rounds": 24,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.101836393989984,
+    "damage_taken": 0.0,
+    "rounds": 24,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 17.262103505843072,
+    "damage_taken": 0.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 16.76126878130217,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 2.1035058430717863,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 2.1035058430717863,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 12.520868113522537,
+    "damage_taken": 0.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 11.519198664440735,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 18.397328881469114,
+    "damage_taken": 0.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 17.462437395659432,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 6.777963272120201,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 6.777963272120201,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 23.17195325542571,
+    "damage_taken": 108.0,
+    "rounds": 16,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 23.17195325542571,
+    "damage_taken": 108.0,
+    "rounds": 16,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 18.697829716193656,
+    "damage_taken": 30.0,
+    "rounds": 19,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 12.320534223706177,
+    "damage_taken": 17.0,
+    "rounds": 15,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 71.28547579298832,
+    "damage_taken": 311.0,
+    "rounds": 77,
+    "reloads": 2,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 67.17863105175293,
+    "damage_taken": 232.0,
+    "rounds": 72,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.63439065108514,
+    "damage_taken": 0.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.10016694490818,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.836393989983307,
+    "damage_taken": 3.0,
+    "rounds": 24,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.537562604340568,
+    "damage_taken": 7.0,
+    "rounds": 22,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 17.629382303839733,
+    "damage_taken": 62.0,
+    "rounds": 17,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 16.56093489148581,
+    "damage_taken": 62.0,
+    "rounds": 15,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 12.020033388981636,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.292153589315527,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 2.1035058430717863,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 44.87479131886477,
+    "damage_taken": 31.0,
+    "rounds": 41,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 6,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 37.12854757929883,
+    "damage_taken": 18.0,
+    "rounds": 34,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g5F",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.402337228714526,
+    "damage_taken": 0.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 35.22537562604341,
+    "damage_taken": 21.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 7,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 28.080133555926544,
+    "damage_taken": 15.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.622704507512521,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 13.622704507512521,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.078464106844741,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.078464106844741,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.77128547579299,
+    "damage_taken": 108.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.70116861435726,
+    "damage_taken": 108.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 25.542570951585976,
+    "damage_taken": 115.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 6,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.869782971619365,
+    "damage_taken": 72.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 103.9398998330551,
+    "damage_taken": 653.0,
+    "rounds": 28,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 12,
+    "hits_taken": 10,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 74.85809682804674,
+    "damage_taken": 416.0,
+    "rounds": 20,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.1669449081803,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 37.69616026711186,
+    "damage_taken": 71.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 10,
+    "hits_taken": 9,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 28.647746243739565,
+    "damage_taken": 41.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 24.140233722871454,
+    "damage_taken": 89.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 17.59599332220367,
+    "damage_taken": 62.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 15.358931552587647,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.358931552587647,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 43.00500834724541,
+    "damage_taken": 80.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 15,
+    "hits_taken": 13,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 43.03839732888147,
+    "damage_taken": 80.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 13,
+    "hits_taken": 12,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g83",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 26.47746243739566,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 26.47746243739566,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.13689482470785,
+    "damage_taken": 0.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.13689482470785,
+    "damage_taken": 0.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 2.604340567612688,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 2.604340567612688,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.889816360601001,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 13.889816360601001,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.57095158597663,
+    "damage_taken": 0.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.569282136894824,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.212020033388982,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.212020033388982,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 32.02003338898164,
+    "damage_taken": 73.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 32.02003338898164,
+    "damage_taken": 73.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 16.19365609348915,
+    "damage_taken": 17.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.191986644407345,
+    "damage_taken": 17.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 100.13355592654425,
+    "damage_taken": 524.0,
+    "rounds": 49,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 8,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 72.8881469115192,
+    "damage_taken": 291.0,
+    "rounds": 42,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 36.66110183639399,
+    "damage_taken": 32.0,
+    "rounds": 20,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 48.714524207011685,
+    "damage_taken": 64.0,
+    "rounds": 25,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 74.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 18.497495826377296,
+    "damage_taken": 74.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 25.609348914858096,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 25.609348914858096,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.445742904841403,
+    "damage_taken": 2.0,
+    "rounds": 17,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 26.41068447412354,
+    "damage_taken": 2.0,
+    "rounds": 16,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8A",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 25.776293823038397,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 25.776293823038397,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 34.357262103505846,
+    "damage_taken": 12.0,
+    "rounds": 14,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.035058430717864,
+    "damage_taken": 0.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.756260434056761,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 13.756260434056761,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.145242070116861,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.145242070116861,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.779632721202002,
+    "damage_taken": 119.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 26.7779632721202,
+    "damage_taken": 150.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.08848080133556,
+    "damage_taken": 26.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 12.053422370617696,
+    "damage_taken": 26.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 73.35559265442404,
+    "damage_taken": 330.0,
+    "rounds": 31,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 57.362270450751254,
+    "damage_taken": 271.0,
+    "rounds": 27,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 34.02337228714524,
+    "damage_taken": 63.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 7,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 34.02337228714524,
+    "damage_taken": 63.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 7,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 16.42737896494157,
+    "damage_taken": 62.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.392320534223707,
+    "damage_taken": 62.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 15.392320534223707,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.392320534223707,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 0.5342237061769616,
+    "damage_taken": 0.0,
+    "rounds": 1,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 37.095158597662774,
+    "damage_taken": 65.0,
+    "rounds": 14,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 10,
+    "hits_taken": 9,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 28.213689482470784,
+    "damage_taken": 63.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g84",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 26.611018363939902,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 26.611018363939902,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.13689482470785,
+    "damage_taken": 0.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.13689482470785,
+    "damage_taken": 0.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 2.604340567612688,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.889816360601001,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 13.889816360601001,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.57095158597663,
+    "damage_taken": 0.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.569282136894824,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.212020033388982,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.212020033388982,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 32.02003338898164,
+    "damage_taken": 73.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 32.02003338898164,
+    "damage_taken": 73.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 16.19365609348915,
+    "damage_taken": 17.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.191986644407345,
+    "damage_taken": 17.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 92.85475792988314,
+    "damage_taken": 371.0,
+    "rounds": 47,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 6,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 71.38564273789649,
+    "damage_taken": 291.0,
+    "rounds": 39,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.56761268781302,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 36.66110183639399,
+    "damage_taken": 32.0,
+    "rounds": 20,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 47.679465776293824,
+    "damage_taken": 64.0,
+    "rounds": 24,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 19.53255425709516,
+    "damage_taken": 74.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 18.497495826377296,
+    "damage_taken": 74.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 25.609348914858096,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 25.609348914858096,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.445742904841403,
+    "damage_taken": 2.0,
+    "rounds": 17,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 24.207011686143574,
+    "damage_taken": 16.0,
+    "rounds": 13,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g85",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 25.776293823038397,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 25.776293823038397,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 17.929883138564275,
+    "damage_taken": 0.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 17.929883138564275,
+    "damage_taken": 0.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 13.756260434056761,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 13.756260434056761,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.145242070116861,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.145242070116861,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 28.814691151919867,
+    "damage_taken": 119.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 27.779632721202002,
+    "damage_taken": 119.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 11.051752921535893,
+    "damage_taken": 26.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 10.01669449081803,
+    "damage_taken": 26.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 71.28547579298832,
+    "damage_taken": 330.0,
+    "rounds": 29,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 57.362270450751254,
+    "damage_taken": 271.0,
+    "rounds": 27,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.36727879799666,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.30050083472454,
+    "damage_taken": 11.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 20.30050083472454,
+    "damage_taken": 11.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 16.42737896494157,
+    "damage_taken": 62.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.392320534223707,
+    "damage_taken": 62.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 15.325542570951587,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.325542570951587,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.5692821368948247,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 20.400667779632723,
+    "damage_taken": 4.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 19.36560934891486,
+    "damage_taken": 4.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g8B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.946577629382304,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 27.946577629382304,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 19.966611018363942,
+    "damage_taken": 0.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 18.430717863105176,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.40400667779633,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.40400667779633,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 14.824707846410686,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 14.824707846410686,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.979966611018364,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.979966611018364,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 26.21035058430718,
+    "damage_taken": 108.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 23.906510851419032,
+    "damage_taken": 108.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 19.131886477462437,
+    "damage_taken": 47.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 11.552587646076795,
+    "damage_taken": 26.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 94.62437395659433,
+    "damage_taken": 576.0,
+    "rounds": 42,
+    "reloads": 1,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 7,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 61.56928213689483,
+    "damage_taken": 454.0,
+    "rounds": 28,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 54.42404006677796,
+    "damage_taken": 65.0,
+    "rounds": 18,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 10,
+    "hits_taken": 9,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 23.03839732888147,
+    "damage_taken": 21.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 17.729549248747915,
+    "damage_taken": 62.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 16.19365609348915,
+    "damage_taken": 62.0,
+    "rounds": 6,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 15.759599332220368,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.759599332220368,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 46.71118530884808,
+    "damage_taken": 64.0,
+    "rounds": 18,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 3,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 11,
+    "hits_taken": 9,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.77128547579299,
+    "damage_taken": 64.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g79",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.946577629382304,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 27.946577629382304,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 0,
+   "map": "246",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 19.198664440734557,
+    "damage_taken": 0.0,
+    "rounds": 10,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 18.430717863105176,
+    "damage_taken": 0.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.40400667779633,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.40400667779633,
+    "damage_taken": 0.0,
+    "rounds": 5,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 2,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 1,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 14.824707846410686,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 14.824707846410686,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 1,
+   "map": "63",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 7.979966611018364,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 7.979966611018364,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 2,
+   "map": "265",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 24.674457429048413,
+    "damage_taken": 108.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 24.674457429048413,
+    "damage_taken": 108.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 2,
+   "fight": 3,
+   "map": "233",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 19.131886477462437,
+    "damage_taken": 47.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 3,
+    "hits_taken": 3,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 11.552587646076795,
+    "damage_taken": 26.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 1,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 0,
+   "map": "256",
+   "boss": true,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 86.74457429048414,
+    "damage_taken": 515.0,
+    "rounds": 39,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 8,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 76.56093489148581,
+    "damage_taken": 454.0,
+    "rounds": 33,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 7,
+    "hits_taken": 5,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 1,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 21.669449081803005,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 5,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 22.83806343906511,
+    "damage_taken": 21.0,
+    "rounds": 11,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 23.03839732888147,
+    "damage_taken": 21.0,
+    "rounds": 9,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 3,
+   "fight": 3,
+   "map": "205",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 17.729549248747915,
+    "damage_taken": 62.0,
+    "rounds": 8,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 16.96160267111853,
+    "damage_taken": 62.0,
+    "rounds": 7,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 0,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 15.792988313856428,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 15.792988313856428,
+    "damage_taken": 0.0,
+    "rounds": 3,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 2,
+    "hits_taken": 1,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 1,
+   "map": "173",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 1.9031719532554257,
+    "damage_taken": 0.0,
+    "rounds": 2,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 0,
+    "hits_taken": 0,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 2,
+   "map": "242",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 29.115191986644408,
+    "damage_taken": 97.0,
+    "rounds": 13,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 2,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 6,
+    "hits_taken": 6,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 22.77128547579299,
+    "damage_taken": 64.0,
+    "rounds": 12,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 1,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 4,
+    "hits_taken": 4,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  },
+  {
+   "group": "class_g7B",
+   "phase": "Disc2",
+   "seed": 4,
+   "fight": 3,
+   "map": "358",
+   "boss": false,
+   "assumption": "default",
+   "base": {
+    "won": 1,
+    "time": 27.979966611018366,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   },
+   "prop": {
+    "won": 1,
+    "time": 27.979966611018366,
+    "damage_taken": 0.0,
+    "rounds": 4,
+    "reloads": 0,
+    "switches": 0,
+    "death": 0,
+    "status_total": 0,
+    "fallback_hits": 0,
+    "untimed_strikes": 0,
+    "strikes": 9,
+    "hits_taken": 2,
+    "counters": 0,
+    "counter_hits": 0,
+    "counter_damage": 0,
+    "counter_updates": 0
+   }
+  }
+ ]
+}

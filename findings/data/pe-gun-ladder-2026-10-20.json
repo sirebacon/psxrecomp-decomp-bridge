@@ -1,0 +1,1600 @@
+[
+ {
+  "stage": "D2-4",
+  "gun": "P220",
+  "id": 75,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall",
+  "base": [
+   14,
+   55,
+   5
+  ],
+  "ord": 34.789232053422374,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M1911A1",
+  "id": 80,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall Sewer",
+  "base": [
+   15,
+   60,
+   5
+  ],
+  "ord": 36.23121869782972,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M9",
+  "id": 69,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   17,
+   53,
+   8
+  ],
+  "ord": 36.08722871452421,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "P8",
+  "id": 85,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   18,
+   54,
+   7
+  ],
+  "ord": 36.5797161936561,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M92F",
+  "id": 148,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   28,
+   50,
+   8
+  ],
+  "ord": 29.428213689482472,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M9 2",
+  "id": 70,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   38,
+   54,
+   10
+  ],
+  "ord": 25.296327212020035,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "G19",
+  "id": 90,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   30,
+   57,
+   8
+  ],
+  "ord": 27.909015025041736,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "G23",
+  "id": 91,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   47,
+   58,
+   10
+  ],
+  "ord": 21.934474123539232,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 35.252504173622704,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M79",
+  "id": 137,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   44,
+   65,
+   4
+  ],
+  "ord": 27.20367278797997,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 34.89983305509182,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 30.651085141903174,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "G3A3",
+  "id": 125,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   43,
+   121,
+   18
+  ],
+  "ord": 24.82679465776294,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M11",
+  "id": 111,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   32,
+   42,
+   20
+  ],
+  "ord": 24.526293823038397,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "MP5K",
+  "id": 113,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   35,
+   43,
+   23
+  ],
+  "ord": 23.265859766277128,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M10",
+  "id": 112,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   37,
+   45,
+   22
+  ],
+  "ord": 21.25,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "MICRO UZ",
+  "id": 117,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   38,
+   43,
+   18
+  ],
+  "ord": 23.71035058430718,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "MINI UZ",
+  "id": 118,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   48,
+   45,
+   19
+  ],
+  "ord": 18.324290484140235,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D5",
+  "gun": "P220",
+  "id": 75,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall",
+  "base": [
+   14,
+   55,
+   5
+  ],
+  "ord": 52.110183639399,
+  "ord_win": 1,
+  "boss": 64.92487479131887,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M1911A1",
+  "id": 80,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall Sewer",
+  "base": [
+   15,
+   60,
+   5
+  ],
+  "ord": 51.933222036727884,
+  "ord_win": 1,
+  "boss": 64.55203116304952,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M9",
+  "id": 69,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   17,
+   53,
+   8
+  ],
+  "ord": 52.37395659432387,
+  "ord_win": 1,
+  "boss": 64.5353366722315,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "P8",
+  "id": 85,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   18,
+   54,
+   7
+  ],
+  "ord": 53.28213689482471,
+  "ord_win": 1,
+  "boss": 81.12966054535337,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M92F",
+  "id": 148,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   28,
+   50,
+   8
+  ],
+  "ord": 41.87312186978297,
+  "ord_win": 1,
+  "boss": 51.775180856983866,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M9 2",
+  "id": 70,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   38,
+   54,
+   10
+  ],
+  "ord": 39.32554257095159,
+  "ord_win": 1,
+  "boss": 50.434056761268785,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "G19",
+  "id": 90,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   30,
+   57,
+   8
+  ],
+  "ord": 42.173622704507515,
+  "ord_win": 1,
+  "boss": 51.808569838619924,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "G23",
+  "id": 91,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   47,
+   58,
+   10
+  ],
+  "ord": 31.729549248747915,
+  "ord_win": 1,
+  "boss": 42.053422370617696,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M1911A2",
+  "id": 81,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   48,
+   61,
+   8
+  ],
+  "ord": 31.72621035058431,
+  "ord_win": 1,
+  "boss": 42.04785754034502,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "ord": 28.287145242070117,
+  "ord_win": 1,
+  "boss": 40.33945464663328,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "G22",
+  "id": 92,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   49,
+   60,
+   10
+  ],
+  "ord": 29.435726210350584,
+  "ord_win": 1,
+  "boss": 42.136894824707845,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "P220 2",
+  "id": 76,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   47,
+   55,
+   11
+  ],
+  "ord": 31.76627712854758,
+  "ord_win": 1,
+  "boss": 42.08681135225376,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M9 3",
+  "id": 71,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   53,
+   58,
+   13
+  ],
+  "ord": 26.63439065108514,
+  "ord_win": 1,
+  "boss": 34.14023372287145,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M8000",
+  "id": 72,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   58,
+   12
+  ],
+  "ord": 21.779632721202006,
+  "ord_win": 1,
+  "boss": 34.440734557595995,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M500",
+  "id": 106,
+  "kind": "shotgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   61,
+   5
+  ],
+  "ord": 28.45409015025042,
+  "ord_win": 1,
+  "boss": 44.318308291597106,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 58.913188647746246,
+  "ord_win": 0.9,
+  "boss": 72.54312743461324,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M79",
+  "id": 137,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   44,
+   65,
+   4
+  ],
+  "ord": 42.69449081803005,
+  "ord_win": 1,
+  "boss": 57.813021702838064,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M79 2",
+  "id": 138,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   45,
+   68,
+   4
+  ],
+  "ord": 42.84474123539232,
+  "ord_win": 1,
+  "boss": 57.267668336115754,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "ord": 37.595993322203675,
+  "ord_win": 1,
+  "boss": 52.74902615470228,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 3",
+  "id": 133,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown Sewer",
+  "base": [
+   49,
+   71,
+   5
+  ],
+  "ord": 42.36060100166945,
+  "ord_win": 1,
+  "boss": 55.57595993322204,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M79 3",
+  "id": 139,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Subway",
+  "base": [
+   52,
+   68,
+   5
+  ],
+  "ord": 37.35893155258765,
+  "ord_win": 1,
+  "boss": 54.57985531441291,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 4",
+  "id": 134,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   67,
+   7
+  ],
+  "ord": 29.769616026711187,
+  "ord_win": 1,
+  "boss": 49.08180300500835,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 46.357262103505846,
+  "ord_win": 1,
+  "boss": 65.39788536449639,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 46.28380634390651,
+  "ord_win": 1,
+  "boss": 60.801335559265446,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "G3A3",
+  "id": 125,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   43,
+   121,
+   18
+  ],
+  "ord": 27.08848080133556,
+  "ord_win": 1,
+  "boss": 56.73344462993879,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M11",
+  "id": 111,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   32,
+   42,
+   20
+  ],
+  "ord": 38.60767946577629,
+  "ord_win": 1,
+  "boss": 44.46855870895938,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "MP5K",
+  "id": 113,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   35,
+   43,
+   23
+  ],
+  "ord": 33.54924874791319,
+  "ord_win": 1,
+  "boss": 43.10517529215359,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M10",
+  "id": 112,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   37,
+   45,
+   22
+  ],
+  "ord": 33.799666110183644,
+  "ord_win": 1,
+  "boss": 38.63661658319421,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "MICRO UZ",
+  "id": 117,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   38,
+   43,
+   18
+  ],
+  "ord": 35.432387312186975,
+  "ord_win": 1,
+  "boss": 41.12409571508069,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "MINI UZ",
+  "id": 118,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   48,
+   45,
+   19
+  ],
+  "ord": 32.14023372287145,
+  "ord_win": 1,
+  "boss": 36.86700055648303,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "MP5PDW",
+  "id": 114,
+  "kind": "machine",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   52,
+   46,
+   23
+  ],
+  "ord": 27.98998330550918,
+  "ord_win": 1,
+  "boss": 34.613244296048975,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "AT4",
+  "id": 144,
+  "kind": "rocket",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   128,
+   202,
+   1
+  ],
+  "ord": 35.42237061769616,
+  "ord_win": 1,
+  "boss": 43.04396215915415,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "USP TU",
+  "id": 100,
+  "kind": "handgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   115,
+   87,
+   25
+  ],
+  "ord": 23.202003338898166,
+  "ord_win": 1,
+  "boss": 29.994435169727325,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "DE50AE7",
+  "id": 102,
+  "kind": "handgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   123,
+   55,
+   15
+  ],
+  "ord": 21.469115191986646,
+  "ord_win": 1,
+  "boss": 32.79910962715637,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M10B",
+  "id": 110,
+  "kind": "shotgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   120,
+   70,
+   6
+  ],
+  "ord": 22.293823038397328,
+  "ord_win": 1,
+  "boss": 37.08402893711742,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "P90",
+  "id": 120,
+  "kind": "machine",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   122,
+   51,
+   200
+  ],
+  "ord": 17.54924874791319,
+  "ord_win": 1,
+  "boss": 19.087367835281025,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "MAG",
+  "id": 130,
+  "kind": "rifle",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   151,
+   185,
+   20
+  ],
+  "ord": 26.938230383973288,
+  "ord_win": 1,
+  "boss": 39.677239844184754,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "HK40",
+  "id": 143,
+  "kind": "grenade",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   115,
+   70,
+   8
+  ],
+  "ord": 25.392320534223707,
+  "ord_win": 1,
+  "boss": 47.83528102392877,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "P220",
+  "id": 75,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall",
+  "base": [
+   14,
+   55,
+   5
+  ],
+  "ord": 16.79020589872009,
+  "ord_win": 1,
+  "boss": 81.56928213689483,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M1911A1",
+  "id": 80,
+  "kind": "handgun",
+  "found": "D1",
+  "where": "Carnegie Hall Sewer",
+  "base": [
+   15,
+   60,
+   5
+  ],
+  "ord": 16.19143016138008,
+  "ord_win": 1,
+  "boss": 87.31218697829716,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M9",
+  "id": 69,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   17,
+   53,
+   8
+  ],
+  "ord": 16.253756260434056,
+  "ord_win": 1,
+  "boss": 88.74791318864774,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "P8",
+  "id": 85,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   18,
+   54,
+   7
+  ],
+  "ord": 17.867557039510295,
+  "ord_win": 1,
+  "boss": 101.33555926544241,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M92F",
+  "id": 148,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   28,
+   50,
+   8
+  ],
+  "ord": 15.434613244296049,
+  "ord_win": 1,
+  "boss": 71.81969949916528,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M9 2",
+  "id": 70,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   38,
+   54,
+   10
+  ],
+  "ord": 14.893711741791876,
+  "ord_win": 1,
+  "boss": 63.97328881469115,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "G19",
+  "id": 90,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   30,
+   57,
+   8
+  ],
+  "ord": 15.309961046188091,
+  "ord_win": 1,
+  "boss": 70.75125208681135,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "G23",
+  "id": 91,
+  "kind": "handgun",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   47,
+   58,
+   10
+  ],
+  "ord": 13.54924874791319,
+  "ord_win": 1,
+  "boss": 53.28881469115192,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M1911A2",
+  "id": 81,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   48,
+   61,
+   8
+  ],
+  "ord": 13.547022815804118,
+  "ord_win": 1,
+  "boss": 53.28881469115192,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "ord": 17.364496382860324,
+  "ord_win": 1,
+  "boss": 71.28547579298832,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "G22",
+  "id": 92,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   49,
+   60,
+   10
+  ],
+  "ord": 13.544796883695048,
+  "ord_win": 1,
+  "boss": 46.878130217028385,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "P220 2",
+  "id": 76,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   47,
+   55,
+   11
+  ],
+  "ord": 13.598219254312744,
+  "ord_win": 1,
+  "boss": 51.85308848080134,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M9 3",
+  "id": 71,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   53,
+   58,
+   13
+  ],
+  "ord": 13.607122982749026,
+  "ord_win": 1,
+  "boss": 51.686143572621035,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M8000",
+  "id": 72,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   58,
+   12
+  ],
+  "ord": 14.032276015581525,
+  "ord_win": 1,
+  "boss": 57.462437395659435,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M500",
+  "id": 106,
+  "kind": "shotgun",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   61,
+   5
+  ],
+  "ord": 10.257095158597663,
+  "ord_win": 1,
+  "boss": 78.69782971619365,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "ord": 20.83249860879243,
+  "ord_win": 1,
+  "boss": 103.9398998330551,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M79",
+  "id": 137,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   44,
+   65,
+   4
+  ],
+  "ord": 17.575959933222038,
+  "ord_win": 1,
+  "boss": 91.31886477462437,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M79 2",
+  "id": 138,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown",
+  "base": [
+   45,
+   68,
+   4
+  ],
+  "ord": 19.69282136894825,
+  "ord_win": 1,
+  "boss": 100.13355592654425,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "ord": 19.327768503060657,
+  "ord_win": 1,
+  "boss": 73.35559265442404,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 3",
+  "id": 133,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Chinatown Sewer",
+  "base": [
+   49,
+   71,
+   5
+  ],
+  "ord": 19.62381747356706,
+  "ord_win": 1,
+  "boss": 92.85475792988314,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M79 3",
+  "id": 139,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Subway",
+  "base": [
+   52,
+   68,
+   5
+  ],
+  "ord": 16.222593210907068,
+  "ord_win": 1,
+  "boss": 71.28547579298832,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 4",
+  "id": 134,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   57,
+   67,
+   7
+  ],
+  "ord": 15.959933222036728,
+  "ord_win": 1,
+  "boss": 55.292153589315525,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "ord": 21.34891485809683,
+  "ord_win": 1,
+  "boss": 94.62437395659433,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "ord": 17.92097941012799,
+  "ord_win": 1,
+  "boss": 86.74457429048414,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "G3A3",
+  "id": 125,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   43,
+   121,
+   18
+  ],
+  "ord": 16.36505286588759,
+  "ord_win": 1,
+  "boss": 51.151919866444075,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M11",
+  "id": 111,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Soho",
+  "base": [
+   32,
+   42,
+   20
+  ],
+  "ord": 11.178631051752921,
+  "ord_win": 1,
+  "boss": 38.56427378964942,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "MP5K",
+  "id": 113,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   35,
+   43,
+   23
+  ],
+  "ord": 11.89760712298275,
+  "ord_win": 1,
+  "boss": 48.347245409015024,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M10",
+  "id": 112,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   37,
+   45,
+   22
+  ],
+  "ord": 10.041179744017807,
+  "ord_win": 1,
+  "boss": 36.92821368948247,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "MICRO UZ",
+  "id": 117,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   38,
+   43,
+   18
+  ],
+  "ord": 10.4819143016138,
+  "ord_win": 1,
+  "boss": 31.652754590984976,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "MINI UZ",
+  "id": 118,
+  "kind": "machine",
+  "found": "D2-4",
+  "where": "Hospital",
+  "base": [
+   48,
+   45,
+   19
+  ],
+  "ord": 9.012799109627156,
+  "ord_win": 1,
+  "boss": 30.717863105175294,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "MP5PDW",
+  "id": 114,
+  "kind": "machine",
+  "found": "Disc2",
+  "where": "Museum",
+  "base": [
+   52,
+   46,
+   23
+  ],
+  "ord": 8.741235392320535,
+  "ord_win": 1,
+  "boss": 28.547579298831387,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "AT4",
+  "id": 144,
+  "kind": "rocket",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   128,
+   202,
+   1
+  ],
+  "ord": 10.486366165831942,
+  "ord_win": 1,
+  "boss": 79.3322203672788,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "USP TU",
+  "id": 100,
+  "kind": "handgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   115,
+   87,
+   25
+  ],
+  "ord": 13.498052309404564,
+  "ord_win": 1,
+  "boss": 40.60100166944908,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "DE50AE7",
+  "id": 102,
+  "kind": "handgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   123,
+   55,
+   15
+  ],
+  "ord": 11.717306622148024,
+  "ord_win": 1,
+  "boss": 25.642737896494157,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M10B",
+  "id": 110,
+  "kind": "shotgun",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   120,
+   70,
+   6
+  ],
+  "ord": 10.67779632721202,
+  "ord_win": 1,
+  "boss": 49.78297161936561,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "P90",
+  "id": 120,
+  "kind": "machine",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   122,
+   51,
+   200
+  ],
+  "ord": 6.448525319977741,
+  "ord_win": 1,
+  "boss": 20.36727879799666,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "MAG",
+  "id": 130,
+  "kind": "rifle",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   151,
+   185,
+   20
+  ],
+  "ord": 15.421257651641625,
+  "ord_win": 1,
+  "boss": 29.148580968280466,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "HK40",
+  "id": 143,
+  "kind": "grenade",
+  "found": "D5",
+  "where": "Wayne",
+  "base": [
+   115,
+   70,
+   8
+  ],
+  "ord": 14.64440734557596,
+  "ord_win": 1,
+  "boss": 43.906510851419036,
+  "boss_win": 1
+ }
+]
