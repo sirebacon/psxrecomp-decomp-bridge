@@ -30,10 +30,28 @@ NAMES = {
     (52, 3): ('Police officer (moustache)', 'textured'),
     (190, 3): ('Police officer (cap)', 'textured'),
     (275, 3): ('Crew (grey uniform, cap)', 'textured'), (276, 6): ('Crew (grey uniform, cap)', 'textured'),
-    (11, 2): ('Maya? (girl in a dress)', 'untextured: shape + rooms'),
+    (11, 2): ('Maya (blonde girl, hospital gown)', 'textured from disc'),
     (196, 2): ('Dr. Klamp? (bearded, long coat)', 'untextured: shape + rooms'),
-    (41, 3): ('Heavy-set officer? (Baker?)', 'untextured: shape + rooms'),
-    (44, 4): ('Heavy-set officer with gun? (Wayne?)', 'untextured: shape + rooms'),
+    (41, 3): ('Chief Baker? (heavy-set, dark suit)', 'textured from disc'),
+    (44, 4): ('Chief Baker? (heavy-set, dark suit, gun)', 'textured from disc'),
+    (4, 3): ('Melissa (opera singer, red gown)', 'textured from disc'),
+    (17, 1): ('Opera performer (harlequin)', 'textured from disc'),
+    (1, 2): ('Police officer (light uniform)', 'textured from disc'),
+    (1, 4): ('Police officer (cap, black jacket)', 'textured from disc'),
+    (41, 4): ('NYPD man (brown jacket)', 'textured from disc'),
+    (41, 5): ('NYPD man (white shirt, shoulder holster)', 'textured from disc'),
+    (43, 4): ('Policewoman (blonde, cap)', 'textured from disc'),
+    (44, 3): ('Police dog', 'textured from disc'),
+    (17, 2): ('Aya (cutscene pose model)', 'textured from disc'),
+    (45, 9): ('Aya (cutscene pose model)', 'textured from disc'),
+    (49, 2): ('Opera actress (purple gown)', 'textured from disc'),
+    (49, 3): ('Opera performer (doublet)', 'textured from disc'),
+    (49, 4): ('Opera performer (robed king)', 'textured from disc'),
+    (49, 5): ('Opera performer (knight)', 'textured from disc'),
+    (69, 2): ('Eve (47-part form)', 'textured from disc'),
+    (90, 2): ('Maeda (with backpack)', 'textured from disc'),
+    (94, 4): ('Daniel (gun drawn)', 'textured from disc'),
+    (102, 2): ('Police officer (cap, seated / injured pose)', 'textured from disc'),
     (271, 2): ('Sailor? (cap)', 'untextured: shape + rooms'), (271, 4): ('Sailor? (cap)', 'untextured: shape + rooms'),
 }
 AYA = {10: 'Aya - black evening dress (Day 1 play)', 11: 'Aya - long dress (Day 1 scenes, reduced moveset)',
@@ -110,6 +128,24 @@ def main():
 
     meshes = defaultdict(list)
     for r in rows[5:]: meshes[(r['verts'], tuple(r['skeleton']), tuple(r['bones']))].append(r)
+    # one textured render per mesh (first disc-1 copy), from the room's own texture blobs
+    from catalog_enemies import render_mesh
+    from PIL import Image
+    rdir = Path(__file__).resolve().parent / 'renders' / 'characters'; rdir.mkdir(parents=True, exist_ok=True)
+    for old in list(rdir.glob('char*.png')) + list(rdir.parent.glob('characters_sheet_*.png')): old.unlink()
+    for n, (k, v) in enumerate(sorted(meshes.items(), key=lambda kv: (kv[1][0]['map'], kv[1][0]['slot']))):
+        f = next((r for r in v if r['disc'] in ('both', 1)), v[0])
+        name = f['name'] or '?'
+        safe = 'char%03d_%s' % (n, ''.join(c if c.isalnum() else '_' for c in name)[:40])
+        try:
+            ok = render_mesh(f['map'], f['slot'], 'char%03d  %s  (%d parts, %d verts)  map %d slot %d' % (n, name[:40], f['parts'], f['verts'], f['map'], f['slot']), rdir / (safe + '.png'))
+        except Exception: ok = False
+        for r in v: r['render'] = 'renders/characters/%s.png' % safe if ok else None
+    tiles = sorted(rdir.glob('char*.png'))
+    for k in range(0, len(tiles), 12):
+        chunk = tiles[k:k + 12]; sheet = Image.new('RGB', (960, 262 * ((len(chunk) + 1) // 2)))
+        for i, t in enumerate(chunk): sheet.paste(Image.open(t), (480 * (i % 2), 262 * (i // 2)))
+        sheet.save(rdir.parent / ('characters_sheet_%d.png' % (k // 12)))
     L = ['# Model catalog — October 19, 2026', '',
          'Every character-sized model (%d+ parts) on both US discs, with where to find it. Full detail' % MIN_PARTS,
          '(every appearance, skeleton bytes, bone lengths): `findings/data/pe-model-catalog-2026-10-19.json`.',
@@ -118,7 +154,9 @@ def main():
          'model swap: `findings/pe-model-swap-research-2026-10-19.md`.', '',
          '**How to find a model:** read the room\'s sectors from its LBA on "Parasite Eve (USA) (Disc N).bin"',
          '(2048 user-data bytes each); the model header sits at the given offset, i.e. at disc sector:byte.',
-         'Room characters\' textures are not in the room files (VRAM x=512, palettes rows 450-451).', '',
+         'Textures: the room\'s scratch and texture blobs, the two sector runs in front of the room data',
+         '(`Scene_LoadRoom`, `room_load.c:420-489`). Renders: `tools/pe_assets/renders/characters/` and',
+         '`characters_sheet_*.png` (local only).', '',
          '## Aya (player bundles)', '',
          '| Outfit | Parts | Chains (arm/head/arm) | Image entry | Disc sector:byte |', '|---|---:|---|---|---|']
     for r in rows[:5]:

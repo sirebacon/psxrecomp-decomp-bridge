@@ -78,24 +78,27 @@ model-plus-animation bundles. Rendered (textured from entries 13-17):
 **Catalog of every model with its disc location:** `findings/pe-model-catalog-2026-10-19.md`
 (data: `findings/data/pe-model-catalog-2026-10-19.json`; renders local in `tools/pe_assets/renders/`).
 
-Room characters' textures are not in the room files (they load into VRAM x=512, palettes rows
-450-451, from a source still to find), so they were rendered with the VRAM of save states made in
-their rooms. Untextured ones are named from shape and rooms (marked *?*).
+**Texture source (found):** `Scene_LoadRoom` (`room_load.c:420-489`) reads each room as three runs
+of sectors: a *scratch* blob (`packed & 255` sectors from the room start) and a *texture* blob
+(`(packed >> 8) & 4095` sectors) whose TIM records it uploads to VRAM, then the room data
+(`packed >> 20`). The character and enemy textures are in those first two blobs, so everything renders
+textured straight from the disc (`render_models.room_vram`). Earlier extractions read only the third run.
 
 | Character | Skeleton | Where |
 |---|---|---|
-| Daniel | 25 parts | NYPD, theater, finale (maps 25, 275, ...) |
-| Maeda | 27 parts | cruiser, finale (maps 25, 276, ...) |
-| Eve | 49 parts (Day 1), 45 (Statue) | maps 88, 273 |
+| Daniel (also a gun-drawn variant) | 25 parts | NYPD, theater, finale (maps 25, 94, 275, ...) |
+| Maeda (also with a backpack) | 27 parts | cruiser, finale (maps 25, 90, 276, ...) |
+| Eve | 49 parts (Day 1), 47, 45 (Statue) | maps 23, 69, 88, 273 |
+| Melissa (opera singer) | 28 parts | theater (map 4) |
 | Ben | 23 parts, **Aya's** | theater, NYPD (maps 6, 25, 43-58, 115, 121, 373) |
+| Maya (hospital gown) | 23, Aya's | theater, Central Park, Chrysler (11, 31, 68-79, 127, 318) |
 | Aya's date (Carnegie Hall) | 23, Aya's | maps 2-10 |
+| Chief Baker? (heavy-set, dark suit; also with a gun) | 23, Aya's | NYPD (41, 44, 47) |
 | Policewoman (brown hair, vest) | 23, Aya's | maps 48, 52, 276 |
 | Police officer (moustache) | 23, Aya's | maps 52, 108 |
-| Maya? (girl in a dress) | 23, Aya's | theater, Central Park, Chrysler (11, 31, 68-79, 127, 318) |
 | Dr. Klamp? (bearded, long coat) | 23, Aya's | museum (196, 199, 239, 344, 367) |
-| Heavy-set officers? (Baker / Wayne?) | 23, Aya's | NYPD (41, 44, 47) |
 | Sailors / crew | 23 (Aya's or the second 23-part layout) | carrier, cruiser (271, 275, 276, 426) |
-| Ushers, capped police | 23, a second layout (arm chains 4 / 2 / 6) | theater, NYPD |
+| Ushers, capped police, opera cast, NYPD staff, police dog | various | see the catalog |
 
 ### One body plan
 
@@ -123,8 +126,8 @@ legs). Only the chain lengths differ (extra segments are hands / fingers / hair 
      chain's leading segments, hold extra segments at rest, and scale the root height by the leg-length
      ratio so feet stay on the ground. Bone lengths come from the character's own model.
    - Textures: repack the character's texture into the player's slot (one 4-bit page at x=960,
-     y=256; palettes rows 448-449) and rewrite the faces' page / palette. The room characters'
-     texture source on disc is **still to find** (save-state VRAM works for research only).
+     y=256; palettes rows 448-449) and rewrite the faces' page / palette. The source texture is in
+     the character's room scratch / texture blobs (found).
    - Runtime: in `Scene_LoadEntityTexture` step 6 and `Scene_LoadEntityTextures` step 6, swap in the
      custom bundle / rows instead of the disc's.
    - Check in game: hit boxes and the anchor (`anchor_y`, `anchor_matrix_index`), the gun / hand

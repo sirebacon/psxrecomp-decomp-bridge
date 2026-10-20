@@ -19,6 +19,26 @@ def room_blob(m, disc=1):
     return sectors(f, BASE + start + (packed & 255) + ((packed >> 8) & 4095), packed >> 20)
 
 
+def room_texture_blobs(m, disc=1):
+    """Scene_LoadRoom reads a room as three runs of sectors: a scratch blob and a texture blob (both
+    SceneAssetBlobs whose TIM records go to VRAM; room_load.c:427-465), then the room data."""
+    f = open(PROJECT/f'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc {disc}).bin', 'rb')
+    start = word(ram, 0x93378 + (m - 1) * 8); packed = word(ram, 0x9337c + (m - 1) * 8)
+    scratch, texture = packed & 255, (packed >> 8) & 4095
+    out = []
+    if scratch: out.append(sectors(f, BASE + start, scratch))
+    if texture: out.append(sectors(f, BASE + start + scratch, texture))
+    return out
+
+
+def room_vram(m, disc=1):
+    vram = [0] * (1024 * 512)
+    for b in room_texture_blobs(m, disc):
+        try: upload_tims(b, vram)
+        except Exception: pass
+    return vram
+
+
 def image_blob(idx, disc=1):
     f = open(PROJECT/f'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc {disc}).bin', 'rb')
     s0 = u16(ram, 0x930D8 + 2 * idx); s1 = u16(ram, 0x930D8 + 2 * idx + 2)

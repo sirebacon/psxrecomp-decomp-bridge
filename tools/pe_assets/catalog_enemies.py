@@ -43,10 +43,12 @@ def mesh_key(blob, off):
     return (blob[off + 2], len(md['V']), tuple(md['cmds']), tuple(p[3] for p in md['ptab'])), md
 
 
-def render_mesh(m, slot, label, path, vram=None):
+def render_mesh(m, slot, label, path, vram='room'):
+    """Textured from the room's own texture blobs by default; vram=None renders shaded geometry."""
     blob, lba, slots = room_models(m)
     off, trailing = slots[slot]
     md = R.model(blob, off)
+    if isinstance(vram, str): vram = R.room_vram(m)
     if vram is not None and (trailing >> 8) & 0xF:
         R.relocate(md, (trailing >> 6) & 0x3C0, (trailing >> 9) & 0x180, ((trailing >> 18) & 0xFF) + 0x1C0)
     rows = sorted([(s, o) for o, s, g in R.records(blob, 0x10) if g == slot])
@@ -79,14 +81,10 @@ def main(render=True):
             rows.append(dict(name=e.get('name'), enemy_id=e['id'], hp=e['hp'], stats_first_seen=e['first'], map=s['map'], actor=s['actor'],
                              mesh=mid['id'], parts=key[0], verts=key[1], room_lba=lba, offset=off,
                              sector=lba + off // 2048, byte=off % 2048, disc=s['disc']))
-    # one render per mesh; textured too when a save state was made in one of its rooms
-    saves = {}
-    for p in sorted(glob.glob(r'D:/Recomp Games/**/*.pst', recursive=True)):
-        try:
-            m, _ = map_of(sections(p)[2])
-            if m and m not in saves: saves[m] = p
-        except Exception: pass
-    if render: RENDERS.mkdir(parents=True, exist_ok=True)
+    # one textured render per mesh, from its first room's own texture blobs
+    if render:
+        RENDERS.mkdir(parents=True, exist_ok=True)
+        for old in list(RENDERS.glob('mesh*.png')) + list(RENDERS.parent.glob('enemies_sheet_*.png')): old.unlink()
     for key, mid in meshes.items():
         name = ' / '.join(sorted(mid['names'])) or '?'
         m, slot, lba, off = mid['first']
@@ -94,13 +92,9 @@ def main(render=True):
         mid['render'] = None; mid['textured_render'] = None
         if not render: continue
         label = '%s  %s  (%d parts, %d verts)  map %d slot %d' % (mid['id'], name[:40], mid['parts'], mid['verts'], m, slot)
-        if render_mesh(m, slot, label, RENDERS / (safe + '.png')): mid['render'] = 'renders/enemies/%s.png' % safe
-        tm = next((x for x in sorted(mid['maps']) if x in saves), None)
-        if tm is not None:
-            blob, _, slots = room_models(tm)
-            tslot = next(s for s, (o, t) in slots.items() if mesh_key(blob, o)[0] == key)
-            if render_mesh(tm, tslot, label + '  [textured, save in map %d]' % tm, RENDERS / (safe + '_tex.png'), vram_of(saves[tm])):
-                mid['textured_render'] = 'renders/enemies/%s_tex.png' % safe
+        for old in RENDERS.glob(mid['id'] + '_*'): old.unlink()
+        if render_mesh(m, slot, label, RENDERS / (safe + '.png')):
+            mid['render'] = 'renders/enemies/%s.png' % safe; mid['textured_render'] = mid['render']
     if render:
         tiles = sorted(RENDERS.glob('mesh*.png'))
         for k in range(0, len(tiles), 12):
@@ -125,11 +119,11 @@ def main(render=True):
          '**How to find a model:** read the room\'s sectors from its LBA on "Parasite Eve (USA) (Disc N).bin"',
          '(2048 user-data bytes each); the model header sits at the offset, i.e. at disc sector:byte. A',
          'creature\'s model is the room model in the bank slot numbered like its script actor.', '',
-         '**Renders** (local only, git-ignored): `tools/pe_assets/renders/enemies/` — one shaded render per mesh,',
-         'plus `_tex` when a save state in one of its rooms had the textures loaded; contact sheets',
-         '`tools/pe_assets/renders/enemies_sheet_*.png`. Enemy rooms carry no textures of their own.', '',
+         '**Renders** (local only, git-ignored): `tools/pe_assets/renders/enemies/`, one textured render per mesh;',
+         'contact sheets `tools/pe_assets/renders/enemies_sheet_*.png`. Textures come from the room\'s own',
+         'scratch and texture blobs, the two sector runs in front of the room data (`Scene_LoadRoom`).', '',
          '%d distinct meshes for %d creature appearances.' % (len(out), len(rows)), '',
-         '| Mesh | Creature(s) | Parts | Verts | Maps | First copy: map / slot, room LBA, offset, sector:byte | Textured render |',
+         '| Mesh | Creature(s) | Parts | Verts | Maps | First copy: map / slot, room LBA, offset, sector:byte | Rendered |',
          '|---|---|---:|---:|---|---|---|']
     for v in sorted(out, key=lambda v: (v['first']['map'], v['first']['slot'])):
         f = v['first']; maps = v['maps']

@@ -8,7 +8,9 @@ model swap: `findings/pe-model-swap-research-2026-10-19.md`.
 
 **How to find a model:** read the room's sectors from its LBA on "Parasite Eve (USA) (Disc N).bin"
 (2048 user-data bytes each); the model header sits at the given offset, i.e. at disc sector:byte.
-Room characters' textures are not in the room files (VRAM x=512, palettes rows 450-451).
+Textures: the room's scratch and texture blobs, the two sector runs in front of the room data
+(`Scene_LoadRoom`, `room_load.c:420-489`). Renders: `tools/pe_assets/renders/characters/` and
+`characters_sheet_*.png` (local only).
 
 ## Aya (player bundles)
 
@@ -24,19 +26,37 @@ Room characters' textures are not in the room files (VRAM x=512, palettes rows 4
 
 | Character | How identified | Parts | Chains | Aya skeleton? | Appears in maps | First copy: map / slot, room LBA, offset, sector:byte |
 |---|---|---:|---|---|---|---|
+| Aya (cutscene pose model) | textured from disc | 31 | 8/2/8 | Aya area 10 | 17, 18, 21, 319 | 17 / 2, 12868, 20256, 12877:1824 |
+| Aya (cutscene pose model) | textured from disc | 29 | 8/2/8 | Aya area 13 | 45, 102, 151 | 45 / 9, 20729, 40732, 20748:1820 |
 | Aya's date (Carnegie Hall) | textured | 23 | 5/2/5 | Aya area 11 | 2, 3, 4, 10 | 2 / 2, 10237, 8, 10237:8 |
 | Ben | textured | 23 | 5/2/5 | Aya area 11 | 6, 25, 43, 44, 51, 55, 58, 115, 121, 373 | 6 / 2, 11284, 8, 11284:8 |
+| Chief Baker? (heavy-set, dark suit) | textured from disc | 23 | 5/2/5 | Aya area 11 | 41, 47 | 41 / 3, 19170, 21660, 19180:1180 |
+| Chief Baker? (heavy-set, dark suit, gun) | textured from disc | 23 | 5/2/5 | Aya area 11 | 44 | 44 / 4, 20412, 37996, 20430:1132 |
 | Crew (grey uniform, cap) | textured | 23 | 4/2/6 | - | 271, 275, 276, 425 | 271 / 6, 70295, 80524, 70334:652 |
 | Daniel | textured | 25 | 5/2/7 | - | 25, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 51, 58, 91, 93, 94, 95, 96, 97, 98, 103, 117, 160, 191, 192, 195, 230, 239, 259, 271, 272, 275, 288, 344, 359, 373, 374, 425, 426, 427 | 25 / 3, 14328, 21156, 14338:676 |
+| Daniel (gun drawn) | textured from disc | 25 | 5/2/7 | - | 94 | 94 / 4, 32316, 43184, 32337:176 |
 | Dr. Klamp? (bearded, long coat) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 196, 199, 239, 344, 367 | 196 / 2, 53623, 8, 53623:8 |
+| Eve (47-part form) | textured from disc | 47 | 1 | - | 69, 70, 71, 381 | 69 / 2, 26551, 8, 26551:8 |
 | Eve (Day 1 form) | textured | 49 | 1 | - | 23, 33, 88, 89 | 23 / 2, 13904, 35156, 13921:340 |
 | Eve (Statue of Liberty form) | textured | 45 | 1 | - | 273 | 273 / 2, 71025, 78668, 71063:844 |
-| Heavy-set officer with gun? (Wayne?) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 44 | 44 / 4, 20412, 37996, 20430:1132 |
-| Heavy-set officer? (Baker?) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 41, 47 | 41 / 3, 19170, 21660, 19180:1180 |
 | Maeda | textured | 27 | 6/4/6 | - | 25, 35, 37, 38, 39, 40, 41, 42, 91, 93, 94, 95, 96, 97, 103, 117, 125, 160, 165, 191, 192, 239, 259, 271, 272, 276, 288, 331, 344, 373, 425, 426, 427 | 25 / 4, 14328, 42808, 14348:1848 |
-| Maya? (girl in a dress) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 11, 31, 68, 72, 76, 77, 79, 127, 318, 323, 329, 367 | 11 / 2, 11732, 8, 11732:8 |
+| Maeda (with backpack) | textured from disc | 27 | 6/4/6 | - | 90 | 90 / 2, 31316, 31012, 31331:292 |
+| Maya (blonde girl, hospital gown) | textured from disc | 23 | 5/2/5 | Aya area 11 | 11, 31, 68, 72, 76, 77, 79, 127, 318, 323, 329, 367 | 11 / 2, 11732, 8, 11732:8 |
+| Melissa (opera singer, red gown) | textured from disc | 28 | 5/9/5 | - | 4, 5, 347 | 4 / 3, 10748, 21244, 10758:764 |
+| NYPD man (brown jacket) | textured from disc | 23 | 4/2/6 | - | 41, 42, 47, 98, 99, 374 | 41 / 4, 19170, 41528, 19190:568 |
+| NYPD man (white shirt, shoulder holster) | textured from disc | 23 | 4/2/6 | - | 41, 42, 100 | 41 / 5, 19170, 60404, 19199:1012 |
+| Opera actress (purple gown) | textured from disc | 28 | 5/9/5 | - | 49, 50, 319, 372 | 49 / 2, 21909, 31012, 21924:292 |
+| Opera performer (doublet) | textured from disc | 23 | 4/2/6 | - | 49, 50, 372 | 49 / 3, 21909, 54248, 21935:1000 |
+| Opera performer (harlequin) | textured from disc | 23 | 4/2/6 | - | 17 | 17 / 1, 12868, 2968, 12869:920 |
+| Opera performer (knight) | textured from disc | 23 | 4/2/6 | - | 49, 50, 372 | 49 / 5, 21909, 90164, 21953:52 |
+| Opera performer (robed king) | textured from disc | 23 | 4/2/6 | - | 49, 50, 372 | 49 / 4, 21909, 71888, 21944:208 |
+| Police dog | textured from disc | 29 | 1 | - | 44, 55, 115, 121, 260 | 44 / 3, 20412, 21156, 20422:676 |
 | Police officer (cap) | textured | 23 | 4/2/6 | - | 1, 24, 45, 47, 55, 56, 58, 90, 98, 185, 190 | 1 / 3, 10065, 19580, 10074:1148 |
+| Police officer (cap, black jacket) | textured from disc | 23 | 4/2/6 | - | 1, 24, 45, 46, 47, 90, 100, 260 | 1 / 4, 10065, 38272, 10083:1408 |
+| Police officer (cap, seated / injured pose) | textured from disc | 23 | 4/2/6 | - | 102, 116, 118, 121 | 102 / 2, 34254, 2968, 34255:920 |
+| Police officer (light uniform) | textured from disc | 23 | 4/2/6 | - | 1 | 1 / 2, 10065, 8, 10065:8 |
 | Police officer (moustache) | textured | 23 | 5/2/5 | Aya area 11 | 52, 108 | 52 / 3, 22960, 20812, 22970:332 |
+| Policewoman (blonde, cap) | textured from disc | 21 | 4/2/4 | - | 43, 51, 55, 111 | 43 / 4, 20017, 42808, 20037:1848 |
 | Policewoman (brown hair, vest) | textured | 23 | 5/2/5 | Aya area 11 | 48, 52, 276 | 48 / 2, 21605, 8, 21605:8 |
 | Sailor? (cap) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 271, 426 | 271 / 2, 70295, 8, 70295:8 |
 | Sailor? (cap) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 271, 426 | 271 / 4, 70295, 40696, 70314:1784 |
@@ -48,34 +68,16 @@ Character-sized meshes not named yet (monsters included). One row per distinct m
 
 | Parts | Verts | Chains | Aya skeleton? | Maps | First copy: map / slot, sector:byte |
 |---:|---:|---|---|---|---|
-| 23 | 345 | 4/2/6 | - | 1 | 1 / 2, 10065:8 |
-| 23 | 333 | 4/2/6 | - | 1, 24, 45, 46, 47, 90, 100, 260 | 1 / 4, 10083:1408 |
 | 23 | 311 | 4/2/6 | - | 3, 12, 20, 21, 64, 68, 79, 141, 150, 241, 328, 374 +2 | 3 / 3, 10469:764 |
-| 28 | 447 | 5/9/5 | - | 4, 5, 347 | 4 / 3, 10758:764 |
 | 26 | 269 | 3/4/4 | - | 12, 13, 14, 16, 27, 28, 30, 100, 110, 113, 121, 263 +12 | 12 / 5, 12017:552 |
 | 20 | 179 | 1/4/4 | - | 14, 22, 405, 406, 407, 408, 409, 435, 436, 437 | 14 / 7, 12395:656 |
-| 23 | 371 | 4/2/6 | - | 17 | 17 / 1, 12869:920 |
-| 31 | 481 | 8/2/8 | Aya area 10 | 17, 18, 21, 319 | 17 / 2, 12877:1824 |
 | 24 | 313 | 1 | - | 20, 22 | 20 / 3, 13268:1312 |
 | 17 | 359 | 5/1 | - | 28, 32, 168, 169, 405, 407, 408, 409, 410 | 28 / 8, 15030:656 |
 | 52 | 554 | 2/4/4 | - | 34, 174, 348, 383 | 34 / 3, 16613:616 |
-| 23 | 327 | 4/2/6 | - | 41, 42, 47, 98, 99, 374 | 41 / 4, 19190:568 |
-| 23 | 334 | 4/2/6 | - | 41, 42, 100 | 41 / 5, 19199:1012 |
-| 21 | 387 | 4/2/4 | - | 43, 51, 55, 111 | 43 / 4, 20037:1848 |
-| 29 | 275 | 1 | - | 44, 55, 115, 121, 260 | 44 / 3, 20422:676 |
-| 29 | 513 | 8/2/8 | Aya area 13 | 45, 102, 151 | 45 / 9, 20748:1820 |
-| 28 | 433 | 5/9/5 | - | 49, 50, 319, 372 | 49 / 2, 21924:292 |
-| 23 | 377 | 4/2/6 | - | 49, 50, 372 | 49 / 3, 21935:1000 |
-| 23 | 359 | 4/2/6 | - | 49, 50, 372 | 49 / 4, 21944:208 |
-| 23 | 434 | 4/2/6 | - | 49, 50, 372 | 49 / 5, 21953:52 |
 | 23 | 218 | 1/2 | - | 61, 67, 80, 81, 87, 100, 107, 110, 116, 120, 121, 298 +3 | 61 / 5, 24706:656 |
 | 23 | 343 | 2 | - | 63, 83, 358, 384, 387 | 63 / 3, 25173:1552 |
 | 28 | 562 | 3 | - | 65, 85, 87, 391, 393, 394, 395, 396, 399, 401, 402 | 65 / 3, 25681:228 |
-| 47 | 892 | 1 | - | 69, 70, 71, 381 | 69 / 2, 26551:8 |
 | 23 | 714 | 1/4/4 | - | 75, 80, 82, 419, 420 | 75 / 5, 27648:460 |
-| 27 | 435 | 6/4/6 | - | 90 | 90 / 2, 31331:292 |
-| 25 | 433 | 5/2/7 | - | 94 | 94 / 4, 32337:176 |
-| 23 | 377 | 4/2/6 | - | 102, 116, 118, 121 | 102 / 2, 34255:920 |
 | 24 | 178 | 3/2/3/2 | - | 104, 113, 115, 116, 120, 122, 158, 159, 263, 265, 333, 391 +3 | 104 / 4, 34676:456 |
 | 32 | 385 | 1 | - | 107, 111, 114, 118, 122, 421, 422, 423, 424 | 107 / 5, 35082:264 |
 | 23 | 456 | 5/2/5 | Aya area 11 | 108 | 108 / 2, 35356:8 |
