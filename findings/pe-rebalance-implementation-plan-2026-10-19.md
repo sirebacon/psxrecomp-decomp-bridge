@@ -59,6 +59,14 @@ resistances on one line.
        fired (`rof_volley=0`, `fast_volley=0`): the "built-in bit 0x20" test is wrong, because every RoF mod
        byte is `(1 << 5) | effect`. Fixed: installed = the base item lacks that RoF (mod effects + DPS line).
        Needs a rebuild and a recheck: `rof_volley` / `fast_volley` > 0 with the RoF 7 G3A3.
+11. [x] Play test after that fix (user, 2026-10-20): the G3A3 fired once, then the follow-up animation
+       looped until Aya was hit. Cause: item 4's animation-step scaling. `Entity_AdvanceAnim` wraps the
+       frame modulo the clip length, and `Battle_StepCharacterAction` starts the next bullet only when
+       `animPrev` lands exactly on `animLastFrame`; a 3.75x step jumped over it. Replaced: the step is left
+       alone, and once the bullet's hit has landed (`g_BattleHitPending` 0x8009D294 clear) the rest of
+       the follow-up clip is skipped (`animFrame = animLastFrame << 16`). A bullet now costs its hit frame
+       + 1-2 frames (rifle 4, grenade 3, handgun 2, shotgun 4, rocket 3); machine guns unchanged.
+       Recheck: an RoF 7 volley fires all 7 bullets without stalling, `fast_volley` > 0.
 9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
        installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
        untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
