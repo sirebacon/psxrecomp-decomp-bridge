@@ -54,6 +54,11 @@ resistances on one line.
 8. [x] Self-check for R-A: every gun hit's damage is predicted with the replica and compared with the
        HP the target lost; the `modfx` row shows `dmg_pred=matched/total`, and each miss gets a
        `dmgchk` row (first 8 a battle). PE `6101495`.
+10. [x] Play log 2026-10-20 (Day 4 Hospital, G3A3 + Catalog Attack All + RoF 7): R-B `gun_bonus` and R-A
+       `aa_capped` / `aa_topup` fire, `dmg_pred` 100%, Bestiary kills recorded. **Bug found:** R-E never
+       fired (`rof_volley=0`, `fast_volley=0`): the "built-in bit 0x20" test is wrong, because every RoF mod
+       byte is `(1 << 5) | effect`. Fixed: installed = the base item lacks that RoF (mod effects + DPS line).
+       Needs a rebuild and a recheck: `rof_volley` / `fast_volley` > 0 with the RoF 7 G3A3.
 9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
        installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
        untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
