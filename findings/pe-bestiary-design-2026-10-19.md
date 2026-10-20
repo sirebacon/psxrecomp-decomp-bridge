@@ -78,12 +78,20 @@ unlock to "Scan shows HP only". Both are tuning knobs, not structural changes.
 
 ## Open questions (for implementation, later)
 
-1. **Where the unlock state lives.** Per creature: tier flags and a kill counter (small). It must
-   survive saves without touching the game's save format; candidates are the mod's own save-state
-   storage or spare bytes the game already saves. To decide when building.
-2. **Menu.** Needs the mod menu groundwork (`findings/pe-mod-menu-groundwork-2026-10-10.md`) or a
-   new screen. Entries show the game's own item names for drops / steals.
+1. **Where the unlock state lives (answered).** The economy mods already keep their state in the
+   memory-card save's free tail (`g_MemCardFileBuffer 0x8009EED0 + 0x1C90..0x1FFF`, inside the CRC'd
+   range, zero in vanilla saves; magic / version / size / checksum header) and in save states through
+   the mod state API (`pe_loot_shop.c:452-491`). Used: +0x000 loot, +0x040 catalog, +0x1C0 shop,
+   +0x200 key items, +0x260 bag sort (40 bytes). Free: about 224 bytes from +0x290. The Bestiary
+   needs ~92 (one byte per creature: 2 tier bits + a kill count capped at 31, plus a header); model
+   swap ~32.
+2. **Menu.** The mod menu (`pe_mod_menu.h`: `pe_menu_register_*` pages, grids, live values,
+   actions) already hosts the Requisition shop, which shows "Your Junk" and spends it; the Bestiary
+   can be a page beside it. Entries show the game's own item names for drops / steals.
 3. **Recognising a creature in battle** (for kills and Scan): by map + enemy ID, using the draft's
-   identity table (the same ID can mean different creatures in different areas).
+   identity table (the same ID can mean different creatures in different areas). Kills: the loot
+   logger already tracks each enemy slot and whether it died (`pe_loot_logger.c`). **Scan:**
+   `Battle_ApplySpellEffect(idx, target)` at `0x80024250` (`battle/attack.c:642`), spell 7 = Scan,
+   target = the scanned enemy's BattleEntity; the PE balance mod and the logger already hook this entry.
 4. **Bosses with a computed HP** (Worm growth, damage carried over) show their starting HP and the
    growth values from the mid-fight table.

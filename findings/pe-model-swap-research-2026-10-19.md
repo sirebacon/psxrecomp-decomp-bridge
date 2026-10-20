@@ -132,5 +132,18 @@ legs). Only the chain lengths differ (extra segments are hands / fingers / hair 
      custom bundle / rows instead of the disc's.
    - Check in game: hit boxes and the anchor (`anchor_y`, `anchor_matrix_index`), the gun / hand
      attachment parts, and battle animations that may assume Aya's proportions.
+### Retarget prototype (2026-10-19, `tools/pe_assets/retarget.py`)
+
+Aya's 29-bone rows (bundle 12 + per-day entry 32) played on Daniel, Maeda, Chief Baker? and Maya:
+chains mapped index for index (Daniel 25 of 25 parts, Maeda 25 of 27, Baker / Maya all 23), extra
+segments keep the character's idle angle, root height scaled by leg length (Daniel 0.99, Maeda 1.02,
+Baker 0.97, Maya 0.58). Rendered side by side (`renders/retarget_*.png`, local):
+
+- Most rows match Aya's pose closely on every character (stances, steps, crouches, the arm raise).
+- A few rows (e.g. 12-13) show Daniel's and Baker's torso twisted against Aya's: some joints have a
+  different rest orientation between skeletons. Fix: a small per-character angle offset table for
+  those joints (chest / shoulders), set by comparing the characters' own idle poses with Aya's.
+- Still to check in game: gun hand / attachment, hit boxes, the camera anchor.
+
 3. **Store and menu:** Junk purchase at any time, the unlocked set and the chosen model saved with
    the mod's settings (shared with the Bestiary's open storage question).

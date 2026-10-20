@@ -101,13 +101,20 @@ def model(blob, off):
     return dict(parts=parts, ptab=ptab, V=V, D=D, pk=pk, cmds=cmds, T=T)
 
 
-def anim_frame(blob, off, parts):
+def anim_frame(blob, off, parts, frame=0):
+    return anim_frame_at(blob, off, frame)
+
+
+def anim_frame_at(blob, off, frame):
+    """Anim_DecodeBoneRotationsByte / Short (anim/bone_rotations.c) for one frame: root translation and
+    per-bone YXZ angles. A constant channel is 4 bytes; a sampled one holds one value per frame."""
     flags, last, frames = blob[off], blob[off + 1], blob[off + 2]
+    frame = max(0, min(frame, max(frames - 1, 0)))
     cur = off + 12; tr = []
     stride = (frames >> 1) + 1
     for _ in range(3):
         mark = s16(blob, cur)
-        tr.append(s16(blob, cur + 2)); cur += 4 if mark else stride * 4
+        tr.append(s16(blob, cur + 2) if mark else s16(blob, cur + 2 + 2 * frame)); cur += 4 if mark else stride * 4
     ang = []
     short = (flags & 3) == 2
     bstride = ((frames >> 2) + 1) * 4 if not short else stride * 4
@@ -115,9 +122,9 @@ def anim_frame(blob, off, parts):
         a = []
         for _ in range(3):
             if short:
-                mark = s16(blob, cur); a.append(u16(blob, cur + 2)); cur += 4 if mark else bstride
+                mark = s16(blob, cur); a.append(u16(blob, cur + 2) if mark else u16(blob, cur + 2 + 2 * frame)); cur += 4 if mark else bstride
             else:
-                mark = blob[cur]; a.append(blob[cur + 1] * 16); cur += 4 if mark else bstride
+                mark = blob[cur]; a.append((blob[cur + 1] if mark else blob[cur + 1 + frame]) * 16); cur += 4 if mark else bstride
         ang.append(a)
     return tr, ang
 
