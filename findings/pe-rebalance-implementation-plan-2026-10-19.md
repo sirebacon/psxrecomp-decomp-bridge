@@ -85,6 +85,7 @@ New mod `src/mods/pe_collection.c` (F1 > PE Enhancements > Collection), data gen
        walk, run, aim, fire, take a hit, open a door, start and finish a battle. The play log's `skin`
        rows show each step. Expected rough edges: gowns (Melissa, opera actress) shear in deep
        crouches; the gun may sit off the hand; first room after loading a save stays Aya.
-6. [ ] Wayne's Workshop Wardrobe row (the same list in his text box).
+6. [x] Wayne's Workshop Wardrobe screen (Workshop > Wardrobe: wearable / buyable skins, 5 a page,
+       red when too expensive; buy once, wear). PE commit after `0e9239a` (see `git log`).
 7. [ ] Per-skin fixes from the checks (hand / gun attachment part, anchor and hit cylinder from the
        model header, foot height).
