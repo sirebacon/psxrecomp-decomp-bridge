@@ -75,6 +75,9 @@ model-plus-animation bundles. Rendered (textured from entries 13-17):
 
 ## Who is who (rendered, `tools/pe_assets`)
 
+**Catalog of every model with its disc location:** `findings/pe-model-catalog-2026-10-19.md`
+(data: `findings/data/pe-model-catalog-2026-10-19.json`; renders local in `tools/pe_assets/renders/`).
+
 Room characters' textures are not in the room files (they load into VRAM x=512, palettes rows
 450-451, from a source still to find), so they were rendered with the VRAM of save states made in
 their rooms. Untextured ones are named from shape and rooms (marked *?*).
