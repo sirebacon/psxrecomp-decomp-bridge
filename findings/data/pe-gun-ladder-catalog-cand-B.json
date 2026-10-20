@@ -1,0 +1,315 @@
+[
+ {
+  "stage": "D2-4",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "builtin": [
+   "Heat"
+  ],
+  "installs": [
+   "RoF5"
+  ],
+  "ord": 23.889816360601003,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [],
+  "ord": 25.619782971619365,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D2-4",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [
+   "RoF3",
+   "Heat"
+  ],
+  "ord": 26.508764607679467,
+  "ord_win": 1,
+  "boss": null,
+  "boss_win": null
+ },
+ {
+  "stage": "D5",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "builtin": [
+   "RoF5",
+   "Quickdraw"
+  ],
+  "installs": [],
+  "ord": 25.168614357262104,
+  "ord_win": 1,
+  "boss": 38.01335559265443,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "builtin": [
+   "Heat"
+  ],
+  "installs": [
+   "Random",
+   "RoF5"
+  ],
+  "ord": 36.28380634390651,
+  "ord_win": 1,
+  "boss": 47.28436282693378,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "builtin": [
+   "RoF2",
+   "Heat"
+  ],
+  "installs": [
+   "Random",
+   "RoF5"
+  ],
+  "ord": 30.861435726210352,
+  "ord_win": 1,
+  "boss": 36.755703951029496,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [
+   "Heat",
+   "Random",
+   "RoF5"
+  ],
+  "ord": 29.552587646076795,
+  "ord_win": 1,
+  "boss": 39.482470784641066,
+  "boss_win": 1
+ },
+ {
+  "stage": "D5",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [
+   "Heat",
+   "Random",
+   "RoF5"
+  ],
+  "ord": 30.607679465776293,
+  "ord_win": 1,
+  "boss": 40.35614913745131,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "PPK",
+  "id": 95,
+  "kind": "handgun",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   45,
+   48,
+   12
+  ],
+  "builtin": [
+   "RoF5",
+   "Quickdraw"
+  ],
+  "installs": [
+   "2Cmd",
+   "Acid"
+  ],
+  "ord": 15.63717306622148,
+  "ord_win": 1,
+  "boss": 67.17863105175293,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203",
+  "id": 131,
+  "kind": "grenade",
+  "found": "D2-4",
+  "where": "Central Park",
+  "base": [
+   25,
+   59,
+   5
+  ],
+  "builtin": [
+   "Heat"
+  ],
+  "installs": [
+   "2Cmd",
+   "Quickdraw"
+  ],
+  "ord": 18.499721758486366,
+  "ord_win": 1,
+  "boss": 82.0033388981636,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M203 2",
+  "id": 132,
+  "kind": "grenade",
+  "found": "Disc2",
+  "where": "Warehouse",
+  "base": [
+   48,
+   65,
+   6
+  ],
+  "builtin": [
+   "RoF2",
+   "Heat"
+  ],
+  "installs": [
+   "2Cmd",
+   "Quickdraw",
+   "RoF5",
+   "Acid"
+  ],
+  "ord": 14.782415136338342,
+  "ord_win": 1,
+  "boss": 40.300500834724545,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "M16A1",
+  "id": 121,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   34,
+   110,
+   15
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [
+   "2Cmd",
+   "Quickdraw"
+  ],
+  "ord": 16.796883695047303,
+  "ord_win": 1,
+  "boss": 70.21702838063439,
+  "boss_win": 1
+ },
+ {
+  "stage": "Disc2",
+  "gun": "SG550",
+  "id": 123,
+  "kind": "rifle",
+  "found": "D2-4",
+  "where": "NYPD 17th Precinct",
+  "base": [
+   40,
+   108,
+   20
+  ],
+  "builtin": [
+   "RoF2"
+  ],
+  "installs": [
+   "2Cmd",
+   "Quickdraw"
+  ],
+  "ord": 16.903728436282695,
+  "ord_win": 1,
+  "boss": 76.56093489148581,
+  "boss_win": 1
+ }
+]

@@ -162,3 +162,43 @@ G3A3 / Wayne tier. Grenade Disc2 times stay above the median (grenades have the 
 their value is elements and range). In the mod this would be one row, "Progression gun bonuses" (OFF
 vanilla, ON rebalanced), driving a small per-item table in `pe_fx_attack_bonus` beside R-B / R-C, so the
 DPS line picks it up for free.
+
+## Rerun with Mod Catalog installs (user request, October 20, 2026)
+
+`run_gun_ladder --catalog` (tables: `findings/pe-gun-ladder-catalog-2026-10-20.md`) gives each gun the
+Catalog installs a player could really have at that stage, and keeps the gun's best loadout:
+
+- **Unlocked effects by stage**, from 60 economy playthroughs (current rules, Normal preset, policies A / C / I,
+  20 seeds each):
+  - Day 2-4 / Day 5: Heat and RoF3 always, Random 85-98%, RoF5 65-68% (so an RoF3 loadout is tried too).
+  - Disc 2 adds 2 Commands (100%), Quickdraw (95%) and Acid (85%).
+  - Critical (15%) and Attack All (3%) are left out.
+- **Slots:** the larger of the gun's own and the carried gun's typical total at the end of the stage
+  (2 / 3 / 6, base + Mod Permits), capped at the gun's slot limit.
+- **Install rules:** a better RoF replaces the built-in RoF in its slot; built-in Burst / Attack All / Commands
+  are never replaced; installed RoF gets R-E's fast volleys.
+
+What changed (x median, before -> with installs):
+
+- **Museum-era grenades are fixed by installs:** M79 3 1.11 -> 0.83, M203 3 1.26 -> 0.86, M79 2 1.27 -> 0.93 on D5.
+  Their buffs are dropped.
+- **PPK** is fine where it's found (D5 0.91); its Disc2 lag is shared by every pre-Wayne gun. Buff dropped.
+- **Still duds where they're found:** M16A1 (D2-4 1.25, D5 1.22), SG550 (1.18, 1.08), M203 (1.26, 1.46) and
+  M203 2 (D5 1.16).
+
+Candidate check with installs (`--extra`, data `findings/pe-gun-ladder-catalog-cand-B.md`; x median against the
+catalog-ladder medians):
+
+| Gun | Bonus | D2-4 | D5 | Disc2 |
+|---|---:|---|---|---|
+| M16A1 | +25 | 1.25 -> 1.08 | 1.22 -> 0.95 | 1.58 -> 1.38 |
+| SG550 | +15 (suggest **+20**) | 1.18 -> 1.12 | 1.08 -> 0.98 | 1.47 -> 1.39 |
+| M203 | +20 | 1.26 -> 1.01 | 1.46 -> 1.17 | 1.70 -> 1.52 |
+| M203 2 | +15 | - | 1.16 -> 0.99 | 1.26 -> 1.21 |
+
+**Revised R-F: M16A1 +25, SG550 +20, M203 +20, M203 2 +15.** Day 3 guns still trail on Disc 2, which is
+expected (Wayne and museum guns replace them).
+
+Separate observation (not progression): on Disc 2, ordinary fights favour fast guns with 2 Commands (machine
+guns, handguns). Rifles and grenade launchers sit at 1.2-1.3 even for the G3A3 / MAG / M203 4, but rifles
+lead on bosses (MAG 25.6 s, G3A3 42.7 s vs handguns 30-48 s). No change proposed.

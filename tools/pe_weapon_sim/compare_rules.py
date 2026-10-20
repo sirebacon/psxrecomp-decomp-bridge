@@ -181,6 +181,7 @@ INVEST = {'D2-4': {'low': [9, 5, 5], 'typical': [15, 10, 12], 'high': [20, 12, 1
           'D5': {'low': [12, 8, 10], 'typical': [18, 12, 15], 'high': [25, 15, 20]},
           'Disc2': {'low': [35, 15, 17], 'typical': [50, 18, 24], 'high': [68, 20, 30]}}
 INVEST_LEVEL = [None]        # set by --invest
+CLASS_MODS = {}              # class -> extra effects replacing the stage default (run_gun_ladder --catalog); RoF ones are installed
 
 
 def class_builds(stages, seeds, classes=None, logged_aya=False):
@@ -203,7 +204,9 @@ def class_builds(stages, seeds, classes=None, logged_aya=False):
             else: g.invested = [30, 10, 10]; mods = ['2Cmd', 'Quickdraw']
             if INVEST_LEVEL[0]: g.invested = list(INVEST[ph][INVEST_LEVEL[0]])
             if cls.endswith('_aa'): mods = mods + ['AttackAll']
+            if cls in CLASS_MODS: mods = list(CLASS_MODS[cls])
             cfg = gun_cfg(g, mods)
+            if any(m.startswith('RoF') for m in CLASS_MODS.get(cls, ())): cfg['eff']['rof_mod'] = True   # installed RoF (R-E applies)
             for seed in range(1, seeds + 1):
                 yield dict(group='class_' + cls, phase=ph, seed=seed, cfg=cfg, aya=None if logged_aya else ref[seed]['aya'],
                            armor=None if logged_aya else ref[seed]['armor'], gun=W[wid].name)
