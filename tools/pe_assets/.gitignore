@@ -1,0 +1,4 @@
+# Renders and probe outputs are derived from the game's assets: keep them local, never commit.
+renders/
+*.json
+*.png

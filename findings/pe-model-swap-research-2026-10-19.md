@@ -35,8 +35,34 @@ Model header (`RenderObjectHeader`, `include/pe1/render_object.h:363`): byte 2 p
 animation-entry count, +6 vertex count, +8.. packet counts.
 
 **Each bundle carries its own model *and* its own animation set**, so the game already swaps whole
-model-plus-animation bundles. Which outfit each area type is (Day 1 dress, main outfit, ...) is
-still to be confirmed visually.
+model-plus-animation bundles. Rendered (textured from entries 13-17):
+
+| Area type | Outfit |
+|---:|---|
+| 10 | black evening dress (Day 1 play) |
+| 11 | long dress, 23 parts, a reduced animation set (Day 1 scenes) |
+| 12 | black jacket and jeans (main outfit) |
+| 13 | white T-shirt and jeans (Disc 2) |
+| 14 | Aya's transformed (green) final-battle form |
+
+### Player animations
+
+- Outfit bundles 10 / 12 / 13 / 14 hold rows 0-3, 13-23 and 28 for their own skeleton (31 / 29 / 29 / 31 bones).
+- More player rows (4-12) load per area and day: `Scene_LoadEntityTextures` (`room_load.c:964`, step 4)
+  reads image entry `(requested_entity_bank - 10) / 2 * 8 + day + 0x16`: entries 23-30 are for the
+  31-bone skeleton, 31-38 for the 29-bone one. Per-day textures: entry `day + 0x26` (39-44).
+- Area 11 (23 parts) has only rows 21-23 and 28-34, so it is **not** a full moveset.
+
+### Animation and skeleton format (decomp)
+
+- Skeleton = the model's matrix-command bytes (`Render_*` in `render/object.c:72-118`): -1 push,
+  -2 pop, otherwise a part index; each part's matrix = parent x its animated rotation, translated by
+  the animation's root translation (part 0) or by `(0, 0, parts[i].translation_z)` (bone length).
+- Animation row = `RenderAnimationDataHeader` (`render_object.h:476`): 3 root-translation channels,
+  then 3 angle channels (YXZ, `RotMatrixYXZ`) per bone up to `last_bone_index`; channels are constant
+  (marker != 0) or per-frame byte (x16) / halfword samples (`anim/bone_rotations.c`).
+- Animations carry rotations only; bone lengths come from the model. A mesh with the same hierarchy
+  plays another skeleton's rotations directly.
 
 ## Other characters
 
@@ -47,19 +73,58 @@ still to be confirmed visually.
   (25, 7) x42, (23, 11) x37, (27, 11) x34, ... Humanoid characters mostly have **23 parts**; Aya's
   usual bundles have 29-31.
 
+## Who is who (rendered, `tools/pe_assets`)
+
+Room characters' textures are not in the room files (they load into VRAM x=512, palettes rows
+450-451, from a source still to find), so they were rendered with the VRAM of save states made in
+their rooms. Untextured ones are named from shape and rooms (marked *?*).
+
+| Character | Skeleton | Where |
+|---|---|---|
+| Daniel | 25 parts | NYPD, theater, finale (maps 25, 275, ...) |
+| Maeda | 27 parts | cruiser, finale (maps 25, 276, ...) |
+| Eve | 49 parts (Day 1), 45 (Statue) | maps 88, 273 |
+| Ben | 23 parts, **Aya's** | theater, NYPD (maps 6, 25, 43-58, 115, 121, 373) |
+| Aya's date (Carnegie Hall) | 23, Aya's | maps 2-10 |
+| Policewoman (brown hair, vest) | 23, Aya's | maps 48, 52, 276 |
+| Police officer (moustache) | 23, Aya's | maps 52, 108 |
+| Maya? (girl in a dress) | 23, Aya's | theater, Central Park, Chrysler (11, 31, 68-79, 127, 318) |
+| Dr. Klamp? (bearded, long coat) | 23, Aya's | museum (196, 199, 239, 344, 367) |
+| Heavy-set officers? (Baker / Wayne?) | 23, Aya's | NYPD (41, 44, 47) |
+| Sailors / crew | 23 (Aya's or the second 23-part layout) | carrier, cruiser (271, 275, 276, 426) |
+| Ushers, capped police | 23, a second layout (arm chains 4 / 2 / 6) | theater, NYPD |
+
+### One body plan
+
+Every humanoid is hips -> chest (arm chain, head chain, arm chain) + hips -> pelvis (two 4-part
+legs). Only the chain lengths differ (extra segments are hands / fingers / hair at chain ends):
+
+| Skeleton | Arm / head / arm | Legs |
+|---|---|---|
+| Aya dress (area 11), 94 room models | 5 / 2 / 5 | 4 / 4 |
+| Daniel | 5 / 2 / 7 | 4 / 4 |
+| Maeda | 6 / 4 / 6 | 4 / 4 |
+| Aya main (areas 12, 13) | 8 / 2 / 8 | 4 / 4 |
+| Second 23-part layout | 4 / 2 / 6 | 4 / 4 |
+
 ## What a swap needs
 
 1. **Swap between Aya's own outfits (small).** Override the `bank` used by
    `Scene_LoadEntityTexture` (both the texture and the model entry) with a chosen outfit, leaving
    `g_SceneAreaType` itself alone (it also drives disc-swap flags). A costume selector.
-2. **Another character as the player (large).** Needs a bundle of that character's mesh plus a full
-   player animation set:
-   - Aya's animations have per-part tracks for her own skeleton; they only drive a mesh with the
-     same part layout. Most characters have 23 parts, like Aya's area-11 bundle, so that bundle's
-     animations are the candidate, **if** the part hierarchies match (to check: parent order and
-     joint offsets) and if its 10 rows cover everything the player does (the other bundles have 16-25).
-   - Character textures come from their rooms' TIMs and must be uploaded where the player's
-     textures go (texture page and palette positions).
-   - Identifying which room model is which character needs rendering them (an OBJ export).
+2. **Another character as the player (large, but workable).** A bundle of the character's mesh plus
+   Aya's full moveset **retargeted** to its skeleton:
+   - No compatible character can use Aya's animations as they are: the only skeleton that 94 room
+     models share is the dress's, whose set is incomplete.
+   - Retarget offline, chain by chain, from the 29-bone set (bundle 12 + entries 31-38): map each
+     chain's leading segments, hold extra segments at rest, and scale the root height by the leg-length
+     ratio so feet stay on the ground. Bone lengths come from the character's own model.
+   - Textures: repack the character's texture into the player's slot (one 4-bit page at x=960,
+     y=256; palettes rows 448-449) and rewrite the faces' page / palette. The room characters'
+     texture source on disc is **still to find** (save-state VRAM works for research only).
+   - Runtime: in `Scene_LoadEntityTexture` step 6 and `Scene_LoadEntityTextures` step 6, swap in the
+     custom bundle / rows instead of the disc's.
+   - Check in game: hit boxes and the anchor (`anchor_y`, `anchor_matrix_index`), the gun / hand
+     attachment parts, and battle animations that may assume Aya's proportions.
 3. **Store and menu:** Junk purchase at any time, the unlocked set and the chosen model saved with
    the mod's settings (shared with the Bestiary's open storage question).
