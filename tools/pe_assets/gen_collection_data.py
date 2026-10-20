@@ -20,15 +20,20 @@ PRICES = {'Day 1': (2, 3), 'Days 1-2': (2, 3), 'Day 2': (3, 6), 'Day 3': (4, 8),
 SKIP = ('Hospital map 159 actor',)
 RESISTS = ('heat', 'frost', 'cyanide', 'acid', 'tranq')
 
-SKINS = [  # name, price, kind (0 = Aya outfit area, 1 = character bundle not built yet), area / 0
-    ('Aya', 0, 0, 12), ('Aya: evening dress', 100, 0, 10), ('Aya: T-shirt', 100, 0, 13), ('Aya: long dress', 100, 0, 11),
-    ("Aya: transformed", 400, 0, 14), ('Melissa', 400, 1, 0), ('Eve', 400, 1, 0),
-    ('Daniel', 250, 1, 0), ('Maeda', 250, 1, 0), ('Maya', 250, 1, 0),
-    ('Chief Baker', 150, 1, 0), ('Daniel (gun drawn)', 150, 1, 0), ('Maeda (backpack)', 150, 1, 0),
-    ("Aya's date", 50, 1, 0), ('Policewoman', 50, 1, 0), ('Policewoman (cap)', 50, 1, 0),
-    ('Officer (moustache)', 50, 1, 0), ('Officer (cap)', 50, 1, 0), ('NYPD (brown jacket)', 50, 1, 0),
-    ('NYPD (holster)', 50, 1, 0), ('Opera actress', 50, 1, 0), ('Opera (doublet)', 50, 1, 0),
-    ('Opera king', 50, 1, 0), ('Opera knight', 50, 1, 0), ('Harlequin', 50, 1, 0), ('Usher', 50, 1, 0), ('Crew', 50, 1, 0),
+SKINS = [  # name, price, kind (0 = Aya outfit area, 1 = character bundle), area / 0, bundle folder (pe_skins/<folder>), (map, slot) source
+    ('Aya', 0, 0, 12, '', None), ('Aya: evening dress', 100, 0, 10, '', None), ('Aya: T-shirt', 100, 0, 13, '', None),
+    ('Aya: long dress', 100, 0, 11, '', None), ("Aya: transformed", 400, 0, 14, '', None),
+    ('Melissa', 400, 1, 0, 'melissa', (4, 3)), ('Eve', 400, 1, 0, 'eve', (23, 2)),
+    ('Daniel', 250, 1, 0, 'daniel', (25, 3)), ('Maeda', 250, 1, 0, 'maeda', (25, 4)), ('Maya', 250, 1, 0, 'maya', (11, 2)),
+    ('Chief Baker', 150, 1, 0, 'baker', (41, 3)), ('Daniel (gun drawn)', 150, 1, 0, 'daniel_gun', (94, 4)),
+    ('Maeda (backpack)', 150, 1, 0, 'maeda_pack', (90, 2)),
+    ("Aya's date", 50, 1, 0, 'date', (2, 2)), ('Policewoman', 50, 1, 0, 'policewoman', (48, 2)),
+    ('Policewoman (cap)', 50, 1, 0, 'policewoman_cap', (43, 4)), ('Officer (moustache)', 50, 1, 0, 'officer', (52, 3)),
+    ('Officer (cap)', 50, 1, 0, 'officer_cap', (1, 3)), ('NYPD (brown jacket)', 50, 1, 0, 'nypd_jacket', (41, 4)),
+    ('NYPD (holster)', 50, 1, 0, 'nypd_holster', (41, 5)), ('Opera actress', 50, 1, 0, 'opera_actress', (49, 2)),
+    ('Opera (doublet)', 50, 1, 0, 'opera_doublet', (49, 3)), ('Opera king', 50, 1, 0, 'opera_king', (49, 4)),
+    ('Opera knight', 50, 1, 0, 'opera_knight', (49, 5)), ('Harlequin', 50, 1, 0, 'harlequin', (17, 1)),
+    ('Usher', 50, 1, 0, 'usher', (2, 3)), ('Crew', 50, 1, 0, 'crew', (275, 3)),
 ]
 
 
@@ -72,9 +77,10 @@ def main():
          'typedef struct { const char *name; uint8_t ex, boss; uint8_t price_weak, price_loot; const char *section;',
          '                 uint16_t hp, defense; uint8_t weak, strong; const char *drop, *steal; } PeCreature;',
          'typedef struct { uint16_t map, id; uint8_t creature; } PeCreatureKey;',
-         'typedef struct { const char *name; uint16_t price; uint8_t kind, area; } PeSkin;',
+         'typedef struct { const char *name; uint16_t price; uint8_t kind, area; const char *folder; } PeSkin;',
          '/* weak / strong bits: 1 heat, 2 frost, 4 cyanide, 8 acid, 16 tranq. Skin kind 0 = Aya outfit (area),',
-         ' * 1 = character bundle (not built yet: shown, not sold). */', '',
+         ' * 1 = character bundle in pe_skins/<folder>/ (built from the user\'s disc by tools/pe_assets/build_skin.py;',
+         ' * shown as "soon" and not sold while its files are missing). */', '',
          '#define PE_CREATURES %d' % len(creatures), 'static const PeCreature g_pe_creatures[PE_CREATURES] = {']
     for c in creatures.values():
         pw, pl = PRICES.get(c['section'], (12, 24))
@@ -83,7 +89,7 @@ def main():
     L += ['};', '', '#define PE_CREATURE_KEYS %d' % len(lookup), 'static const PeCreatureKey g_pe_creature_keys[PE_CREATURE_KEYS] = {']
     for m, i, c in lookup: L.append('    { %d, 0x%04X, %d },' % (m, i, c))
     L += ['};', '', '#define PE_SKINS %d' % len(SKINS), 'static const PeSkin g_pe_skins[PE_SKINS] = {']
-    for n, p, k, a in SKINS: L.append('    { %s, %d, %d, %d },' % (c_str(n), p, k, a))
+    for n, p, k, a, folder, _ in SKINS: L.append('    { %s, %d, %d, %d, %s },' % (c_str(n), p, k, a, c_str(folder)))
     L += ['};', '']
     OUT.write_text('\n'.join(L), encoding='utf-8')
     print(OUT, len(creatures), 'creatures', len(lookup), 'keys', len(SKINS), 'skins')

@@ -20,6 +20,8 @@ import retarget as T
 
 AYA_AREA = 12
 HERE = os.path.dirname(__file__)
+# The game reads pe_skins/<folder>/ beside its exe (pe_collection.c); folder names as in gen_collection_data.SKINS.
+INSTALL_ROOT = os.path.join('D:' + os.sep, 'Recomp Games', 'Parasite Eve Project', 'parasite-eve-recomp', 'build-release', 'pe_skins')
 
 
 def model_extent(blob, off):
@@ -178,6 +180,12 @@ def main():
     open(os.path.join(out_dir, 'texture.bin'), 'wb').write(bytes(tex))
     print('  texture.bin', len(tex), 'bytes')
     if '--check' in sys.argv: check(out_dir, name)
+    install = os.path.join(INSTALL_ROOT, name)
+    if os.path.isdir(INSTALL_ROOT.rsplit(os.sep, 1)[0]):
+        import shutil
+        os.makedirs(install, exist_ok=True)
+        for f in os.listdir(out_dir): shutil.copy2(os.path.join(out_dir, f), os.path.join(install, f))
+        print('  installed', install)
 
 
 def check(out_dir, name):
