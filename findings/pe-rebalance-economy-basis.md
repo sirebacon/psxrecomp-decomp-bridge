@@ -1,8 +1,9 @@
 # Parasite Eve rebalance + economy mod — design basis
 
-**Status:** basis for the rebalance and economy mod, from simulation only. Nothing here has been
-built into the mod or tested in the game. Every change is meant to sit behind a Mod Effects
-toggle, with the vanilla value one click away.
+**Status (2026-10-19):** R-A, R-B, R-C and R-E are **built** into the mod (Mod Effects rows, PE
+commits 593fbae, fa00bf6, d008f27; plan and checklist in `pe-rebalance-implementation-plan-2026-10-19.md`)
+and await in-game checks. Every change sits behind a Mod Effects row, with the vanilla value one
+click away (Rules: Vanilla).
 
 October 19, 2026. Working notes and the full history are in `pe-rebalance-working-document.md`;
 this document is the agreed outcome.

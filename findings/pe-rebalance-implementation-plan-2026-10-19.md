@@ -1,0 +1,51 @@
+# Rebalance — implementation plan and checklist, October 19, 2026
+
+Turns the agreed basis (`pe-rebalance-economy-basis.md`) into mod changes. The user lifted the
+build hold on 2026-10-19 ("go down the checklist one by one fixing the rebalances"). Commits stay
+local (PE repo `main`; push only on request, to `mine pe-local-work`).
+
+## Where each change goes
+
+All weapon / mod changes live in **`src/mods/pe_mod_effects.c`** (F1 > PE Enhancements > Mod
+Effects). Its entry hook on Aya's per-hit damage routine (`Battle_StepEnemyMovement`
+`0x80028574`, a0 = target entity) already scales the hit's attack term through the action's power
+bonus (`action + 0x00`), and restores every change at the next hit or the next `Battle_Update`
+(`0x800299CC`). Each change gets its own row with a vanilla value, so the Rules switch (Vanilla /
+Rebalanced / Custom) covers it.
+
+| ID | Change | Mechanism | Row (vanilla -> rebalanced) |
+|---|---|---|---|
+| R-B | G3A3 (item 0x7D) base attack +45 | per hit: + 45 to the attack term while the equipped gun is a G3A3 | "G3A3 attack bonus" 0 -> 45 |
+| R-C | M203 4 (item 0x86) base attack +15 | same, item 0x86 | "M203 4 attack bonus" 0 -> 15 |
+| R-A | Attack All: at most 75% of a target's max HP per turn, ordinary fights with 2+ enemies alive, bosses exempt | per hit, Attack All (`turn & 0xC0 == 0xC0`): the target's HP at its first hit this action is the reference; the hit's attack is cut so HP can't fall below reference - 75% max HP; a hit already past the line deals 1; the next battle frame tops HP back to the line if a hit still crossed it | "Attack All crowd cap %" 100 -> 75 |
+| R-E (power) | Installed RoF 5 / 7 / 10 (mod effects 3 / 4 / 5 without the built-in bit 0x20): volley 200% of one shot = 40 / 29 / 20% a bullet | per hit: attack term scaled from the game's per-shot % to the new one | "RoF 5 / 7 / 10 volley %" 125 / 126 / 130 (vanilla per-shot 25 / 18 / 13) -> 200 |
+| R-E (speed) | follow animation at most 4 frames; per-shot hold removed | during an installed-RoF volley: Aya's animation step scaled by follow frames / 4; the kind's hold byte in `g_BattleActionAnimRows` (`0x800106A4`) zeroed, restored after | "RoF mods: fast volleys" OFF -> ON |
+| PE, Econ, Counter, elements | keep | no change | — |
+
+The existing rows "RoF 7 per-shot %" / "RoF 10 per-shot %" (18 -> 20, 13 -> 15) are replaced by
+the R-E volley rows (built-in RoF keeps vanilla per-shot values under R-E).
+
+## Checklist (in order)
+
+1. [x] R-B / R-C attack bonuses (rows, per-hit bonus, play-log counter `gun_bonus`). PE `593fbae`.
+2. [x] R-A Attack All cap: the game's damage formula replicated (`pe_hit_damage`, from
+       `battle/enemy_movement.c`), the power bonus lowered by binary search so a hit can't cross the
+       line; per-turn HP references (a new turn after 40 battle frames with no Attack All hit);
+       crowd = 2+ enemies alive and no boss; minimum-damage crossings topped up at the next hook.
+       Play-log counters `aa_capped`, `aa_topup`. PE `593fbae`.
+3. [x] R-E power: installed = RoF effects 3-5 without the built-in bit 0x20; "Installed RoF volley %"
+       200 (built-in RoF keeps the RoF 7 / 10 per-shot rows). Counter `rof_volley`. PE `593fbae`.
+4. [x] R-E speed / hold: in a follow-up action mode (7 / 9 / 11) Aya's animation step x follow
+       frames / max(4, hit frame) per gun kind (handgun 2.5, shotgun 7.5, rifle 3.75, grenade 6.25,
+       rocket 2.5; machine guns unchanged); the kind's hold byte (`0x800106A4 + kind x 5 + 2`) reads 0;
+       both restored from retail values when off. Row "RoF mods: fast volleys". Counter
+       `fast_volley`. PE `fa00bf6`.
+5. [x] DPS line shows R-B / R-C / R-E (getters `pe_fx_attack_bonus`, `pe_fx_rof_volley_pct`). PE `d008f27`.
+6. [ ] **In-game checks (user)** with the matching save states: Day 4-5 rifle (G3A3) and grenade
+       (M203 4) fights; a Day 5 crowd with a catalog Attack All gun; a Disc2 crowd with the P90 / MAG;
+       a RoF 7 install on a handgun / rifle (volley speed and damage). The play log's `modfx` rows
+       show what fired; compare fight times with the basis tables.
+7. [x] Mod header comment updated; basis status updated (built, awaiting in-game checks).
+
+Also done this round: Scan summary (PE balance mod, commit 64720a7) — Scan lists weaknesses and
+resistances on one line.
