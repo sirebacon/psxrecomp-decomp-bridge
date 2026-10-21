@@ -228,3 +228,5 @@ Tick items off as they land. Design and decision numbers:
       time, default Normal; scale Junk, pity length and prices; caps fixed (39, 40) — built
       early (PE `a3a57f2`): Junk x1.5/x1/x0.75, guarantee x0.7/x1/x1.3, prices -25%/0/+25%
 - [ ] Full playthrough check, into EX Game
+
+- [x] Revive at Requisition (user 2026-10-21): sold from the start (F1 Workshop and Wayne), pricy: 300 Junk, 500 in the EX Game (EX = story variable V80 > 1.0, 0x800A7930); both tunable in Debug > Loot tuning; preset and Bargain apply. Full Recover still not sold. PE commit after `aff6130`; live test pending (and the EX price needs an EX save).
