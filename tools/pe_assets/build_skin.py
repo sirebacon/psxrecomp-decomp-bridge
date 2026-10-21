@@ -23,6 +23,7 @@ import retarget as T
 
 AYA_AREA = 12
 META_ONLY = '--meta' in sys.argv    # only meta.bin (gun part), keep the other files
+LAYOUT = '--skin-layout' not in sys.argv   # renumber parts to Aya's (AyaLayout); --skin-layout keeps the skin's
 HERE = os.path.dirname(__file__)
 # The game reads pe_skins/<folder>/ beside its exe (pe_collection.c); folder names as in gen_collection_data.SKINS.
 INSTALL_ROOT = os.path.join('D:' + os.sep, 'Recomp Games', 'Parasite Eve Project', 'parasite-eve-recomp', 'build-release', 'pe_skins')
@@ -85,15 +86,16 @@ def encode_row(frames_tr, frames_ang, parts, hit_vals):
     return bytes(out)
 
 
-def retarget_row(blob, off, aya, md, mp, idle, corr, ratio):
+def retarget_row(blob, off, aya, md, mp, idle, corr, ratio, layout=None):
     frames = max(1, blob[off + 2])
     hit_vals = struct.unpack_from('<4H', blob, off + 4)
     trs, angs = [], []
     for f in range(frames):
         tr, ang = R.anim_frame_at(blob, off, f)
-        angs.append(T.retarget_world(aya, ang, md, mp, idle, corr, straight=T.straight_parts(md)))
+        skin = T.retarget_world(aya, ang, md, mp, idle, corr, straight=T.straight_parts(md))
+        angs.append(layout.angles(skin, ang) if layout else skin)
         trs.append([tr[0] * ratio, tr[1] * ratio, tr[2] * ratio])
-    return encode_row(trs, angs, md['parts'], hit_vals)
+    return encode_row(trs, angs, layout.n if layout else md['parts'], hit_vals)
 
 
 FP_BYTES = 372      # every Aya row is at least this long (header 12 + 3 x 4 + 29 parts x 3 x 4)
@@ -149,14 +151,14 @@ def room_player_rows():
     return rows
 
 
-def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio):
+def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio, layout=None):
     """rooms.bin: 'PERR', count, then count x {fingerprint, offset, size} (offsets from the file
     start), then the retargeted rows."""
     items = sorted(rows.items())
     body = bytearray(); table = []
     head = 8 + 12 * len(items)
     for fp, data in items:
-        out = retarget_row(data, 0, aya, md, mp, idle, corr, ratio)
+        out = retarget_row(data, 0, aya, md, mp, idle, corr, ratio, layout)
         table.append((fp, head + len(body), len(out))); body += out
         while len(body) % 4: body.append(0)
     open(path, 'wb').write(b'PERR' + struct.pack('<I', len(items)) +
@@ -164,11 +166,102 @@ def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio):
     return len(items), head + len(body)
 
 
+class AyaLayout:
+    """Renumber a skin's parts to Aya's indices. Game code names Aya's parts by number: the weapon
+    follows part 0x12 (right hand, second finger segment), muzzle / glow effects read matrices[19],
+    head turns and anchors use others. Each skin part mapped to an Aya part moves to that index; an
+    Aya part the skin lacks becomes a placeholder (no vertices, no hit sphere, Aya's bone offset and
+    Aya's own animation) hung from its Aya parent; unmapped skin parts (extra pieces) follow after
+    Aya's last index. Parts keep their own vertex ranges (the game reads each part's vertex_start),
+    and mapped / extra parts keep the skin's hierarchy, so only the part table, the per-part bounds,
+    the matrix commands, the anchor index and the animation channel order change."""
+
+    def __init__(self, aya, md, mp):
+        self.n_aya = aya['parts']
+        self.aya_parent = parents(aya['cmds'])
+        skin_parent = parents(md['cmds'])
+        by_aya = {a: s for s, a in mp.items() if a < self.n_aya}
+        extras = [s for s in range(md['parts']) if s not in mp or mp[s] >= self.n_aya]
+        self.src = []                       # new index -> ('skin', old) | ('aya', aya index)
+        for a in range(self.n_aya):
+            self.src.append(('skin', by_aya[a]) if a in by_aya else ('aya', a))
+        for s in extras: self.src.append(('skin', s))
+        self.new_of = {old: i for i, (k, old) in enumerate(self.src) if k == 'skin'}
+        self.parent = []
+        for i, (k, v) in enumerate(self.src):
+            if k == 'skin':
+                p = skin_parent[v]
+                self.parent.append(None if p is None else self.new_of[p])
+            else:
+                p = self.aya_parent[v]
+                self.parent.append(None if p is None else p)   # Aya parent's new index == its Aya index
+        self.aya_tz = {a: aya['ptab'][a][3] for a in range(self.n_aya)}
+        self.n = len(self.src)
+
+    def commands(self):
+        kids = {i: [] for i in range(self.n)}
+        for i, p in enumerate(self.parent):
+            if p is not None: kids[p].append(i)
+        out = []
+        def emit(i):
+            out.append(i)
+            ks = kids[i]
+            for k in ks[:-1]: out.append(-1); emit(k); out.append(-2)
+            if ks: emit(ks[-1])
+        emit(0)
+        if len([c for c in out if c >= 0]) != self.n: raise ValueError('hierarchy does not reach every part')
+        return out
+
+    def angles(self, skin_ang, aya_ang):
+        return [skin_ang[v] if k == 'skin' else aya_ang[v] for k, v in self.src]
+
+    def model(self, raw, md):
+        """Rewrite a model block (header .. UV records) in the new part order."""
+        parts, verts = raw[2], R.u16(raw, 6)
+        pk = [R.u16(raw, 8 + 2 * k) for k in range(4)]
+        mcb = R.u16(raw, 0x18)
+        at = 0x1C
+        ptab = [raw[at + 12 * i: at + 12 * i + 12] for i in range(parts)]; at += 12 * parts
+        geo_start = at; at += 8 * verts + 4 * verts + 12 * sum(pk); geo = raw[geo_start:at]
+        sec14 = raw[at:at + 16]; at += 16
+        bounds = [raw[at + 16 * i: at + 16 * i + 16] for i in range(parts)]; at += 16 * parts
+        proj = raw[at:at + 8]; at += 8
+        at += (mcb + 3) // 4 * 4
+        uvs = raw[at:]
+        new_ptab, new_bounds = [], []
+        for k, v in self.src:
+            if k == 'skin':
+                new_ptab.append(ptab[v]); new_bounds.append(bounds[v])
+            else:   # placeholder: no vertices, visible (as Aya's parts), Aya's bone offset, no hit sphere
+                new_ptab.append(struct.pack('<HHBxxxi', 0, 0, 1, self.aya_tz[v]))
+                new_bounds.append(struct.pack('<hhhhhhhh', 0, 0, 0, 0, 0, 0, 0, -1))
+        cmds = self.commands()
+        cbytes = struct.pack('<%db' % len(cmds), *cmds)
+        while len(cbytes) % 4: cbytes += b'\0'
+        head = bytearray(raw[:0x1C])
+        head[2] = self.n
+        anchor = R.u16(raw, 0x12)
+        struct.pack_into('<H', head, 0x12, self.new_of.get(anchor, anchor))
+        struct.pack_into('<H', head, 0x18, len(cmds))
+        return bytes(head) + b''.join(new_ptab) + geo + sec14 + b''.join(new_bounds) + proj + cbytes + uvs
+
+
+def parents(cmds):
+    """Parent of each part from the matrix command list (-1 push, -2 pop)."""
+    par, stack, cur = {}, [], None
+    for c in cmds:
+        if c == -1: stack.append(cur); continue
+        if c == -2: cur = stack.pop(); continue
+        par[c] = cur; cur = c
+    return par
+
+
 def gun_part(mp):
     """The skin part the weapon model follows. The game attaches it (g_GameState.scene_object,
     animation_state 3) to the player's part 0x12 = Aya's right hand, second finger segment
-    (room_load.c Scene_LoadEntityTextures); a skin uses its own part mapped from that, else from the
-    first finger segment, else the hand."""
+    (room_load.c Scene_LoadEntityTextures). With AyaLayout every skin has a part 0x12 (its own or a
+    placeholder), so this is 0x12; without it, the skin's part mapped from 18 / 17 / 16."""
+    if LAYOUT: return 0x12
     for aya_part in (18, 17, 16):
         hit = sorted(d for d, s in mp.items() if s == aya_part)
         if hit: return hit[0]
@@ -247,21 +340,23 @@ def build(name, m, slot):
         if i < md['pk'][0]: struct.pack_into('<BBHBBHBBHBBH', raw, pos, *t); pos += 16
         else: struct.pack_into('<BBHBBHBBH', raw, pos, *t); pos += 12
 
-    print(name, 'parts', md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
+    layout = AyaLayout(aya, md, mp) if LAYOUT else None
+    if layout: raw = bytearray(layout.model(bytes(raw), md))
+    print(name, 'parts', md['parts'], '->', layout.n if layout else md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
           'gun part', write_meta(out_dir, mp))
     if META_ONLY:
         install(out_dir, name); return
-    rows = [(retarget_row(aya_blob, o, aya, md, mp, idle, corr, ratio), s) for s, o in sorted(aya_rows.items())]
+    rows = [(retarget_row(aya_blob, o, aya, md, mp, idle, corr, ratio, layout), s) for s, o in sorted(aya_rows.items())]
     bundle = write_blob([(bytes(raw), 0, aya_trailing)], rows)
     open(os.path.join(out_dir, 'model.bin'), 'wb').write(bundle)
     print('  model.bin', len(bundle), 'bytes (Aya entry 20:', len(aya_blob), ')')
     for day in range(1, 9):
         dblob = R.image_blob(0x16 + 8 + day)
-        drows = [(retarget_row(dblob, o, aya, md, mp, idle, corr, ratio), s) for o, s, g in R.records(dblob, 0x10)]
+        drows = [(retarget_row(dblob, o, aya, md, mp, idle, corr, ratio, layout), s) for o, s, g in R.records(dblob, 0x10)]
         d_out = write_blob([], drows)
         open(os.path.join(out_dir, 'day%d.bin' % day), 'wb').write(d_out)
     print('  day1..8.bin', len(d_out), 'bytes each (last)')
-    n_rr, size_rr = write_room_rows(os.path.join(out_dir, 'rooms.bin'), room_player_rows(), aya, md, mp, idle, corr, ratio)
+    n_rr, size_rr = write_room_rows(os.path.join(out_dir, 'rooms.bin'), room_player_rows(), aya, md, mp, idle, corr, ratio, layout)
     print('  rooms.bin', n_rr, 'room animations,', size_rr, 'bytes')
 
     # texture blob: Aya's entry-15 blob with the image and palette pixels replaced in place
