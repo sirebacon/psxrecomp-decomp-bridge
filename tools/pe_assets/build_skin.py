@@ -86,14 +86,33 @@ def encode_row(frames_tr, frames_ang, parts, hit_vals):
     return bytes(out)
 
 
+ALT_SOURCES = {}     # row part count -> (Aya model, mapping, shoulder correction), per skin (build())
+
+
+def alt_sources(md, idle):
+    """Room rows drive one of three Aya skeletons by part count: 29 the jacket (image 20), 31 the
+    evening dress (image 18), 23 the Day 1 long dress (image 19). Retarget each from its own."""
+    ALT_SOURCES.clear()
+    for area in (10, 11):
+        b = R.image_blob(area + 8)
+        src = R.model(b, R.records(b, 0x0C)[0][0])
+        rows = {s: o for o, s, g in R.records(b, 0x10)}
+        src_idle = R.anim_frame_at(b, rows[0x15], 0)[1] if 0x15 in rows else [[0, 0, 0]] * src['parts']
+        mp = T.semantic_mapping(src, md)
+        ALT_SOURCES[src['parts']] = (src, mp, T.shoulder_deltas(src, md, mp, src_idle, idle))
+
+
 def retarget_row(blob, off, aya, md, mp, idle, corr, ratio, layout=None):
     frames = max(1, blob[off + 2])
     hit_vals = struct.unpack_from('<4H', blob, off + 4)
+    parts = blob[off + 1] + 1
+    src, smp, scorr = (aya, mp, corr) if parts == aya['parts'] or parts not in ALT_SOURCES else ALT_SOURCES[parts]
     trs, angs = [], []
     for f in range(frames):
         tr, ang = R.anim_frame_at(blob, off, f)
-        skin = T.retarget_world(aya, ang, md, mp, idle, corr, straight=T.straight_parts(md))
-        angs.append(layout.angles(skin, ang) if layout else skin)
+        skin = T.retarget_world(src, ang, md, smp, idle, scorr, straight=T.straight_parts(md))
+        # placeholders take Aya's own angles only from a jacket-skeleton row (same indices)
+        angs.append(layout.angles(skin, ang if src is aya else []) if layout else skin)
         trs.append([tr[0] * ratio, tr[1] * ratio, tr[2] * ratio])
     return encode_row(trs, angs, layout.n if layout else md['parts'], hit_vals)
 
@@ -331,6 +350,7 @@ def build(name, m, slot, disc=1):
     idle = R.anim_frame_at(blob, own[0][1], 0)[1] if own else [[0, 0, 0]] * md['parts']
     mp = T.semantic_mapping(aya, md)
     corr = T.shoulder_deltas(aya, md, mp, aya_idle, idle)
+    alt_sources(md, idle)
     ratio = T.leg_length(md, md['cmds']) / T.leg_length(aya, aya['cmds'])
 
     # model bytes with the texture moved to the player's slot
