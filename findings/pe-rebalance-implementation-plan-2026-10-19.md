@@ -76,6 +76,13 @@ resistances on one line.
        they differ (play-log row `wcache`). The armor cache (`Inv_BuildArmorList`, which also runs
        `BattleCmd_LoadWeaponModifiers`) is not covered: armor installs still need a room change.
        Recheck: install, fight in the same room; a `wcache` row appears right after the install.
+13. [x] Play test 2026-10-20 (after 11-12): `wcache` rows right after each install; `rof_volley`,
+       `fast_volley`, `aa_capped` > 0 in every fight; `dmg_pred` 100%. User saw Aya shoot at a target that
+       had already died. Cause: item 11's tail skip ran as soon as `g_BattleHitPending` cleared, but a
+       landed hit only marks the target (core flags hitState 0x6000); HP drops a few frames later in the
+       enemy's own damage step, which clears the mark. The next-bullet alive check could run first. Fixed:
+       the skip also waits until no active enemy carries an unprocessed hit mark. Recheck: Attack All
+       volleys that kill mid-volley stop firing at the dead enemy.
 9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
        installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
        untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
