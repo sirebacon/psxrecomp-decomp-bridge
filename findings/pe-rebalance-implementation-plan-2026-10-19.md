@@ -83,6 +83,13 @@ resistances on one line.
        enemy's own damage step, which clears the mark. The next-bullet alive check could run first. Fixed:
        the skip also waits until no active enemy carries an unprocessed hit mark. Recheck: Attack All
        volleys that kill mid-volley stop firing at the dead enemy.
+14. [x] Armor cache (user asked 2026-10-20): `pe_sync_armor_cache` rebuilds `g_BattleEquipStateBlock`
+       (0x8009D1B0) the way `Inv_BuildArmorList` does, and the armor stat modifiers
+       (`g_InvBonusSlotCount`, `g_StatScaleBase`) the way `BattleCmd_LoadWeaponModifiers` does; when
+       those change it redoes the parts of `Inv_RecalcSlotStats` they feed (max HP with current HP
+       clamped, stat1E, stat22). Stat levels are only read. A smaller Bag+ never strands an item. Play-log
+       row `acache`. Recheck: install a resist / Max HP armor mod in F1, close the menu; an `acache` row
+       appears and the status screen shows the new max HP without a room change.
 9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
        installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
        untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
