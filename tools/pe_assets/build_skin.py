@@ -213,21 +213,26 @@ class AyaLayout:
         self.md, self.idle, self.straight = md, idle, straight
         self.skin_parent = parents(md['cmds'])
         self.mp = {s: a for s, a in mp.items() if a < self.n}
-        self.by_aya = {a: s for s, a in self.mp.items()}
-        self.via = {}                       # mapped skin part -> unmapped pieces above it (nearest first)
-        passthru, problems = set(), []
-        for s, a in self.mp.items():
-            chain, p = [], self.skin_parent[s]
-            while p is not None and p not in self.mp:
-                chain.append(p); p = self.skin_parent[p]
-            self.via[s] = chain
-            target = self.mp[p] if p is not None else None
-            q = self.aya_parent[a]
-            while q != target:
-                if q is None or q in self.by_aya:
-                    problems.append('skin %d (Aya %d) hangs from skin %s (Aya %s)' % (s, a, p, target)); break
-                passthru.add(q); q = self.aya_parent[q]
-        if problems: raise ValueError('skeleton does not fit Aya\'s tree: ' + '; '.join(problems))
+        self.demoted = []
+        while True:                         # a mapped part that doesn't fit Aya's tree becomes a folded piece
+            self.by_aya = {a: s for s, a in self.mp.items()}
+            self.via = {}                   # mapped skin part -> unmapped pieces above it (nearest first)
+            passthru, bad = set(), []
+            for s, a in self.mp.items():
+                chain, p = [], self.skin_parent[s]
+                while p is not None and p not in self.mp:
+                    chain.append(p); p = self.skin_parent[p]
+                self.via[s] = chain
+                target = self.mp[p] if p is not None else None
+                q = self.aya_parent[a]
+                while q != target:
+                    if q is None or q in self.by_aya: bad.append(s); break
+                    passthru.add(q); q = self.aya_parent[q]
+            if not bad: break
+            folded = [s for s in bad if self.mp[s] != 0]          # never the root
+            if not folded: raise ValueError('skeleton does not fit Aya\'s tree')
+            for s in folded: self.demoted.append((s, self.mp.pop(s)))
+        if self.demoted: print('  folded (did not fit Aya\'s tree): %s' % ', '.join('skin %d (Aya %d)' % d for d in self.demoted))
         self.passthru = passthru
         self.extras = [s for s in range(md['parts']) if s not in self.mp]
         self.owner = {}
