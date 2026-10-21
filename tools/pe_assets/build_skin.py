@@ -5,6 +5,8 @@ Output (git-ignored, game-derived): tools/pe_assets/skins/<name>/
                   texture moved to the player's slot, plus Aya's bundle animation rows (0-3, 13-23,
                   28) retargeted to the character's skeleton
     day1.bin..day8.bin   the per-day rows (4-12, entries 31-38) retargeted
+    rooms.bin     the player rows rooms install (slots 24-47: door opening, room events), retargeted,
+                  indexed by a fingerprint of Aya's original (see write_room_rows)
     texture.bin   player texture blob like entry 15: the character's page and palettes in the
                   player's slot (page x=960 y=256, palettes rows 448-449)
 The mod hands these to the game instead of the disc's (Scene_LoadEntityTexture steps 3 / 6 and
@@ -12,6 +14,7 @@ Scene_LoadEntityTextures step 6). Validated by re-reading model.bin with the sam
 rendering frames (--check).
 
     PYTHONPATH=tools python tools/pe_assets/build_skin.py daniel 25 3 [--check]
+    PYTHONPATH=tools python tools/pe_assets/build_skin.py --all
 """
 import os, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -92,6 +95,74 @@ def retarget_row(blob, off, aya, md, mp, idle, corr, ratio):
     return encode_row(trs, angs, md['parts'], hit_vals)
 
 
+FP_BYTES = 372      # every Aya row is at least this long (header 12 + 3 x 4 + 29 parts x 3 x 4)
+
+
+def row_length(data, off=0):
+    """Bytes a row occupies, walking its channels as Anim_DecodeBoneRotations* (render_models.anim_frame_at):
+    a constant channel is 4 bytes, a sampled one ((frames >> 1) + 1) words (shorts) or
+    ((frames >> 2) + 1) words (byte angles)."""
+    flags, last, frames = data[off], data[off + 1], data[off + 2]
+    stride = ((frames >> 1) + 1) * 4
+    short = (flags & 3) == 2
+    bstride = stride if short else ((frames >> 2) + 1) * 4
+    cur = off + 12
+    for _ in range(3):
+        cur += 4 if R.s16(data, cur) else stride
+    for _ in range((last + 1) * 3):
+        cur += 4 if (R.s16(data, cur) if short else data[cur]) else bstride
+    return cur - off
+
+
+def fingerprint(data):
+    """FNV-1a over a row's whole length, as pe_collection.c computes it from guest memory."""
+    h = 0x811C9DC5
+    for b in data[:row_length(data)]: h = ((h ^ b) * 0x01000193) & 0xFFFFFFFF
+    return h
+
+
+def room_player_rows():
+    """Distinct player animation rows rooms install (bank_rows[0][24..47], Scene_LoadRoom row records
+    with group 0: door opening, room events), both discs, by fingerprint. Cached in skins/."""
+    import pickle
+    cache = os.path.join(HERE, 'skins', 'room_rows.pkl')
+    if os.path.exists(cache): return pickle.load(open(cache, 'rb'))
+    rows = {}
+    for disc in (1, 2):
+        for m in range(1, 1000):
+            try:
+                b = R.room_blob(m, disc); recs = R.records(b, 0x10)
+            except Exception:
+                continue
+            offs = sorted({o for o, s, g in recs}) + [len(b)]
+            for o, s, g in recs:
+                if g != 0 or not 24 <= s < 48: continue
+                data = bytes(b[o:next(x for x in offs if x > o)])
+                if len(data) < FP_BYTES: continue
+                data = data[:row_length(data)]
+                fp = fingerprint(data)
+                if fp in rows and rows[fp] != data: print('  fingerprint collision %08X (room %d slot %d)' % (fp, m, s))
+                rows.setdefault(fp, data)
+    os.makedirs(os.path.dirname(cache), exist_ok=True)
+    pickle.dump(rows, open(cache, 'wb'))
+    return rows
+
+
+def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio):
+    """rooms.bin: 'PERR', count, then count x {fingerprint, offset, size} (offsets from the file
+    start), then the retargeted rows."""
+    items = sorted(rows.items())
+    body = bytearray(); table = []
+    head = 8 + 12 * len(items)
+    for fp, data in items:
+        out = retarget_row(data, 0, aya, md, mp, idle, corr, ratio)
+        table.append((fp, head + len(body), len(out))); body += out
+        while len(body) % 4: body.append(0)
+    open(path, 'wb').write(b'PERR' + struct.pack('<I', len(items)) +
+                           b''.join(struct.pack('<III', *t) for t in table) + bytes(body))
+    return len(items), head + len(body)
+
+
 def write_blob(entries_models, entries_rows, tims=()):
     """SceneAssetBlob: data, then a 13-word directory (bankRootEntries +0x0C, bankRowEntries +0x10,
     timEntries +0x28; offset | count << 22), then the record tables."""
@@ -116,7 +187,17 @@ def write_blob(entries_models, entries_rows, tims=()):
 
 
 def main():
-    name, m, slot = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+    if '--all' in sys.argv:            # every character skin in gen_collection_data.SKINS that fits
+        from gen_collection_data import SKINS
+        for n, p, k, a, folder, src in SKINS:
+            if k != 1 or folder == 'eve': continue
+            try: build(folder, src[0], src[1])
+            except Exception as e: print(folder, 'FAILED', e)
+        return
+    build(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+
+
+def build(name, m, slot):
     out_dir = os.path.join(HERE, 'skins', name); os.makedirs(out_dir, exist_ok=True)
     aya_blob = R.image_blob(AYA_AREA + 8)
     aya_off, _, aya_trailing = R.records(aya_blob, 0x0C)[0]
@@ -158,6 +239,8 @@ def main():
         d_out = write_blob([], drows)
         open(os.path.join(out_dir, 'day%d.bin' % day), 'wb').write(d_out)
     print('  day1..8.bin', len(d_out), 'bytes each (last)')
+    n_rr, size_rr = write_room_rows(os.path.join(out_dir, 'rooms.bin'), room_player_rows(), aya, md, mp, idle, corr, ratio)
+    print('  rooms.bin', n_rr, 'room animations,', size_rr, 'bytes')
 
     # texture blob: Aya's entry-15 blob with the image and palette pixels replaced in place
     tex = bytearray(R.image_blob(AYA_AREA + 3))
