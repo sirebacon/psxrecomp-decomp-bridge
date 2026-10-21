@@ -213,7 +213,9 @@ class AyaLayout:
         return out
 
     def angles(self, skin_ang, aya_ang):
-        return [skin_ang[v] if k == 'skin' else aya_ang[v] for k, v in self.src]
+        # some room rows drive a reduced Aya skeleton: a placeholder the row doesn't cover stays at rest
+        return [skin_ang[v] if k == 'skin' else aya_ang[v] if v < len(aya_ang) else [0, 0, 0]
+                for k, v in self.src]
 
     def model(self, raw, md):
         """Rewrite a model block (header .. UV records) in the new part order."""
