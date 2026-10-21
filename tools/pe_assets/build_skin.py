@@ -22,6 +22,7 @@ import render_models as R
 import retarget as T
 
 AYA_AREA = 12
+META_ONLY = '--meta' in sys.argv    # only meta.bin (gun part), keep the other files
 HERE = os.path.dirname(__file__)
 # The game reads pe_skins/<folder>/ beside its exe (pe_collection.c); folder names as in gen_collection_data.SKINS.
 INSTALL_ROOT = os.path.join('D:' + os.sep, 'Recomp Games', 'Parasite Eve Project', 'parasite-eve-recomp', 'build-release', 'pe_skins')
@@ -163,6 +164,24 @@ def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio):
     return len(items), head + len(body)
 
 
+def gun_part(mp):
+    """The skin part the weapon model follows. The game attaches it (g_GameState.scene_object,
+    animation_state 3) to the player's part 0x12 = Aya's right hand, second finger segment
+    (room_load.c Scene_LoadEntityTextures); a skin uses its own part mapped from that, else from the
+    first finger segment, else the hand."""
+    for aya_part in (18, 17, 16):
+        hit = sorted(d for d, s in mp.items() if s == aya_part)
+        if hit: return hit[0]
+    return 0x12
+
+
+def write_meta(out_dir, mp):
+    """meta.bin: 'PEMT', u32 gun part (pe_collection.c sets the weapon's animation_id to it)."""
+    g = gun_part(mp)
+    open(os.path.join(out_dir, 'meta.bin'), 'wb').write(b'PEMT' + struct.pack('<I', g))
+    return g
+
+
 def write_blob(entries_models, entries_rows, tims=()):
     """SceneAssetBlob: data, then a 13-word directory (bankRootEntries +0x0C, bankRowEntries +0x10,
     timEntries +0x28; offset | count << 22), then the record tables."""
@@ -228,7 +247,10 @@ def build(name, m, slot):
         if i < md['pk'][0]: struct.pack_into('<BBHBBHBBHBBH', raw, pos, *t); pos += 16
         else: struct.pack_into('<BBHBBHBBH', raw, pos, *t); pos += 12
 
-    print(name, 'parts', md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw))
+    print(name, 'parts', md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
+          'gun part', write_meta(out_dir, mp))
+    if META_ONLY:
+        install(out_dir, name); return
     rows = [(retarget_row(aya_blob, o, aya, md, mp, idle, corr, ratio), s) for s, o in sorted(aya_rows.items())]
     bundle = write_blob([(bytes(raw), 0, aya_trailing)], rows)
     open(os.path.join(out_dir, 'model.bin'), 'wb').write(bundle)
@@ -263,12 +285,16 @@ def build(name, m, slot):
     open(os.path.join(out_dir, 'texture.bin'), 'wb').write(bytes(tex))
     print('  texture.bin', len(tex), 'bytes')
     if '--check' in sys.argv: check(out_dir, name)
-    install = os.path.join(INSTALL_ROOT, name)
+    install(out_dir, name)
+
+
+def install(out_dir, name):
+    dest = os.path.join(INSTALL_ROOT, name)
     if os.path.isdir(INSTALL_ROOT.rsplit(os.sep, 1)[0]):
         import shutil
-        os.makedirs(install, exist_ok=True)
-        for f in os.listdir(out_dir): shutil.copy2(os.path.join(out_dir, f), os.path.join(install, f))
-        print('  installed', install)
+        os.makedirs(dest, exist_ok=True)
+        for f in os.listdir(out_dir): shutil.copy2(os.path.join(out_dir, f), os.path.join(dest, f))
+        print('  installed', dest)
 
 
 def check(out_dir, name):
