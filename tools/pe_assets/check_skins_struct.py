@@ -17,6 +17,8 @@ for n, p, k, a, folder, src in SKINS:
         if np_ < 29: probs.append('only %d parts (not Aya layout)' % np_)
         seen = [c for c in md['cmds'] if c >= 0]
         if sorted(seen) != list(range(np_)): probs.append('commands reach %d of %d parts' % (len(set(seen)), np_))
+        elif seen != list(range(np_)):   # Render_TransformVertices stores matrices in command order; part i uses matrix i
+            probs.append('commands visit parts out of order (first at %d)' % next(i for i, c in enumerate(seen) if c != i))
         rows = 0
         for o, s, g in R.records(b, 0x10):
             rows += 1

@@ -16,7 +16,7 @@ rendering frames (--check).
     PYTHONPATH=tools python tools/pe_assets/build_skin.py daniel 25 3 [--check]
     PYTHONPATH=tools python tools/pe_assets/build_skin.py --all
 """
-import os, struct, sys
+import math, os, struct, sys
 sys.path.insert(0, os.path.dirname(__file__))
 import render_models as R
 import retarget as T
@@ -186,85 +186,161 @@ def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio, layout=None):
 
 
 class AyaLayout:
-    """Renumber a skin's parts to Aya's indices. Game code names Aya's parts by number: the weapon
-    follows part 0x12 (right hand, second finger segment), muzzle / glow effects read matrices[19],
-    head turns and anchors use others. Each skin part mapped to an Aya part moves to that index; an
-    Aya part the skin lacks becomes a placeholder (no vertices, no hit sphere, Aya's bone offset and
-    Aya's own animation) hung from its Aya parent; unmapped skin parts (extra pieces) follow after
-    Aya's last index. Parts keep their own vertex ranges (the game reads each part's vertex_start),
-    and mapped / extra parts keep the skin's hierarchy, so only the part table, the per-part bounds,
-    the matrix commands, the anchor index and the animation channel order change."""
+    """Renumber a skin's parts to Aya's indices, with Aya's own skeleton tree. Game code names Aya's
+    parts by number (weapon on part 0x12, muzzle / glow on matrices[19], the anchor), and
+    Render_TransformVertices writes the bone matrices in matrix-command order while part i is drawn
+    with matrix i -- so parts must be numbered in the order the commands visit them. Using Aya's tree
+    and Aya's command list gives exactly that (0, 1, .. 28).
+      - a skin part mapped to an Aya part takes that index; if it hung from unmapped pieces (Maeda's
+        elbow), their constant local transforms fold into its own;
+      - unmapped skin pieces (elbow pieces, hair, hat) hold a constant pose in every retargeted row
+        (retarget_world: straight or the character's idle angle), so their vertices are baked into the
+        nearest mapped ancestor and they stop being parts;
+      - an Aya part the skin lacks is a placeholder with no vertices and no hit sphere: between two
+        real parts it has no offset and no rotation (Aya's shoulder segments: the arm hangs where the
+        skin's does); past the real parts (fingers) it keeps Aya's bone offset and Aya's animation,
+        which places the weapon and the muzzle as on Aya.
+    Vertices are regrouped per part (faces renumbered); per-vertex normals (pad) and colours travel
+    with their vertex. (2026-10-21: a first version kept the skin's tree and appended extra pieces
+    after index 28, so command order and part order differed and Maeda's mesh stretched across the
+    room.)"""
 
-    def __init__(self, aya, md, mp):
-        self.n_aya = aya['parts']
+    def __init__(self, aya, md, mp, idle, straight):
+        self.n = aya['parts']
+        self.aya_cmds = list(aya['cmds'])
         self.aya_parent = parents(aya['cmds'])
-        skin_parent = parents(md['cmds'])
-        by_aya = {a: s for s, a in mp.items() if a < self.n_aya}
-        extras = [s for s in range(md['parts']) if s not in mp or mp[s] >= self.n_aya]
-        self.src = []                       # new index -> ('skin', old) | ('aya', aya index)
-        for a in range(self.n_aya):
-            self.src.append(('skin', by_aya[a]) if a in by_aya else ('aya', a))
-        for s in extras: self.src.append(('skin', s))
-        self.new_of = {old: i for i, (k, old) in enumerate(self.src) if k == 'skin'}
-        self.parent = []
-        for i, (k, v) in enumerate(self.src):
-            if k == 'skin':
-                p = skin_parent[v]
-                self.parent.append(None if p is None else self.new_of[p])
-            else:
-                p = self.aya_parent[v]
-                self.parent.append(None if p is None else p)   # Aya parent's new index == its Aya index
-        self.aya_tz = {a: aya['ptab'][a][3] for a in range(self.n_aya)}
-        self.n = len(self.src)
+        self.aya_tz = {a: aya['ptab'][a][3] for a in range(self.n)}
+        self.md, self.idle, self.straight = md, idle, straight
+        self.skin_parent = parents(md['cmds'])
+        self.mp = {s: a for s, a in mp.items() if a < self.n}
+        self.by_aya = {a: s for s, a in self.mp.items()}
+        self.via = {}                       # mapped skin part -> unmapped pieces above it (nearest first)
+        passthru, problems = set(), []
+        for s, a in self.mp.items():
+            chain, p = [], self.skin_parent[s]
+            while p is not None and p not in self.mp:
+                chain.append(p); p = self.skin_parent[p]
+            self.via[s] = chain
+            target = self.mp[p] if p is not None else None
+            q = self.aya_parent[a]
+            while q != target:
+                if q is None or q in self.by_aya:
+                    problems.append('skin %d (Aya %d) hangs from skin %s (Aya %s)' % (s, a, p, target)); break
+                passthru.add(q); q = self.aya_parent[q]
+        if problems: raise ValueError('skeleton does not fit Aya\'s tree: ' + '; '.join(problems))
+        self.passthru = passthru
+        self.extras = [s for s in range(md['parts']) if s not in self.mp]
+        self.owner = {}
+        for e in self.extras:
+            p = self.skin_parent[e]
+            while p is not None and p not in self.mp: p = self.skin_parent[p]
+            self.owner[e] = p if p is not None else self.by_aya[0]
 
-    def commands(self):
-        kids = {i: [] for i in range(self.n)}
-        for i, p in enumerate(self.parent):
-            if p is not None: kids[p].append(i)
-        out = []
-        def emit(i):
-            out.append(i)
-            ks = kids[i]
-            for k in ks[:-1]: out.append(-1); emit(k); out.append(-2)
-            if ks: emit(ks[-1])
-        emit(0)
-        if len([c for c in out if c >= 0]) != self.n: raise ValueError('hierarchy does not reach every part')
-        return out
+    def const_angle(self, s):
+        return [0, 0, 0] if s in self.straight else (self.idle[s] if s < len(self.idle) else [0, 0, 0])
+
+    def piece(self, s):
+        """(rotation, translation) of skin part s in its skin parent's frame, constant pieces only."""
+        return R.rot_yxz(self.const_angle(s)), [0, 0, self.md['ptab'][s][3]]
+
+    def to_owner(self, e):
+        """Transform from piece e's frame to its owner's frame (composed constant pieces)."""
+        Rm, t = [[1, 0, 0], [0, 1, 0], [0, 0, 1]], [0, 0, 0]
+        x = e
+        while x != self.owner[e]:
+            r, tr = self.piece(x)                 # x frame -> parent frame
+            Rm, t = R.mm(r, Rm), [a + b for a, b in zip(R.mv(r, t), tr)]
+            x = self.skin_parent[x]
+        return Rm, t
+
+    def joint_tz(self, s):
+        """s's offset from its mapped ancestor along that ancestor's z, through any folded pieces."""
+        vec = [0, 0, self.md['ptab'][s][3]]
+        for e in self.via[s]:                     # nearest first
+            r, tr = self.piece(e)
+            vec = [a + b for a, b in zip(R.mv(r, vec), tr)]
+        if abs(vec[0]) > 2 or abs(vec[1]) > 2:   # a bent folded piece: keep the length on z
+            return int(round(math.copysign(math.sqrt(sum(v * v for v in vec)), vec[2] or 1)))
+        return int(round(vec[2]))
 
     def angles(self, skin_ang, aya_ang):
-        # some room rows drive a reduced Aya skeleton: a placeholder the row doesn't cover stays at rest
-        return [skin_ang[v] if k == 'skin' else aya_ang[v] if v < len(aya_ang) else [0, 0, 0]
-                for k, v in self.src]
+        out = []
+        for a in range(self.n):
+            if a in self.by_aya:
+                s = self.by_aya[a]
+                if self.via[s]:
+                    Rm = R.rot_yxz(skin_ang[s])
+                    for e in self.via[s]: Rm = R.mm(R.rot_yxz(skin_ang[e]), Rm)
+                    out.append(T.to_yxz(Rm))
+                else:
+                    out.append(skin_ang[s])
+            elif a in self.passthru or a >= len(aya_ang):
+                out.append([0, 0, 0])
+            else:
+                out.append(aya_ang[a])
+        return out
+
+    def commands(self):
+        return self.aya_cmds
 
     def model(self, raw, md):
-        """Rewrite a model block (header .. UV records) in the new part order."""
+        """Rewrite a model block (header .. UV records): Aya's part table / tree, vertices regrouped."""
         parts, verts = raw[2], R.u16(raw, 6)
         pk = [R.u16(raw, 8 + 2 * k) for k in range(4)]
         mcb = R.u16(raw, 0x18)
         at = 0x1C
-        ptab = [raw[at + 12 * i: at + 12 * i + 12] for i in range(parts)]; at += 12 * parts
-        geo_start = at; at += 8 * verts + 4 * verts + 12 * sum(pk); geo = raw[geo_start:at]
+        ptab = [struct.unpack_from('<HHBxxxi', raw, at + 12 * i) for i in range(parts)]; at += 12 * parts
+        vat = at; at += 8 * verts
+        cat = at; at += 4 * verts
+        dat = at; nd = sum(pk); at += 12 * nd
         sec14 = raw[at:at + 16]; at += 16
         bounds = [raw[at + 16 * i: at + 16 * i + 16] for i in range(parts)]; at += 16 * parts
         proj = raw[at:at + 8]; at += 8
         at += (mcb + 3) // 4 * 4
         uvs = raw[at:]
-        new_ptab, new_bounds = [], []
-        for k, v in self.src:
-            if k == 'skin':
-                new_ptab.append(ptab[v]); new_bounds.append(bounds[v])
-            else:   # placeholder: no vertices, visible (as Aya's parts), Aya's bone offset, no hit sphere
-                new_ptab.append(struct.pack('<HHBxxxi', 0, 0, 1, self.aya_tz[v]))
+        new_v, new_c, remap, new_ptab, new_bounds = bytearray(), bytearray(), {}, [], []
+        for a in range(self.n):
+            start = len(new_v) // 8
+            if a in self.by_aya:
+                s = self.by_aya[a]
+                vs, vc, vis, tz = ptab[s]
+                for i in range(vs, vs + vc):
+                    remap[i] = len(new_v) // 8
+                    new_v += raw[vat + 8 * i: vat + 8 * i + 8]; new_c += raw[cat + 4 * i: cat + 4 * i + 4]
+                for e in self.extras:
+                    if self.owner[e] != s: continue
+                    Rm, t = self.to_owner(e)
+                    evs, evc = ptab[e][0], ptab[e][1]
+                    for i in range(evs, evs + evc):
+                        x, y, z, pad = struct.unpack_from('<hhhh', raw, vat + 8 * i)
+                        p = [a2 + b2 for a2, b2 in zip(R.mv(Rm, [x, y, z]), t)]
+                        remap[i] = len(new_v) // 8
+                        new_v += struct.pack('<hhhh', *[max(-32768, min(32767, int(round(c)))) for c in p], pad)
+                        new_c += raw[cat + 4 * i: cat + 4 * i + 4]
+                new_ptab.append(struct.pack('<HHBxxxi', start, len(new_v) // 8 - start, vis, self.joint_tz(s)))
+                new_bounds.append(bounds[s])
+            else:
+                tz = 0 if a in self.passthru else self.aya_tz[a]
+                new_ptab.append(struct.pack('<HHBxxxi', 0, 0, 1, tz))
                 new_bounds.append(struct.pack('<hhhhhhhh', 0, 0, 0, 0, 0, 0, 0, -1))
+        if len(remap) != verts: raise ValueError('vertex regroup lost %d vertices' % (verts - len(remap)))
+        new_d = bytearray(raw[dat: dat + 12 * nd])
+        for k in range(nd):
+            for j in range(4):
+                o = 12 * k + 4 + 2 * j
+                v = struct.unpack_from('<H', new_d, o)[0]
+                if v in remap: struct.pack_into('<H', new_d, o, remap[v])
         cmds = self.commands()
         cbytes = struct.pack('<%db' % len(cmds), *cmds)
         while len(cbytes) % 4: cbytes += b'\0'
         head = bytearray(raw[:0x1C])
         head[2] = self.n
         anchor = R.u16(raw, 0x12)
-        struct.pack_into('<H', head, 0x12, self.new_of.get(anchor, anchor))
+        anchor_skin = anchor if anchor in self.mp else self.owner.get(anchor, self.by_aya[0])
+        struct.pack_into('<H', head, 0x12, self.mp.get(anchor_skin, 0))
         struct.pack_into('<H', head, 0x18, len(cmds))
-        return bytes(head) + b''.join(new_ptab) + geo + sec14 + b''.join(new_bounds) + proj + cbytes + uvs
+        return bytes(head) + b''.join(new_ptab) + bytes(new_v) + bytes(new_c) + bytes(new_d) + sec14 + \
+            b''.join(new_bounds) + proj + cbytes + uvs
 
 
 def parents(cmds):
@@ -362,7 +438,7 @@ def build(name, m, slot, disc=1):
         if i < md['pk'][0]: struct.pack_into('<BBHBBHBBHBBH', raw, pos, *t); pos += 16
         else: struct.pack_into('<BBHBBHBBH', raw, pos, *t); pos += 12
 
-    layout = AyaLayout(aya, md, mp) if LAYOUT else None
+    layout = AyaLayout(aya, md, mp, idle, T.straight_parts(md)) if LAYOUT else None
     if layout: raw = bytearray(layout.model(bytes(raw), md))
     print(name, 'parts', md['parts'], '->', layout.n if layout else md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
           'gun part', write_meta(out_dir, mp))
