@@ -20,3 +20,15 @@ __pycache__/
 # Isolated live-timing session: copies of the game executable, saves, recompiler cache and
 # multi-hundred-MB runtime dumps. Never commit (redistribution, size).
 findings/live-timing-session/
+
+# Raw extracts of game data (decoded from the user's disc / save states): kept locally, never published
+findings/data/pe-enemy-actions-*.json
+findings/data/pe-bestiary-extract-*.json
+findings/data/pe-bestiary-draft-*.json
+findings/data/pe-aya-level-stats-*.json
+findings/data/pe-aya-hit-spheres-*.json
+findings/data/pe-weapons-game-*.csv
+findings/data/pe-animation-extract-*.json
+findings/data/pe-beam-scheduling-extract-*.json
+findings/data/pe-model-catalog-*.json
+findings/data/pe-enemy-model-catalog-*.json
