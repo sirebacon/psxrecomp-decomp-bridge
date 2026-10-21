@@ -56,6 +56,25 @@ Totals: Outfit 300 + Premium 1,200 + Main cast 750 + Supporting 450 + Extras 700
 So a full collection takes about four runs, a main-cast skin is affordable within the first run,
 and the cheapest extras from Day 3-4 onward. All prices are knobs in one table.
 
+**Price curve, 2026-10-21 (user: "fun to unlock things early on the first playthrough"; the full
+collection is for repeat runs or grinding).** 34 buyable skins after the cast additions (Wayne, Torres,
+Warner, Cathy, Eddie, Nix, Scientist, Klamp, Ben, Nurse, Guard, Soldier, Cameraman, Admiral,
+Captain):
+
+| Tier | Price | Skins | Total |
+|---|---:|---:|---:|
+| Extras | 25 | 12 | 300 |
+| Aya's outfits | 50 | 2 (long dress / transformed still "soon") | 100 |
+| Supporting | 100 | 13 | 1,300 |
+| Main cast | 250 | Daniel, Maeda, Maya, Klamp | 1,000 |
+| Showpiece | 400 | Melissa | 400 |
+| **All** | | | **3,100** |
+
+First run (Normal): 2-3 extras by Day 4 (~70-90 spare), outfits and a couple of supporting skins by
+Day 5 (~340), one or two main-cast skins by the end (~930 more). Everything plus the Bestiary
+(~400-700) is ~3,500-3,800 Junk: 3-4 runs, or a run plus grinding. The Wardrobe groups by price
+(main 250+, supporting 100+, extras below).
+
 ## 4. How to buy
 
 Two places, same catalogue and prices:

@@ -21,24 +21,24 @@ SKIP = ('Hospital map 159 actor',)
 RESISTS = ('heat', 'frost', 'cyanide', 'acid', 'tranq')
 
 SKINS = [  # name, price, kind (0 = Aya outfit area, 1 = character bundle), area / 0, bundle folder (pe_skins/<folder>), (map, slot) source
-    ('Aya', 0, 0, 12, '', None), ('Aya: evening dress', 100, 0, 10, '', None), ('Aya: T-shirt', 100, 0, 13, '', None),
-    ('Aya: long dress', 100, 0, 11, '', None), ("Aya: transformed", 400, 0, 14, '', None),
+    ('Aya', 0, 0, 12, '', None), ('Aya: evening dress', 50, 0, 10, '', None), ('Aya: T-shirt', 50, 0, 13, '', None),
+    ('Aya: long dress', 50, 0, 11, '', None), ("Aya: transformed", 400, 0, 14, '', None),
     ('Melissa', 400, 1, 0, 'melissa', (4, 3)), ('Eve', 400, 1, 0, 'eve', (23, 2)),
     ('Daniel', 250, 1, 0, 'daniel', (25, 3)), ('Maeda', 250, 1, 0, 'maeda', (25, 4)), ('Maya', 250, 1, 0, 'maya', (11, 2)),
-    ('Chief Baker', 150, 1, 0, 'baker', (41, 3)), ('Daniel (gun drawn)', 150, 1, 0, 'daniel_gun', (94, 4)),
-    ('Maeda (backpack)', 150, 1, 0, 'maeda_pack', (90, 2)),
-    ("Aya's date", 50, 1, 0, 'date', (2, 2)), ('Wayne', 150, 1, 0, 'wayne', (48, 2)),
-    ('Cathy', 150, 1, 0, 'cathy', (43, 4)), ('Torres', 150, 1, 0, 'torres', (52, 3)),
-    ('Eddie', 150, 1, 0, 'eddie', (1, 3)), ('Warner', 150, 1, 0, 'warner', (41, 4)),
-    ('Nix', 150, 1, 0, 'nix', (41, 5)), ('Opera actress', 50, 1, 0, 'opera_actress', (49, 2)),
-    ('Opera (doublet)', 50, 1, 0, 'opera_doublet', (49, 3)), ('Opera king', 50, 1, 0, 'opera_king', (49, 4)),
-    ('Opera knight', 50, 1, 0, 'opera_knight', (49, 5)), ('Harlequin', 50, 1, 0, 'harlequin', (17, 1)),
-    ('Usher', 50, 1, 0, 'usher', (2, 3)), ('Crew', 50, 1, 0, 'crew', (275, 3)),
-    ('Scientist', 150, 1, 0, 'scientist', (117, 2)),   # appended: profile bits are by index
-    ('Klamp', 250, 1, 0, 'klamp', (146, 3)), ('Ben', 150, 1, 0, 'ben', (6, 2)), ('Nurse', 50, 1, 0, 'nurse', (147, 2)),
-    ('Guard (jumpsuit)', 50, 1, 0, 'guard', (191, 3)), ('Soldier', 50, 1, 0, 'soldier', (259, 4)),
-    ('Cameraman', 50, 1, 0, 'cameraman', (359, 4)),
-    ('Admiral', 150, 1, 0, 'admiral', (271, 2, 2)), ('Captain', 150, 1, 0, 'captain', (271, 4, 2)),   # disc 2
+    ('Chief Baker', 100, 1, 0, 'baker', (41, 3)), ('Daniel (gun drawn)', 100, 1, 0, 'daniel_gun', (94, 4)),
+    ('Maeda (backpack)', 100, 1, 0, 'maeda_pack', (90, 2)),
+    ("Aya's date", 25, 1, 0, 'date', (2, 2)), ('Wayne', 100, 1, 0, 'wayne', (48, 2)),
+    ('Cathy', 100, 1, 0, 'cathy', (43, 4)), ('Torres', 100, 1, 0, 'torres', (52, 3)),
+    ('Eddie', 100, 1, 0, 'eddie', (1, 3)), ('Warner', 100, 1, 0, 'warner', (41, 4)),
+    ('Nix', 100, 1, 0, 'nix', (41, 5)), ('Opera actress', 25, 1, 0, 'opera_actress', (49, 2)),
+    ('Opera (doublet)', 25, 1, 0, 'opera_doublet', (49, 3)), ('Opera king', 25, 1, 0, 'opera_king', (49, 4)),
+    ('Opera knight', 25, 1, 0, 'opera_knight', (49, 5)), ('Harlequin', 25, 1, 0, 'harlequin', (17, 1)),
+    ('Usher', 25, 1, 0, 'usher', (2, 3)), ('Crew', 25, 1, 0, 'crew', (275, 3)),
+    ('Scientist', 100, 1, 0, 'scientist', (117, 2)),   # appended: profile bits are by index
+    ('Klamp', 250, 1, 0, 'klamp', (146, 3)), ('Ben', 100, 1, 0, 'ben', (6, 2)), ('Nurse', 25, 1, 0, 'nurse', (147, 2)),
+    ('Guard (jumpsuit)', 25, 1, 0, 'guard', (191, 3)), ('Soldier', 25, 1, 0, 'soldier', (259, 4)),
+    ('Cameraman', 25, 1, 0, 'cameraman', (359, 4)),
+    ('Admiral', 100, 1, 0, 'admiral', (271, 2, 2)), ('Captain', 100, 1, 0, 'captain', (271, 4, 2)),   # disc 2
 ]
 
 
