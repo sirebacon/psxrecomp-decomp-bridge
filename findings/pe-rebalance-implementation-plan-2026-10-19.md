@@ -67,6 +67,15 @@ resistances on one line.
        the follow-up clip is skipped (`animFrame = animLastFrame << 16`). A bullet now costs its hit frame
        + 1-2 frames (rifle 4, grenade 3, handgun 2, shotgun 4, rocket 3); machine guns unchanged.
        Recheck: an RoF 7 volley fires all 7 bullets without stalling, `fast_volley` > 0.
+12. [x] Same play test: the fight right after the installs fired plain single shots with no Attack All.
+       Cause (affects every gun and every Catalog effect, not only the rebalance): battles read the gun
+       from a cache, `g_SavedBattleStateTail` (0x800B0CB0), that `Inv_BuildWeaponList` refills only on
+       room load (`Battle_InitEquipLists`) or an equip-menu change. F1 / Workshop edits to the equipped
+       record arrived after the next room change. Fixed in `pe_mod_effects.c` (`pe_sync_weapon_cache`):
+       outside battle the cached fields are rebuilt from the record the game's way and rewritten when
+       they differ (play-log row `wcache`). The armor cache (`Inv_BuildArmorList`, which also runs
+       `BattleCmd_LoadWeaponModifiers`) is not covered: armor installs still need a room change.
+       Recheck: install, fight in the same room; a `wcache` row appears right after the install.
 9. [x] R-F progression gun bonuses (user approved 2026-10-20 after the gun ladder with stage-gated Catalog
        installs): one ON/OFF row; counted in `gun_bonus`; DPS line through `pe_fx_attack_bonus`. Built,
        untested in game. In-game check: an M16A1 / SG550 (Day 3) or M203 (Day 2) fight, `modfx` gun_bonus > 0.
