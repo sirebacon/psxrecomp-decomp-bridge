@@ -35,6 +35,10 @@ SKINS = [  # name, price, kind (0 = Aya outfit area, 1 = character bundle), area
     ('Opera knight', 50, 1, 0, 'opera_knight', (49, 5)), ('Harlequin', 50, 1, 0, 'harlequin', (17, 1)),
     ('Usher', 50, 1, 0, 'usher', (2, 3)), ('Crew', 50, 1, 0, 'crew', (275, 3)),
     ('Scientist', 150, 1, 0, 'scientist', (117, 2)),   # appended: profile bits are by index
+    ('Klamp', 250, 1, 0, 'klamp', (146, 3)), ('Ben', 150, 1, 0, 'ben', (6, 2)), ('Nurse', 50, 1, 0, 'nurse', (147, 2)),
+    ('Guard (jumpsuit)', 50, 1, 0, 'guard', (191, 3)), ('Soldier', 50, 1, 0, 'soldier', (259, 4)),
+    ('Cameraman', 50, 1, 0, 'cameraman', (359, 4)),
+    ('Naval officer (beard)', 50, 1, 0, 'naval_beard', (271, 2, 2)), ('Naval officer', 50, 1, 0, 'naval', (271, 4, 2)),   # disc 2
 ]
 
 

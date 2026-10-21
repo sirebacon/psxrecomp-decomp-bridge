@@ -305,13 +305,13 @@ def main():
         from gen_collection_data import SKINS
         for n, p, k, a, folder, src in SKINS:
             if k != 1 or folder == 'eve': continue
-            try: build(folder, src[0], src[1])
+            try: build(folder, src[0], src[1], src[2] if len(src) > 2 else 1)
             except Exception as e: print(folder, 'FAILED', e)
         return
-    build(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
+    build(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), 2 if '--disc2' in sys.argv else 1)
 
 
-def build(name, m, slot):
+def build(name, m, slot, disc=1):
     out_dir = os.path.join(HERE, 'skins', name); os.makedirs(out_dir, exist_ok=True)
     aya_blob = R.image_blob(AYA_AREA + 8)
     aya_off, _, aya_trailing = R.records(aya_blob, 0x0C)[0]
@@ -319,7 +319,7 @@ def build(name, m, slot):
     aya_rows = {s: o for o, s, g in R.records(aya_blob, 0x10)}
     aya_idle = R.anim_frame_at(aya_blob, aya_rows[0x15], 0)[1]
 
-    blob = R.room_blob(m); vram = R.room_vram(m)
+    blob = R.room_blob(m, disc); vram = R.room_vram(m, disc)
     d = R.word(blob, 4); desc = R.word(blob, d + 0x0C); at = desc & 0x3fffff
     for i in range(desc >> 22):
         w = R.word(blob, at + 12 * i + 4)
