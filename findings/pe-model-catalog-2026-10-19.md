@@ -43,7 +43,7 @@ Textures: the room's scratch and texture blobs, the two sector runs in front of 
 | Maeda (with backpack) | textured from disc | 27 | 6/4/6 | - | 90 | 90 / 2, 31316, 31012, 31331:292 |
 | Maya (blonde girl, hospital gown) | textured from disc | 23 | 5/2/5 | Aya area 11 | 11, 31, 68, 72, 76, 77, 79, 127, 318, 323, 329, 367 | 11 / 2, 11732, 8, 11732:8 |
 | Melissa (opera singer, red gown) | textured from disc | 28 | 5/9/5 | - | 4, 5, 347 | 4 / 3, 10748, 21244, 10758:764 |
-| NYPD man (brown jacket) | textured from disc | 23 | 4/2/6 | - | 41, 42, 47, 98, 99, 374 | 41 / 4, 19170, 41528, 19190:568 |
+| Warner (brown jacket; map 374 slot 4, the actor pe_field_wayne patches) | textured from disc | 23 | 4/2/6 | - | 41, 42, 47, 98, 99, 374 | 41 / 4, 19170, 41528, 19190:568 |
 | NYPD man (white shirt, shoulder holster) | textured from disc | 23 | 4/2/6 | - | 41, 42, 100 | 41 / 5, 19170, 60404, 19199:1012 |
 | Opera actress (purple gown) | textured from disc | 28 | 5/9/5 | - | 49, 50, 319, 372 | 49 / 2, 21909, 31012, 21924:292 |
 | Opera performer (doublet) | textured from disc | 23 | 4/2/6 | - | 49, 50, 372 | 49 / 3, 21909, 54248, 21935:1000 |
@@ -55,9 +55,9 @@ Textures: the room's scratch and texture blobs, the two sector runs in front of 
 | Police officer (cap, black jacket) | textured from disc | 23 | 4/2/6 | - | 1, 24, 45, 46, 47, 90, 100, 260 | 1 / 4, 10065, 38272, 10083:1408 |
 | Police officer (cap, seated / injured pose) | textured from disc | 23 | 4/2/6 | - | 102, 116, 118, 121 | 102 / 2, 34254, 2968, 34255:920 |
 | Police officer (light uniform) | textured from disc | 23 | 4/2/6 | - | 1 | 1 / 2, 10065, 8, 10065:8 |
-| Police officer (moustache) | textured | 23 | 5/2/5 | Aya area 11 | 52, 108 | 52 / 3, 22960, 20812, 22970:332 |
+| Torres (NYPD storage officer, moustache; map 52 is storage) | textured | 23 | 5/2/5 | Aya area 11 | 52, 108 | 52 / 3, 22960, 20812, 22970:332 |
 | Policewoman (blonde, cap) | textured from disc | 21 | 4/2/4 | - | 43, 51, 55, 111 | 43 / 4, 20017, 42808, 20037:1848 |
-| Policewoman (brown hair, vest) | textured | 23 | 5/2/5 | Aya area 11 | 48, 52, 276 | 48 / 2, 21605, 8, 21605:8 |
+| Wayne (NYPD weapons officer, vest; map 48 is his room -- was mislabeled policewoman) | textured | 23 | 5/2/5 | Aya area 11 | 48, 52, 276 | 48 / 2, 21605, 8, 21605:8 |
 | Sailor? (cap) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 271, 426 | 271 / 2, 70295, 8, 70295:8 |
 | Sailor? (cap) | untextured: shape + rooms | 23 | 5/2/5 | Aya area 11 | 271, 426 | 271 / 4, 70295, 40696, 70314:1784 |
 | Usher | textured | 23 | 4/2/6 | - | 2, 6, 10 | 2 / 3, 10237, 21244, 10247:764 |
