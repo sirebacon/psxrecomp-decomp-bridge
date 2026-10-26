@@ -39,6 +39,13 @@ SKINS = [  # name, price, kind (0 = Aya outfit area, 1 = character bundle), area
     ('Guard (jumpsuit)', 25, 1, 0, 'guard', (191, 3)), ('Soldier', 25, 1, 0, 'soldier', (259, 4)),
     ('Cameraman', 25, 1, 0, 'cameraman', (359, 4)),
     ('Admiral', 100, 1, 0, 'admiral', (271, 2, 2)), ('Captain', 100, 1, 0, 'captain', (271, 4, 2)),   # disc 2
+    # 2026-10-26, from the model catalog (native animation sweep: 0 warnings each)
+    ('Policewoman (vest)', 25, 1, 0, 'policewoman', (108, 2)),
+    ('Police officer (light uniform)', 25, 1, 0, 'police_light', (1, 2)),
+    ('Police officer (cap)', 25, 1, 0, 'police_cap', (1, 4)),
+    ('Klamp (lab coat)', 100, 1, 0, 'klamp_coat', (196, 2)),
+    ('Nix (gun drawn)', 100, 1, 0, 'nix_gun', (116, 3)), ('Eddie (gun drawn)', 100, 1, 0, 'eddie_gun', (102, 2)),
+    ('Charred body', 25, 1, 0, 'charred', (3, 3)),
 ]
 
 
