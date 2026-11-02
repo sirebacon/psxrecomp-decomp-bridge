@@ -350,6 +350,8 @@ Requirements from the user (November 1): a downloadable character replacement/ad
 
 ### Q. Standalone feature boundaries — D9; D8/D2/D3/D6
 
+Review status: D9 §7 records **SPL-01–09 OPEN**. The checked draft/specification deliverables below confirm written coverage, not complete migration/service/behavior decisions or implementation readiness. Section 5 R tracks the new scoped gaps.
+
 - [x] Record the recommended feature split and current checked coupling, while retaining the user's latest D8/other document edits. D9 distinguishes independent Wardrobe/Bestiary, wallet versus reward responsibilities and optional Catalog/shop adapters; this is review documentation, not extraction approval.
 - [x] Extend D2 §10 (control/dependency ownership), D3 §16 (profiles, imports and one-writer compatibility), D6 §15 (standalone capabilities and optional adapters), and D4 §16 (PB-15–18 and 24 planned STN cases). D8 §10 aligns earlier import/price/payment recommendations. Documentation complete for this slice; all code/native integration and runtime checks remain unimplemented/unrun.
 - [ ] Re-audit the selected implementation branch for cross-feature symbols, service publishers, native packs, build/mod dependencies, settings aliases and every profile/save writer. D9's limited check is in `pe-mod-presets`; D8's UI observations use `pe-requisition`.
@@ -360,6 +362,21 @@ Requirements from the user (November 1): a downloadable character replacement/ad
 - [ ] When separately authorized, extract and verify Wardrobe/Bestiary first, then staged Economy boundaries; maintain an accessible default/aggregate configuration and shared host helpers rather than one selectable mod per source file.
 - [x] Extend D4/D8 planning with standalone/build-absence/all-off, migration/reset, multi-adapter, v1 service/price compatibility, resource and cross-store failure coverage (STN-01–24); no cases executed. All future tests/raw evidence stay local in `pe-native-debug`.
 - [ ] Finalize and implement only the separately authorized extraction scope; bind PB-15–18, actual target symbol/build audit, atomic profile writer and cross-store MCR-08/09 protocol before claiming paid adapter support. Validate real standalone binaries/paths rather than only mocks.
+
+### R. Standalone specification review — D9 §7, SPL-01–09
+
+- [x] Review D2 §10 / D3 §16 / D6 §15 / D4 §16 / D8 for missing or conflicting standalone contracts; record nine findings with references, recommended dispositions, acceptance extensions and scoped readiness in D9 §7. No new source audit, tests, build or code changes performed.
+- [ ] **SPL-01:** bind stored acquisition choice versus effective no-shop/conflicted/blocked policy, already-worn unowned costume transitions, first-run defaults and purchasing placement. Preserve temporary eligibility versus actual ownership; Bestiary has its own earned rules.
+- [ ] **SPL-02:** bind migration identity/receipt/recovery when destination or its marker is missing, deleted, damaged, copied or changed after import. Resolve first-run import versus lost migrated data; do not promise no resurrection from an in-file marker alone.
+- [ ] **SPL-03:** assign concrete single-writer build/lifecycle and field authority for mixed loot and Catalog/Rebuild records in wallet-only, rewards-off, absent-owner and All mods off combinations; keep storage keys/layouts and inactive data.
+- [ ] **SPL-04:** produce exact v1 service/action/price/key/mod-ID and build/settings alias compatibility matrix on the selected target. Preserve old slash keys without blindly applying new key rules; define results when safe legacy purchase behavior is unavailable.
+- [ ] **SPL-05:** classify every legacy/new UI, service and Workshop purchase/grant path; enforce MCR-08/09 for new profile-plus-save paid support and define earned/profile-write failure status. No spend-then-grant safety claim or silent change to untouched legacy behavior.
+- [ ] **SPL-06:** bind feature/action-scoped adapter selection owner, persistence/default/eligibility rules, explicit missing-selection behavior and quote invalidation; no implicit fallback to another provider's price policy.
+- [ ] **SPL-07:** bind supported profile concurrency/external-edit policy, atomic publication versus lost-update protection, dirty/failed flush and migration-source identity. Two processes/editors are not solved by one in-process writer.
+- [ ] **SPL-08:** audit target shared viewer/model/input/tick/cache/pack/gameplay-hook ownership and cleanup; verify single-feature builds, both-viewer use and story/room appearance transitions. Shared library placement alone does not prove independence.
+- [ ] **SPL-09:** before the new pack reader, reconcile D8 version selection/author/partial-pack rules with D6 deterministic batch admission, namespace provenance, equal-version payload conflicts, preserved keys and combined limits. Keep the existing-skin extraction slice separate from later pack work.
+
+Close design findings with explicit D2/D3/D6 dispositions and PB-15–18/STN coverage; implementation acceptance requires later real evidence. D4's 24 STN cases stay planned and need the D9 acceptance extensions. Basic extraction gates differ from new paid adapters and the later pack reader; do not require unrelated future scope or mark open gates solved by committing the review.
 
 ## 6. Implementation checklist — only after a separate instruction to build
 

@@ -482,6 +482,8 @@ Every registered entry's worst-case bytes are reserved at seal, so a discovery e
 
 November 1 recommended design specification, documentation only. D2 §10 owns controls, D3 §16 owns persistent state and migration, D4 §16 owns acceptance, D8 owns packs and D9 records the extraction review. These contracts separate responsibilities; they do not add functioning services or resolve MCR-08/09.
 
+Pre-implementation review: **D9 §7 / SPL-01–09 remain OPEN**. Bind exact v1 operation/key/dependency compatibility, concrete mixed-record authority, feature/action adapter selection and shared runtime lifetimes before implementing the affected interface. D8 pack admission is a separate scoped decision, not an implicit exception to §11. D0 Section 5 R tracks dispositions; these semantic tables are not complete published headers or validated contracts.
+
 ### 15.1 Capability and build boundaries
 
 | Capability / authority | Required dependencies | Optional integration and compatibility |

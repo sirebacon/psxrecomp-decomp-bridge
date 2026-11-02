@@ -599,6 +599,8 @@ D4 binds the cases ("Versioning and migration bindings"). D0 Section 5 O tracks 
 
 November 1 recommended contract, no format implementation or user-data changes. Read D2 §10 / D6 §15 / D4 §16 and D9. This section supersedes D8's conflicting one-time-versus-repeat-import wording and adding a version line to the old mixed source. Existing supported record meanings stay unchanged. Actual file parser/serializer layouts need implementation review and golden fixtures under §15.
 
+Pre-implementation review: **D9 §7 / SPL-01–09 are OPEN**. In particular, a missing destination cannot alone identify first use (SPL-02), an in-file marker cannot prove migration history after file loss, aggregate record writer placement/activation is unassigned (SPL-03), and atomic replace does not protect against external concurrent updates (SPL-07). The recommendations below do not silently resolve those gaps. New paid support remains blocked under SPL-05/MCR-08/09; D0 Section 5 R tracks the scoped work.
+
 ### 16.1 Single writer and stable storage identity
 
 | State | Sole active authority after extraction | Required preservation |

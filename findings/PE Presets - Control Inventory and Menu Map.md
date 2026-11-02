@@ -215,6 +215,8 @@ Before coding bind D4 PB-10–14, actual limits and supported actions. Exact men
 
 November 1 recommended specification, documentation only. Read D9 for the source-check limits and D8 for pack details; controlling persistence/API/validation contracts are D3 §16, D6 §15 and D4 §16. This is a separate extraction scope, not permission to implement all content or change balances. D8's direct-buying and acquisition choices remain product decisions; the existing no-buying Wardrobe UI baseline remains until explicitly revised.
 
+Pre-implementation review: **D9 §7 / SPL-01–09 remain OPEN**, especially effective acquisition/fallback transitions, feature activation/alias compatibility and viewer/resource authority. The control tables below are draft requirements, not resolution of the conflicting policy cases. D0 Section 5 R tracks dispositions before the applicable extraction slice.
+
 | Feature owner | Required support | Own controls/state | Optional consumer/adapter |
 | --- | --- | --- | --- |
 | Wardrobe (`pe_wardrobe`) | Shared host/model helpers | Registry/packs, preview/wear/default appearance, owned outfits, explicit acquisition choice, feature-local debug actions | Acquisition adapter may request unlock purchase; no required Economy/Bestiary dependency |

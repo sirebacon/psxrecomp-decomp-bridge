@@ -475,6 +475,8 @@ Release criteria for an accepted E/F/G slice require its applicable bindings app
 
 November 1 documentation-only extension: **24 additional STN cases, all PLANNED/unrun**. They are separate from the original 83 and custom-content 36 cases and do not change historical host-unit results. Bind PB-15–18 to D2 §10, D3 §16 and D6 §15, with D8 pack tests/D9 boundaries. MCR-08/09 remain open; a new cross-store paid adapter cannot be certified using a successful stub or a single-file save test.
 
+Review follow-up: D9 §7 records **SPL-01–09 OPEN** and maps required acceptance extensions to the existing STN cases. Before execution, bind policy outcomes for acquisition transitions, missing migration receipts, actual writer/alias/v1 contracts, legacy purchase paths, feature-scoped adapters, concurrent profile edits and shared resource ownership. Later pack cases also need admission/key/version alignment. These review coverage notes add no executed cases or pass count; the original 24 STN IDs remain planned. D0 Section 5 R tracks the gaps.
+
 Manifest additions: exact game commit/source hashes and module list, compiled-out versus disabled feature status, actual service publishers/versions, profile/settings migration source/destination/markers and checksums, wallet record owner, selected acquisition adapter, explicit acquisition/default policy, load slot/profile identity, cross-store protocol revision and measured resource budgets. Do not launch against a user's real preferences; use isolated disposable card/profile directories and preserved originals. Future fixture code, tools, providers, logs and screenshots stay local in `D:/Recomp Games/pe-native-debug`; none is created by this document update.
 
 | Case | Setup / action | Required observable result |

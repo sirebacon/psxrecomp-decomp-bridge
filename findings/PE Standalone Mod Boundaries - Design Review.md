@@ -67,3 +67,112 @@ These are open design tasks, not a request for broad code changes. D8's pack rea
 Required future test matrix: Wardrobe only; Bestiary only; both without Economy; Economy only; wallet with rewards off; each feature with its optional paid adapter; all features; all off; feature absent from build versus merely disabled. Also test legacy profile/setting import, reset/lock without re-import resurrection, unknown pack retention, missing worn outfit, independent bestiary progress, service-version compatibility, shared helper resource cleanup, multiple adapters, and failure during profile-plus-save payment. Run real supported native paths, not just stubs. All new fixtures/runners/raw evidence remain local in `pe-native-debug`; no tests have been created or executed for this review.
 
 This document recommends the boundaries and records conflicts. It does not authorize extraction, resolve MCR-08/09, revise D8's outstanding choices, or certify backward compatibility. Implementation needs separate scope and evidence.
+
+## 7. Standalone specification review — November 1, 2026
+
+Reviewed D2 §10, D3 §16, D6 §15, D4 §16 and D8 §§3–4/10 against the boundaries above and the shared D6 registration conventions. **Document-contract review only**: no fresh full source audit, builds, tests, profile changes or game code changes. Existing source observations in §1 retain their worktree/date limits. All nine findings **SPL-01–09 are OPEN**; recommendations below are not automatically adopted policies. Earlier MCR design dispositions do not close these extraction-specific gaps.
+
+The split is still a suitable direction. Independent feature owners, one wallet, optional integrations, stable storage IDs and separate profiles should remain. However, a complete extraction specification must settle the applicable findings below before implementation; a document with planned tests is not an implementation pass.
+
+### SPL-01 — Stored acquisition choice versus effective no-shop fallback
+
+Priority: **high for Wardrobe behavior**. References: D2 §10 Unlocking row; D6 §15.3; D8 §§4.2/4.5/10; D4 STN-11.
+
+The documents say explicit stored Shop choice takes precedence, while also requiring temporary Everything availability whenever the shop is absent. Preserving the stored value alone does not resolve which behavior the player actually gets. A costume worn under temporary eligibility may become unowned/ineligible when the adapter returns, yet no wear/fallback transition is defined. Multiple conflicting default adapters create another distinction: unavailable payment is not necessarily equivalent to no shop installed.
+
+Required disposition: specify a state table for stored choice (unset/Shop/Everything), adapter readiness (absent/disabled/conflicted/blocked/ready), effective wear eligibility, permanent ownership, and already-worn unowned costume behavior after transition. Decide whether an explicit Shop choice permits the free session fallback or instead remains owned-only. Keep first-install defaults and direct-buying placement explicit product decisions; do not choose them in a getter. Bestiary remains earned-information behavior, not Everything unlocked.
+
+Acceptance extension: STN-10/11/16, no ownership writes on fallback, adapter reappearance after restart, conflicting defaults, missing versus failed payment, story outfit/room transitions and continued wearing versus safe native fallback under the selected policy.
+
+### SPL-02 — Missing profile is not sufficient evidence of first-run migration
+
+Priority: **high**, blocks profile migration guarantees. References: D3 §16.2; D8 §10; D4 STN-05–08/23.
+
+D3 imports when the destination does not exist, but also says missing/damaged/newer destinations require recovery rather than silent reimport. The import marker lives in that same destination. If a migrated/reset destination is deleted or lost, its marker vanishes and stale legacy ownership can be resurrected despite the no-repeat-import promise. Existence also does not distinguish a new blank profile created by another version from completed import. Independent feature imports may read a legacy file changed by an older executable between starts.
+
+Required disposition: define migration identity/epoch and available evidence for first use versus missing migrated state, including profile-directory relocation/copy and source changes. Choose a bounded durable migration receipt/backup or explicit user-confirmed recovery policy; do not introduce an extra store silently. Specify precedence for existing valid format-1 destinations without a marker, interrupted temp/backup files, truly absent source and legacy binary input. Limit the no-resurrection promise to evidence the reader actually has. Reset retains the accepted migration history; explicit reimport remains a separately reviewed action.
+
+Acceptance extension: STN-05–09/23 with deleted destination after lock/reset, missing marker, destination-only/source-only copies, interrupted first publication, changed source and unknown newer profile. Preserve originals on every refusal.
+
+### SPL-03 — Compatibility writer location and feature activation are unassigned
+
+Priority: **high**, blocks wallet/rewards/Catalog extraction. References: D3 §16.1; D6 §15.1/15.3; D2 §10; D4 STN-13/14/22.
+
+One writer for `pe_economy.loot` is required, but the documents do not name its lifecycle/build owner when rewards, wallet or Economy itself is absent. A writer compiled only into the removed reward module cannot provide wallet-only persistence; a host writer that initializes feature state indiscriminately can overwrite inactive fields or alter All mods off behavior. Catalog/Rebuild share legacy data too, and a code-owner move must not imply two independent writers. Counter routing, legacy enabled/disabled fields and reward difficulty need explicit ownership beyond the word "aggregate".
+
+Required disposition: assign concrete persistence adapter/build ownership and per-field load/reset/mutate/serialize authority for supported feature combinations. Distinguish live owned fields from carried uninterpreted fields and define how legacy enabled state maps to wallet/reward/routing statuses. Keep storage identities and record sizes unchanged for extraction; a physical record split needs separate approval. Define build-time missing owner versus runtime disabled owner, New Game, unknown/newer data and compatibility hook ordering. Do not make the feature-neutral host responsible for new gameplay calculations merely to solve serialization.
+
+Acceptance extension: STN-03/04/13/14/22 with wallet-only, rewards omitted, Catalog omitted, aggregate alias plus explicit features, newer carried state, save/load/New Game and no-provider output/default comparison.
+
+### SPL-04 — v1 services, keys and mod aliases need an exact compatibility matrix
+
+Priority: **high**, blocks claiming existing consumers keep working. References: D6 §15.1/15.3; D3 §16.2; D8 §§3.3/4.3/10; D4 STN-04/09/15.
+
+"Preserve or report unsupported" is not yet a per-operation contract. Existing Wardrobe pick/buy behavior and Junk enabled semantics can conflict with withholding new paid adapters. There is no mapping for old callback/action results, providers requiring the old `pe_collection` mod ID, or old build-list/setting aliases after one feature is explicitly selected. Old costume keys such as `pe1/tshirt` and D8's `<pack-id>/<folder>` also differ from D6's new general key conventions and 47-byte ceiling; forcing new validation onto legacy IDs can break imports or external packs.
+
+Required disposition: list actual v1 table versions/fields/operations, source consumers, required-mod declarations and key limits on the selected branch. Define one publisher, compatible forwarding/error result per operation, and a bounded immutable mapping for preserved legacy keys versus new pack IDs. If an old interface cannot safely represent a disabled purchase, constrain its advertised support explicitly; do not silently change numeric prices or behavior. Bind canonical setting precedence and aggregate expansion/de-duplication including hard dependency IDs. No binary ABI compatibility promise is inferred.
+
+Acceptance extension: STN-01–04/09/15 with representative old providers, v1 calls without payment, preserved slash keys, maximum-length pack keys, old dependency metadata and explicit single-feature builds. D8 pack-key limits must be coherent before its reader ships.
+
+### SPL-05 — Cross-store purchase blocker must be applied to every adapter path
+
+Priority: **high for paid actions**, known unresolved gate, not a new atomicity design. References: D3 §16.4; D6 §15.2/15.4; D8 §4.3; D4 STN-17–21; MCR-08/09.
+
+The new documents correctly block paid profile unlocks until a profile-plus-save protocol exists. However, D8's old spend-then-grant recipe, v1 pick/buy entry points, legacy Bestiary research and Workshop calls must all be classified. Otherwise extraction can advertise a blocked new adapter while an old facade still charges through the unsafe route. Profile save failure also matters for nonpaid ownership/research actions: in-memory success, persistent success and subsequent retry cannot be conflated.
+
+Required disposition: enumerate UI/service/legacy entry points and which stay unchanged, become unavailable or use a verified protocol; specify truthful result/status and player feedback. Do not silently alter untouched legacy behavior or certify it as safe. For new paid support, bind durable recovery, completion notification, operation identity, profile/save backups and restart/slot rollback scope under MCR-08/09. For earned/nonpaid facts, define dirty-write failure/retry and clear durability semantics without inventing charges.
+
+Acceptance extension: STN-15/17–21/23 through real Workshop/viewer/service callbacks, read-only/full profile path, disk failures, crash/restart and retry. A mock commit cannot discharge the native/file guarantee. Basic nonpaid extraction may proceed independently once its own gates are satisfied.
+
+### SPL-06 — Optional adapter selection lacks feature-scoped eligibility and fallback semantics
+
+Priority: **medium; required before multiple adapters**. References: D6 §15.2; D2 §10 integration status; D4 STN-16/18.
+
+The specification picks an explicit compatible adapter or one default, but does not define the persisted selection owner/scope, selection per feature/action, or whether temporary target ineligibility changes the default. A costume-only adapter must not suppress research offers. A missing selected provider must not silently switch the player to another price/currency policy. A default selected per quote based on eligibility could change unpredictably as ownership or discovery changes.
+
+Required disposition: feature/action-specific adapter registration, saved selection identity/scope, readiness versus target eligibility, missing-selection behavior and deterministic default resolution. Distinguish provider absent, wrong version, protocol blocked and conflicting defaults. Requote on relevant generation/selection changes without automatically paying, granting or rewriting the player's preference. Bound the registry under shared D6 conventions and declare extension/selection ownership.
+
+Acceptance extension: STN-11/16/18 with costume-only and research-only adapters, two defaults, explicit missing selection, no eligible target, restored provider and changed profile/playthrough. Leave paid execution blocked until SPL-05/MCR-08/09 are resolved.
+
+### SPL-07 — Single writer does not yet address concurrent processes or external profile edits
+
+Priority: **high for persistence claims**. References: D3 §16.1/16.2; D6 §15.4; D4 STN-06/08/23.
+
+One in-process feature owner prevents competing modules from rewriting a profile, but two game instances, an older build or an editor can still change the same preferences. Atomic file replacement prevents a torn file, not last-writer-wins loss of ownership/progress/reset. Wardrobe and Bestiary intentionally share profile scope across save slots; profile-generation validation and dirty/deferred flush behavior need an external-change policy.
+
+Required disposition: choose a supported single-instance/profile-lock policy or explicit compare-generation/read-only refusal mechanism; define lock lifetime, crash-stale recovery and editor expectations without inventing arbitrary merge semantics. Specify bounded dirty-save retry and shutdown/disable failure reporting. Record source/destination identity for migration and prevent silent overwrite of externally changed newer data. This does not require worker threads or a general database.
+
+Acceptance extension: STN-06/08/18/23 with two writers, external reset/edit between load and flush, failed shutdown write and stale lock if selected. State unsupported concurrency explicitly if no coordination is provided; do not claim atomic replace alone preserves all updates.
+
+### SPL-08 — Shared runtime resource ownership needs an extraction audit
+
+Priority: **medium**, required for each extracted viewer. References: D2 §10 shared helpers; D6 §15.1/15.4; D4 STN-01–04/10/23/24; D9 §1.
+
+The documents say shared helpers remain libraries, but do not yet assign stage/model contexts, pack registrars, input/tick hooks, borrowed strings, caches and shutdown order. A shared singleton initialized/freed by Collection can still make a separately linked viewer depend on it. Duplicate native-pack registration, a dangling menu callback or both features owning the same stage can survive source-file movement and fail only in single-feature/all-off combinations. Appearance application also needs story/room/equip transition checks, not just viewer preview.
+
+Required disposition: audit actual target symbols/resources and assign shared support versus feature/session ownership, stage/input arbitration, callback lifetime and restart cleanup. Keep native gameplay hooks outside preview-only contexts; preserve existing story appearance rules. De-duplicate helpers/caches without sharing mutable feature progress. Do not infer hot unload support from testing one feature disabled at startup.
+
+Acceptance extension: STN-01–04/10/23/24 with each feature compiled alone, both viewers opened sequentially, preview cancellation, room/story transitions and resource failure/unwind. Measure accepted resource limits; source-level separation alone is insufficient.
+
+### SPL-09 — Pack admission/version selection needs an explicit shared-registry exception or alignment
+
+Priority: **medium for extraction; high before pack reader**, scoped to the later pack unit. References: D8 §§3.2–3.5/6 and PACK-04/05; D6 §11; D4 STN-04/15/24.
+
+D8 selects the higher version of the same pack ID, compares author metadata for clashes and accepts healthy characters from a partly broken pack. D6 rejects authenticated duplicate keys/batches together and derives namespace ownership from the host; data-only pack author strings are not authenticated mod ownership. Equal versions, same author/different payload, legacy implicit packs, aliases/default replacement targets and combined pack/compiled-costume limits have no unified conflict policy. Marketing SemVer order cannot be assumed to prove compatible saved identity.
+
+Required disposition: define a separate bounded pack discovery/selection layer before typed registration, or align it with duplicate-all admission. State identity/ownership provenance for data packs, same/equal-version conflicts, explicit replacement selection and per-character versus pack-required batches. Enforce full key and resource limits across loose/zip/implicit/compiled providers. Keep missing-pack ownership and current native keys. Metadata/version strings are not permissions to replace foreign content. Do not turn this pack-specific decision into a change to MCR-01–03 for all mods.
+
+Acceptance extension: D8 PACK-02/04/05 and STN-04/15/24 with equal-version conflicting payloads, zip+loose duplicates, long keys, compiled providers versus data packs, missing dependencies and aggregate limits. This finding need not block initial extraction that retains only the already-supported skin registration path.
+
+### Scoped readiness and follow-up
+
+| Delivery slice | Required dispositions before implementing the affected behavior |
+| --- | --- |
+| Basic Wardrobe/Bestiary extraction and profile import | SPL-01–04, SPL-07/08; classify legacy actions under SPL-05 without claiming new paid safety |
+| Wallet/reward/Catalog owner extraction | SPL-03/04, relevant SPL-07/08 and actual field/build audit; maintain Enhanced and stored-state parity |
+| Multiple optional acquisition adapters | SPL-04–06 and relevant profile/concurrency gates; new paid behavior remains gated by MCR-08/09 |
+| New character pack reader | SPL-04/09 plus D8's format/resource/asset validation and profile/version acceptance |
+
+Required document follow-up: dispositions in D2/D3/D6, binding product choices under PB-17 and migration/concurrency under PB-16, adapter/durable result rules under PB-18, then strengthen D4's existing STN cases. Keep the 24 case count unchanged until new individually scoped cases are actually added; coverage notes are not executed tests. All future raw fixtures/tools/evidence remain local in `pe-native-debug`.
+
+**Review result: modular split retained, nine OPEN findings.** Do not mark the extraction implemented or all documents accepted merely because this review is committed. Recommended first decision unit: acquisition eligibility state table, migration receipt/recovery policy and mixed-record writer authority (SPL-01–03), followed by service compatibility/concurrency/resource audit. No source code, balance, user files or executable changed.

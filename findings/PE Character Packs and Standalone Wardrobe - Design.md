@@ -233,6 +233,8 @@ D0 Section 5 P tracks it.
 
 ## 10. Standalone extraction specification alignment — November 1
 
+Review status: D9 §7 now records **SPL-01–09 OPEN** across the standalone specifications. SPL-01/02/04/05/09 specifically cover this draft's fallback, import, legacy keys/services, payment and pack conflict/version behavior. The alignment below removes earlier recommendations where explicitly stated, but does not settle those remaining policy/implementation gaps. Pack-reader work is separate from basic feature extraction.
+
 D9's wider split is now specified in D2 §10, D3 §16, D6 §15 and D4 §16 (24 planned STN cases). Those sections control extraction compatibility where this initial draft differed:
 
 - Both Wardrobe and Bestiary are independent features (`pe_wardrobe`, `pe_bestiary`); legacy `pe_collection` is a compatibility build/settings alias rather than a second runtime publisher/writer. Shared model/profile helpers remain libraries.
