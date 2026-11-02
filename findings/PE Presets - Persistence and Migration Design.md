@@ -599,13 +599,13 @@ D4 binds the cases ("Versioning and migration bindings"). D0 Section 5 O tracks 
 
 November 1 recommended contract, no format implementation or user-data changes. Read D2 §10 / D6 §15 / D4 §16 and D9. This section supersedes D8's conflicting one-time-versus-repeat-import wording and adding a version line to the old mixed source. Existing supported record meanings stay unchanged. Actual file parser/serializer layouts need implementation review and golden fixtures under §15.
 
-Pre-implementation review: **D9 §7 / SPL-01–09 are OPEN**. In particular, a missing destination cannot alone identify first use (SPL-02), an in-file marker cannot prove migration history after file loss, aggregate record writer placement/activation is unassigned (SPL-03), and atomic replace does not protect against external concurrent updates (SPL-07). The recommendations below do not silently resolve those gaps. New paid support remains blocked under SPL-05/MCR-08/09; D0 Section 5 R tracks the scoped work.
+Pre-implementation review: **D9 §8 resolves SPL-01 at phase 1 design level; SPL-02–09 are OPEN**. In particular, a missing destination cannot alone identify first use (SPL-02), an in-file marker cannot prove migration history after file loss, aggregate record writer placement/activation is unassigned (SPL-03), and atomic replace does not protect against external concurrent updates (SPL-07). The recommendations below do not silently resolve those gaps. New paid support remains blocked under SPL-05/MCR-08/09; D0 Section 5 R tracks the scoped work.
 
 ### 16.1 Single writer and stable storage identity
 
 | State | Sole active authority after extraction | Required preservation |
 | --- | --- | --- |
-| Costume ownership, worn/default and acquisition choice | Wardrobe, `pe_wardrobe.ini` format 1 | Existing costume keys and absent-pack records; session availability separate from ownership |
+| Costume ownership and worn/default choice | Wardrobe, `pe_wardrobe.ini` format 1 | Existing costume keys and absent-pack records; effective access separate from ownership; Economy owns the optional restriction setting (D8 §12) |
 | Creature facts/kills/acknowledged discoveries | Bestiary, `pe_bestiary.ini` format 1 | Existing creature keys, exact imported progress and missing-pack records; no automatic research reset |
 | Legacy mixed Collection profile | No feature writer; migration source only | Leave `pe_collection.ini` and legacy binary source unchanged, including unknown lines |
 | Wallet and legacy reward fields | One compatibility persistence owner for `pe_economy.loot` v1 | Preserve record identity/layout; wallet remains authoritative when enhanced rewards are disabled |
@@ -621,7 +621,7 @@ If a valid destination already exists, it is authoritative, including deliberate
 
 Wardrobe import and Bestiary import need not commit simultaneously: each has its own source subset and marker, so failure/retry cannot erase the other. Atomic profile staging/replace/flush and error handling must be audited on the target implementation; do not infer those guarantees from a text format. If import publication fails, expose migration-unavailable status and preserve originals; do not claim ownership saved or make paid actions eligible.
 
-Keep explicit canonical mod/settings/profile values first. Otherwise import the old `pe_collection` enabled state into each feature's absent canonical setting once, retaining All mods off and unrelated settings. If neither canonical nor legacy value exists, retain current default-build behavior; new acquisition defaults remain a product decision. Retain old settings as read-only aliases, never repeatedly overwrite explicit later choices. Old builds continue seeing the untouched old profile, but later changes across divergent old/new files do not automatically synchronize; document this downgrade limit.
+Keep explicit canonical mod/settings/profile values first. Otherwise import the old `pe_collection` enabled state into each feature's absent canonical setting once, retaining All mods off and unrelated settings. If neither canonical nor legacy value exists, retain current default-build behavior; phase 1 acquisition defaults follow D8 §12 / §16.5 below. Retain old settings as read-only aliases, never repeatedly overwrite explicit later choices. Old builds continue seeing the untouched old profile, but later changes across divergent old/new files do not automatically synchronize; document this downgrade limit.
 
 ### 16.3 Feature absence and reset semantics
 
@@ -635,4 +635,14 @@ Costume/Bestiary entitlements are profile-wide; Junk comes from the loaded save.
 
 New paid adapters remain **unavailable until MCR-08/09 specify and verify the cross-store protocol**: preparation, durable publication/recovery authority, pending/terminal states and bounded retention, original-save/profile backups, file failures and restart replay. Do not introduce a journal/sidecar format here by implication. Define action scope and guarantee explicitly, including legitimate save rollback versus exploit prevention; no global anti-rollback promise. Existing legacy purchase paths are not certified or silently changed by this design.
 
-Before extraction implementation bind PB-15–18, exact profile format/error behavior, legacy binary precedence, aggregate-record ownership and service/mod-key compatibility. UI buying/default choices stay open. Record native file-write and one-writer evidence; no build/tests ran for this documentation update.
+Before extraction implementation bind PB-15–18, exact profile format/error behavior, legacy binary precedence, aggregate-record ownership and service/mod-key compatibility. Phase 1 defaults follow D8 §12; any new direct-buying UI remains outside the baseline. Record native file-write and one-writer evidence; no build/tests ran for this documentation update.
+
+### 16.5 Phase 1 acquisition persistence — November 2 decision
+
+D8 §12 fixes the former acquisition-default question for phase 1. The Economy-owned Costume unlock rules preference is profile/global configuration (canonical logical key `economy.wardrobe_unlock_rules`, proposed stable identity), default true only when absent. It is not duplicated into each save or into Wardrobe ownership. Preserve explicit false through restart/Economy re-enable; Economy absence ignores the saved preference without overwriting it. Exact settings serialization/legacy alias migration follows the host's reviewed canonical-key support; no new persisted page-label identity is assumed implemented.
+
+Wardrobe alone or with rules disabled permits all installed compatible costumes but never writes all keys as owned. Actual purchases/grants retain their legitimate owned facts, unknown-pack records and reset semantics. Re-enabling restrictions re-evaluates wear eligibility and uses the supported native/story fallback for an ineligible selected costume while retaining its requested key. Any persistent representation of requested-versus-applied appearance must be versioned/validated under the profile design; no duplicate owned fallback item or automatic resurrection of reset ownership. Missing/broken asset behavior remains independent of acquisition access.
+
+Do not create a new Wardrobe `unlocking` setting in phase 1. If old draft/test profiles contain one, preserve it until a separately specified compatibility migration can interpret it safely; it must not override an explicit canonical Economy toggle or cause automatic unlocks. Toggle/fallback changes do not mutate wallet, stock, profile entitlements, Bestiary or reward progress. They invalidate stale acquisition operations and publish appearance changes only at safe boundaries.
+
+This is a design disposition of SPL-01 for phase 1, not closure of profile migration (SPL-02), profile concurrency (SPL-07), mixed-record ownership or payment atomicity. New paid behavior still requires §16.4/MCR-08/09. No new save records, user-file writes, code or tests accompany this decision.

@@ -440,6 +440,8 @@ Define exactly which names, models, descriptions, statistics, and locked entries
 
 ### Wardrobe presentation
 
+Phase 1 update, November 2: D8 §12 fixes the standalone split's acquisition boundary. Wardrobe alone makes all installed compatible costumes available for viewing/wearing. Economy owns an optional **Costume unlock rules** toggle, default on, preserving current unlock/purchase behavior; off restores unrestricted access without granting permanent ownership or disabling other Economy features. Ownership, current prices/sources and the no-buying Wardrobe viewer are preserved. Progression/challenge/acquisition presets belong to later separately reviewed Economy improvements, not phase 1. D2 §10, D3 §16.5, D6 §15.5 and D4 PB-17 define controls/state/API/acceptance; payment safety and remaining split gates are still open. No code or balance changes accompany this decision.
+
 Keep this simpler than Combat or Economy. Suggested choices are **Story Appearance / Owned Outfits**, subject to confirming what the current costume system can support safely.
 
 | Proposed choice | Intended purpose |

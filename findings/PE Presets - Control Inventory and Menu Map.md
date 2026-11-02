@@ -215,7 +215,7 @@ Before coding bind D4 PB-10–14, actual limits and supported actions. Exact men
 
 November 1 recommended specification, documentation only. Read D9 for the source-check limits and D8 for pack details; controlling persistence/API/validation contracts are D3 §16, D6 §15 and D4 §16. This is a separate extraction scope, not permission to implement all content or change balances. D8's direct-buying and acquisition choices remain product decisions; the existing no-buying Wardrobe UI baseline remains until explicitly revised.
 
-Pre-implementation review: **D9 §7 / SPL-01–09 remain OPEN**, especially effective acquisition/fallback transitions, feature activation/alias compatibility and viewer/resource authority. The control tables below are draft requirements, not resolution of the conflicting policy cases. D0 Section 5 R tracks dispositions before the applicable extraction slice.
+Pre-implementation review: **D9 §8 / SPL-01 is phase 1 design-resolved; SPL-02–09 remain OPEN**, including feature activation/alias compatibility and viewer/resource authority. The control tables below are draft requirements, not resolution of the conflicting policy cases. D0 Section 5 R tracks dispositions before the applicable extraction slice.
 
 | Feature owner | Required support | Own controls/state | Optional consumer/adapter |
 | --- | --- | --- | --- |
@@ -232,7 +232,7 @@ Wardrobe and Bestiary become separately buildable/enabled mods. Wallet/rewards/C
 | --- | --- |
 | Manage mods / Wardrobe, Bestiary | Independent explicit settings; old Collection setting supplies one-time fallback only when the new canonical key is absent |
 | Wardrobe / browse, preview, wear | Works alone under the accepted acquisition policy. No payment controls in the baseline viewer; optional Workshop purchasing stays separate |
-| Wardrobe / Unlocking | Explicit stored choice takes precedence. D8's no-shop everything-available session fallback never writes permanent ownership or overwrites an explicit stored Shop choice. First-install defaults with/without an adapter require product sign-off |
+| Economy / Costume unlock rules | Phase 1 optional toggle, default on. Economy off/absent or toggle off makes all installed compatible costumes available without permanent grants. Economy on + toggle on preserves current unlock/purchase eligibility; unavailable payment is not an opt-out. Economy owns the sole policy setting (D8 §12) |
 | Bestiary / browse and earned research | Existing reveal thresholds and spoiler rules retained; no payment provider disables only paid research, not tracking or earned unlocks |
 | Wallet / routing and Inventory counter display | Storage/credit policy separate from extra rewards and display. No second balance, no automatic conversion or newly free shop actions |
 | Rewards / presets | Enhanced stays default; disabling rewards does not implicitly reset wallet, routing, profile unlocks or Catalog facts |
@@ -242,3 +242,9 @@ Wardrobe and Bestiary become separately buildable/enabled mods. Wallet/rewards/C
 Mod absence from the build, disabled mod, unavailable capability and missing content are different statuses. Required unsupported actions are unavailable, not silently free. Multiple acquisition adapters require explicit selection or exactly one eligible default; never use registration order. Changed adapter/price invalidates previews and requires renewed confirmation.
 
 Migration and scope gates: D3 §16 owns feature profiles, retained mixed records and import precedence; D6 §15 owns compatibility publishers and adapters. Do not move persisted page/label keys without canonical aliases under §6. D8 pack-reader work follows the extraction baseline; new direct buying, multi-currency, hot unload and changes to research/price curves remain out of scope. No current-branch full symbol/build audit is claimed here.
+
+### Phase 1 decision — November 2
+
+D8 §12 is the controlling acquisition table: Wardrobe owns viewing/equipping and saved ownership; Economy optionally restricts access using its default-on Costume unlock rules toggle. There is no phase 1 Wardrobe acquisition selector. Explicit toggle off affects only costume restriction; it does not disable the wallet/rewards/shops globally. Missing/incompatible payment while Economy's rules are on blocks the paid action without silently making every costume free. Re-enabling restrictions on an unowned worn costume uses an explained safe appearance fallback while retaining the requested key and owned collection; no automatic grant/charge or unsafe model swap.
+
+Phase 1 preserves existing Economy-enabled rules/prices and the no-buying viewer. Progression/challenge/acquisition presets are later Economy work; prepared-skin importing is a separately staged Wardrobe feature. Prior wording leaving these phase 1 defaults open is superseded. SPL-01's phase 1 design conflict is resolved by this table, not by implementing anything; other SPL findings and payment gates remain open.

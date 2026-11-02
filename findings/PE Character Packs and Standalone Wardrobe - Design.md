@@ -2,6 +2,8 @@
 
 Date: November 1, 2026. Status: recommended design and requirements, documentation only. No code, asset, profile or save changed.
 
+Scope update, November 2: focus drop-in importing on **Wardrobe player skins already prepared in the supported PE skin/pack formats**. Enemy/Bestiary pack importing and NPC/enemy replacement are deferred, including source-specific integration from other decompiled games. This does not cancel the standalone Bestiary split or its existing creature registration/tracking. Section 11 controls the current importing scope.
+
 Requested by the user:
 
 1. "a file format with downloadable character replacements/additions", following whatever is popular for PS1-era games such as Resident Evil and BioRand;
@@ -143,27 +145,23 @@ Dependencies point one way: Economy uses the Wardrobe; the Wardrobe never calls 
 
 ### 4.2 Acquisition policy (Wardrobe setting)
 
-Manage mods → Wardrobe → "Unlocking":
+Phase 1 decision, November 2: Wardrobe alone makes every installed compatible costume available for preview/wearing. **Economy owns the optional "Costume unlock rules" toggle, default on**; when Economy and that toggle are on, preserve current unlock/purchase rules. Toggle off, or Economy disabled/absent, means unrestricted access without permanently granting ownership. There is no second Wardrobe-owned acquisition switch in phase 1. Section 12 supplies the controlling state/transition rules.
 
-- **Everything unlocked:** every installed costume is wearable. This is the only choice when no shop is registered, and the default whenever Economy is not running.
-- **Shop:** costumes are bought through the registered shop (Economy: Junk, at Wayne's Workshop or the Wardrobe page). This is the default when Economy is running.
-- Owned costumes stay owned when the setting changes. Ownership is never removed except by the existing explicit "Lock costumes again" testing row.
-
-Other providers can grant ownership whatever the setting, through `grant(key, why)`, for example "reward for finishing Chrysler".
+Existing owned costumes stay owned in every mode. Feature-owned validated reward/grant integrations remain possible under D6, but new progression/challenge acquisition policies are later work, not part of the extraction baseline.
 
 ### 4.3 How Economy pays (inverting today's call)
 
 - The Wardrobe exposes, in a proposed `wardrobe` v2: list/name/tier/state/preview, `grant(key, why)`, and `register_shop(shop)`. A shop supplies `price(key)` and `buy(key)`.
 - Economy registers as the shop:
   - its `price` maps tier → Junk with the user-kept curve (25/50/100/250/400), then applies its preset and Bargain;
-  - its `buy` spends Junk through its own transaction path and calls `grant` only after the spend commits (D6 §10; MCR-08 when designed).
-- Wayne's Workshop and the Wardrobe page both buy through the same registered shop, so prices and refusals agree.
+  - its purchase action coordinates wallet and ownership through the supported cross-store protocol; spend-then-grant alone is not sufficient (D3 §16.4; MCR-08/09).
+- Supported external purchase entry points use the same acquisition adapter, so prices and refusals agree. Phase 1 adds no buying controls to the Wardrobe viewer (§12).
 - With no shop registered, the Wardrobe page shows no prices; the policy is "Everything unlocked".
-- **Compatibility:** `costumes` v1 and `wardrobe` v1 stay published by `pe_wardrobe` for existing providers and the Workshop mockup. A v1 `PeCostume.price` is read as a tier hint (the nearest tier) unless the costume also registers through v2.
+- **Compatibility:** `costumes` v1 and `wardrobe` v1 stay published by `pe_wardrobe` for existing providers and the Workshop mockup. Existing v1 numeric prices must not be silently reinterpreted as a different tier price; newer tier descriptors use their own negotiated contract.
 
 ### 4.4 Profile file and migration
 
-- The Wardrobe gets its own profile, `pe_wardrobe.ini`, with a first line `format 1`. It holds `costume <key>`, `worn <key>`, `default <key>` (player replacement) and `unlocking everything|shop` lines.
+- The Wardrobe gets its own profile, `pe_wardrobe.ini`, with a first line `format 1`. It holds `costume <key>`, `worn <key>`, `default <key>` (player replacement) lines; Economy owns the phase 1 restriction toggle (§12), not this profile.
 - **First run:** copy `costume` and `worn` lines from `pe_collection.ini` into it, and record `imported pe_collection.ini`. The lines stay in `pe_collection.ini` untouched, so an older build still finds them (downgrade keeps working, D3 §15.8).
 - **Later runs** use only `pe_wardrobe.ini`. An older build's later purchases in `pe_collection.ini` are merged by the same import at the next start (ownership only ever grows).
 - Add `format 1` to `pe_collection.ini` too, and list both files in the D3 §15.6 version table. Profile files follow the same versioning rules as saves.
@@ -208,9 +206,9 @@ Pack `version` is for people: it orders duplicate copies of a pack, but is never
 | PACK-05 | Two versions of one pack; two different packs sharing an `id` | The higher version loads and the other is listed as a duplicate; same-id clash refuses both |
 | PACK-06 | Pack removed while its costume is worn and owned | Aya's own clothes this session; ownership and `worn` kept; restored when the pack returns |
 | PACK-07 | Recipe pack with and without the player's disc build | Not listed until built; after building, identical to an assets pack |
-| WRD-01 | Wardrobe on, Economy off | Everything unlocked; no prices shown; wearing works |
-| WRD-02 | Economy on, policy Shop | Prices from tier × curve × preset/Bargain; buying at Wayne's and on the Wardrobe page agree; refusal charges nothing |
-| WRD-03 | Switch policy back and forth; Economy turned off | Owned costumes stay owned; no Junk change |
+| WRD-01 | Wardrobe on, Economy off/absent | Every installed compatible costume available; no purchase requirement/prices, wearing works and no owned facts are added |
+| WRD-02 | Wardrobe/Economy on, Costume unlock rules on (default) | Current eligible/free/owned/purchase behavior and prices preserved through supported existing entry points; no new buying UI; unavailable payment does not grant unrestricted access |
+| WRD-03 | Rules off/on, Economy off/re-enabled, restart with explicit false | Access follows §12; ownership/Junk/other Economy settings unchanged; explicit false persists; ineligible worn skin uses safe explained fallback with requested key retained |
 | WRD-04 | First run with an existing `pe_collection.ini` | Costumes and worn imported once; old lines still present; an older build still sees its costumes |
 | WRD-05 | `grant` from another mod with policy Shop | Owned without payment; logged with its reason |
 | WRD-06 | Wardrobe-only (Collection and Economy off) | Wardrobe pages and wearing work; no service lookups fail |
@@ -233,14 +231,52 @@ D0 Section 5 P tracks it.
 
 ## 10. Standalone extraction specification alignment — November 1
 
-Review status: D9 §7 now records **SPL-01–09 OPEN** across the standalone specifications. SPL-01/02/04/05/09 specifically cover this draft's fallback, import, legacy keys/services, payment and pack conflict/version behavior. The alignment below removes earlier recommendations where explicitly stated, but does not settle those remaining policy/implementation gaps. Pack-reader work is separate from basic feature extraction.
+Review status: D9 §7 now records **SPL-02–09 OPEN**; SPL-01 is phase 1 design-resolved in §12 across the standalone specifications. SPL-01/02/04/05/09 specifically cover this draft's fallback, import, legacy keys/services, payment and pack conflict/version behavior. The alignment below removes earlier recommendations where explicitly stated, but does not settle those remaining policy/implementation gaps. Pack-reader work is separate from basic feature extraction.
 
 D9's wider split is now specified in D2 §10, D3 §16, D6 §15 and D4 §16 (24 planned STN cases). Those sections control extraction compatibility where this initial draft differed:
 
 - Both Wardrobe and Bestiary are independent features (`pe_wardrobe`, `pe_bestiary`); legacy `pe_collection` is a compatibility build/settings alias rather than a second runtime publisher/writer. Shared model/profile helpers remain libraries.
 - Each feature has its own versioned profile. Import once into an absent destination, commit marker with data, and leave legacy source files untouched. No repeated automatic old-profile merge; explicit resets cannot resurrect data. D3 §16 supersedes §4.4's subsequent-merge and source-version-write recommendations.
-- Temporary Everything-available policy is not permanent ownership and cannot overwrite a stored choice. First-install defaults and direct Wardrobe buying remain explicit decisions; the no-buying viewer baseline stays until changed. Bestiary retains earned research and does not inherit Everything unlocked.
+- Temporary Everything-available policy is not permanent ownership and cannot overwrite a stored choice. Phase 1 defaults and toggle ownership are fixed by §12; the no-buying viewer baseline stays until explicitly changed. Bestiary retains earned research and does not inherit Everything unlocked.
 - Existing v1 price/service semantics must be preserved or explicitly refused where unsupported. Do not silently convert an arbitrary v1 numeric costume price to a nearest-tier price. New tier descriptors keep their separate pricing contract; numeric pricing changes are not authorized by extraction.
 - Economy/acquisition integration is optional and follows D6 §11/15's adapter identity/selection. New paid profile unlocks require a supported per-save-wallet plus profile-wide commit/recovery protocol under MCR-08/09; spend-then-grant from §4.3 is not sufficient. No new paid API is implemented by this draft.
 
-Pack format/research and user edits above remain as recorded. This alignment does not finalize pack-index hosting, recipe-builder delivery, new acquisition defaults, direct buying or payment atomicity. Code and data are unchanged; tests remain local in `pe-native-debug` and unrun for this update.
+Pack format/research and user edits above remain as recorded. This alignment does not finalize pack-index hosting, recipe-builder delivery, later acquisition improvements, direct buying or payment atomicity. Code and data are unchanged; tests remain local in `pe-native-debug` and unrun for this update.
+
+November 2 superseding decision: Section 12 now fixes phase 1 acquisition defaults and policy ownership. Earlier references to open first-run Shop/Everything choices or a Wardrobe Unlocking setting no longer control phase 1. Direct buying remains outside the baseline viewer; payment safety and unrelated open decisions are unchanged.
+
+## 11. Wardrobe-only importing focus — November 2
+
+User direction: hold off on enemy importing and focus on installing player skins that have already been formatted for this game. The first drop-in loader must validate compatible prepared skins, not promise automatic conversion from another game's files or arbitrary 3D formats. A model originating in another decompiled game still needs an authoring/conversion step to produce the supported player model, textures, animation/room compatibility and metadata before installation.
+
+Planned player flow: open Wardrobe's content folder, drop in a compatible skin pack, restart, then browse/preview/wear it under the accepted acquisition policy. Keep `<preferences>/packs/` for the proposed ZIP/folder packs and retain existing `pe_skins/<folder>/` compatibility. Add a Wardrobe **Open content folder** action and show the resolved writable path, accepted layouts, restart requirement and validation/refusal messages. Opening this folder must not install, unlock or buy anything. No requirement to search the executable/source tree or overwrite game files.
+
+Maintain per-character structural/animation validation, bounded loading, missing-pack ownership preservation and the pending SPL-04/09 identity/admission decisions. Installing a formatted skin does not guarantee every animation is safe; preview and representative gameplay/room checks remain required. The pack reader, folder-opening action and new UI are not implemented by this document.
+
+Enemy/NPC imports, Bestiary drop-in viewer packs, enemy behavior/encounter replacement and cross-game enemy adapters are **deferred, outside this Wardrobe unit**. Reserved `npc/` data remains ignored in v1. A future enemy-content proposal must separately define source conversion, runtime behavior and whether it adds a viewer entry or changes actual enemies; do not infer that from the skin loader. Existing Bestiary standalone work remains independent.
+
+Validation additions for the future local suite: actual resolved folder discovery/opening, ZIP/folder/legacy-skin installation, compatible versus unconverted foreign assets, clear restart/errors, missing/reinstalled skins without ownership loss, and no enemy-content activation. These extend the relevant PACK/WRD/STN expectations without adding a pass count or executing tests. No code, files in player profiles, assets or balances changed.
+
+## 12. Phase 1 Wardrobe plan — user decision, November 2
+
+**Purpose:** split ownership cleanly while preserving today's Economy-enabled experience. Wardrobe is the viewer/equipment feature; Economy is an optional acquisition-policy provider. This supersedes conflicting acquisition-setting/default wording in §§4/10 and the initial standalone drafts. No game code or runtime behavior is changed by this document.
+
+| Wardrobe | Economy | Economy: Costume unlock rules | Effective behavior |
+| --- | --- | --- | --- |
+| Off/absent | Any | Any | Native appearance; Wardrobe profile untouched |
+| On | Off/absent | Retained, ignored | All installed compatible costumes available; no prices or required unlocks |
+| On | On | Off | All installed compatible costumes available; other Economy systems keep their own settings/behavior |
+| On | On | On (default) | Current owned/free/unlock/purchase eligibility, prices and unlock sources; no new progression or unlock grants |
+| On | On | On, but payment adapter/required protocol unavailable or conflicted | Remain restricted under current eligibility; purchases report unavailable. Failure is not equivalent to the player disabling the rules |
+
+"Everything available" is effective access, not writing every key into the owned set. Installed also means asset/animation compatible under the supported loader; missing/broken skins do not become usable through a policy toggle. Wardrobe owns costume facts and effective query results; Economy contributes a typed optional policy and owns its setting, prices and payment. It never edits the Wardrobe profile directly. The base Wardrobe must not link to concrete Economy code.
+
+Use one stable Economy-owned setting (proposed logical key `economy.wardrobe_unlock_rules`), default true when genuinely absent; explicit stored false survives restart and Economy disable/re-enable. Removing Economy does not rewrite that setting or owned facts. New builds must not infer true merely because the provider returned. Do not add a competing `unlocking everything|shop` preference in new Wardrobe profiles; retain any already-existing draft/test field without reinterpretation until its compatibility migration is explicitly bound. Canonical Economy setting takes precedence once present.
+
+Disabling rules or Economy leaves purchased ownership unchanged. Re-enabling rules restores current earned/free eligibility. If the selected/worn costume is not eligible, explain the restriction and apply a supported native/story appearance fallback at the next safe outfit boundary; retain its requested key and do not grant it, delete it, charge automatically or reset other facts. Re-evaluate before later wearing and do not silently displace a newer explicit eligible choice. Do not swap model pointers mid-battle/unsafe room transition; defer publication and explain if needed. Effective toggle changes invalidate previews/quotes/reservations before further acquisition actions.
+
+Toggle changes are never purchase/unlock/reset actions and cannot alter Junk, discoveries, Bestiary, reward RNG/progress, stock or Economy presets. Bestiary's earned behavior is independent and does not adopt this rule. The existing no-buying Wardrobe viewer baseline remains; current supported external/Workshop purchase entry points retain their reviewed roles. No extra viewer purchase path is added by the split.
+
+**Phase 1 scope:** extract independent Wardrobe/Bestiary responsibilities and their compatibility/migration baseline; make the optional Economy policy reproduce current unlock behavior, with the one opt-out toggle. No new prices, currencies, challenge rewards, progression algorithms or acquisition presets. Prepared-skin pack reader/folder UX remains a separately staged Wardrobe unit (§11), not a prerequisite for preserving existing skins. After phase 1, Economy may add acquisition presets/progression/challenges through separately reviewed policies and the same owner API.
+
+New paid adapters remain blocked by SPL-05/MCR-08/09 until save-wallet and profile ownership can commit/recover safely. Preserve-as-now is not permission to add a spend-then-grant shortcut or to certify untouched legacy paths. Migration, v1 compatibility and concurrency findings stay open. D2 §10, D3 §16, D6 §15, D4 STN-10/11/16/18 and WRD cases bind the phase 1 state table; no tests ran for this update.

@@ -2,6 +2,10 @@
 
 Date: November 1, 2026. Status: recommendation and open-decision review; documentation only. No game code, profiles, saves, prices, defaults or build settings changed. No implementation or runtime tests performed.
 
+November 2 phase 1 disposition: D8 §12 and §8 below resolve **SPL-01 at design level** using the user's standalone-free / optional Economy restriction decision. SPL-02–09 remain open; the original nine-finding review below is retained as history. No implementation/testing claim follows from this disposition.
+
+November 2 importing scope: D8 §11 focuses the future drop-in loader on Wardrobe player skins prepared in supported PE formats. Enemy/Bestiary pack importing is deferred; this does not defer the standalone Bestiary feature split. SPL-04/09 still apply to Wardrobe keys/packs; no new enemy pack contract is implied.
+
 Read with [D8, character packs and standalone Wardrobe](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Character Packs and Standalone Wardrobe - Design.md>), [D6, capability contracts](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Mod Extensions - API and Cooperation Contract.md>), [D3, persistence](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Persistence and Migration Design.md>) and the [master checklist](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets and Menu Organization - Master Checklist.md>). This review complements the user's latest edits without replacing their policies or declaring unresolved features approved.
 
 ## 1. Source observations and limits
@@ -70,7 +74,7 @@ This document recommends the boundaries and records conflicts. It does not autho
 
 ## 7. Standalone specification review — November 1, 2026
 
-Reviewed D2 §10, D3 §16, D6 §15, D4 §16 and D8 §§3–4/10 against the boundaries above and the shared D6 registration conventions. **Document-contract review only**: no fresh full source audit, builds, tests, profile changes or game code changes. Existing source observations in §1 retain their worktree/date limits. All nine findings **SPL-01–09 are OPEN**; recommendations below are not automatically adopted policies. Earlier MCR design dispositions do not close these extraction-specific gaps.
+Reviewed D2 §10, D3 §16, D6 §15, D4 §16 and D8 §§3–4/10 against the boundaries above and the shared D6 registration conventions. **Document-contract review only**: no fresh full source audit, builds, tests, profile changes or game code changes. Existing source observations in §1 retain their worktree/date limits. The initial review left all nine findings open; §8 now design-resolves SPL-01 for phase 1. **SPL-02–09 remain OPEN**; other recommendations below are not automatically adopted policies. Earlier MCR design dispositions do not close these extraction-specific gaps.
 
 The split is still a suitable direction. Independent feature owners, one wallet, optional integrations, stable storage IDs and separate profiles should remain. However, a complete extraction specification must settle the applicable findings below before implementation; a document with planned tests is not an implementation pass.
 
@@ -175,4 +179,14 @@ Acceptance extension: D8 PACK-02/04/05 and STN-04/15/24 with equal-version confl
 
 Required document follow-up: dispositions in D2/D3/D6, binding product choices under PB-17 and migration/concurrency under PB-16, adapter/durable result rules under PB-18, then strengthen D4's existing STN cases. Keep the 24 case count unchanged until new individually scoped cases are actually added; coverage notes are not executed tests. All future raw fixtures/tools/evidence remain local in `pe-native-debug`.
 
-**Review result: modular split retained, nine OPEN findings.** Do not mark the extraction implemented or all documents accepted merely because this review is committed. Recommended first decision unit: acquisition eligibility state table, migration receipt/recovery policy and mixed-record writer authority (SPL-01–03), followed by service compatibility/concurrency/resource audit. No source code, balance, user files or executable changed.
+**Original review result: modular split retained, nine findings initially OPEN.** Section 8 subsequently resolves SPL-01 at phase 1 design level; eight remain open. Do not mark the extraction implemented or all documents accepted merely because this review is committed. Recommended first decision unit: acquisition eligibility state table, migration receipt/recovery policy and mixed-record writer authority (SPL-01–03), followed by service compatibility/concurrency/resource audit. No source code, balance, user files or executable changed.
+
+## 8. Phase 1 Wardrobe acquisition disposition — November 2
+
+The user chose Wardrobe as the standalone viewer/equipment feature, with every installed compatible costume available when used alone. Economy owns optional Costume unlock rules, default on, reproducing current unlock/purchase behavior when both are enabled. Explicit rules off or Economy absent/disabled gives unrestricted access while leaving the rest of Economy and all earned ownership unchanged. D8 §12 is the controlling full state table; D2 §10, D3 §16.5 and D6 §15.5 carry the control/persistence/API contracts.
+
+**SPL-01: phase 1 design-resolved.** No separate Wardrobe Shop/Everything preference is introduced. Stored explicit false wins over default-on after restart/re-enable; unrestricted eligibility never writes a grant. Active rules with failed/conflicting/unavailable payment remain restricted, rather than accidentally unlocking everything. When rules return and an unowned selection becomes ineligible, explain/apply native story fallback at a safe outfit boundary, retain the requested key and do not displace later valid player choice or charge automatically. Direct buying stays outside the baseline viewer; existing Economy-enabled acquisition sources/prices are preserved within supported compatibility.
+
+This resolves the phase 1 product/default/fallback conflict, not its implementation or the other migration/runtime problems. Profile mapping and settings compatibility remain SPL-02/04, safe runtime publication remains SPL-08, and new paid support remains SPL-05/MCR-08/09. Multi-provider selection (SPL-06) is not added to phase 1. SPL-02–09 remain OPEN.
+
+After phase 1, Economy may propose acquisition presets, progression/challenge rewards and other improvements separately; none is silently enabled by this decision. Prepared-skin importing remains a separate Wardrobe unit; enemy importing stays deferred. D4 PB-17, STN-10/11/18/19 and D8 WRD-01–03/06 bind the phase 1 expectations, all unrun. No code, profiles, prices, assets, executable or local test suite changed.

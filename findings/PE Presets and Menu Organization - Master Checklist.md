@@ -331,11 +331,18 @@ Layers: **S** save safety and extension store (mod-independent, useful now), **C
 
 Requirements from the user (November 1): a downloadable character replacement/addition format in the style popular for PS1-era games (BioRand, Classic REbirth); the Wardrobe as its own mod that anyone can use, with Economy only paying for it.
 
+November 2 scope direction: prioritize Wardrobe importing of already PE-compatible formatted player skins (D8 §11). Defer enemy/Bestiary drop-in packs and NPC/enemy replacement; potential sources in other decompiled games need later source/runtime-specific design. Standalone Bestiary separation/tracking is still in scope independently.
+
+- [x] Record Wardrobe-only importing focus, compatible-prepared-assets requirement and accessible folder UX in D8 §11; this is documentation, not loader implementation.
+- [ ] Add Wardrobe Open content folder plus resolved writable path/layout/restart/refusal guidance when the pack reader is separately implemented. Preserve proposed `<preferences>/packs/` and existing `pe_skins/` compatibility; no automatic foreign-model conversion or game-file overwrite.
+- [x] **Phase 1 user decision documented (November 2):** D8 §12; Wardrobe views/equips compatible costumes freely alone. Economy controls current unlock rules through its default-on optional toggle, without changing true ownership or other Economy behavior. No extra viewer buying, new acquisition algorithms or balance changes.
+- [ ] After the phase 1 extraction/compatibility baseline, discuss and separately implement Economy acquisition presets, progression/challenge rewards or other improvements. These are not required for phase 1; Wardrobe importing/folder UX is a separately staged feature too.
+
 - [x] **Requirements and design recorded:** D8 §§1–7.
   - Pack format v1: a plain zip, or the same layout as a folder, in `<preferences>/packs/`, with `pack.json`, `LICENSE` and one `characters/<base>.<source>[$<variant>]/` folder each, holding `character.json`, the existing skin files and `face.png`. Data only, hardened zip reading, per-character validation, existing `pe_skins/` kept as an implicit pack.
   - Packs state a price *tier*, never Junk.
   - Wardrobe split into `pe_wardrobe`, with its own profile and a one-time import from `pe_collection.ini`.
-  - Acquisition policy: "Everything unlocked" by default without Economy, "Shop" by default with Economy.
+  - Phase 1 acquisition policy (November 2, D8 §12): standalone Wardrobe offers all installed compatible costumes; Economy owns default-on Costume unlock rules with an optional off toggle. Effective access never grants permanent ownership; other Economy functions stay independent.
   - Economy registers as the Wardrobe's shop (`wardrobe` v2), mapping tier → the user-kept 25/50/100/250/400 curve; the Wardrobe never calls Economy. v1 services stay.
   - Copyright rule: disc-derived characters are shared only as recipe packs built from the player's own disc.
 - [ ] **User decisions** (D8 §8): ship the recipe builder as a standalone tool or build in the game later; whether the Wardrobe page buys directly, or only Wayne's Workshop (with the Workshop Overhaul decisions); whether the project hosts a pack index.
@@ -350,12 +357,15 @@ Requirements from the user (November 1): a downloadable character replacement/ad
 
 ### Q. Standalone feature boundaries — D9; D8/D2/D3/D6
 
-Review status: D9 §7 records **SPL-01–09 OPEN**. The checked draft/specification deliverables below confirm written coverage, not complete migration/service/behavior decisions or implementation readiness. Section 5 R tracks the new scoped gaps.
+November 2 phase 1 decision: D8 §12 / D9 §8 supersede earlier open acquisition/default wording. Wardrobe views/equips freely alone; Economy optionally enforces current unlock rules through its default-on toggle. SPL-01 is design-resolved for this phase; SPL-02–09 and implementation/validation remain open.
+
+Review status: D9 §8 design-resolves SPL-01 for phase 1; **SPL-02–09 remain OPEN**. The checked draft/specification deliverables below confirm written coverage, not complete migration/service/behavior decisions or implementation readiness. Section 5 R tracks the new scoped gaps.
 
 - [x] Record the recommended feature split and current checked coupling, while retaining the user's latest D8/other document edits. D9 distinguishes independent Wardrobe/Bestiary, wallet versus reward responsibilities and optional Catalog/shop adapters; this is review documentation, not extraction approval.
 - [x] Extend D2 §10 (control/dependency ownership), D3 §16 (profiles, imports and one-writer compatibility), D6 §15 (standalone capabilities and optional adapters), and D4 §16 (PB-15–18 and 24 planned STN cases). D8 §10 aligns earlier import/price/payment recommendations. Documentation complete for this slice; all code/native integration and runtime checks remain unimplemented/unrun.
 - [ ] Re-audit the selected implementation branch for cross-feature symbols, service publishers, native packs, build/mod dependencies, settings aliases and every profile/save writer. D9's limited check is in `pe-mod-presets`; D8's UI observations use `pe-requisition`.
-- [ ] Bind standalone defaults/acquisition behavior, Wardrobe buying UI placement, paid Bestiary research without Economy, and explicit user choice versus provider-driven fallback. D8 and the earlier no-buying UI rule need explicit disposition; do not silently grant ownership/unlocks.
+- [x] **Phase 1 Wardrobe policy recorded:** D8 §12, D2 §10, D3 §16.5 and D6 §15.5 bind all-available alone, Economy default-on Costume unlock rules/explicit off, stored false retention, no permanent grant, failed-payment restriction and safe re-restriction. No new viewer buying; actual implementation/payment/migration remains unchecked. Bestiary retains its independent earned behavior.
+- [ ] Implement/verify the phase 1 policy only under separate code authorization, preserving current Economy-on sources/prices and true ownership; bind remaining profile/key/runtime/payment gates. Paid Bestiary scope and later acquisition improvements remain separate.
 - [x] **Recommended profile/alias contract:** D3 §16 and D6 §15 specify separate format-1 feature profiles, one-time import markers/no repeat merge, unchanged legacy sources, canonical setting precedence and a nonpublishing legacy build alias. Concrete code/parsers/native migration and acceptance remain unchecked; no reset may resurrect old facts.
 - [ ] Specify optional payment/acquisition adapters and multiple-adapter identity/selection. Resolve per-save wallet versus profile-wide unlock publication/failure under MCR-08/09; spend-then-grant is not a sufficient atomicity guarantee.
 - [ ] Design one wallet/routing authority independent of enhanced rewards while preserving existing mixed loot records. Evaluate Catalog and shop extraction separately; moving a folder cannot rename persisted keys or create duplicate balances/serializers.
@@ -366,7 +376,7 @@ Review status: D9 §7 records **SPL-01–09 OPEN**. The checked draft/specificat
 ### R. Standalone specification review — D9 §7, SPL-01–09
 
 - [x] Review D2 §10 / D3 §16 / D6 §15 / D4 §16 / D8 for missing or conflicting standalone contracts; record nine findings with references, recommended dispositions, acceptance extensions and scoped readiness in D9 §7. No new source audit, tests, build or code changes performed.
-- [ ] **SPL-01:** bind stored acquisition choice versus effective no-shop/conflicted/blocked policy, already-worn unowned costume transitions, first-run defaults and purchasing placement. Preserve temporary eligibility versus actual ownership; Bestiary has its own earned rules.
+- [x] **SPL-01 / phase 1 design disposition:** D8 §12/D9 §8 and D2/D3/D6 bind the November 2 user decision: standalone free access, Economy-owned default-on optional restrictions, no grant/reset, payment failure remains restricted, safe fallback when restrictions return, no new Wardrobe buying. D4 PB-17/STN-10/11/18/19 and WRD-01–03/06 carry planned acceptance. No code/tests implemented; SPL-02–09 stay open.
 - [ ] **SPL-02:** bind migration identity/receipt/recovery when destination or its marker is missing, deleted, damaged, copied or changed after import. Resolve first-run import versus lost migrated data; do not promise no resurrection from an in-file marker alone.
 - [ ] **SPL-03:** assign concrete single-writer build/lifecycle and field authority for mixed loot and Catalog/Rebuild records in wallet-only, rewards-off, absent-owner and All mods off combinations; keep storage keys/layouts and inactive data.
 - [ ] **SPL-04:** produce exact v1 service/action/price/key/mod-ID and build/settings alias compatibility matrix on the selected target. Preserve old slash keys without blindly applying new key rules; define results when safe legacy purchase behavior is unavailable.

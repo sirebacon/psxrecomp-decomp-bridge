@@ -482,7 +482,7 @@ Every registered entry's worst-case bytes are reserved at seal, so a discovery e
 
 November 1 recommended design specification, documentation only. D2 §10 owns controls, D3 §16 owns persistent state and migration, D4 §16 owns acceptance, D8 owns packs and D9 records the extraction review. These contracts separate responsibilities; they do not add functioning services or resolve MCR-08/09.
 
-Pre-implementation review: **D9 §7 / SPL-01–09 remain OPEN**. Bind exact v1 operation/key/dependency compatibility, concrete mixed-record authority, feature/action adapter selection and shared runtime lifetimes before implementing the affected interface. D8 pack admission is a separate scoped decision, not an implicit exception to §11. D0 Section 5 R tracks dispositions; these semantic tables are not complete published headers or validated contracts.
+Pre-implementation review: **D9 §8 resolves SPL-01 at phase 1 design level; SPL-02–09 remain OPEN**. Bind exact v1 operation/key/dependency compatibility, concrete mixed-record authority, feature/action adapter selection and shared runtime lifetimes before implementing the affected interface. D8 pack admission is a separate scoped decision, not an implicit exception to §11. D0 Section 5 R tracks dispositions; these semantic tables are not complete published headers or validated contracts.
 
 ### 15.1 Capability and build boundaries
 
@@ -510,7 +510,7 @@ Multiple adapters may coexist. Use the player's explicit compatible adapter sele
 
 ### 15.3 Standalone eligibility and defaults
 
-Bestiary without payment still tracks and earns discoveries under existing rules; it does not unlock everything. Wardrobe's Everything-available eligibility and actual owned entitlement are separate query fields. D8's no-shop session fallback must not overwrite the stored acquisition choice or persist ownership. First-run Shop versus Everything default and direct Wardrobe buying placement remain explicit product decisions; preserve baseline no-buying UI until revised. New APIs must support an optional Workshop action without requiring purchase controls inside Wardrobe.
+Bestiary without payment still tracks and earns discoveries under existing rules; it does not unlock everything. Wardrobe effective availability and actual owned entitlement are separate query fields. Phase 1 follows D8 §12: Wardrobe alone is unrestricted; Economy's optional default-on Costume unlock rules policy reproduces current eligibility, and explicit off restores unrestricted access without granting ownership. No Wardrobe acquisition selector or new direct buying is introduced. New APIs must support an optional Workshop action without requiring purchase controls inside Wardrobe.
 
 Wallet readiness, reward-generation enabled, counter routing, counter display and shop/payment readiness are separate statuses. An existing `junk` v1 `enabled()` cannot be redefined silently to mean every combination; audit compatibility and use the new explicit wallet status for new consumers. Missing wallet blocks paid actions without blocking wearing owned/temporarily eligible costumes, earned research or profile viewing. Disabling rewards preserves wallet and saved reward fields through D3's single compatibility record owner.
 
@@ -521,3 +521,13 @@ Quotes/prepared handles carry feature/provider/adapter/playthrough/profile gener
 Feature disable/build absence preserves saved state and leaves the core compatibility layer at its accepted responsibility. Restart invalidates transient adapters/quotes and cleans session resources. Import and debug reset are owner-local; unknown content keys remain preserved. MCR-01–03 registry semantics do not by themselves provide payment/profile atomicity.
 
 Required evidence: standalone build/link combinations, service ownership/v1 consumers, legacy setting aliases/profile import, optional adapter absence/multiplicity, failed preparation/profile publication, cross-store interruption and no-provider gameplay/default parity. D4 §16 binds these under PB-15–18; all new fixtures/raw evidence remain local in `pe-native-debug`. No implementation/runtime acceptance claimed.
+
+### 15.5 Phase 1 optional Economy acquisition policy — November 2
+
+Wardrobe's base query returns compatibility/availability, true owned status and effective wear eligibility separately. With Economy absent/disabled or its rules explicitly off, every installed compatible costume is eligible; an active-but-failed restriction/payment integration must not be treated as that opt-out. Economy registers a typed optional policy through the neutral registry; only Economy owns its Costume unlock rules setting and current pricing/unlock rules. Wardrobe must not call a concrete Economy symbol or let a provider directly edit profile facts. Policy evaluation is bounded/read-only, discovery-safe and cannot grant, spend or save.
+
+The policy snapshot distinguishes intentionally disabled/absent Economy restriction from active-but-unavailable payment. Economy on plus rules on retains current owned/free eligibility even if acquisition cannot proceed; adapter conflict, insufficient funds or unsupported paid protocol does not grant unrestricted access. A genuine Economy disable or explicit rules-off is the unrestricted fallback. Phase 1 does not add third-party acquisition-policy arbitration or progression/challenge algorithms; generic adapter conflict work (SPL-06) remains open for later support.
+
+Policy generation changes invalidate previews/quotes/prepared actions before reuse. Re-evaluate an unowned worn selection when rules turn on and apply an explained native/story fallback at a safe appearance boundary, retaining the requested key and any later valid player choice. Never change model state mid-battle, automatically buy, reset ownership, or equate eligibility with entitlement. Feature disable/restart and missing-pack safety still follow their own lifecycle rules.
+
+No-provider Wardrobe behavior, explicit false persistence and unchanged current Economy rules are required no-op/default parity checks. D8 §12 resolves SPL-01's phase 1 product policy; actual v1 compatibility, C signatures, appearance-state migration and new payment preparation/commit still need their open gates. No API/code was implemented here.
