@@ -51,6 +51,8 @@ Before behavioral implementation, also read [D7, the pre-implementation review](
 | D5 | Player guide and release documentation | **Update after behavior is implemented and verified.** Locate the maintained guide/README on the target branch; do not treat a historical downloaded guide as the authoritative release copy |
 | D6 | [Small capability APIs and cooperation contract](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Mod Extensions - API and Cooperation Contract.md>) | **Draft created.** Shared conventions and candidate `economy_policy` v1: typed modifiers, observers, provider presets, deterministic composition, ownership/lifecycle/limits, examples; future coordinators deferred |
 | D7 | [Pre-implementation review](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets and Mod Extensions - Pre-implementation Review.md>) | Existing review of D0/D1 plus source-contract checks at `ae6520fe6`; open findings REV-01–12 and readiness gates G0–G5. Documentation/source inspection only, no runtime results |
+| D8 | [Character packs and standalone Wardrobe](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Character Packs and Standalone Wardrobe - Design.md>) | **Draft created November 1.** BioRand-style zip pack format for character additions/replacements; Wardrobe split from `pe_collection` with Economy as an optional shop; recipe packs for disc-derived characters; acceptance cases PACK/WRD. Not implemented |
+| D9 | [Standalone mod boundaries and optional integrations](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Standalone Mod Boundaries - Design Review.md>) | **Recommendation/review, November 1.** Independent Wardrobe and Bestiary, wallet/reward/Catalog/shop boundaries, migration authority and cross-store payment/default conflicts. No extraction implemented |
 
 D2/D3/D6 are existing design drafts, not approved or implemented interfaces. D4 is an existing plan with no test passes; bind its policies and agree acceptance limits before execution/acceptance. D5's maintained release source still needs identifying. Read D2 → D3 → D6 → D4 after D1/D7. Supporting future work can be consolidated without losing traceability.
 
@@ -324,6 +326,40 @@ Layers: **S** save safety and extension store (mod-independent, useful now), **C
   - with unit C: per-instance content migration hook.
 
   Build the fixture suite in `pe-native-debug` and run the D4 "Versioning and migration bindings".
+
+### P. Character packs and standalone Wardrobe — D8
+
+Requirements from the user (November 1): a downloadable character replacement/addition format in the style popular for PS1-era games (BioRand, Classic REbirth); the Wardrobe as its own mod that anyone can use, with Economy only paying for it.
+
+- [x] **Requirements and design recorded:** D8 §§1–7.
+  - Pack format v1: a plain zip, or the same layout as a folder, in `<preferences>/packs/`, with `pack.json`, `LICENSE` and one `characters/<base>.<source>[$<variant>]/` folder each, holding `character.json`, the existing skin files and `face.png`. Data only, hardened zip reading, per-character validation, existing `pe_skins/` kept as an implicit pack.
+  - Packs state a price *tier*, never Junk.
+  - Wardrobe split into `pe_wardrobe`, with its own profile and a one-time import from `pe_collection.ini`.
+  - Acquisition policy: "Everything unlocked" by default without Economy, "Shop" by default with Economy.
+  - Economy registers as the Wardrobe's shop (`wardrobe` v2), mapping tier → the user-kept 25/50/100/250/400 curve; the Wardrobe never calls Economy. v1 services stay.
+  - Copyright rule: disc-derived characters are shared only as recipe packs built from the player's own disc.
+- [ ] **User decisions** (D8 §8): ship the recipe builder as a standalone tool or build in the game later; whether the Wardrobe page buys directly, or only Wayne's Workshop (with the Workshop Overhaul decisions); whether the project hosts a pack index.
+- [ ] Implement under separate code authorization, in order:
+  1. split `pe_wardrobe` from `pe_collection` with the profile migration and `format` lines;
+  2. `wardrobe` v2 and the Economy shop adapter, keeping v1 working;
+  3. the pack reader and the F1 Packs page;
+  4. the recipe pack builder.
+
+  Run D8 §7 PACK-01–07 and WRD-01–06. Add the pack, profile and skin binary formats to the D3 §15.6 version table when built.
+- [ ] Later, each needing its own research: NPC/enemy replacement, voices, a glTF → PE authoring tool for original characters.
+
+### Q. Standalone feature boundaries — D9; D8/D2/D3/D6
+
+- [x] Record the recommended feature split and current checked coupling, while retaining the user's latest D8/other document edits. D9 distinguishes independent Wardrobe/Bestiary, wallet versus reward responsibilities and optional Catalog/shop adapters; this is review documentation, not extraction approval.
+- [x] Extend D2 §10 (control/dependency ownership), D3 §16 (profiles, imports and one-writer compatibility), D6 §15 (standalone capabilities and optional adapters), and D4 §16 (PB-15–18 and 24 planned STN cases). D8 §10 aligns earlier import/price/payment recommendations. Documentation complete for this slice; all code/native integration and runtime checks remain unimplemented/unrun.
+- [ ] Re-audit the selected implementation branch for cross-feature symbols, service publishers, native packs, build/mod dependencies, settings aliases and every profile/save writer. D9's limited check is in `pe-mod-presets`; D8's UI observations use `pe-requisition`.
+- [ ] Bind standalone defaults/acquisition behavior, Wardrobe buying UI placement, paid Bestiary research without Economy, and explicit user choice versus provider-driven fallback. D8 and the earlier no-buying UI rule need explicit disposition; do not silently grant ownership/unlocks.
+- [x] **Recommended profile/alias contract:** D3 §16 and D6 §15 specify separate format-1 feature profiles, one-time import markers/no repeat merge, unchanged legacy sources, canonical setting precedence and a nonpublishing legacy build alias. Concrete code/parsers/native migration and acceptance remain unchecked; no reset may resurrect old facts.
+- [ ] Specify optional payment/acquisition adapters and multiple-adapter identity/selection. Resolve per-save wallet versus profile-wide unlock publication/failure under MCR-08/09; spend-then-grant is not a sufficient atomicity guarantee.
+- [ ] Design one wallet/routing authority independent of enhanced rewards while preserving existing mixed loot records. Evaluate Catalog and shop extraction separately; moving a folder cannot rename persisted keys or create duplicate balances/serializers.
+- [ ] When separately authorized, extract and verify Wardrobe/Bestiary first, then staged Economy boundaries; maintain an accessible default/aggregate configuration and shared host helpers rather than one selectable mod per source file.
+- [x] Extend D4/D8 planning with standalone/build-absence/all-off, migration/reset, multi-adapter, v1 service/price compatibility, resource and cross-store failure coverage (STN-01–24); no cases executed. All future tests/raw evidence stay local in `pe-native-debug`.
+- [ ] Finalize and implement only the separately authorized extraction scope; bind PB-15–18, actual target symbol/build audit, atomic profile writer and cross-store MCR-08/09 protocol before claiming paid adapter support. Validate real standalone binaries/paths rather than only mocks.
 
 ## 6. Implementation checklist — only after a separate instruction to build
 

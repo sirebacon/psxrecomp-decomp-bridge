@@ -210,3 +210,33 @@ For every path record actual file/function, fixed-ID/index assumptions, class/sl
 Registry owners copy bounded definition/offer metadata, retaining only documented session-lifetime callbacks/assets. Instance owners own mutable per-save state; menus borrow generation-checked views and release previews on close/error. Assets own loading/retirement and generic fallbacks. Shop owns transient quotes; transaction owners release prepared reservations on cancel/failure. No per-frame provider discovery, unbounded retained views or provider-owned pointers in saves.
 
 Before coding bind D4 PB-10–14, actual limits and supported actions. Exact menu labels, archetypes and native adapter locations remain review items; retaining existing navigation and rule semantics takes priority over speculative new pages.
+
+## 10. Standalone Wardrobe, Bestiary and staged Economy split
+
+November 1 recommended specification, documentation only. Read D9 for the source-check limits and D8 for pack details; controlling persistence/API/validation contracts are D3 §16, D6 §15 and D4 §16. This is a separate extraction scope, not permission to implement all content or change balances. D8's direct-buying and acquisition choices remain product decisions; the existing no-buying Wardrobe UI baseline remains until explicitly revised.
+
+| Feature owner | Required support | Own controls/state | Optional consumer/adapter |
+| --- | --- | --- | --- |
+| Wardrobe (`pe_wardrobe`) | Shared host/model helpers | Registry/packs, preview/wear/default appearance, owned outfits, explicit acquisition choice, feature-local debug actions | Acquisition adapter may request unlock purchase; no required Economy/Bestiary dependency |
+| Bestiary (`pe_bestiary`) | Shared host/model helpers | Creatures, encounters/kills/earned discoveries, viewer/filters, feature-local debug actions | Paid-information adapter; tracking and earned discovery work without wallet or Wardrobe |
+| Junk wallet/routing owner | Save/inventory support | One balance, routing and validated credit/spend | Rewards, shops and counter presentation consume its capability |
+| Economy rewards owner | Wallet plus relevant inventory/save actions | Enhanced/configurable income, drops/bundles, saved reward progress | No costume/creature viewer dependency |
+| Catalog owner | Equipment/effect/persistence support | Entry discovery, eligibility, install/remove rules | Payment adapter; no dependency on enhanced battle rewards |
+| Shop/Workshop owners | Required payment/delivery services for each action | Offers, quote/stock/pricing and NPC entry points | Optional Wardrobe/Bestiary/Catalog adapters |
+
+Wardrobe and Bestiary become separately buildable/enabled mods. Wallet/rewards/Catalog/shop rows are owner boundaries first; final Economy folder/build-toggle names are not selected here. Share codecs and viewer helpers as libraries; do not require another feature mod merely to reuse a model viewer. Native costume and creature pack registration must separate or check capability availability rather than linking both features unconditionally. Keep a simple aggregate/default build option for users.
+
+| Proposed control/action | Persistence / standalone behavior |
+| --- | --- |
+| Manage mods / Wardrobe, Bestiary | Independent explicit settings; old Collection setting supplies one-time fallback only when the new canonical key is absent |
+| Wardrobe / browse, preview, wear | Works alone under the accepted acquisition policy. No payment controls in the baseline viewer; optional Workshop purchasing stays separate |
+| Wardrobe / Unlocking | Explicit stored choice takes precedence. D8's no-shop everything-available session fallback never writes permanent ownership or overwrites an explicit stored Shop choice. First-install defaults with/without an adapter require product sign-off |
+| Bestiary / browse and earned research | Existing reveal thresholds and spoiler rules retained; no payment provider disables only paid research, not tracking or earned unlocks |
+| Wallet / routing and Inventory counter display | Storage/credit policy separate from extra rewards and display. No second balance, no automatic conversion or newly free shop actions |
+| Rewards / presets | Enhanced stays default; disabling rewards does not implicitly reset wallet, routing, profile unlocks or Catalog facts |
+| Debug / Wardrobe and Debug / Bestiary | Reset/lock actions affect only their owning feature. Combined legacy reset is an explicitly labelled compatibility action, never triggered by migration/toggles |
+| Integration status | Explain missing payment/feature/pack and required restart; metadata/query does not enable providers or grant facts |
+
+Mod absence from the build, disabled mod, unavailable capability and missing content are different statuses. Required unsupported actions are unavailable, not silently free. Multiple acquisition adapters require explicit selection or exactly one eligible default; never use registration order. Changed adapter/price invalidates previews and requires renewed confirmation.
+
+Migration and scope gates: D3 §16 owns feature profiles, retained mixed records and import precedence; D6 §15 owns compatibility publishers and adapters. Do not move persisted page/label keys without canonical aliases under §6. D8 pack-reader work follows the extraction baseline; new direct buying, multi-currency, hot unload and changes to research/price curves remain out of scope. No current-branch full symbol/build audit is claimed here.

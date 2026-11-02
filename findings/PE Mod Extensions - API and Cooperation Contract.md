@@ -135,6 +135,7 @@ Review disposition: Section 11 now resolves **MCR-01–03 at the recommended des
 | `inventory_actions` v1 / inventory owner | Resolve instances, inspect readiness and prepare supported use/equip/delivery actions | Reviewed native adapters and D3 instance/capacity contract; authority over actual instances remains here |
 | `catalog_entries` v1 / Catalog owner | Optional presentation/discovery adapter for effect entries | Effect capability plus existing discovery/ownership rules; separate from effect runtime and preserves existing `catalog` v1 |
 | `economy_shop` v1 / Economy shop owner | Register/query offers, quote and request purchases | Relevant inventory/effect action capability and wallet/stock adapters; saved state only for committed ownership/stock/required metadata |
+| `costumes` v1 + proposed `wardrobe` v2 / `pe_wardrobe` (D8) | Register costumes and character packs; list, preview, `grant`, `register_shop` | Profile-owned ownership (no save state); Economy optional as the registered shop; v1 services kept |
 
 All rows are proposed/unimplemented. They are capabilities, not one mandatory service per source file or per content mod. Existing provider initialization must be audited against host service limits. Do not consume a host service entry for every item/effect/offer. Content providers declare required content/runtime dependencies; Economy integration is optional where their other delivery paths are supported.
 
@@ -414,7 +415,7 @@ October 31 recommended contract, documentation only. Encoding is D3 §13. No cod
 
 ### 14.2 Owner and scope
 
-- **Owner: the Catalog owner** (Economy), for custom entries registered through `catalog_entries` v1, in one extension section `pe_economy.discovery` (D3 §13). There are no per-provider discovery records, and providers never write discovery state directly.
+- **Owner: the Catalog feature owner** (currently Economy; separate responsibility under §15), for custom entries registered through `catalog_entries` v1, in one extension section `pe_economy.discovery` (D3 §13). The storage key stays unchanged if code ownership moves. There are no per-provider discovery records, and providers never write discovery state directly.
 - **Native effects stay where they are.** The 1–20 unlock bits stay in `pe_economy.catalog` v1, unchanged and not migrated. The Catalog shows native and custom entries together through one query, with two storage back ends.
 - **Entry kinds in v1:** `effect` (installable through the Catalog; both facts below apply) and `info` (a reveal-only flag that offers or presentation can require, such as a found blueprint; *unlocked* has no meaning for it). Custom item definitions get no discovery state in v1; an offer that should stay hidden until something happens requires an `info` entry.
 - **Economy off:** the host carries the section unchanged (D6 §13). Effects already installed on gear keep working, because installation lives in ledger attachments, not discovery. Only the Catalog/shop presentation and actions are absent.
@@ -476,3 +477,45 @@ Every registered entry's worst-case bytes are reserved at seal, so a discovery e
 - Interface versions (`PE_MOD_API_VERSION`, capability and descriptor versions) are negotiated in code and never used as save gates.
 
 **Disposition:** MCR-06 is resolved as a recommended design. Implementation waits on the extension store (D3 §12), the content ledger (for *carried* and dismantle) and the Catalog adapter; D4 binds the cases ("MCR-06 acceptance bindings").
+
+## 15. Standalone features and optional acquisition/payment adapters
+
+November 1 recommended design specification, documentation only. D2 §10 owns controls, D3 §16 owns persistent state and migration, D4 §16 owns acceptance, D8 owns packs and D9 records the extraction review. These contracts separate responsibilities; they do not add functioning services or resolve MCR-08/09.
+
+### 15.1 Capability and build boundaries
+
+| Capability / authority | Required dependencies | Optional integration and compatibility |
+| --- | --- | --- |
+| `costumes` / `wardrobe` — Wardrobe | Host and supported asset/view helpers | Publish supported v1 interfaces from one owner; new versioned acquisition surface independent of Economy/Bestiary |
+| `bestiary` — Bestiary | Host and supported creature/view helpers | Tracking/query/reveal eligibility remain feature-owned; payment integrations consume a new reviewed action interface |
+| Proposed `junk_wallet` — wallet/routing owner | Save/inventory action owners | One authoritative balance; consumers need not enable enhanced rewards. Existing `junk` v1 remains an audited compatibility facade, not another wallet |
+| `economy_policy` — reward owner | Wallet and reward/save prerequisites | Owns reward policy only; no Wardrobe/Bestiary dependence |
+| Catalog and shops | Their actual equipment/discovery/payment requirements | Optional feature adapters; no compulsory dependency on reward generation |
+
+Exact new C signatures/table versions and Economy selectable module names remain implementation specifications to finalize. Preserve v1 semantics, including numeric price expectations and pick/action behavior, or explicitly declare an incompatible operation unavailable; do not reinterpret legacy `PeCostume.price` as a different tier price silently. New tier pricing applies through the reviewed newer descriptor. One publisher per service/version; no old Collection publisher running beside duplicate new services.
+
+Choose a compatibility build alias for legacy `pe_collection` that expands to Wardrobe plus Bestiary and deduplicates explicitly listed modules. It is build convenience, not a third runtime state owner or hidden mod. Migrate enabled-state keys under D3 §16; direct builds of either feature must have no unresolved symbols from the other. Shared profile codecs/model viewers remain libraries. Native packs use separated registrars or explicit capability-checked adapters; missing one feature cannot suppress the other's pack.
+
+### 15.2 Feature actions versus payment
+
+Wardrobe owns definition, ownership query, wearing and validated eligibility for an entitlement. Bestiary owns creature facts, earned progression and validated research/reveal eligibility. Both offer read-only bounded queries and proposed owner-managed `prepare_entitlement` / `commit_prepared` / `abort_prepared` actions only where the transaction guarantees support them. Payment provider never writes profile buffers, invents kills or reveals undiscovered entries through diagnostics.
+
+Do not expose an unrestricted `grant(key, why)` as payment proof: host-derived caller identity, supported action kind, target generation, eligibility/discovery, reason key and authority are validated by the feature owner. Legitimate reward/grant integrations are a distinct declared capability with authorization, not a way for a shop to bypass preparation. Local debug unlock/reset remains separately scoped and never called by a preset or provider registration.
+
+An acquisition adapter has a stable owner/adapter ID, target feature/action types, required capability versions, quote/price source, eligibility and supported protocol flags. Register through D6 §11's provisional optional batch/seal rules. Wardrobe/Bestiary base batches do not require the adapter or Economy. A shared neutral registry can expose the adapter to the UI after seal, without the feature linking to a concrete Economy service. The feature presents/dispatches a supported selected acquisition action; wallet/stock and persistence stay with their owners.
+
+Multiple adapters may coexist. Use the player's explicit compatible adapter selection when set; otherwise use exactly one eligible declared default. Zero means paid action unavailable; multiple eligible defaults return attributed conflict and require selection rather than using registration priority. Keep selection separate from ownership and invalidate old quotes on adapter/generation changes. No automatic payment during registration, load, browse, fallback or settings changes.
+
+### 15.3 Standalone eligibility and defaults
+
+Bestiary without payment still tracks and earns discoveries under existing rules; it does not unlock everything. Wardrobe's Everything-available eligibility and actual owned entitlement are separate query fields. D8's no-shop session fallback must not overwrite the stored acquisition choice or persist ownership. First-run Shop versus Everything default and direct Wardrobe buying placement remain explicit product decisions; preserve baseline no-buying UI until revised. New APIs must support an optional Workshop action without requiring purchase controls inside Wardrobe.
+
+Wallet readiness, reward-generation enabled, counter routing, counter display and shop/payment readiness are separate statuses. An existing `junk` v1 `enabled()` cannot be redefined silently to mean every combination; audit compatibility and use the new explicit wallet status for new consumers. Missing wallet blocks paid actions without blocking wearing owned/temporarily eligible costumes, earned research or profile viewing. Disabling rewards preserves wallet and saved reward fields through D3's single compatibility record owner.
+
+### 15.4 Commit, lifecycle and acceptance boundaries
+
+Quotes/prepared handles carry feature/provider/adapter/playthrough/profile generations. Prepare/cancel releases each owner's bounded resources; no nested grant, duplicate spend or structural re-registration is allowed. Profile changes and wallet changes must publish through the accepted cross-store MCR-08/09 protocol before a new paid adapter reports committed success. Until supported and fault-tested, advertise it as unavailable; a callback that spends then grants is not conforming. No arbitrary global grant/setter, live hot unload or new currency is introduced.
+
+Feature disable/build absence preserves saved state and leaves the core compatibility layer at its accepted responsibility. Restart invalidates transient adapters/quotes and cleans session resources. Import and debug reset are owner-local; unknown content keys remain preserved. MCR-01–03 registry semantics do not by themselves provide payment/profile atomicity.
+
+Required evidence: standalone build/link combinations, service ownership/v1 consumers, legacy setting aliases/profile import, optional adapter absence/multiplicity, failed preparation/profile publication, cross-store interruption and no-provider gameplay/default parity. D4 §16 binds these under PB-15–18; all new fixtures/raw evidence remain local in `pe-native-debug`. No implementation/runtime acceptance claimed.

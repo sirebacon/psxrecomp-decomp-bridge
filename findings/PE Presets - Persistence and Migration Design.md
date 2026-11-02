@@ -562,6 +562,11 @@ Every persistent layout gets a row here. Any change to a layout must update the 
 | Section (proposed) | `pe_content.ledger` | format 1 | 1 | §11.2 |
 | Section (proposed) | `pe_economy.discovery` | format 1 | 1 | §13.1 |
 
+| Legacy profile file | `pe_collection.ini` | Existing unversioned layout retained | — | Read-only migration source after split; mixed costume/creature lines retained unchanged (§16) |
+| Profile file (proposed) | `pe_wardrobe.ini` | `format 1` | — | §16; bounded first import of costume/worn state; no automatic repeat merge |
+| Profile file (proposed) | `pe_bestiary.ini` | `format 1` | — | §16; bounded first import of creature facts/kills/seen state; separate writer |
+| Character pack (proposed) | `pack.json` `format` | 1 | `min_wardrobe` 1 | D8 §3 |
+
 Retired names, keys, flag bits and enum values are listed here too and never reused. There are none yet.
 
 ### 15.7 Golden fixtures and migration tests
@@ -589,3 +594,43 @@ Recommended policy. Implementation pieces:
 - the fixture suite.
 
 D4 binds the cases ("Versioning and migration bindings"). D0 Section 5 O tracks the version table as a standing obligation.
+
+## 16. Standalone feature persistence and extraction migration
+
+November 1 recommended contract, no format implementation or user-data changes. Read D2 §10 / D6 §15 / D4 §16 and D9. This section supersedes D8's conflicting one-time-versus-repeat-import wording and adding a version line to the old mixed source. Existing supported record meanings stay unchanged. Actual file parser/serializer layouts need implementation review and golden fixtures under §15.
+
+### 16.1 Single writer and stable storage identity
+
+| State | Sole active authority after extraction | Required preservation |
+| --- | --- | --- |
+| Costume ownership, worn/default and acquisition choice | Wardrobe, `pe_wardrobe.ini` format 1 | Existing costume keys and absent-pack records; session availability separate from ownership |
+| Creature facts/kills/acknowledged discoveries | Bestiary, `pe_bestiary.ini` format 1 | Existing creature keys, exact imported progress and missing-pack records; no automatic research reset |
+| Legacy mixed Collection profile | No feature writer; migration source only | Leave `pe_collection.ini` and legacy binary source unchanged, including unknown lines |
+| Wallet and legacy reward fields | One compatibility persistence owner for `pe_economy.loot` v1 | Preserve record identity/layout; wallet remains authoritative when enhanced rewards are disabled |
+| Catalog/Rebuild/discovery and shop state | Existing one-writer compatibility adapters | Keep `pe_economy.catalog`, `pe_economy.discovery`, `pe_economy.shop` keys and unknown fields/sections; code owner name is not storage identity |
+
+New module names do not rename records, clone balances or add headers automatically. While wallet and reward fields share one record, a single adapter loads/serializes the aggregate; feature owners mutate only their own validated logical fields. With rewards absent/disabled, preserve uninterpreted reward state and avoid zeroing its progress. A future physical record split requires a separately versioned migration/admission budget; folder extraction alone does not justify it. Unloaded optional owners retain their saved records through the accepted host/store policy.
+
+### 16.2 Profile import and restart safety
+
+Each feature imports independently. If its destination does not exist, parse its own recognized legacy lines into a bounded staged destination, retain missing-pack identities, and commit destination plus `imported_collection 1` marker together through the supported atomic profile writer. Only mark success after valid durable publication. Legacy binary import follows the established reader precedence and occurs through one documented source adapter, not twice through two live mixed-profile writers. Source files are never deleted or edited by extraction.
+
+If a valid destination already exists, it is authoritative, including deliberate empty ownership/progress after a debug reset. **No automatic merge on every startup.** Explicit re-import, if later provided, must be a separate backed-up user action with reviewed reset/merge semantics; it is not part of normal startup. Lock/reset keeps the import marker so old source data cannot resurrect cleared facts. Copying a legacy source again does not change the import epoch. Missing/damaged/newer destinations require the versioned recovery policy, not silently reimporting over them or creating defaults that overwrite originals.
+
+Wardrobe import and Bestiary import need not commit simultaneously: each has its own source subset and marker, so failure/retry cannot erase the other. Atomic profile staging/replace/flush and error handling must be audited on the target implementation; do not infer those guarantees from a text format. If import publication fails, expose migration-unavailable status and preserve originals; do not claim ownership saved or make paid actions eligible.
+
+Keep explicit canonical mod/settings/profile values first. Otherwise import the old `pe_collection` enabled state into each feature's absent canonical setting once, retaining All mods off and unrelated settings. If neither canonical nor legacy value exists, retain current default-build behavior; new acquisition defaults remain a product decision. Retain old settings as read-only aliases, never repeatedly overwrite explicit later choices. Old builds continue seeing the untouched old profile, but later changes across divergent old/new files do not automatically synchronize; document this downgrade limit.
+
+### 16.3 Feature absence and reset semantics
+
+Wardrobe disabled/absent: use native story appearance; do not edit its profile, grant ownership or reset Bestiary. A missing worn pack uses the supported session appearance fallback while retaining its stable saved key. Everything-available session policy affects eligibility only, not the owned set. Bestiary disabled/absent: preserve its profile and stop its tracking; no invented retroactive kills on re-enable. Economy absent: independent features keep their nonpaid behavior; paid actions unavailable and no profile/currency conversion. Counter/rewards/shops do not become multiple wallet writers.
+
+Feature-local reset/lock must not change another profile or import marker. Unknown fields/records are preserved within the supported framing/version limits. Shared codecs may share implementation, not mutable buffers or write ownership. Rebuild/Dismantle and profile actions retain their existing anti-exploit policy; no new refunds are inferred.
+
+### 16.4 Per-save currency versus profile-wide unlocks — explicit blocker
+
+Costume/Bestiary entitlements are profile-wide; Junk comes from the loaded save. A per-save coherent transaction is insufficient to commit both durable stores. A spend followed by `grant` can lose money on profile failure; reversing them can grant an unpaid unlock. A local operation token alone does not solve crash recovery or older-save restoration.
+
+New paid adapters remain **unavailable until MCR-08/09 specify and verify the cross-store protocol**: preparation, durable publication/recovery authority, pending/terminal states and bounded retention, original-save/profile backups, file failures and restart replay. Do not introduce a journal/sidecar format here by implication. Define action scope and guarantee explicitly, including legitimate save rollback versus exploit prevention; no global anti-rollback promise. Existing legacy purchase paths are not certified or silently changed by this design.
+
+Before extraction implementation bind PB-15–18, exact profile format/error behavior, legacy binary precedence, aggregate-record ownership and service/mod-key compatibility. UI buying/default choices stay open. Record native file-write and one-writer evidence; no build/tests ran for this documentation update.
