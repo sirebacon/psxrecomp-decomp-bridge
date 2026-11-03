@@ -4,8 +4,26 @@ from PIL import Image, ImageDraw
 from pe_weapon_sim.extract_enemy_scripts import word, sectors, PROJECT, BRIDGE
 from pe_weapon_sim.extract_animations import ram_from_pst
 
-ram = ram_from_pst(BRIDGE/'findings/live-timing-session/saves/scph1001/state_80072534_disc2_slot09.pst')
-BASE = word(ram, 0xb0dd8)
+# Where assets come from: the bridge's own disc and RAM snapshot (the research setup), or, after
+# use_discs(), the player's disc images alone (pe_disc.py; pe_pack_build.py).
+_DISCS = {}
+try:
+    ram = ram_from_pst(BRIDGE/'findings/live-timing-session/saves/scph1001/state_80072534_disc2_slot09.pst')
+    BASE = word(ram, 0xb0dd8)
+except (OSError, ValueError):
+    ram = BASE = None
+
+
+def use_discs(discs):
+    """Read rooms and images from these pe_disc.Disc objects ({1: disc1, 2: disc2}) from now on."""
+    _DISCS.clear(); _DISCS.update(discs)
+
+
+def _disc(disc):
+    if disc in _DISCS: return _DISCS[disc]
+    if _DISCS: raise FileNotFoundError('disc %d was not given' % disc)
+    if ram is None: raise FileNotFoundError('no disc: call use_discs() with the player\'s disc images')
+    return None
 u16 = lambda b, o: struct.unpack_from('<H', b, o)[0]
 s16 = lambda b, o: struct.unpack_from('<h', b, o)[0]
 OUT = os.path.join(os.path.dirname(__file__), 'renders')
@@ -14,6 +32,8 @@ os.makedirs(OUT, exist_ok=True)
 
 
 def room_blob(m, disc=1):
+    d = _disc(disc)
+    if d: return d.room_blob(m)
     f = open(PROJECT/f'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc {disc}).bin', 'rb')
     start = word(ram, 0x93378 + (m - 1) * 8); packed = word(ram, 0x9337c + (m - 1) * 8)
     return sectors(f, BASE + start + (packed & 255) + ((packed >> 8) & 4095), packed >> 20)
@@ -22,6 +42,8 @@ def room_blob(m, disc=1):
 def room_texture_blobs(m, disc=1):
     """Scene_LoadRoom reads a room as three runs of sectors: a scratch blob and a texture blob (both
     SceneAssetBlobs whose TIM records go to VRAM; room_load.c:427-465), then the room data."""
+    d = _disc(disc)
+    if d: return d.room_texture_blobs(m)
     f = open(PROJECT/f'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc {disc}).bin', 'rb')
     start = word(ram, 0x93378 + (m - 1) * 8); packed = word(ram, 0x9337c + (m - 1) * 8)
     scratch, texture = packed & 255, (packed >> 8) & 4095
@@ -40,6 +62,8 @@ def room_vram(m, disc=1):
 
 
 def image_blob(idx, disc=1):
+    d = _disc(disc)
+    if d: return d.image_blob(idx)
     f = open(PROJECT/f'parasite-eve-recomp/disc/Parasite Eve (USA) (Disc {disc}).bin', 'rb')
     s0 = u16(ram, 0x930D8 + 2 * idx); s1 = u16(ram, 0x930D8 + 2 * idx + 2)
     return sectors(f, BASE + s0, s1 - s0)

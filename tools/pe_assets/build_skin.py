@@ -147,10 +147,11 @@ def room_player_rows():
     """Distinct player animation rows rooms install (bank_rows[0][24..47], Scene_LoadRoom row records
     with group 0: door opening, room events), both discs, by fingerprint. Cached in skins/."""
     import pickle
-    cache = os.path.join(HERE, 'skins', 'room_rows.pkl')
+    given = sorted(getattr(R, '_DISCS', {}))       # the player's discs (pe_pack_build.py): their own cache
+    cache = os.path.join(HERE, 'skins', 'room_rows%s.pkl' % ('_disc' + ''.join(map(str, given)) if given else ''))
     if os.path.exists(cache): return pickle.load(open(cache, 'rb'))
     rows = {}
-    for disc in (1, 2):
+    for disc in (given or (1, 2)):
         for m in range(1, 1000):
             try:
                 b = R.room_blob(m, disc); recs = R.records(b, 0x10)
@@ -411,8 +412,10 @@ def main():
     build(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), 2 if '--disc2' in sys.argv else 1)
 
 
-def build(name, m, slot, disc=1):
-    out_dir = os.path.join(HERE, 'skins', name); os.makedirs(out_dir, exist_ok=True)
+def build(name, m, slot, disc=1, out_dir=None, install_it=True):
+    """Build skin `name` from room `m`'s bank slot `slot` on disc `disc` into out_dir (default
+    skins/<name>/), then copy it to INSTALL_ROOT unless install_it is False (pe_pack_build.py)."""
+    out_dir = out_dir or os.path.join(HERE, 'skins', name); os.makedirs(out_dir, exist_ok=True)
     aya_blob = R.image_blob(AYA_AREA + 8)
     aya_off, _, aya_trailing = R.records(aya_blob, 0x0C)[0]
     aya = R.model(aya_blob, aya_off)
@@ -448,7 +451,8 @@ def build(name, m, slot, disc=1):
     print(name, 'parts', md['parts'], '->', layout.n if layout else md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
           'gun part', write_meta(out_dir, mp))
     if META_ONLY:
-        install(out_dir, name); return
+        if install_it: install(out_dir, name)
+        return
     rows = [(retarget_row(aya_blob, o, aya, md, mp, idle, corr, ratio, layout), s) for s, o in sorted(aya_rows.items())]
     bundle = write_blob([(bytes(raw), 0, aya_trailing)], rows)
     open(os.path.join(out_dir, 'model.bin'), 'wb').write(bundle)
@@ -483,7 +487,7 @@ def build(name, m, slot, disc=1):
     open(os.path.join(out_dir, 'texture.bin'), 'wb').write(bytes(tex))
     print('  texture.bin', len(tex), 'bytes')
     if '--check' in sys.argv: check(out_dir, name)
-    install(out_dir, name)
+    if install_it: install(out_dir, name)
 
 
 def install(out_dir, name):
