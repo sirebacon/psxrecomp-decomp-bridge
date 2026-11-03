@@ -1,0 +1,9 @@
+1 / 8 ('D5', 139, 'builtin', 'low', 4, 12, True, True) 504 fights 114 s
+2 / 8 ('D5', 139, 'builtin', 'stock', 4, 12, True, True) 1008 fights 117 s
+3 / 8 ('D5', 139, 'builtin', 'typical', 4, 12, True, True) 1512 fights 137 s
+4 / 8 ('D5', 139, 'builtin', 'high', 4, 12, True, True) 2016 fights 138 s
+5 / 8 ('Disc2', 139, 'builtin', 'low', 4, 12, True, True) 2592 fights 206 s
+6 / 8 ('Disc2', 139, 'builtin', 'stock', 4, 12, True, True) 3168 fights 232 s
+7 / 8 ('Disc2', 139, 'builtin', 'typical', 4, 12, True, True) 3744 fights 266 s
+8 / 8 ('Disc2', 139, 'builtin', 'high', 4, 12, True, True) 4320 fights 283 s
+SAVED D:\Recomp Games\psxrecomp-decomp-bridge\findings\data\pe-native-grenade-fine-2026-10-26.json

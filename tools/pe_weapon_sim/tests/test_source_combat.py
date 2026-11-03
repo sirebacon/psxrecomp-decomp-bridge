@@ -21,6 +21,24 @@ def config(kind=1,rof=3,mode=None,magazine=10,**eff):
 
 
 class SourceCombatTests(unittest.TestCase):
+    def test_native_cyanide_does_not_activate_at_damage_floor(self):
+        r=dict(rules.CURRENT,native_gun_arithmetic=True)
+        f=foe(100000);f.update(defense=1000,cyanide='Weak')
+        result=engine.fight(source_combat_rules(r),config(kind=5,rof=1,cyanide=True),
+            dict(level=20,stat22=79,offense=100),[f],Fixed(),random.Random(5),
+            max_turns=1,enemy_dmg=lambda f:0)
+        self.assertEqual(result.get('cyanide',0),0)
+        self.assertEqual(result['won'],0)
+    def test_source_installed_rof_power_is_not_reset_at_hit_event(self):
+        def run(installed, boosted):
+            r=dict(rules.CURRENT)
+            if boosted: r['rof_mod_hit_pct']={5:40}
+            return engine.fight(source_combat_rules(r),config(rof=5,rof_mod=installed),
+                dict(level=20,stat22=79,offense=100),[foe(100000)],Fixed(),random.Random(5),
+                max_turns=1,enemy_dmg=lambda f:0)
+        self.assertGreater(run(True,True)['damage'],run(True,False)['damage'])
+        self.assertEqual(run(False,True)['damage'],run(False,False)['damage'])
+
     def fight(self,cfg=None,foes=None,**kw):
         return engine.fight(source_combat_rules(rules.CURRENT),cfg or config(),
             dict(level=20,stat22=79,offense=100),foes or [foe()],Fixed(),random.Random(5),**kw)

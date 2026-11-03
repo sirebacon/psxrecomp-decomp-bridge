@@ -1,0 +1,33 @@
+{
+  "defaults": {
+    "Heat/Frost neutral %": 115,
+    "Heat/Frost weak %": 150,
+    "Heat/Frost resist %": 80,
+    "Heat+Frost best of two": 1,
+    "RoF 7 per-shot %": 20,
+    "RoF 10 per-shot %": 15,
+    "Installed RoF volley %": 200,
+    "G3A3 attack bonus": 45,
+    "M203 4 attack bonus": 15,
+    "Progression gun bonuses": 1,
+    "Attack All crowd cap %": 75,
+    "RoF mods: fast volleys": 1,
+    "Acid/Tranq vs resist %": 20,
+    "Acid/Tranq vs normal %": 60,
+    "Poison strength %": 125,
+    "Critical bonus points": 40,
+    "Quickdraw bonus points": 15,
+    "Attack Down dmg taken %": 75,
+    "Slow AT dmg taken %": 85
+  },
+  "progression": {
+    "121": 25,
+    "123": 15,
+    "131": 20,
+    "132": 15
+  },
+  "source_hashes": {
+    "mods/pe_rebalance/pe_mod_effects.c": "47bcff9f0965b68089939aea415b7b15598eab0163adfa1d05135868ff492fb0",
+    "src/main/battle/enemy_movement.c": "e6fc25518fd1127554ba357b2808cf27f27c5ac246f3388454737c781ad3fa8f"
+  }
+}

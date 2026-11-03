@@ -1,0 +1,9 @@
+1 / 8 ('D5', 110, 'builtin', 'attack_only', 4, 12, False) 168 fights 78 s
+2 / 8 ('D5', 110, 'builtin', 'stock', 4, 12, False) 336 fights 78 s
+3 / 8 ('D5', 110, 'catalog', 'attack_only', 4, 12, False) 840 fights 100 s
+4 / 8 ('D5', 110, 'catalog', 'stock', 4, 12, False) 1344 fights 101 s
+5 / 8 ('Disc2', 110, 'builtin', 'attack_only', 4, 12, False) 1536 fights 121 s
+6 / 8 ('Disc2', 110, 'builtin', 'stock', 4, 12, False) 1728 fights 124 s
+7 / 8 ('Disc2', 110, 'catalog', 'attack_only', 4, 12, False) 2112 fights 134 s
+8 / 8 ('Disc2', 110, 'catalog', 'stock', 4, 12, False) 2496 fights 134 s
+SAVED D:\Recomp Games\psxrecomp-decomp-bridge\findings\data\pe-native-shotgun-capacity-2026-10-26.json

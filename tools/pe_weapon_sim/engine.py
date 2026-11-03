@@ -13,6 +13,7 @@ import math
 from .data import ATB_FACTOR, ANIM
 from .rules import graze_mult_for
 from .source_timing import gauge_gain, refill_updates
+from .native_damage import hit_damage as native_hit_damage
 
 TICK_HZ = 94.0      # L: 9000 / (stat22 70 x 10 / 10) / 1.37 s median handgun turn (battle rows)
 LOOP_S = 1.0 / 30
@@ -203,14 +204,18 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
         if dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_crowd_c") and not any(o.get("boss") for o in foes):
             n_alive = sum(1 for o in foes if o["cur"] > 0)
             if n_alive >= 2: dmg = dmg * min(1.0, rules["all_mode_crowd_c"] / n_alive)   # experiment AAn_*: crowd-scaled Attack All
-        if dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_hp_cap") and not any(o.get("boss") for o in foes) and sum(1 for o in foes if o["cur"] > 0) >= 2:
+        if not rules.get('native_gun_arithmetic') and dmg > 0 and eff.get("mode") == "all" and rules.get("all_mode_hp_cap") and not any(o.get("boss") for o in foes) and sum(1 for o in foes if o["cur"] > 0) >= 2:
             # experiment AAc_*: Attack All takes at most cap x the target's max HP per turn (f['aa_turn'] reset per attack)
             room = rules["all_mode_hp_cap"] * f["hp"] - f.get("aa_turn", 0.0)
             dmg = max(0.0, min(dmg, room)); f["aa_turn"] = f.get("aa_turn", 0.0) + dmg
-        landed_positive = dmg > 0
+        native=bool(rules.get('native_gun_arithmetic'))
+        if native:
+            dmg,native_positive=native_hit_damage(offense,cfg['power'],f['defense'],rof,react,element_pct(f),rules,eff.get('rof_mod'),with_positive=True)
+        landed_positive = native_positive if native else dmg > 0
         if landed_positive:
-            dmg *= {"graze": graze_mult_for(rules, kind, f["boss"]), "crit": rules["crit_mult"],
-                    "splash": rules["splash_mult"]}.get(react, 1.0)
+            if not native:
+                dmg *= {"graze": graze_mult_for(rules, kind, f["boss"]), "crit": rules["crit_mult"],
+                        "splash": rules["splash_mult"]}.get(react, 1.0)
             if kind != 6:
                 cyan = False
                 if eff.get("cyanide") and status_lands(f, "cyanide", vanilla_roll=True):
@@ -221,7 +226,7 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                         f["poisoned"] = True; f["ptime"] = t; st.add("acid")
                     if eff.get("tranq") and status_lands(f, "tranq", vr):
                         f["stopped"] = max(f["stopped"], 3); st.add("tranq")
-                    dmg = dmg * element_pct(f) / 100.0
+                    if not native: dmg = dmg * element_pct(f) / 100.0
                 if prox and kind in prox["kinds"]:
                     d = f["dist"]
                     if d <= prox["r_full"]:
@@ -236,6 +241,9 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
                     st.add("overkill", max(0.0, f["cur"]))
                     f["dealt"] += f["cur"]; f["cur"] = 0; return
         dmg = int(dmg) if dmg > 0 else (2 if react == "crit" else 1)
+        if native and eff.get('mode')=='all' and rules.get('all_mode_hp_cap') and not any(o.get('boss') for o in foes) and sum(o['cur']>0 for o in foes)>=2:
+            room=int(rules['all_mode_hp_cap']*f['hp'])-f.get('aa_turn',0)
+            dmg=max(0,min(dmg,room));f['aa_turn']=f.get('aa_turn',0)+dmg
         st.add("overkill", max(0.0, dmg - f["cur"]))
         st.add("damage", min(dmg, max(0.0, f["cur"])))
         f["cur"] -= dmg; f["dealt"] += dmg
@@ -251,7 +259,10 @@ def fight(rules, cfg, aya, foes_in, profile, rng, policy="stand", timing="overla
         def source_hit(event,active,seconds):
             nonlocal cfg,eff,kind,rof,hitp,rng_units,t
             cfg=active;eff=cfg['eff'];kind=cfg['kind'];rof=eff.get('rof',1)
-            hitp=rules['hit_pct'].get(rof,100);rng_units=cfg['range'];t=seconds
+            hitp=rules['hit_pct'].get(rof,100)
+            if eff.get('rof_mod'):
+                hitp=rules.get('rof_mod_hit_pct',{}).get(rof,hitp)
+            rng_units=cfg['range'];t=seconds
             for index in event['targets']:
                 f=foes[index]
                 if f['cur']<=0 or done(): continue

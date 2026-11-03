@@ -1,0 +1,5686 @@
+{
+ "meta": {
+  "seeds": 4,
+  "battle_limit": 12,
+  "invest": [
+   "stock",
+   "low",
+   "typical",
+   "high"
+  ],
+  "bonuses": {
+   "G3A3": 45,
+   "M203 4": 15,
+   "M16A1": 25,
+   "SG550": 15,
+   "M203": 20,
+   "M203 2": 15
+  },
+  "dropped": {
+   "M203 3": 20,
+   "M79 2": 20,
+   "M79 3": 10,
+   "PPK": 10
+  },
+  "native_source_sha256": "47bcff9f0965b68089939aea415b7b15598eab0163adfa1d05135868ff492fb0",
+  "native_audit": {
+   "defaults": {
+    "Heat/Frost neutral %": 115,
+    "Heat/Frost weak %": 150,
+    "Heat/Frost resist %": 80,
+    "Heat+Frost best of two": 1,
+    "RoF 7 per-shot %": 20,
+    "RoF 10 per-shot %": 15,
+    "Installed RoF volley %": 200,
+    "G3A3 attack bonus": 45,
+    "M203 4 attack bonus": 15,
+    "Progression gun bonuses": 1,
+    "Attack All crowd cap %": 75,
+    "RoF mods: fast volleys": 1,
+    "Acid/Tranq vs resist %": 20,
+    "Acid/Tranq vs normal %": 60,
+    "Poison strength %": 125,
+    "Critical bonus points": 40,
+    "Quickdraw bonus points": 15,
+    "Attack Down dmg taken %": 75,
+    "Slow AT dmg taken %": 85
+   },
+   "progression": {
+    "121": 25,
+    "123": 15,
+    "131": 20,
+    "132": 15
+   },
+   "source_hashes": {
+    "mods/pe_rebalance/pe_mod_effects.c": "47bcff9f0965b68089939aea415b7b15598eab0163adfa1d05135868ff492fb0",
+    "src/main/battle/enemy_movement.c": "e6fc25518fd1127554ba357b2808cf27f27c5ac246f3388454737c781ad3fa8f"
+   }
+  },
+  "model": "calibrated Python source model; native default rules mapped; not native binary execution",
+  "limitations": [
+   "Integer per-hit hook arithmetic mapped from native; crowd cap models restored final HP, not delayed engine updates or the native 40-frame reference heuristic.",
+   "One logged campaign; synthetic loadouts, not a new acquisition/economy simulation.",
+   "Catalog best-of tested orders is an optimistic upper bound, not guaranteed player ownership.",
+   "Built-in-only means no optional installs at ALL stages, including Disc2.",
+   "Infinite reserve per isolated battle; rocket results do not establish campaign ammo viability."
+  ]
+ },
+ "rows": [
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 35.8330550918197,
+   "won": 1,
+   "damage_taken": 62.175,
+   "rounds": 7.05,
+   "reloads": 0.425,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 40,
+   "m203_4_ratio": 0.8891466445733223,
+   "m203_4_delta_ci": [
+    -10.64,
+    3.11
+   ],
+   "m203_4_faster": 24,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 55.292153589315525,
+   "won": 1,
+   "damage_taken": 103.875,
+   "rounds": 7.9375,
+   "reloads": 0.4375,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 0.9739744155271284,
+   "m203_4_delta_ci": [
+    -4.82,
+    3.55
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 51.89649415692821,
+   "won": 1,
+   "damage_taken": 99.0,
+   "rounds": 12.85,
+   "reloads": 1.675,
+   "m203_2_ratio": 1.4482855013045097,
+   "m203_2_delta_ci": [
+    12.04,
+    20.18
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2877381938690968,
+   "m203_4_delta_ci": [
+    7.41,
+    16.0
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 63.70617696160267,
+   "won": 1,
+   "damage_taken": 120.125,
+   "rounds": 13.1875,
+   "reloads": 1.625,
+   "m203_2_ratio": 1.1521739130434783,
+   "m203_2_delta_ci": [
+    4.5,
+    11.85
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1221879135421262,
+   "m203_4_delta_ci": [
+    -0.43,
+    15.39
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 40.003338898163605,
+   "won": 1,
+   "damage_taken": 63.65,
+   "rounds": 10.625,
+   "reloads": 1.125,
+   "m203_2_ratio": 1.1163809168840848,
+   "m203_2_delta_ci": [
+    0.65,
+    7.13
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.992626346313173,
+   "m203_4_delta_ci": [
+    -4.97,
+    5.06
+   ],
+   "m203_4_faster": 20,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 57.41652754590985,
+   "won": 1,
+   "damage_taken": 110.6875,
+   "rounds": 11.0625,
+   "reloads": 1.1875,
+   "m203_2_ratio": 1.0384208937198067,
+   "m203_2_delta_ci": [
+    -2.71,
+    5.05
+   ],
+   "m203_2_faster": 4,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0113953830319071,
+   "m203_4_delta_ci": [
+    -6.78,
+    7.56
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 48.109348914858096,
+   "won": 1,
+   "damage_taken": 84.525,
+   "rounds": 12.35,
+   "reloads": 1.075,
+   "m203_2_ratio": 1.342596906448006,
+   "m203_2_delta_ci": [
+    8.09,
+    16.76
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1937655343827671,
+   "m203_4_delta_ci": [
+    3.78,
+    12.03
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 62.65233722871452,
+   "won": 1,
+   "damage_taken": 117.25,
+   "rounds": 12.875,
+   "reloads": 1.25,
+   "m203_2_ratio": 1.1331144323671498,
+   "m203_2_delta_ci": [
+    2.19,
+    12.97
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1036244669901485,
+   "m203_4_delta_ci": [
+    -2.74,
+    16.51
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 38.80467445742905,
+   "won": 1,
+   "damage_taken": 60.775,
+   "rounds": 10.325,
+   "reloads": 0.875,
+   "m203_2_ratio": 1.082929556466642,
+   "m203_2_delta_ci": [
+    -0.43,
+    6.13
+   ],
+   "m203_2_faster": 12,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9628831814415907,
+   "m203_4_delta_ci": [
+    -5.38,
+    2.96
+   ],
+   "m203_4_faster": 25,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 58.20742904841403,
+   "won": 1,
+   "damage_taken": 107.25,
+   "rounds": 11,
+   "reloads": 1.0625,
+   "m203_2_ratio": 1.0527249396135268,
+   "m203_2_delta_ci": [
+    0.19,
+    4.79
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0253271577709162,
+   "m203_4_delta_ci": [
+    -3.94,
+    7.12
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 49.017529215358934,
+   "won": 1,
+   "damage_taken": 117.475,
+   "rounds": 9.1,
+   "reloads": 0.8,
+   "m203_2_ratio": 1.3679416697726425,
+   "m203_2_delta_ci": [
+    3.37,
+    21.85
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2163007456503727,
+   "m203_4_delta_ci": [
+    5.1,
+    12.68
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 5
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 66.59849749582638,
+   "won": 1,
+   "damage_taken": 142.875,
+   "rounds": 10.25,
+   "reloads": 1.1875,
+   "m203_2_ratio": 1.204483695652174,
+   "m203_2_delta_ci": [
+    3.13,
+    20.64
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.1731363034847817,
+   "m203_4_delta_ci": [
+    6.16,
+    16.14
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 40,
+   "time": 41.17529215358932,
+   "won": 1,
+   "damage_taken": 82.825,
+   "rounds": 8.175,
+   "reloads": 0.7,
+   "m203_2_ratio": 1.1490868430860977,
+   "m203_2_delta_ci": [
+    -2.51,
+    11.55
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0217067108533553,
+   "m203_4_delta_ci": [
+    0.09,
+    1.88
+   ],
+   "m203_4_faster": 13,
+   "m203_4_tied": 14
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 58.53714524207012,
+   "won": 1,
+   "damage_taken": 118.375,
+   "rounds": 8.5,
+   "reloads": 0.8125,
+   "m203_2_ratio": 1.0586881038647342,
+   "m203_2_delta_ci": [
+    0.19,
+    5.22
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0311351271871785,
+   "m203_4_delta_ci": [
+    0.29,
+    3.88
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 5
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 40,
+   "time": 40.70450751252087,
+   "won": 1,
+   "damage_taken": 82.325,
+   "rounds": 7.875,
+   "reloads": 0.65,
+   "m203_2_ratio": 1.1359485650391352,
+   "m203_2_delta_ci": [
+    -3.03,
+    11.4
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.0100248550124273,
+   "m203_4_delta_ci": [
+    -0.65,
+    1.61
+   ],
+   "m203_4_faster": 20,
+   "m203_4_tied": 11
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 57.16819699499165,
+   "won": 1,
+   "damage_taken": 114.875,
+   "rounds": 8.125,
+   "reloads": 0.625,
+   "m203_2_ratio": 1.033929649758454,
+   "m203_2_delta_ci": [
+    -3.55,
+    5.43
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0070210263196588,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.91
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 40.300500834724545,
+   "won": 1,
+   "damage_taken": 81.675,
+   "rounds": 7.925,
+   "reloads": 0.5,
+   "m203_2_ratio": 1.1246738725307492,
+   "m203_2_delta_ci": [
+    -3.13,
+    10.52
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 56.769616026711184,
+   "won": 1,
+   "damage_taken": 114.5625,
+   "rounds": 8.125,
+   "reloads": 0.3125,
+   "m203_2_ratio": 1.0267210144927537,
+   "m203_2_delta_ci": [
+    -3.55,
+    4.82
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 40,
+   "time": 41.17529215358932,
+   "won": 1,
+   "damage_taken": 82.825,
+   "rounds": 8.175,
+   "reloads": 0.7,
+   "m203_2_ratio": 1.1490868430860977,
+   "m203_2_delta_ci": [
+    -2.51,
+    11.55
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0217067108533553,
+   "m203_4_delta_ci": [
+    0.09,
+    1.88
+   ],
+   "m203_4_faster": 13,
+   "m203_4_tied": 14
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 58.53714524207012,
+   "won": 1,
+   "damage_taken": 118.375,
+   "rounds": 8.5,
+   "reloads": 0.8125,
+   "m203_2_ratio": 1.0586881038647342,
+   "m203_2_delta_ci": [
+    0.19,
+    5.22
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0311351271871785,
+   "m203_4_delta_ci": [
+    0.29,
+    3.88
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 5
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 40,
+   "time": 41.17529215358932,
+   "won": 1,
+   "damage_taken": 82.825,
+   "rounds": 8.175,
+   "reloads": 0.7,
+   "m203_2_ratio": 1.1490868430860977,
+   "m203_2_delta_ci": [
+    -2.51,
+    11.55
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0217067108533553,
+   "m203_4_delta_ci": [
+    0.09,
+    1.88
+   ],
+   "m203_4_faster": 13,
+   "m203_4_tied": 14
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 57.44991652754591,
+   "won": 1,
+   "damage_taken": 114.875,
+   "rounds": 8.3125,
+   "reloads": 0.625,
+   "m203_2_ratio": 1.0390247584541064,
+   "m203_2_delta_ci": [
+    -3.55,
+    5.69
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.011983531833554,
+   "m203_4_delta_ci": [
+    -0.01,
+    1.29
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 40,
+   "time": 41.10100166944908,
+   "won": 1,
+   "damage_taken": 82.625,
+   "rounds": 8.1,
+   "reloads": 0.7,
+   "m203_2_ratio": 1.1470136041744317,
+   "m203_2_delta_ci": [
+    -2.56,
+    11.54
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0198632974316486,
+   "m203_4_delta_ci": [
+    0.0,
+    1.84
+   ],
+   "m203_4_faster": 14,
+   "m203_4_tied": 15
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 57.44991652754591,
+   "won": 1,
+   "damage_taken": 114.875,
+   "rounds": 8.3125,
+   "reloads": 0.625,
+   "m203_2_ratio": 1.0390247584541064,
+   "m203_2_delta_ci": [
+    -3.55,
+    5.69
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.011983531833554,
+   "m203_4_delta_ci": [
+    -0.01,
+    1.29
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 40,
+   "time": 41.012520868113526,
+   "won": 1,
+   "damage_taken": 82.325,
+   "rounds": 8.025,
+   "reloads": 0.65,
+   "m203_2_ratio": 1.1445443533358182,
+   "m203_2_delta_ci": [
+    -2.73,
+    11.54
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.0176677713338858,
+   "m203_4_delta_ci": [
+    -0.05,
+    1.74
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 57.16819699499165,
+   "won": 1,
+   "damage_taken": 114.875,
+   "rounds": 8.125,
+   "reloads": 0.625,
+   "m203_2_ratio": 1.033929649758454,
+   "m203_2_delta_ci": [
+    -3.55,
+    5.43
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0070210263196588,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.91
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 34.502504173622704,
+   "won": 1,
+   "damage_taken": 59.25,
+   "rounds": 6.525,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 40,
+   "m203_4_ratio": 1.1135237068965518,
+   "m203_4_delta_ci": [
+    -1.25,
+    8.53
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 51.14774624373957,
+   "won": 1,
+   "damage_taken": 99.25,
+   "rounds": 7.125,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.0286217894913547,
+   "m203_4_delta_ci": [
+    -3.31,
+    7.74
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 3
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 41.30300500834725,
+   "won": 1,
+   "damage_taken": 70.85,
+   "rounds": 11,
+   "reloads": 0,
+   "m203_2_ratio": 1.197101659650651,
+   "m203_2_delta_ci": [
+    4.64,
+    8.76
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.333001077586207,
+   "m203_4_delta_ci": [
+    6.94,
+    14.07
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 58.57679465776294,
+   "won": 1,
+   "damage_taken": 108.625,
+   "rounds": 12.25,
+   "reloads": 0.25,
+   "m203_2_ratio": 1.1452468380252958,
+   "m203_2_delta_ci": [
+    4.31,
+    10.72
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1780258519388953,
+   "m203_4_delta_ci": [
+    4.88,
+    12.82
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 36.06260434056761,
+   "won": 1,
+   "damage_taken": 59.0,
+   "rounds": 9.7,
+   "reloads": 0,
+   "m203_2_ratio": 1.0452170126288285,
+   "m203_2_delta_ci": [
+    -1.42,
+    4.15
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.163873922413793,
+   "m203_4_delta_ci": [
+    2.6,
+    7.87
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 54.53046744574291,
+   "won": 1,
+   "damage_taken": 102.625,
+   "rounds": 10.3125,
+   "reloads": 0.125,
+   "m203_2_ratio": 1.0661362709098328,
+   "m203_2_delta_ci": [
+    0.39,
+    5.99
+   ],
+   "m203_2_faster": 4,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0966509988249118,
+   "m203_4_delta_ci": [
+    -0.56,
+    10.76
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 40.25959933222037,
+   "won": 1,
+   "damage_taken": 66.025,
+   "rounds": 10.675,
+   "reloads": 0,
+   "m203_2_ratio": 1.1668602119320657,
+   "m203_2_delta_ci": [
+    3.22,
+    8.1
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2993265086206898,
+   "m203_4_delta_ci": [
+    6.12,
+    12.58
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 57.56260434056761,
+   "won": 1,
+   "damage_taken": 108.1875,
+   "rounds": 11.4375,
+   "reloads": 0.125,
+   "m203_2_ratio": 1.1254181966544266,
+   "m203_2_delta_ci": [
+    1.96,
+    10.69
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1576296793688097,
+   "m203_4_delta_ci": [
+    4.35,
+    11.63
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 32.42737896494157,
+   "won": 1,
+   "damage_taken": 55.0,
+   "rounds": 8.825,
+   "reloads": 0,
+   "m203_2_ratio": 0.9398558087772777,
+   "m203_2_delta_ci": [
+    -6.74,
+    1.79
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.046551724137931,
+   "m203_4_delta_ci": [
+    -0.43,
+    3.18
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 53.02587646076795,
+   "won": 1,
+   "damage_taken": 102.3125,
+   "rounds": 10.125,
+   "reloads": 0.0625,
+   "m203_2_ratio": 1.03671970624235,
+   "m203_2_delta_ci": [
+    -1.07,
+    5.77
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0663924794359576,
+   "m203_4_delta_ci": [
+    -1.62,
+    8.23
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 40.2746243739566,
+   "won": 1,
+   "damage_taken": 80.95,
+   "rounds": 8.15,
+   "reloads": 0,
+   "m203_2_ratio": 1.1672956887792134,
+   "m203_2_delta_ci": [
+    -1.12,
+    11.35
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.299811422413793,
+   "m203_4_delta_ci": [
+    5.95,
+    12.44
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 5
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 57.75459098497496,
+   "won": 1,
+   "damage_taken": 124.125,
+   "rounds": 8.3125,
+   "reloads": 0,
+   "m203_2_ratio": 1.129171766625867,
+   "m203_2_delta_ci": [
+    5.1,
+    8.63
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.1614906832298135,
+   "m203_4_delta_ci": [
+    4.94,
+    13.47
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 40,
+   "time": 39.842237061769616,
+   "won": 1,
+   "damage_taken": 80.425,
+   "rounds": 7.825,
+   "reloads": 0,
+   "m203_2_ratio": 1.1547636328446316,
+   "m203_2_delta_ci": [
+    -1.57,
+    10.91
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.2858566810344827,
+   "m203_4_delta_ci": [
+    5.09,
+    12.12
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 10
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 55.44866444073456,
+   "won": 1,
+   "damage_taken": 106.75,
+   "rounds": 7.6875,
+   "reloads": 0,
+   "m203_2_ratio": 1.0840881272949816,
+   "m203_2_delta_ci": [
+    1.16,
+    6.72
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.1151166694644956,
+   "m203_4_delta_ci": [
+    0.06,
+    13.44
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 40,
+   "time": 30.968280467445744,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8975661682876084,
+   "m203_2_delta_ci": [
+    -8.6,
+    1.2
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9994612068965517,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 49.70367278797997,
+   "won": 1,
+   "damage_taken": 100.125,
+   "rounds": 7.0625,
+   "reloads": 0,
+   "m203_2_ratio": 0.971766625866993,
+   "m203_2_delta_ci": [
+    -7.79,
+    3.31
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 0.9995803256672822,
+   "m203_4_delta_ci": [
+    -0.05,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 30.984974958263773,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8980500314511056,
+   "m203_2_delta_ci": [
+    -8.57,
+    1.22
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 49.72454090150251,
+   "won": 1,
+   "damage_taken": 100.125,
+   "rounds": 7.0625,
+   "reloads": 0,
+   "m203_2_ratio": 0.9721746226030192,
+   "m203_2_delta_ci": [
+    -7.74,
+    3.31
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 40,
+   "time": 38.665275459098496,
+   "won": 1,
+   "damage_taken": 77.925,
+   "rounds": 7.65,
+   "reloads": 0,
+   "m203_2_ratio": 1.1206512798180674,
+   "m203_2_delta_ci": [
+    -2.26,
+    9.95
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.2478717672413793,
+   "m203_4_delta_ci": [
+    3.86,
+    11.66
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 12
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 51.652754590984976,
+   "won": 1,
+   "damage_taken": 100.0625,
+   "rounds": 7.3125,
+   "reloads": 0,
+   "m203_2_ratio": 1.009873521011832,
+   "m203_2_delta_ci": [
+    -4.67,
+    4.91
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0387779083431257,
+   "m203_4_delta_ci": [
+    0.06,
+    3.67
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 40,
+   "time": 34.328881469115196,
+   "won": 1,
+   "damage_taken": 69.225,
+   "rounds": 7.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.9949678230996275,
+   "m203_2_delta_ci": [
+    -5.76,
+    5.76
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1079202586206898,
+   "m203_4_delta_ci": [
+    0.72,
+    6.61
+   ],
+   "m203_4_faster": 13,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 51.652754590984976,
+   "won": 1,
+   "damage_taken": 100.0625,
+   "rounds": 7.3125,
+   "reloads": 0,
+   "m203_2_ratio": 1.009873521011832,
+   "m203_2_delta_ci": [
+    -4.67,
+    4.91
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0387779083431257,
+   "m203_4_delta_ci": [
+    0.06,
+    3.67
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 40,
+   "time": 30.968280467445744,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8975661682876084,
+   "m203_2_delta_ci": [
+    -8.6,
+    1.2
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9994612068965517,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 49.70367278797997,
+   "won": 1,
+   "damage_taken": 100.125,
+   "rounds": 7.0625,
+   "reloads": 0,
+   "m203_2_ratio": 0.971766625866993,
+   "m203_2_delta_ci": [
+    -7.79,
+    3.31
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 0.9995803256672822,
+   "m203_4_delta_ci": [
+    -0.05,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 40,
+   "time": 30.968280467445744,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8975661682876084,
+   "m203_2_delta_ci": [
+    -8.6,
+    1.2
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9994612068965517,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 49.70367278797997,
+   "won": 1,
+   "damage_taken": 100.125,
+   "rounds": 7.0625,
+   "reloads": 0,
+   "m203_2_ratio": 0.971766625866993,
+   "m203_2_delta_ci": [
+    -7.79,
+    3.31
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 0.9995803256672822,
+   "m203_4_delta_ci": [
+    -0.05,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 34.446577629382304,
+   "won": 1,
+   "damage_taken": 59.25,
+   "rounds": 6.5,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 40,
+   "m203_4_ratio": 1.1328684766793862,
+   "m203_4_delta_ci": [
+    -0.4,
+    8.92
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 3
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 49.878964941569286,
+   "won": 1,
+   "damage_taken": 93.5625,
+   "rounds": 6.875,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.0312810113474564,
+   "m203_4_delta_ci": [
+    -5.27,
+    7.95
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 39.65442404006678,
+   "won": 1,
+   "damage_taken": 64.9,
+   "rounds": 10.6,
+   "reloads": 0,
+   "m203_2_ratio": 1.1511861778176267,
+   "m203_2_delta_ci": [
+    2.63,
+    7.44
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.3041425316386197,
+   "m203_4_delta_ci": [
+    6.14,
+    12.49
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 56.458681135225376,
+   "won": 1,
+   "damage_taken": 107.5625,
+   "rounds": 11.125,
+   "reloads": 0,
+   "m203_2_ratio": 1.1319136473935234,
+   "m203_2_delta_ci": [
+    2.42,
+    11.08
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1673210510419811,
+   "m203_4_delta_ci": [
+    4.1,
+    12.15
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 32.15943238731219,
+   "won": 1,
+   "damage_taken": 54.775,
+   "rounds": 8.825,
+   "reloads": 0,
+   "m203_2_ratio": 0.9336031211379553,
+   "m203_2_delta_ci": [
+    -6.98,
+    1.54
+   ],
+   "m203_2_faster": 23,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0576495456666757,
+   "m203_4_delta_ci": [
+    0.32,
+    3.21
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 52.84849749582638,
+   "won": 1,
+   "damage_taken": 102.3125,
+   "rounds": 10.125,
+   "reloads": 0,
+   "m203_2_ratio": 1.0595347669651074,
+   "m203_2_delta_ci": [
+    -1.16,
+    7.1
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0926780860335676,
+   "m203_4_delta_ci": [
+    -0.48,
+    9.44
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 38.50751252086811,
+   "won": 1,
+   "damage_taken": 63.975,
+   "rounds": 10.35,
+   "reloads": 0,
+   "m203_2_ratio": 1.1178908086364407,
+   "m203_2_delta_ci": [
+    1.68,
+    6.17
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2664232574738516,
+   "m203_4_delta_ci": [
+    5.24,
+    11.27
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 55.907762938230384,
+   "won": 1,
+   "damage_taken": 106.8125,
+   "rounds": 11,
+   "reloads": 0,
+   "m203_2_ratio": 1.120868546565141,
+   "m203_2_delta_ci": [
+    2.13,
+    10.0
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.155930448289252,
+   "m203_4_delta_ci": [
+    3.82,
+    11.26
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 31.569282136894824,
+   "won": 1,
+   "damage_taken": 55.275,
+   "rounds": 8.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9164707877965445,
+   "m203_2_delta_ci": [
+    -7.45,
+    0.85
+   ],
+   "m203_2_faster": 23,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0382408652922281,
+   "m203_4_delta_ci": [
+    -0.65,
+    2.91
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 1
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 51.92404006677796,
+   "won": 1,
+   "damage_taken": 100.75,
+   "rounds": 9.875,
+   "reloads": 0,
+   "m203_2_ratio": 1.0410007530750565,
+   "m203_2_delta_ci": [
+    -1.95,
+    6.04
+   ],
+   "m203_2_faster": 6,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.073564309444708,
+   "m203_4_delta_ci": [
+    -1.25,
+    8.36
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 40.165275459098496,
+   "won": 1,
+   "damage_taken": 80.675,
+   "rounds": 8.075,
+   "reloads": 0,
+   "m203_2_ratio": 1.1660164295926527,
+   "m203_2_delta_ci": [
+    -1.12,
+    11.28
+   ],
+   "m203_2_faster": 12,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.320943256375765,
+   "m203_4_delta_ci": [
+    6.61,
+    12.51
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 3
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 56.37520868113523,
+   "won": 1,
+   "damage_taken": 114.4375,
+   "rounds": 8,
+   "reloads": 0,
+   "m203_2_ratio": 1.130240147268011,
+   "m203_2_delta_ci": [
+    2.38,
+    10.19
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.1655952021400526,
+   "m203_4_delta_ci": [
+    1.28,
+    15.63
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 1
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 40,
+   "time": 30.93322203672788,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8980056703903846,
+   "m203_2_delta_ci": [
+    -8.58,
+    1.22
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0173223158646059,
+   "m203_4_delta_ci": [
+    -0.02,
+    1.26
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 22
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 48.981636060100165,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.8125,
+   "reloads": 0,
+   "m203_2_ratio": 0.9820098736507404,
+   "m203_2_delta_ci": [
+    -7.89,
+    5.81
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0127281356517235,
+   "m203_4_delta_ci": [
+    -0.03,
+    1.88
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 40,
+   "time": 30.3889816360601,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.8822061211137229,
+   "m203_2_delta_ci": [
+    -8.95,
+    0.35
+   ],
+   "m203_2_faster": 22,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 0.9994235045433333,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 48.34933222036728,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9693331101999832,
+   "m203_2_delta_ci": [
+    -7.99,
+    5.27
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9996548302196142,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 30.406510851419032,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.8827150023020816,
+   "m203_2_delta_ci": [
+    -8.93,
+    0.37
+   ],
+   "m203_2_faster": 22,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 48.36602671118531,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9696678102250857,
+   "m203_2_delta_ci": [
+    -7.95,
+    5.27
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 40,
+   "time": 30.93322203672788,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8980056703903846,
+   "m203_2_delta_ci": [
+    -8.58,
+    1.22
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0173223158646059,
+   "m203_4_delta_ci": [
+    -0.02,
+    1.26
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 22
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 48.981636060100165,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.8125,
+   "reloads": 0,
+   "m203_2_ratio": 0.9820098736507404,
+   "m203_2_delta_ci": [
+    -7.89,
+    5.81
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0127281356517235,
+   "m203_4_delta_ci": [
+    -0.03,
+    1.88
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 40,
+   "time": 30.93322203672788,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.8980056703903846,
+   "m203_2_delta_ci": [
+    -8.58,
+    1.22
+   ],
+   "m203_2_faster": 20,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0173223158646059,
+   "m203_4_delta_ci": [
+    -0.02,
+    1.26
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 22
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 48.34933222036728,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9693331101999832,
+   "m203_2_delta_ci": [
+    -7.99,
+    5.27
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9996548302196142,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 40,
+   "time": 30.56761268781302,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.7,
+   "reloads": 0,
+   "m203_2_ratio": 0.8873918627474737,
+   "m203_2_delta_ci": [
+    -8.93,
+    0.79
+   ],
+   "m203_2_faster": 21,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 1.0052982677684135,
+   "m203_4_delta_ci": [
+    -0.02,
+    0.52
+   ],
+   "m203_4_faster": 15,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 48.34933222036728,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9693331101999832,
+   "m203_2_delta_ci": [
+    -7.99,
+    5.27
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9996548302196142,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 40,
+   "time": 30.3889816360601,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.8822061211137229,
+   "m203_2_delta_ci": [
+    -8.95,
+    0.35
+   ],
+   "m203_2_faster": 22,
+   "m203_2_tied": 3,
+   "m203_4_ratio": 0.9994235045433333,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 48.34933222036728,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 0.9693331101999832,
+   "m203_2_delta_ci": [
+    -7.99,
+    5.27
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9996548302196142,
+   "m203_4_delta_ci": [
+    -0.03,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 31.040066777963272,
+   "won": 1,
+   "damage_taken": 47.45,
+   "rounds": 4.875,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 40,
+   "m203_4_ratio": 1.0217618288728911,
+   "m203_4_delta_ci": [
+    -2.92,
+    4.87
+   ],
+   "m203_4_faster": 23,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 45.49457429048414,
+   "won": 1,
+   "damage_taken": 89.625,
+   "rounds": 5.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 0.9513025265087053,
+   "m203_4_delta_ci": [
+    -4.84,
+    0.22
+   ],
+   "m203_4_faster": 9,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 37.31218697829716,
+   "won": 1,
+   "damage_taken": 61.375,
+   "rounds": 10.175,
+   "reloads": 0,
+   "m203_2_ratio": 1.2020652933899856,
+   "m203_2_delta_ci": [
+    4.41,
+    7.95
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2282244325987801,
+   "m203_4_delta_ci": [
+    4.17,
+    9.71
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 55.35893155258765,
+   "won": 1,
+   "damage_taken": 106.625,
+   "rounds": 10.8125,
+   "reloads": 0,
+   "m203_2_ratio": 1.2168249162882439,
+   "m203_2_delta_ci": [
+    8.95,
+    11.06
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.15756861718375,
+   "m203_4_delta_ci": [
+    4.74,
+    10.33
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 31.569282136894824,
+   "won": 1,
+   "damage_taken": 55.275,
+   "rounds": 8.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.0170494272037864,
+   "m203_2_delta_ci": [
+    -3.25,
+    3.8
+   ],
+   "m203_2_faster": 16,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.039182282793867,
+   "m203_4_delta_ci": [
+    -0.64,
+    2.94
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 1
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 51.79465776293823,
+   "won": 1,
+   "damage_taken": 100.75,
+   "rounds": 9.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.1384798862437504,
+   "m203_2_delta_ci": [
+    3.17,
+    9.43
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0830387921630231,
+   "m203_4_delta_ci": [
+    -0.33,
+    8.39
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 36.01919866444074,
+   "won": 1,
+   "damage_taken": 59.8,
+   "rounds": 10.05,
+   "reloads": 0,
+   "m203_2_ratio": 1.1604098316570752,
+   "m203_2_delta_ci": [
+    2.94,
+    6.66
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.185662471836017,
+   "m203_4_delta_ci": [
+    2.98,
+    8.23
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 54.50959933222037,
+   "won": 1,
+   "damage_taken": 106.625,
+   "rounds": 10.6875,
+   "reloads": 0,
+   "m203_2_ratio": 1.1981560478877116,
+   "m203_2_delta_ci": [
+    7.52,
+    10.32
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1398088755072653,
+   "m203_4_delta_ci": [
+    3.43,
+    9.94
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 40,
+   "time": 31.52754590984975,
+   "won": 1,
+   "damage_taken": 55.125,
+   "rounds": 8.725,
+   "reloads": 0,
+   "m203_2_ratio": 1.0157048351530145,
+   "m203_2_delta_ci": [
+    -3.31,
+    3.76
+   ],
+   "m203_2_faster": 16,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0378084299609824,
+   "m203_4_delta_ci": [
+    -0.66,
+    2.89
+   ],
+   "m203_4_faster": 10,
+   "m203_4_tied": 1
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 51.325125208681136,
+   "won": 1,
+   "damage_taken": 100.75,
+   "rounds": 9.6875,
+   "reloads": 0,
+   "m203_2_ratio": 1.1281592587495988,
+   "m203_2_delta_ci": [
+    3.15,
+    8.06
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0732207531526814,
+   "m203_4_delta_ci": [
+    -0.35,
+    7.35
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 39.6110183639399,
+   "won": 1,
+   "damage_taken": 79.725,
+   "rounds": 7.8,
+   "reloads": 0,
+   "m203_2_ratio": 1.276125423546496,
+   "m203_2_delta_ci": [
+    2.52,
+    13.72
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 1,
+   "m203_4_ratio": 1.3038962466340605,
+   "m203_4_delta_ci": [
+    5.7,
+    12.45
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 55.40692821368948,
+   "won": 1,
+   "damage_taken": 106.75,
+   "rounds": 7.6875,
+   "reloads": 0,
+   "m203_2_ratio": 1.2178799137654237,
+   "m203_2_delta_ci": [
+    2.64,
+    16.92
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.1585722389492517,
+   "m203_4_delta_ci": [
+    1.29,
+    15.44
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 48.1135225375626,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.0575661666896015,
+   "m203_2_delta_ci": [
+    -0.5,
+    6.0
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0060653663219443,
+   "m203_4_delta_ci": [
+    -0.61,
+    1.36
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 6
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 47.59390651085142,
+   "won": 1,
+   "damage_taken": 95.5,
+   "rounds": 6.5,
+   "reloads": 0,
+   "m203_2_ratio": 1.0461446722627403,
+   "m203_2_delta_ci": [
+    -0.63,
+    4.83
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9952000698171662,
+   "m203_4_delta_ci": [
+    -0.67,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 40,
+   "time": 30.378964941569283,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9787016619157748,
+   "m203_2_delta_ci": [
+    -4.89,
+    2.89
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 47.823455759599334,
+   "won": 1,
+   "damage_taken": 95.5,
+   "rounds": 6.5,
+   "reloads": 0,
+   "m203_2_ratio": 1.0511903123709923,
+   "m203_2_delta_ci": [
+    -0.22,
+    4.84
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 48.1135225375626,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.0575661666896015,
+   "m203_2_delta_ci": [
+    -0.5,
+    6.0
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0060653663219443,
+   "m203_4_delta_ci": [
+    -0.61,
+    1.36
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 6
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 48.1135225375626,
+   "won": 1,
+   "damage_taken": 96.125,
+   "rounds": 6.75,
+   "reloads": 0,
+   "m203_2_ratio": 1.0575661666896015,
+   "m203_2_delta_ci": [
+    -0.5,
+    6.0
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0060653663219443,
+   "m203_4_delta_ci": [
+    -0.61,
+    1.36
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 6
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 47.59390651085142,
+   "won": 1,
+   "damage_taken": 95.5,
+   "rounds": 6.5,
+   "reloads": 0,
+   "m203_2_ratio": 1.0461446722627403,
+   "m203_2_delta_ci": [
+    -0.63,
+    4.83
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9952000698171662,
+   "m203_4_delta_ci": [
+    -0.67,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 40,
+   "time": 30.362270450751254,
+   "won": 1,
+   "damage_taken": 52.05,
+   "rounds": 6.675,
+   "reloads": 0,
+   "m203_2_ratio": 0.9781638250954661,
+   "m203_2_delta_ci": [
+    -4.91,
+    2.88
+   ],
+   "m203_2_faster": 17,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 0.9994504588668462,
+   "m203_4_delta_ci": [
+    -0.02,
+    -0.01
+   ],
+   "m203_4_faster": 16,
+   "m203_4_tied": 24
+  },
+  {
+   "stage": "D5",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 47.59390651085142,
+   "won": 1,
+   "damage_taken": 95.5,
+   "rounds": 6.5,
+   "reloads": 0,
+   "m203_2_ratio": 1.0461446722627403,
+   "m203_2_delta_ci": [
+    -0.63,
+    4.83
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 0.9952000698171662,
+   "m203_4_delta_ci": [
+    -0.67,
+    -0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 24.389259877573735,
+   "won": 1,
+   "damage_taken": 16.895833333333332,
+   "rounds": 5,
+   "reloads": 0.1875,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 48,
+   "m203_4_ratio": 1.2134279287073888,
+   "m203_4_delta_ci": [
+    0.34,
+    8.79
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 33
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 155.6135225375626,
+   "won": 0.875,
+   "damage_taken": 1049.0,
+   "rounds": 35.1875,
+   "reloads": 4.625,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.113018299053703,
+   "m203_4_delta_ci": [
+    0.46,
+    31.14
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 6
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 24.9909571508069,
+   "won": 1,
+   "damage_taken": 16.458333333333332,
+   "rounds": 6.5,
+   "reloads": 0.4583333333333333,
+   "m203_2_ratio": 1.024670583537733,
+   "m203_2_delta_ci": [
+    -1.65,
+    2.84
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 0,
+   "m203_4_ratio": 1.2433639037895827,
+   "m203_4_delta_ci": [
+    2.61,
+    7.83
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 0
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 183.09474123539232,
+   "won": 1,
+   "damage_taken": 1024.375,
+   "rounds": 57.8125,
+   "reloads": 9.125,
+   "m203_2_ratio": 1.1765991685664476,
+   "m203_2_delta_ci": [
+    -15.96,
+    90.43
+   ],
+   "m203_2_faster": 4,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.3095764052658287,
+   "m203_4_delta_ci": [
+    4.22,
+    110.66
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 23.050918196994992,
+   "won": 1,
+   "damage_taken": 14.875,
+   "rounds": 5.583333333333333,
+   "reloads": 0.3125,
+   "m203_2_ratio": 0.9451257771946837,
+   "m203_2_delta_ci": [
+    -5.04,
+    1.79
+   ],
+   "m203_2_faster": 16,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.146842014189306,
+   "m203_4_delta_ci": [
+    1.6,
+    4.49
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 147.51878130217028,
+   "won": 1,
+   "damage_taken": 859.8125,
+   "rounds": 46.125,
+   "reloads": 7.25,
+   "m203_2_ratio": 0.9479817621027222,
+   "m203_2_delta_ci": [
+    -53.59,
+    24.78
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.055121048389504,
+   "m203_4_delta_ci": [
+    -23.61,
+    41.74
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 24.659154145798553,
+   "won": 1,
+   "damage_taken": 16.0,
+   "rounds": 6.104166666666667,
+   "reloads": 0.2916666666666667,
+   "m203_2_ratio": 1.0110661114597,
+   "m203_2_delta_ci": [
+    -1.96,
+    2.58
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.2268558574147774,
+   "m203_4_delta_ci": [
+    2.18,
+    7.57
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 180.0813856427379,
+   "won": 0.9375,
+   "damage_taken": 966.0,
+   "rounds": 54,
+   "reloads": 7.3125,
+   "m203_2_ratio": 1.1572348129274508,
+   "m203_2_delta_ci": [
+    -12.11,
+    78.16
+   ],
+   "m203_2_faster": 3,
+   "m203_2_tied": 5,
+   "m203_4_ratio": 1.2880235230902415,
+   "m203_4_delta_ci": [
+    4.65,
+    99.78
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 22.602253756260435,
+   "won": 1,
+   "damage_taken": 15.208333333333334,
+   "rounds": 5.416666666666667,
+   "reloads": 0.16666666666666666,
+   "m203_2_ratio": 0.9267297929382237,
+   "m203_2_delta_ci": [
+    -5.84,
+    1.67
+   ],
+   "m203_2_faster": 16,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.124519813116456,
+   "m203_4_delta_ci": [
+    1.27,
+    4.04
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 144.28839732888147,
+   "won": 1,
+   "damage_taken": 795.6875,
+   "rounds": 43.4375,
+   "reloads": 5.8125,
+   "m203_2_ratio": 0.9272227437307229,
+   "m203_2_delta_ci": [
+    -60.64,
+    22.78
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0320158810710767,
+   "m203_4_delta_ci": [
+    -30.66,
+    39.75
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.727601558152475,
+   "won": 1,
+   "damage_taken": 13.833333333333334,
+   "rounds": 4.104166666666667,
+   "reloads": 0.16666666666666666,
+   "m203_2_ratio": 0.8498659517426272,
+   "m203_2_delta_ci": [
+    -7.88,
+    -0.0
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 31,
+   "m203_4_ratio": 1.0312510815019897,
+   "m203_4_delta_ci": [
+    0.15,
+    1.29
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 33
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 164.59933222036727,
+   "won": 0.75,
+   "damage_taken": 1077.4375,
+   "rounds": 38.375,
+   "reloads": 5.9375,
+   "m203_2_ratio": 1.05774440123374,
+   "m203_2_delta_ci": [
+    0.65,
+    22.01
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.177288874294755,
+   "m203_4_delta_ci": [
+    1.11,
+    48.89
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 145.28797996661103,
+   "won": 1,
+   "damage_taken": 1001.4375,
+   "rounds": 33.875,
+   "reloads": 5.125,
+   "m203_2_ratio": 0.9336462384336865,
+   "m203_2_delta_ci": [
+    -20.32,
+    -0.33
+   ],
+   "m203_2_faster": 9,
+   "m203_2_tied": 7,
+   "m203_4_ratio": 1.03916534821935,
+   "m203_4_delta_ci": [
+    0.13,
+    10.82
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 137.51043405676128,
+   "won": 1,
+   "damage_taken": 932.6875,
+   "rounds": 31.375,
+   "reloads": 4.75,
+   "m203_2_ratio": 0.8836663537615664,
+   "m203_2_delta_ci": [
+    -35.75,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 0.9835368219946864,
+   "m203_4_delta_ci": [
+    -5.45,
+    0.0
+   ],
+   "m203_4_faster": 7,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.099471341124097,
+   "won": 1,
+   "damage_taken": 13.604166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.0625,
+   "m203_2_ratio": 0.8241115737835834,
+   "m203_2_delta_ci": [
+    -8.81,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 48
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 139.81218697829718,
+   "won": 1,
+   "damage_taken": 939.6875,
+   "rounds": 32.25,
+   "reloads": 3.625,
+   "m203_2_ratio": 0.8984578248625453,
+   "m203_2_delta_ci": [
+    -31.14,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 145.38814691151921,
+   "won": 1,
+   "damage_taken": 986.4375,
+   "rounds": 33.3125,
+   "reloads": 5.0625,
+   "m203_2_ratio": 0.9342899289258416,
+   "m203_2_delta_ci": [
+    -19.99,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.0398817875160453,
+   "m203_4_delta_ci": [
+    0.0,
+    11.46
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 142.9653589315526,
+   "won": 1,
+   "damage_taken": 965.125,
+   "rounds": 32.9375,
+   "reloads": 5,
+   "m203_2_ratio": 0.918720665146842,
+   "m203_2_delta_ci": [
+    -24.84,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.0225529120272248,
+   "m203_4_delta_ci": [
+    0.0,
+    7.83
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 142.9653589315526,
+   "won": 1,
+   "damage_taken": 965.125,
+   "rounds": 32.9375,
+   "reloads": 5,
+   "m203_2_ratio": 0.918720665146842,
+   "m203_2_delta_ci": [
+    -24.84,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.0225529120272248,
+   "m203_4_delta_ci": [
+    0.0,
+    7.83
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 48,
+   "time": 20.126599888703396,
+   "won": 1,
+   "damage_taken": 13.729166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0.08333333333333333,
+   "m203_2_ratio": 0.8252238891107182,
+   "m203_2_delta_ci": [
+    -8.75,
+    -0.34
+   ],
+   "m203_2_faster": 15,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0013497144834747,
+   "m203_4_delta_ci": [
+    -0.01,
+    0.09
+   ],
+   "m203_4_faster": 8,
+   "m203_4_tied": 39
+  },
+  {
+   "stage": "Disc2",
+   "invest": "stock",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 140.97871452420702,
+   "won": 1,
+   "damage_taken": 947.0625,
+   "rounds": 32.25,
+   "reloads": 4.9375,
+   "m203_2_ratio": 0.905954137052434,
+   "m203_2_delta_ci": [
+    -28.81,
+    -0.46
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 6,
+   "m203_4_ratio": 1.0083435326427654,
+   "m203_4_delta_ci": [
+    0.0,
+    3.4
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.928631051752923,
+   "won": 1,
+   "damage_taken": 13.291666666666666,
+   "rounds": 4.104166666666667,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 48,
+   "m203_4_ratio": 1.1682910728847125,
+   "m203_4_delta_ci": [
+    0.0,
+    6.37
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 34
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 103.40150250417362,
+   "won": 1,
+   "damage_taken": 748.4375,
+   "rounds": 24.125,
+   "reloads": 0.75,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.0473030098072371,
+   "m203_4_delta_ci": [
+    0.0,
+    9.34
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 21.657623817473567,
+   "won": 1,
+   "damage_taken": 14.0625,
+   "rounds": 5.145833333333333,
+   "reloads": 0,
+   "m203_2_ratio": 1.0348323196064746,
+   "m203_2_delta_ci": [
+    -0.4,
+    1.87
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.2089853609288237,
+   "m203_4_delta_ci": [
+    1.45,
+    6.42
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 131.3543405676127,
+   "won": 1,
+   "damage_taken": 780.875,
+   "rounds": 40.1875,
+   "reloads": 1.3125,
+   "m203_2_ratio": 1.2703329969727548,
+   "m203_2_delta_ci": [
+    6.94,
+    58.44
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.3304235711870138,
+   "m203_4_delta_ci": [
+    6.94,
+    67.12
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 20.232331663884253,
+   "won": 1,
+   "damage_taken": 12.625,
+   "rounds": 4.4375,
+   "reloads": 0,
+   "m203_2_ratio": 0.9667298168644265,
+   "m203_2_delta_ci": [
+    -2.55,
+    1.08
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1294218149341824,
+   "m203_4_delta_ci": [
+    0.7,
+    4.66
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 108.43489148580969,
+   "won": 1,
+   "damage_taken": 628.0,
+   "rounds": 33.3125,
+   "reloads": 1.1875,
+   "m203_2_ratio": 1.048678102926337,
+   "m203_2_delta_ci": [
+    -7.3,
+    18.31
+   ],
+   "m203_2_faster": 4,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0982837335136963,
+   "m203_4_delta_ci": [
+    -0.9,
+    24.32
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 21.30286588759043,
+   "won": 1,
+   "damage_taken": 13.145833333333334,
+   "rounds": 5.0625,
+   "reloads": 0,
+   "m203_2_ratio": 1.0178814770498885,
+   "m203_2_delta_ci": [
+    -0.65,
+    1.35
+   ],
+   "m203_2_faster": 12,
+   "m203_2_tied": 2,
+   "m203_4_ratio": 1.1891818428920902,
+   "m203_4_delta_ci": [
+    1.29,
+    6.0
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 2
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 123.68113522537563,
+   "won": 1,
+   "damage_taken": 763.0625,
+   "rounds": 38.375,
+   "reloads": 1.25,
+   "m203_2_ratio": 1.196125126135217,
+   "m203_2_delta_ci": [
+    4.4,
+    41.63
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.2527054447074737,
+   "m203_4_delta_ci": [
+    6.93,
+    50.31
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 19.78575403450195,
+   "won": 1,
+   "damage_taken": 10.979166666666666,
+   "rounds": 4.333333333333333,
+   "reloads": 0,
+   "m203_2_ratio": 0.9453916974108418,
+   "m203_2_delta_ci": [
+    -2.96,
+    0.4
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.104492680464412,
+   "m203_4_delta_ci": [
+    0.31,
+    4.19
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 104.59724540901503,
+   "won": 1,
+   "damage_taken": 634.1875,
+   "rounds": 32.3125,
+   "reloads": 1,
+   "m203_2_ratio": 1.011564076690212,
+   "m203_2_delta_ci": [
+    -16.95,
+    16.44
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0594141021305377,
+   "m203_4_delta_ci": [
+    -8.95,
+    22.45
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 18.44045631608236,
+   "won": 1,
+   "damage_taken": 11.4375,
+   "rounds": 3.5,
+   "reloads": 0,
+   "m203_2_ratio": 0.881111443480573,
+   "m203_2_delta_ci": [
+    -5.14,
+    -0.0
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 32,
+   "m203_4_ratio": 1.0293946336349162,
+   "m203_4_delta_ci": [
+    0.04,
+    1.36
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 113.13230383973288,
+   "won": 1,
+   "damage_taken": 752.9375,
+   "rounds": 26.5625,
+   "reloads": 0.8125,
+   "m203_2_ratio": 1.0941069626639757,
+   "m203_2_delta_ci": [
+    0.58,
+    18.88
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 7,
+   "m203_4_ratio": 1.145861515049036,
+   "m203_4_delta_ci": [
+    0.58,
+    28.22
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 97.76919866444074,
+   "won": 1,
+   "damage_taken": 679.125,
+   "rounds": 22.9375,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.9455297679112008,
+   "m203_2_delta_ci": [
+    -14.01,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.9902561717957389,
+   "m203_4_delta_ci": [
+    -6.01,
+    3.12
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 99.38439065108514,
+   "won": 1,
+   "damage_taken": 705.5,
+   "rounds": 22.5625,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.9611503531786075,
+   "m203_2_delta_ci": [
+    -8.17,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0066156577612444,
+   "m203_4_delta_ci": [
+    -0.22,
+    2.18
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 17.91388425153033,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8559510752152093,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.0
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 48
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 98.73121869782972,
+   "won": 1,
+   "damage_taken": 702.625,
+   "rounds": 22.6875,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.9548335015136227,
+   "m203_2_delta_ci": [
+    -9.34,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 97.76919866444074,
+   "won": 1,
+   "damage_taken": 679.125,
+   "rounds": 22.9375,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.9455297679112008,
+   "m203_2_delta_ci": [
+    -14.01,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.9902561717957389,
+   "m203_4_delta_ci": [
+    -6.01,
+    3.12
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 98.21577629382304,
+   "won": 1,
+   "damage_taken": 681.1875,
+   "rounds": 22.875,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.949848637739657,
+   "m203_2_delta_ci": [
+    -11.53,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.9947793371660467,
+   "m203_4_delta_ci": [
+    -3.52,
+    1.98
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 98.21577629382304,
+   "won": 1,
+   "damage_taken": 681.1875,
+   "rounds": 22.875,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.949848637739657,
+   "m203_2_delta_ci": [
+    -11.53,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.9947793371660467,
+   "m203_4_delta_ci": [
+    -3.52,
+    1.98
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 48,
+   "time": 17.910406232609905,
+   "won": 1,
+   "damage_taken": 10.020833333333334,
+   "rounds": 3.375,
+   "reloads": 0,
+   "m203_2_ratio": 0.8557848904842622,
+   "m203_2_delta_ci": [
+    -6.37,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9998058478623848,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "low",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 98.61853088480801,
+   "won": 1,
+   "damage_taken": 690.5625,
+   "rounds": 22.5625,
+   "reloads": 0.75,
+   "m203_2_ratio": 0.9537436932391523,
+   "m203_2_delta_ci": [
+    -9.57,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.9988586405140344,
+   "m203_4_delta_ci": [
+    -0.31,
+    0.0
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.751947690595436,
+   "won": 1,
+   "damage_taken": 13.770833333333334,
+   "rounds": 4.020833333333333,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 48,
+   "m203_4_ratio": 1.2062510108361635,
+   "m203_4_delta_ci": [
+    0.0,
+    7.5
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 34
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 94.1652754590985,
+   "won": 1,
+   "damage_taken": 667.0,
+   "rounds": 21.8125,
+   "reloads": 0.25,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.0834353765996783,
+   "m203_4_delta_ci": [
+    0.0,
+    16.36
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.58430717863105,
+   "won": 1,
+   "damage_taken": 12.875,
+   "rounds": 4.583333333333333,
+   "reloads": 0,
+   "m203_2_ratio": 0.9919216974491335,
+   "m203_2_delta_ci": [
+    -1.26,
+    0.85
+   ],
+   "m203_2_faster": 11,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1965065502183403,
+   "m203_4_delta_ci": [
+    0.77,
+    6.52
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 109.14023372287146,
+   "won": 1,
+   "damage_taken": 651.125,
+   "rounds": 34,
+   "reloads": 0.75,
+   "m203_2_ratio": 1.159028454924209,
+   "m203_2_delta_ci": [
+    1.99,
+    35.02
+   ],
+   "m203_2_faster": 2,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.2557324305505535,
+   "m203_4_delta_ci": [
+    5.28,
+    45.86
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 19.529076238174735,
+   "won": 1,
+   "damage_taken": 10.104166666666666,
+   "rounds": 4.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.9410719672845507,
+   "m203_2_delta_ci": [
+    -3.38,
+    0.42
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1351690118065663,
+   "m203_4_delta_ci": [
+    0.52,
+    4.6
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 94.97078464106845,
+   "won": 1,
+   "damage_taken": 586.8125,
+   "rounds": 29.4375,
+   "reloads": 0.75,
+   "m203_2_ratio": 1.0085542061873947,
+   "m203_2_delta_ci": [
+    -13.98,
+    13.42
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0927033062018296,
+   "m203_4_delta_ci": [
+    0.6,
+    19.11
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 20.077907623817474,
+   "won": 1,
+   "damage_taken": 11.895833333333334,
+   "rounds": 4.416666666666667,
+   "reloads": 0,
+   "m203_2_ratio": 0.9675191901585493,
+   "m203_2_delta_ci": [
+    -2.38,
+    0.75
+   ],
+   "m203_2_faster": 12,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1670710011321364,
+   "m203_4_delta_ci": [
+    0.73,
+    5.39
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 108.470367278798,
+   "won": 1,
+   "damage_taken": 640.6875,
+   "rounds": 33.3125,
+   "reloads": 0.75,
+   "m203_2_ratio": 1.1519147238719971,
+   "m203_2_delta_ci": [
+    2.1,
+    34.09
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.2480251626689716,
+   "m203_4_delta_ci": [
+    4.49,
+    44.93
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 19.449777406789092,
+   "won": 1,
+   "damage_taken": 9.604166666666666,
+   "rounds": 4.208333333333333,
+   "reloads": 0,
+   "m203_2_ratio": 0.9372506955384976,
+   "m203_2_delta_ci": [
+    -3.58,
+    0.41
+   ],
+   "m203_2_faster": 13,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1305595989002102,
+   "m203_4_delta_ci": [
+    0.52,
+    4.55
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 95.0271285475793,
+   "won": 1,
+   "damage_taken": 593.0,
+   "rounds": 28.9375,
+   "reloads": 0.75,
+   "m203_2_ratio": 1.0091525573973938,
+   "m203_2_delta_ci": [
+    -14.23,
+    13.97
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.0933515810703738,
+   "m203_4_delta_ci": [
+    0.48,
+    19.6
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 17.88397328881469,
+   "won": 1,
+   "damage_taken": 9.75,
+   "rounds": 3.3541666666666665,
+   "reloads": 0,
+   "m203_2_ratio": 0.8617973385177488,
+   "m203_2_delta_ci": [
+    -6.11,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 1.0395439107229498,
+   "m203_4_delta_ci": [
+    -0.0,
+    2.05
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 41
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 99.64315525876461,
+   "won": 1,
+   "damage_taken": 701.6875,
+   "rounds": 23.25,
+   "reloads": 0.4375,
+   "m203_2_ratio": 1.0581730343054694,
+   "m203_2_delta_ci": [
+    0.39,
+    10.57
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 5,
+   "m203_4_ratio": 1.1464620999303705,
+   "m203_4_delta_ci": [
+    0.39,
+    25.51
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 5
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 90.09808013355592,
+   "won": 1,
+   "damage_taken": 656.5625,
+   "rounds": 20.75,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9568079071004344,
+   "m203_2_delta_ci": [
+    -9.08,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.036639535162909,
+   "m203_4_delta_ci": [
+    0.0,
+    7.29
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 87.53964941569282,
+   "won": 1,
+   "damage_taken": 635.25,
+   "rounds": 20.1875,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9296383299352895,
+   "m203_2_delta_ci": [
+    -13.25,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0072030540949364,
+   "m203_4_delta_ci": [
+    -2.64,
+    4.51
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 17.20367278797997,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8290148493279256,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.0
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 48
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 86.9136060100167,
+   "won": 1,
+   "damage_taken": 615.3125,
+   "rounds": 19.9375,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9229899831575215,
+   "m203_2_delta_ci": [
+    -16.36,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 90.09808013355592,
+   "won": 1,
+   "damage_taken": 656.5625,
+   "rounds": 20.75,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9568079071004344,
+   "m203_2_delta_ci": [
+    -9.08,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.036639535162909,
+   "m203_4_delta_ci": [
+    0.0,
+    7.29
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 89.26961602671119,
+   "won": 1,
+   "damage_taken": 650.125,
+   "rounds": 20.4375,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9480099281978549,
+   "m203_2_delta_ci": [
+    -11.56,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0271074935772768,
+   "m203_4_delta_ci": [
+    0.0,
+    4.8
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 88.50584307178632,
+   "won": 1,
+   "damage_taken": 645.125,
+   "rounds": 20.3125,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.939898945128978,
+   "m203_2_delta_ci": [
+    -11.56,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0183197675814546,
+   "m203_4_delta_ci": [
+    -0.03,
+    4.8
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 48,
+   "time": 17.200194769059543,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8288472496899406,
+   "m203_2_delta_ci": [
+    -7.58,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.999797832767265,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "typical",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 88.50584307178632,
+   "won": 1,
+   "damage_taken": 645.125,
+   "rounds": 20.3125,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.939898945128978,
+   "m203_2_delta_ci": [
+    -11.56,
+    0.0
+   ],
+   "m203_2_faster": 8,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0183197675814546,
+   "m203_4_delta_ci": [
+    -0.03,
+    4.8
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 19.929744017807458,
+   "won": 1,
+   "damage_taken": 13.604166666666666,
+   "rounds": 3.7708333333333335,
+   "reloads": 0,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 48,
+   "m203_4_ratio": 1.206866048862679,
+   "m203_4_delta_ci": [
+    0.0,
+    7.23
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 34
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 80.70951585976628,
+   "won": 1,
+   "damage_taken": 597.75,
+   "rounds": 18.625,
+   "reloads": 0.25,
+   "m203_2_ratio": 1.0,
+   "m203_2_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 16,
+   "m203_4_ratio": 1.056663570296705,
+   "m203_4_delta_ci": [
+    0.0,
+    8.75
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 19.539510294936004,
+   "won": 1,
+   "damage_taken": 10.104166666666666,
+   "rounds": 4.270833333333333,
+   "reloads": 0,
+   "m203_2_ratio": 0.9804195316044815,
+   "m203_2_delta_ci": [
+    -2.57,
+    0.98
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1832350463352992,
+   "m203_4_delta_ci": [
+    0.76,
+    5.91
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 96.07053422370618,
+   "won": 1,
+   "damage_taken": 584.625,
+   "rounds": 30.1875,
+   "reloads": 0.5625,
+   "m203_2_ratio": 1.1903247491984692,
+   "m203_2_delta_ci": [
+    3.1,
+    33.49
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.2577727993005845,
+   "m203_4_delta_ci": [
+    3.1,
+    40.64
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 18.647746243739565,
+   "won": 1,
+   "damage_taken": 8.8125,
+   "rounds": 3.9791666666666665,
+   "reloads": 0,
+   "m203_2_ratio": 0.9356741474992146,
+   "m203_2_delta_ci": [
+    -4.34,
+    0.68
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 5,
+   "m203_4_ratio": 1.1292333614153327,
+   "m203_4_delta_ci": [
+    0.63,
+    4.18
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 2",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 86.03714524207012,
+   "won": 1,
+   "damage_taken": 530.5625,
+   "rounds": 26.4375,
+   "reloads": 0.5,
+   "m203_2_ratio": 1.066009928637915,
+   "m203_2_delta_ci": [
+    -2.26,
+    15.49
+   ],
+   "m203_2_faster": 4,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1264138571662752,
+   "m203_4_delta_ci": [
+    1.79,
+    21.52
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 19.439343350027823,
+   "won": 1,
+   "damage_taken": 9.604166666666666,
+   "rounds": 4.208333333333333,
+   "reloads": 0,
+   "m203_2_ratio": 0.9753935290216745,
+   "m203_2_delta_ci": [
+    -2.86,
+    0.98
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1771693344566132,
+   "m203_4_delta_ci": [
+    0.76,
+    5.83
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 94.81844741235393,
+   "won": 1,
+   "damage_taken": 589.875,
+   "rounds": 29.25,
+   "reloads": 0.5,
+   "m203_2_ratio": 1.1748112524563037,
+   "m203_2_delta_ci": [
+    3.1,
+    29.1
+   ],
+   "m203_2_faster": 1,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.2413802524452215,
+   "m203_4_delta_ci": [
+    3.1,
+    36.26
+   ],
+   "m203_4_faster": 1,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": false,
+   "n": 48,
+   "time": 18.5920979410128,
+   "won": 1,
+   "damage_taken": 8.9375,
+   "rounds": 3.9791666666666665,
+   "reloads": 0,
+   "m203_2_ratio": 0.9328819238420997,
+   "m203_2_delta_ci": [
+    -4.41,
+    0.67
+   ],
+   "m203_2_faster": 10,
+   "m203_2_tied": 5,
+   "m203_4_ratio": 1.1258635214827295,
+   "m203_4_delta_ci": [
+    0.62,
+    4.07
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 3",
+   "variant": "candidate_full",
+   "boss": true,
+   "n": 16,
+   "time": 84.14440734557596,
+   "won": 1,
+   "damage_taken": 533.75,
+   "rounds": 25.625,
+   "reloads": 0.3125,
+   "m203_2_ratio": 1.042558692729341,
+   "m203_2_delta_ci": [
+    -4.19,
+    11.91
+   ],
+   "m203_2_faster": 5,
+   "m203_2_tied": 4,
+   "m203_4_ratio": 1.1016337905032512,
+   "m203_4_delta_ci": [
+    1.29,
+    17.23
+   ],
+   "m203_4_faster": 2,
+   "m203_4_tied": 4
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 17.19671675013912,
+   "won": 1,
+   "damage_taken": 8.25,
+   "rounds": 3.25,
+   "reloads": 0,
+   "m203_2_ratio": 0.8628669156399427,
+   "m203_2_delta_ci": [
+    -6.19,
+    0.15
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 33,
+   "m203_4_ratio": 1.0413647851727044,
+   "m203_4_delta_ci": [
+    -0.0,
+    1.47
+   ],
+   "m203_4_faster": 3,
+   "m203_4_tied": 40
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 86.56928213689483,
+   "won": 1,
+   "damage_taken": 625.125,
+   "rounds": 20.0625,
+   "reloads": 0.25,
+   "m203_2_ratio": 1.0726031647533354,
+   "m203_2_delta_ci": [
+    0.13,
+    12.21
+   ],
+   "m203_2_faster": 0,
+   "m203_2_tied": 7,
+   "m203_4_ratio": 1.1333806895798044,
+   "m203_4_delta_ci": [
+    0.13,
+    20.96
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 7
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus15",
+   "boss": true,
+   "n": 16,
+   "time": 77.39565943238732,
+   "won": 1,
+   "damage_taken": 547.6875,
+   "rounds": 17.875,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9589409452890681,
+   "m203_2_delta_ci": [
+    -6.63,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0132779629528441,
+   "m203_4_delta_ci": [
+    0.0,
+    2.68
+   ],
+   "m203_4_faster": 4,
+   "m203_4_tied": 8
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus20",
+   "boss": true,
+   "n": 16,
+   "time": 75.90567612687813,
+   "won": 1,
+   "damage_taken": 540.5,
+   "rounds": 17.5625,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.940479884165891,
+   "m203_2_delta_ci": [
+    -10.15,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.993770832194962,
+   "m203_4_delta_ci": [
+    -1.4,
+    0.0
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 10
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": false,
+   "n": 48,
+   "time": 16.513633834168058,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8285923702488569,
+   "m203_2_delta_ci": [
+    -7.23,
+    -0.0
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 48
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M203 4",
+   "variant": "native",
+   "boss": true,
+   "n": 16,
+   "time": 76.38146911519199,
+   "won": 1,
+   "damage_taken": 537.1875,
+   "rounds": 17.5625,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9463750129279139,
+   "m203_2_delta_ci": [
+    -8.75,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0,
+   "m203_4_delta_ci": [
+    0.0,
+    0.0
+   ],
+   "m203_4_faster": 0,
+   "m203_4_tied": 16
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus16",
+   "boss": true,
+   "n": 16,
+   "time": 76.87604340567613,
+   "won": 1,
+   "damage_taken": 547.125,
+   "rounds": 17.6875,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.9525028441410693,
+   "m203_2_delta_ci": [
+    -7.67,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 1.0064750560078684,
+   "m203_4_delta_ci": [
+    0.0,
+    1.31
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 9
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus17",
+   "boss": true,
+   "n": 16,
+   "time": 75.90567612687813,
+   "won": 1,
+   "damage_taken": 540.5,
+   "rounds": 17.5625,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.940479884165891,
+   "m203_2_delta_ci": [
+    -10.15,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.993770832194962,
+   "m203_4_delta_ci": [
+    -1.4,
+    0.0
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 10
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus18",
+   "boss": true,
+   "n": 16,
+   "time": 75.90567612687813,
+   "won": 1,
+   "damage_taken": 540.5,
+   "rounds": 17.5625,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.940479884165891,
+   "m203_2_delta_ci": [
+    -10.15,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.993770832194962,
+   "m203_4_delta_ci": [
+    -1.4,
+    0.0
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 10
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": false,
+   "n": 48,
+   "time": 16.510155815247636,
+   "won": 1,
+   "damage_taken": 7.833333333333333,
+   "rounds": 3.125,
+   "reloads": 0,
+   "m203_2_ratio": 0.8284178562702872,
+   "m203_2_delta_ci": [
+    -7.24,
+    -0.01
+   ],
+   "m203_2_faster": 14,
+   "m203_2_tied": 34,
+   "m203_4_ratio": 0.9997893850042123,
+   "m203_4_delta_ci": [
+    -0.01,
+    -0.0
+   ],
+   "m203_4_faster": 5,
+   "m203_4_tied": 43
+  },
+  {
+   "stage": "Disc2",
+   "invest": "high",
+   "gun": "M79 3",
+   "variant": "attack_plus19",
+   "boss": true,
+   "n": 16,
+   "time": 75.90567612687813,
+   "won": 1,
+   "damage_taken": 540.5,
+   "rounds": 17.5625,
+   "reloads": 0.25,
+   "m203_2_ratio": 0.940479884165891,
+   "m203_2_delta_ci": [
+    -10.15,
+    0.0
+   ],
+   "m203_2_faster": 7,
+   "m203_2_tied": 8,
+   "m203_4_ratio": 0.993770832194962,
+   "m203_4_delta_ci": [
+    -1.4,
+    0.0
+   ],
+   "m203_4_faster": 6,
+   "m203_4_tied": 10
+  }
+ ]
+}
