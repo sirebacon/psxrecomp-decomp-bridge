@@ -1,6 +1,6 @@
 # D4 — Scoped validation and playtest plan / results record
 
-Created: October 30, 2026. Updated: October 31, 2026. Status: **scoped plan plus save-query, capacity-refusal and conditional-emission unit results**. The initial plan executed no tests; follow-up results cover queries, refusal/dispatch/native-gate and conditional-emission fixtures, supported-save byte parity, native rebuild and six related regressions. Full preset validation and interactive playtests remain unrun.
+Created: October 30, 2026. Updated: November 3, 2026. Status: **scoped plan plus executed save-host and native-compatible v1 API evidence**. The latest delivery at `ec1c6e92d` records 120 passing local scenarios/fixtures, 100 original-writer card comparisons, a 10,000-cycle equipment/effect soak and a successful native rebuild (Section 19). Earlier results retain their dated scope. Full preset validation, coherent companion-aware crash recovery, interactive playtests and target-hardware acceptance remain open.
 
 ## 1. Reading order and scope
 
@@ -521,3 +521,92 @@ D8 §12 now binds PB-17 rather than leaving phase 1 acquisition defaults open. T
 Extend STN-10/11/18/19 and WRD-01–03/06 with unowned selected/worn costume at re-restriction, safe deferred appearance fallback, requested-key retention, later explicit eligible selection, missing assets, outstanding quotes invalidated by the toggle, blocked/conflicted payment while rules stay on and no wallet/stock/profile/Bestiary/RNG changes from switching. Distinguish an absent/disabled Economy policy from a failed payment action. New paid protocols remain blocked; these expectations do not certify old spend-then-grant paths.
 
 Phase 1 does not require new progression/challenge/acquisition presets or third-party policy arbitration; STN-16's multi-adapter extension remains later scoped work. Skin importing/folder UX is a separate planned Wardrobe unit. SPL-01 is design-resolved for this phase only; remaining SPL/MCR cases retain their open gates. The 24 STN case IDs remain unchanged and all unrun; no test files or builds added.
+
+## 17. Executed API interaction audit — November 3, 2026
+
+Source: `D:/Recomp Games/pe-test` commit `0b124d4a3f112102822a7678b5df4d6edd6843fd`, real production host/registry/Wardrobe units with explicit surrounding fixture boundaries. See [API interaction and reentrancy audit](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE API Interaction and Reentrancy Audit - 2026-11-03.md>) for API-01–08, exact scope, references and reproduction. All new code/evidence is local in `pe-native-debug`; game source/executable unchanged.
+
+| Run | Result | Evidence / qualification |
+| --- | --- | --- |
+| API-20261103 / 29 scenarios | 19 PASS, 9 FAIL, 1 OBSERVED_GAP | Local `runs/api-interactions-20261103/latest-run.txt` → run `results.json`, individual logs; SHA-256/compiler/source commit pinned. One scenario is the existing multi-case registry fixture; counts do not enumerate every assertion |
+| Coordinator/order integration subset | PASS: all six actual-host startup permutations and disabled-provider dependency propagation | Synthetic coordinator mods use real host and registry; no full Randomizer/overhaul implementation certification |
+| Failure subset | Allocation-stage/publication partial readiness, mutable dispatch, nested saves, worker-call acceptance, metadata ceiling, alternate-wallet reentry, profile-write false success | Nine failed expectations across eight issues; runner exits nonzero. Worker calls are synchronized, alternate-wallet callback synthetic; no claim of simultaneous data-race detection |
+| Scoped controls/cleanup | PASS: ordinary purchases/free access/provider gating and 100 registry reset cycles | No whole-game leak/resource/low-powered certification; no user saves used |
+
+Existing STN/custom-content planned IDs and historical save-host counts remain unchanged. These observed failures do not close SPL-05/MCR-08/09 or certify current save admission; the checked-save work in a different worktree is not automatically present in `pe-test`. All eight report findings remain OPEN pending separately scoped fixes and reruns. No production build or interactive game session performed.
+
+## 18. API interaction fix verification — November 3, 2026
+
+Follow-up authorized source fixes in `pe-test` on base `0b124d4a3` with dirty source hashes pinned locally. **35 local scenarios PASS, no failures**: original registry/host/coordinator/feature regressions plus profile publish-failure refund, bounded dirty retry, existing feature/host fixtures, policy reentry and memory-pressure refusal. Host refuses structural mutation and same-event/save recursion; registry fails closed on allocation/publication and rejects wrong-thread use; Wardrobe stages checked profile writes and guards acquisition. See the [audit's Fix verification](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE API Interaction and Reentrancy Audit - 2026-11-03.md>) for guarantees and limits.
+
+Local evidence: `pe-native-debug/runs/api-interactions-20261103/latest-run.txt` points to final `results.json`; `fix-verification.json` pins tested source and rebuilt executable, compiler/flags, build log and memory observations. Existing native game rebuilt successfully in its configured RelWithDebInfo/PE_MODS build; no production test files added. Original failed audit remains historical evidence; planned STN/custom-content counts remain unexecuted unless separately covered explicitly.
+
+This verifies process-level error/reentry handling and targeted allocation cleanup, not durable wallet/profile power-loss recovery, arbitrary provider failures, all native disk-save/capacity paths, cross-platform runtime behavior, ThreadSanitizer, low-powered timing or a full-game leak soak. SPL-05/MCR-08/09 remain open at their full cross-store scope. No user profile/card touched or interactive game launched. No commit/push performed for these fixes.
+
+## 19. Native-compatible v1 API delivery — November 3, 2026
+
+Delivered commit: [ec1c6e92d](https://github.com/sirebacon/parasite-eve-pc/commit/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c), pushed to the fork's `feat/shops-split`, built/tested from `D:/Recomp Games/pe-test`. The previous base is `0b124d4a3`; the local verification manifest records that base plus the changed source hashes, not a claim that the base itself contained these APIs.
+
+Contract: [implemented extension API guide](https://github.com/sirebacon/parasite-eve-pc/blob/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c/mods/host/EXTENSION_APIS.md). Master checklist Sections 6.1–6.3 record the delivered scope, actual persistence budgets and next build order. This supersedes earlier statements that no runtime tests/API implementation existed, while retaining those dated audit stages as historical evidence.
+
+| Final local group | Result | Result file under `D:/Recomp Games/pe-native-debug/runs/` |
+| --- | --- | --- |
+| Existing interaction regressions | 35 PASS | `api-interactions-20261103/run-1793748046665785100/results.json` |
+| New extension/runtime cases | 23 PASS | `api-extensions-20261103/run-1793748048070822200/results.json` |
+| Real Wardrobe/Bestiary and native commit integration | 6 PASS | `api-integrations-20261103/run-1793748055249039900/results.json` |
+| Query/emission/admission | 54 PASS (21/25/8) | `api-save-regressions-20261103/run-1793748083732972200/results.json` |
+| Existing Catalog and host fixtures | 2 PASS | Same save-regression result; Catalog UI-registration boundaries stubbed |
+| Writer parity / short runtime soak / rebuild | 100 complete card images byte-identical; 10,000 equipment/effect cycles PASS; native RelWithDebInfo/PE_MODS rebuild PASS | Save/extension results and `final-api-build.log` |
+
+Total 120 passing local scenarios/fixtures, not 120 mapped D4 case IDs. [Local manifest](<D:/Recomp Games/pe-native-debug/runs/api-implementation-verification.json>) pins the source/executable hashes and run references. Tests, fixtures, disposable cards/profiles, logs and raw results remain in `pe-native-debug`, which has no remote; none were included in the game commit.
+
+Implemented services: `content_registry`, `inventory_actions`, `equipment_effects`, `catalog_entries`, `economy_shop`, `economy_policy`, `profile_transactions`, `equipment_guard`, plus checked admission/conditional records and the bounded PEEX companion store. Paid Wardrobe/Bestiary access is a pending overlay until the next successful normal game save. The native commit precedes profile promotion; saved receipts recover failed later profile writes. Native flush/close/publish and profile failures were controlled in fixtures, with real production commit/profile functions and explicit surrounding boundaries.
+
+These runs cover orders/conflicts, typed dependencies, thread/reentry refusal, capacities, stale/duplicate purchases, missing/newer-provider preservation, identity/revision handling, failed/cancelled saves, required-companion refusal, next-save rollback and receipt replay, Tools-before-salvage refusal and ordinary generation retention. They do not certify arbitrary native providers, simultaneous external editors, global old-save anti-rollback, every planned SPL/MCR/STN case, cross-platform/interactive gameplay, low-powered hardware, GPU/model lifetime, long leak soaks, ThreadSanitizer or hardware power-loss behavior. New preset settings, their configurable battle consumer, new menu controls and gameplay balance are not implemented/tested by this commit.
+
+Remaining recovery gate: coherent native/tail/live-companion crash capture and matching Restore publication are not established by ordinary-save tests. The next unit is checklist Section 6.2; preset/settings and reward-consumer work follows in Section 6.3. No additional game code, rebuild or tests were run merely to write this documentation update.
+
+## 20. Companion-aware crash recovery — November 3, 2026
+
+Scope: checklist Section 6.2. **Uncommitted** on `ec1c6e92d` in `pe-test`, on `mod-records` in `pe-restore`, and in `pe-native-debug`. Build: `pe-test/build-mods/parasite-eve-pc.exe`, RelWithDebInfo/PE_MODS, no source newer than the executable when the game cases ran.
+
+| Group | Result | Result under `D:/Recomp Games/pe-native-debug/runs/` |
+| --- | --- | --- |
+| Crash, restore with Restore's code, load in the real game | 4 PASS: `plain`, `all-off`, `purchase`, `missing` | `recovery_native/`; `report.md` holds only the last run (`purchase`, `missing`) |
+| Snapshot source cases | 9 PASS | `recovery/run-1793751800099726600/results.json` |
+| Interaction regressions | 35 PASS | `api-interactions-20261103/run-1793751932608715500/results.json` |
+| Extension/runtime cases | 23 cases, runner exit 0 | `api-extensions-20261103/run-1793751825708783200/results.json` |
+| Profile/native commit integration | 6 PASS | `api-integrations-20261103/run-1793751831106018200/results.json` |
+| Query/emission/admission, writer parity, existing fixtures | 54 PASS (21/25/8), 100 card images identical, 2 PASS | `api-save-regressions-20261103/run-1793751813126301000/results.json` |
+| CTests in a scratch build | 4 PASS: `mod-crash-save-tail`, `mod-save-records`, `mod-save-registration-bounds`, `mod-workshop` | Not kept |
+| PE Restore unit tests | 56 PASS | `cargo test`, not kept |
+| `main.c` without `PE_MODS` | Syntax check only, not linked or run | Not kept |
+
+Real-game purchase: Junk 874 on the card; the outfit costs 50; 824 in the restored file; 824 in the game after a first and a second load, read from the room-start snapshot of those loads. The costume is owned once, restored from save I into slot A under its new file name. Without the companion the game refuses the save and leaves the file unchanged.
+
+What is supported: a crash report rebuilds the save as it stood at the start of the last room, with its mods' data and companion taken from one point. Restore binds the companion to the slot's file name and next generation, publishes it first, never overwrites a companion, moves old ones to backups, and refuses a tail that links a companion it doesn't have.
+
+Limits:
+
+- A restored save rolls back to the room start.
+- Hardware power loss is not tested, and only Windows was run.
+- An older Restore 0.2.0 can't handle new reports that link a companion: its save won't load. This work has not changed Restore's version number yet.
+- Restore's window has only been compiled, not clicked through.
+- Not exercised: the native-only fallback (`version = 0`), the "newer rooms couldn't be captured" note, and the `s_call_depth` gate directly.
+- `tests/pe_mod_catalog_rules` still doesn't link in CMake without the local runner's stub. That predates this work.
+
+## 21. Economy step 5 - November 4, 2026
+
+Local real-game run `runs/economy-step5-all-20261104` on source `cacd565e5`: declined and already-unlocked effects, Enhanced with providers, in-game Apply, two providers in both start orders, save, reload and a second battle (7 Junk carrying 0.5, then 8 carrying 0). 5 of 5 cases; progress identical in both orders. Test games reuse cached objects, not a clean rebuild. Not certified: crash during a save, long soaks, a held full-wallet payment released after spending, low-powered machines.
+
+Harness finding: in room M087 no encounter came within about 4,000 walking frames after opening and closing Aya's menu, against 410 frames without it (one deterministic probe each). Not established whether retail does this. The refused-Apply check therefore runs in its own session. The adapter's `encounter-start` command pins Aya in place and is no longer used.
+
+## 22. Economy step 6 menu - November 4, 2026
+
+Local real-game run `runs/economy-step6-menu` on source `40adf6b97`, through `scenarios/economy_menu.py`, which steps and accepts the real F1 rows through a test-only driver mod. Passed: browsing all six choices changes nothing; preview has no effect and shows one held Super as 10 Junk; Apply refused inside Aya's menu; Apply redeems that Super once; an edit reads Custom and waits for Apply; invalid settings (Bag with income) refused with nothing changed; a battle on the applied settings; phone save and reload keep Custom; back to Enhanced keeps the Custom edits for later. `mod-econ-store`, `mod-loot-parity`, `mod-econ-config` and `mod-econ-engine` pass. Test game reuses cached objects, not a clean rebuild.
+
+Follow-up, same day: `scenarios/economy_menu_provider.py` (run `runs/economy-step6-provider`) passes: a provider preset appears before Custom, browsing changes nothing, Apply and reload keep it, and reloading without the provider keeps the settings and reads Custom. `economy_menu.py` passes again on the rebuilt game. The new strings are in the translation data (`interfaces/economy.json`), and the es-419 pack still builds. No translations were written, so they still show in English. Pack limit found: the catalogue caps every string at 320 px in game glyphs, so a translated long description or refusal fails the build (a test of the longest refusal: 735 px). Panel-font widths, measured not seen: labels at most 197 of 340 units, values at most 186 of 244, new descriptions fit 640. One older Economy description, Wardrobe's "On: Wardrobe costumes are bought...", measures 948 and overruns the footer.
+
+Junk economy off under a new playstyle, decided by the user November 4: the playstyle stays and its rewards pause. `scenarios/economy_paused.py` (run `runs/economy-paused`) passes: the row reads "(paused)"; a held Super isn't redeemed; Apply is refused, Enhanced included; a battle pays nothing and leaves the policy bytes unchanged; save and reload keep all of that; switching on redeems the Super (wallet +12: 10 for it, the other 2 assumed to be the battle's Junk left in the bag); a battle after off then on pays 3. That last battle ran from the baseline save, because the saved game met no encounter in 6,000 frames after reload, with the switch off or on; the cause is not established. Take out Junk still moves counter Junk while paused, by the player's own choice. Switching off with an items-found list open still drops that list's unpaid Junk row, as on Enhanced; not changed and not tested.
+
+Not checked: the panel seen on screen (headless runs drive rows, not its drawing), scrolling on the 17-row main page, a controller walk, refusal messages as shown, Light/Steady/Treasure playtests. Menu and encounters: this run met a battle after opening and closing Aya's menu, which counts against section 21's suppression worry, but the frames weren't measured and it is one run.

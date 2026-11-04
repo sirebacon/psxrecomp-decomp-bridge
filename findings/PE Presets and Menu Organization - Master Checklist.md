@@ -1,8 +1,12 @@
 # PE presets and menu organization: master checklist
 
-Updated: October 31, 2026.
+Updated: November 3, 2026.
 
-Status: planning and review tracker. No preset implementation or gameplay changes are approved by this checklist.
+Status: planning **and scoped implementation/evidence** tracker. The native-compatible v1 API foundation is implemented, tested, rebuilt and pushed; see Section 6.1. Economy presets, their configurable battle pipeline and the menu reorganization are not implemented by that delivery. This checklist does not authorize additional code or balance changes.
+
+**Current implementation:** [ec1c6e92d](https://github.com/sirebacon/parasite-eve-pc/commit/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c) on the fork's `feat/shops-split`, tested in `D:/Recomp Games/pe-test` (local branch `test/shops-split`). **120 local checks/fixtures PASS**, 100 card-image writer comparisons PASS, 10,000 equipment/effect cycles PASS, native RelWithDebInfo/PE_MODS rebuild PASS. This is not a full gameplay, cross-platform, low-powered-hardware or power-loss certification.
+
+**Next build:** the Economy preset/settings backend and opt-in configurable reward consumer (Section 6.3). Companion-aware crash recovery (Section 6.2) is built, tested and committed; the game side is pushed, and Restore 0.4.0 is still local. The upstream merge and the `pe_stacks` purchase failure block Section 6.3. The APIs alone do not activate new reward behavior.
 
 ## 1. Scope and how to use this document
 
@@ -18,7 +22,7 @@ The detailed design lives in [D1, the current proposal](<D:/Recomp Games/psxreco
 
 For developers and AI assistants: read Sections 2–4 here, then the relevant D1 sections before doing work. Audit the actual target branch before using historical documents. Do not infer authorization to implement from a checked design item.
 
-Before behavioral implementation, also read [D7, the pre-implementation review](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets and Mod Extensions - Pre-implementation Review.md>). D2/D3/D6 contain scoped candidate contracts tied to REV-01–12, and D4 now contains the scoped validation/playtest plan. Policy bindings, host prerequisites, target hardware/budgets, and readiness gates remain open; D4 has no execution results. Future coordinator/module specifications are not all prerequisites for the initial Economy slice.
+Before behavioral implementation, also read [D7, the pre-implementation review](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets and Mod Extensions - Pre-implementation Review.md>). D2/D3/D6 contain scoped candidate contracts tied to REV-01–12, and D4 now contains the scoped validation/playtest plan. Broader policy bindings, target hardware/budgets and release gates remain open. D4 §§17–19 now record scoped executed audits/fixes/API delivery; unrun planned cases remain unrun. Future coordinator/module specifications are not all prerequisites for the initial Economy slice.
 
 ## 2. Non-negotiable requirements
 
@@ -34,8 +38,8 @@ Before behavioral implementation, also read [D7, the pre-implementation review](
 - [ ] Define gameplay-thread ownership, coherent transactions/save capture, stable callback/resource lifetimes, and bounded safe request handoff; callback priorities alone are not thread-safety protection.
 - [ ] Meet agreed low-powered-machine performance budgets without changing defaults, dropping gameplay state, or silently skipping contributors; record actual measurements before claiming efficiency.
 - [ ] Require explicit memory/resource ownership, bounded retention, and cleanup on success, failure, cancellation, and supported shutdown paths across all adopting modules; verify no unexplained continuing live-resource growth.
-- [ ] Keep new tests, fixtures, disposable saves, logs, simulations, and captures local in `D:/Recomp Games/pe-native-debug`, with no remote publication of that test suite.
-- [ ] Obtain a separate implementation instruction before changing game code; current work is documentation only.
+- [x] Keep the delivered API tests/fixtures/raw evidence local in `D:/Recomp Games/pe-native-debug`; that repository has no remote and none of the new tests were included in the API commit. Continue this requirement for future work.
+- [x] Obtain separate code authorization for the delivered API/save foundation. The user authorized implementation, local tests, rebuild, commit and push; Section 6.1 records that delivery. Further presets, recovery tooling and balance changes still need their own implementation scope.
 
 ## 3. Document register and reading order
 
@@ -46,15 +50,22 @@ Before behavioral implementation, also read [D7, the pre-implementation review](
 | D0 | This master checklist | Entry point, coverage tracker, and completion evidence index |
 | D1 | [Economy presets and independent reward controls proposal](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Economy presets and independent reward controls proposal.md>) | Current proposal: Economy §§1–12, other categories §13, menus §14, extensions §15, race/transaction safety §16, performance §17, leak prevention §18, small capability APIs and Randomizer/overhaul coordination §19. Documented; approval and implementation remain separate |
 | D2 | [Scoped control inventory and menu map](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Control Inventory and Menu Map.md>) | **Draft created.** Source-audited Economy controls/defaults/scopes, candidate transitions, wallet/redemption/pricing policies, menu-key migration, module/resource ownership; policy approval remains open |
-| D3 | [Scoped persistence and migration design](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Persistence and Migration Design.md>) | **Draft created.** Audited 524/744-byte baseline, proposed 160-byte combined record, load/migration/RNG/queue contracts, capacity/provenance/crash-snapshot prerequisites; not an implemented format |
-| D4 | [Scoped validation and playtest plan/results](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Validation and Playtest Record.md>) | **Plan created; execution unrun.** Cases cover baseline/menu, saves/capacity/recovery, rewards, mod/API compatibility, races, performance, leaks, and playtesting; PB-01–09 bind unresolved policies. Local suite/raw evidence stay in `pe-native-debug`; hardware/numeric budgets remain open |
+| D3 | [Scoped persistence and migration design](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Persistence and Migration Design.md>) | **Design draft; reconcile with I1.** Save admission/conditional emission and an 8 KiB v1 companion store are implemented. The proposed preset record is not. Section 6.1 lists actual keys/budgets and differences from draft arithmetic |
+| D4 | [Scoped validation and playtest plan/results](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets - Validation and Playtest Record.md>) | **Scoped execution recorded in §§17–19.** Latest delivery: 120 local checks/fixtures, writer parity, short runtime soak and rebuild PASS. This does not mark the full planned case matrix, gameplay acceptance or hardware budgets complete |
 | D5 | Player guide and release documentation | **Update after behavior is implemented and verified.** Locate the maintained guide/README on the target branch; do not treat a historical downloaded guide as the authoritative release copy |
-| D6 | [Small capability APIs and cooperation contract](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Mod Extensions - API and Cooperation Contract.md>) | **Draft created.** Shared conventions and candidate `economy_policy` v1: typed modifiers, observers, provider presets, deterministic composition, ownership/lifecycle/limits, examples; future coordinators deferred |
+| D6 | [Small capability APIs and cooperation contract](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Mod Extensions - API and Cooperation Contract.md>) | **Broader design draft; partial v1 implemented.** I1 documents the eight published core services and actual bounds. Synchronize remaining design differences; configurable reward adoption, other module contracts and coordinators stay open |
 | D7 | [Pre-implementation review](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Presets and Mod Extensions - Pre-implementation Review.md>) | Existing review of D0/D1 plus source-contract checks at `ae6520fe6`; open findings REV-01–12 and readiness gates G0–G5. Documentation/source inspection only, no runtime results |
 | D8 | [Character packs and standalone Wardrobe](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Character Packs and Standalone Wardrobe - Design.md>) | **Draft created November 1.** BioRand-style zip pack format for character additions/replacements; Wardrobe split from `pe_collection` with Economy as an optional shop; recipe packs for disc-derived characters; acceptance cases PACK/WRD. Not implemented |
 | D9 | [Standalone mod boundaries and optional integrations](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE Standalone Mod Boundaries - Design Review.md>) | **Recommendation/review, November 1.** Independent Wardrobe and Bestiary, wallet/reward/Catalog/shop boundaries, migration authority and cross-store payment/default conflicts. No extraction implemented |
 
-D2/D3/D6 are existing design drafts, not approved or implemented interfaces. D4 is an existing plan with no test passes; bind its policies and agree acceptance limits before execution/acceptance. D5's maintained release source still needs identifying. Read D2 → D3 → D6 → D4 after D1/D7. Supporting future work can be consolidated without losing traceability.
+D2/D3/D6 remain broader design drafts, not proof that every proposed capability exists. For shipped C interfaces and formats at the current fork commit, use I1 and Section 6.1. D4 includes scoped execution evidence; bind the remaining policies and acceptance limits before claiming broader acceptance. D5's maintained release source still needs identifying. Read D2 → D3 → D6 → D4 after D1/D7. Supporting future work can be consolidated without losing traceability.
+
+### Current implementation and local evidence
+
+| ID | Reference | Authority / scope |
+| --- | --- | --- |
+| I1 | [Native-compatible v1 extension API guide at the delivered commit](https://github.com/sirebacon/parasite-eve-pc/blob/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c/mods/host/EXTENSION_APIS.md) | Actual supported services, ownership, operation limits, next-save receipts, file formats and explicit exclusions. Local copy: `D:/Recomp Games/pe-test/mods/host/EXTENSION_APIS.md` |
+| E1 | [Local verification manifest](<D:/Recomp Games/pe-native-debug/runs/api-implementation-verification.json>) | Pins 52 delivered source/document hashes, rebuilt executable hash, build log and four final run result files. Manifest `base_commit` is the pre-change base `0b124d4a3`; delivered changes are commit `ec1c6e92d`. Not a published test suite |
 
 ### Supporting references: read with their date and branch limitations
 
@@ -74,6 +85,8 @@ Read D1 first. Use R1–R9 only where relevant; they are not an instruction to r
 
 ## 4. Documentation completed so far
 
+The checked deliverables below retain the scope of their original documentation steps. Their dated no-code/no-run statements do not override the later implemented and tested subset in Section 6.1. They also do not close the broader release/acceptance work.
+
 - [x] Document the player feedback and distinction between native drops, extra battle Junk, bonus items, and bundle redemption — D1 §§1–3.
 - [x] Document Enhanced compatibility and the proposed Economy presets — D1 §4.
 - [x] Record provisional Light Economy, Steady Income, and Treasure Hunter values, explicitly open to playtesting — D1 §4.
@@ -81,13 +94,13 @@ Read D1 first. Use R1–R9 only where relevant; they are not an instruction to r
 - [x] Document modular responsibilities and Economy validation requirements — D1 §§9–11.
 - [x] Add independent preset ideas for Combat, Encounters, Movement, Inventory, Bestiary, and Wardrobe — D1 §13.
 - [x] Add proposed menu grouping, category layout, Economy subpages, and setting ownership — D1 §14.
-- [x] Document extension registration, calculation contributions, notifications, multi-mod cooperation/conflicts, and modular staged scope — D1 §15. API details and implementation remain open.
+- [x] Document extension registration, calculation contributions, notifications, multi-mod cooperation/conflicts, and modular staged scope — D1 §15. Broader adoption remains open; the later implemented API subset is recorded in Section 6.1.
 - [x] Clarify framework-wide coverage for all current/future mods, per-module ownership, and Economy as the first adopter rather than the framework boundary — D1 scope note and §15.
 - [x] Document proposed race-condition/reentrancy protections, transaction/save coherence, lifecycle/resource safety, and modular ownership — D1 §16. Verification remains open.
 - [x] Document low-powered-machine performance requirements, measurement scenarios, and open budget/hardware decisions — D1 §17. No benchmark results are claimed.
 - [x] Document memory/resource ownership, cleanup/failure handling, bounded retention, and leak/lifetime validation requirements — D1 §18. No current build is certified leak-free.
-- [x] Document optional small capability APIs, shared conventions/catalog, and staged Randomizer/overhaul coordination requirements — D1 §19. No coordinator or new public API is implemented.
-- [x] Document modular custom item/weapon/armor/effect support and Economy shop contributions, stable identities, versioned instance saves, backward compatibility, missing-provider/equipment handling and purchase safety — D1 §20. This is a proposed follow-up, not implemented content/API support.
+- [x] Document optional small capability APIs, shared conventions/catalog, and staged Randomizer/overhaul coordination requirements — D1 §19. No coordinator was implemented by that documentation step; later v1 API delivery is in Section 6.1.
+- [x] Document modular custom item/weapon/armor/effect support and Economy shop contributions, stable identities, versioned instance saves, backward compatibility, missing-provider/equipment handling and purchase safety — D1 §20. Broader custom-content support remains proposed; the later native-compatible v1 subset is recorded in Section 6.1.
 - [x] Extend D2 §9, D3 §10 and D6 §10 with candidate custom-content/effect/shop controls, ownership, schemas and capability/action contracts; extend D4 §15 with PB-10–14 and 36 planned validation cases. Contracts, storage choices and limits still require approval; no extension implementation, tests or build performed.
 - [x] Review the custom-content/shop drafts for multiple providers submitting multiple entries. D7 records MCR-01–12, references, recommendations and validation gaps. The initial review left all 12 open; later requested dispositions resolve MCR-01–03 (D6 §11) and MCR-04/05/10 (D3 §11, D6 §12) at design level. MCR-04X storage expansion is specified in D3 §12 and MCR-06 in D3 §13 / D6 §14. MCR-07–09/11/12 and implementation/validation remain open; no code/test/build changed.
 - [x] Review D0/D1 and selected existing source contracts, record REV-01–12 and readiness gates in D7, and clarify the ordinary-preset/coordinator boundary. Findings remain open; implementation is not certified ready.
@@ -101,7 +114,7 @@ These boxes confirm written coverage only. The values, final menu map, and engin
 
 ### A. Current-branch audit and control inventory — D2; D1 §§3, 13–14
 
-- [ ] Record the target repository, branch, commit, and date. Recheck them when implementation starts.
+- [x] Record the current API target, date, base/delivered commit and local/remote branches in Section 6.1. Recheck this information before the next implementation unit.
 - [ ] Inventory every affected setting: stable identifier, type/range, current default/value, owning module, save/profile scope, dependencies, and existing menu location.
 - [ ] Record feature enable/disable and restart requirements without changing their defaults.
 - [ ] Map proposed categories to existing pages and retain unrelated existing settings.
@@ -120,7 +133,7 @@ These boxes confirm written coverage only. The values, final menu map, and engin
 - [ ] Define legacy Relaxed/Normal/Grind presentation and price preservation; avoid applying its income multiplier to new fixed payments.
 - [ ] Finalize bounded pending-reward capacity, full-queue behavior, mixed enabled/disabled categories, and between-battle application.
 - [ ] Specify a safe counter-to-inventory transition with a full bag; do not discard value or assume space is available.
-- [ ] Record Workshop visibility as a follow-up rather than an initial dependency.
+- [x] Record Workshop visibility as a follow-up rather than an initial dependency. D1 §6, D2 §1.
 
 ### C. Independent category definitions — D1 §13; D2
 
@@ -243,9 +256,9 @@ Draft locations for this section: D2 §9 (follow-up slices E/F/G, controls/nativ
 
 - [ ] **REV-01:** budget all live/carried/unknown records and headers, define capacity failure before enabling new saved settings, and test near-full saves.
 - [ ] **REV-02:** separate execution engine from preset label; define legacy/new/Custom transitions, repeat application, all progress/RNG/pending ownership, and toggle-exploit policy.
-- [ ] **REV-03:** settle storage × income × redemption combinations, wallet availability, cap/full-bag policies, and accepted-credit transaction results.
-- [ ] **REV-04:** resolve preset application versus redemption of already owned bundles; disclose conversion consequences and settle consent/safe-boundary behavior.
-- [ ] **REV-05:** define independent price-policy ownership/persistence and legacy difficulty transitions without baking equipped discounts into stored prices.
+- [x] **REV-03:** settle storage × income × redemption combinations, wallet availability, cap/full-bag policies, and accepted-credit transaction results. Design only: D2 §§5, 11, decisions 3 and 4.
+- [x] **REV-04:** resolve preset application versus redemption of already owned bundles; disclose conversion consequences and settle consent/safe-boundary behavior. Design only: D2 §§5, 11, decision 5.
+- [ ] **REV-05:** define independent price-policy ownership/persistence and legacy difficulty transitions without baking equipped discounts into stored prices. Return to Enhanced is settled (decision 6); the rest is still a draft in D2 §5.
 - [ ] **REV-06:** distinguish new-path identity guarantees from legacy rerolls; define success/reset states, queue backpressure/fairness, redundant/empty-pool outcomes, and eligibility counters.
 - [ ] **REV-07:** specify the small typed layer over existing host mechanics, deterministic ordering, activation/discovery/lifetime, error handling, and source API versus binary ABI scope.
 - [ ] **REV-08:** distinguish coherent normal saves from crash snapshots/recovery and interrupted writes; define committed-state capture without unsafe crash-path locks/callbacks.
@@ -291,6 +304,8 @@ Resolve design findings with their documented rules and linked acceptance bindin
 
 ### N. Turning mods on and off; build layers — D3 §14
 
+**November 3 status:** the store, checked save boundary and native-compatible core are delivered in Section 6.1. Missing-mod notices, save-slot warnings, Manage mods options and recovery/editor UX below are not implied complete. The actual 8 KiB profile and fail-closed load behavior supersede the earlier draft budget/prompt as implementation evidence; reconcile D3/D6 before expanding it.
+
 Layers: **S** save safety and extension store (mod-independent, useful now), **C** content core (mod-independent, only with custom items), **M** mod-owned features (Catalog discovery, shop, effect rules). Dependencies point only S ← C ← M. Build S first.
 
 - [x] **Design disposition (October 31):**
@@ -298,15 +313,12 @@ Layers: **S** save safety and extension store (mod-independent, useful now), **C
   - D2 §9: the "Mod on/off controls" table.
   - D6 §12.6: the core boundary.
   - D4 §15: "Mod on/off bindings".
-- [ ] **Unit S: implement and verify only under separate code authorization.** Build:
-  - the extension store (card path access via `Host_CardPath`, directory create/list/remove, extension write before the card rename, `pe_host.extlink`, generation cleanup);
-  - the outer load gate for any unreadable mod data, with the missing-extension prompt;
-  - the missing-mod notice;
-  - the save-slot warning, after auditing a safe native hook point in `save_flow.c`;
-  - the two Manage mods options.
+- [x] **Unit S / delivered storage subset:** host-derived `.pe-ext` paths, conditional `pe_host.extlink`, extension staging before native publication, normal-save failure/cancellation handling, current/previous generation retention and required-companion outer load refusal. Verified native flush/close/publish failures and missing companion; see Section 6.1 / D4 §19.
+- [ ] **Unit S / remaining user-facing scope:** missing-mod notice, save-slot warning, two Manage mods options and any reviewed explicit Continue-without-data/recovery prompt. Current implementation refuses an unsafe load; it does not implement the draft's destructive Continue option.
 
   Run the D4 MCR-04X bindings and the layer S rows of "Mod on/off bindings" using today's records.
-- [ ] Unit S follow-ups: the save editor opens and keeps linked extensions and offers a bundle export; the crash report dumps extension sections; a future explicit import also copies `.pe-ext`; the D-v0.7 editor save-location fixes can share this work.
+- [ ] **Next recovery unit:** coherent native + tail + companion crash snapshots and matching Restore output; see Section 6.2. Ordinary save publication tests do not prove crash-report recovery.
+- [ ] Other Unit S follow-ups: companion-aware save editor and bundle export/import; explicit import copies required `.pe-ext`; D-v0.7 save-location fixes can share that later work.
 - [ ] With unit S: update `mods/README.md`'s All-mods-off wording (D3 §14.2) and add the tester guidance (D3 §14.6) to the player/tester guide.
 
 ### O. Versioning and migrations — D3 §15, D6 §14.9
@@ -388,9 +400,93 @@ Review status: D9 §8 design-resolves SPL-01 for phase 1; **SPL-02–09 remain O
 
 Close design findings with explicit D2/D3/D6 dispositions and PB-15–18/STN coverage; implementation acceptance requires later real evidence. D4's 24 STN cases stay planned and need the D9 acceptance extensions. Basic extraction gates differ from new paid adapters and the later pack reader; do not require unrelated future scope or mark open gates solved by committing the review.
 
+### S. Executed API interaction audit — November 3, 2026
+
+The original failed audit and first 35-case fix run below are historical stages, retained for traceability. Section 6.1 and D4 §19 describe the later committed API delivery; their broader save/receipt coverage supersedes earlier statements that those capabilities were absent, without certifying every SPL/MCR case.
+
+- [x] Inspect implemented services and execute local cross-mod/registry/host/feature interaction tests against `pe-test` commit `0b124d4a3`: 29 scenarios, 19 PASS / 9 FAIL / 1 OBSERVED_GAP. Tests/evidence stay local in `pe-native-debug`; report: [API interaction audit](<D:/Recomp Games/psxrecomp-decomp-bridge/findings/PE API Interaction and Reentrancy Audit - 2026-11-03.md>), D4 §17. This is executed scoped audit evidence, not completion of planned coordinator/transaction APIs.
+- [x] **API-01 / process-level fix:** checked staged profile writes preserve originals/dirty retry; refused unwritable purchase spends nothing; injected post-debit publication failure refunds through the current wallet. Scope does not close durable two-store SPL-05/MCR-08/09 or arbitrary refund-provider failure.
+- [x] **API-02:** structural hook registration is refused during dispatch; same-event/depth recursion also refuses. Early/late mutation regressions and ordinary dispatch pass.
+- [x] **API-03/04:** allocation failures fail staging/publication closed; no partial ready batch or visible domain is published. Physical-envelope exhaustion aborts the registry generation consistently.
+- [x] **API-05 / nested-dispatch fix:** recursive same-hook/save request returns -1 before another callback or write. The separate worktree's full capacity/native disk refusal implementation is not claimed ported or verified here.
+- [x] **API-06:** bootstrap-bound registry affinity rejects worker mutation with WRONG_THREAD and returns unavailable for worker queries. No generally thread-safe legacy-host claim.
+- [x] **API-07:** compact references and checked real allocations plus static reserve enforce the technical metadata ceiling; tested max-entry heap peak 579,840 bytes and pressure 982,752 then refusal. Scoped reset cleanup passes; no process/GPU/leak-soak certification.
+- [x] **API-08:** acquisition guard starts before external policy/wallet calls; synthetic reentrant wallet and policy requests refuse, ordinary repeat/notification controls pass without extra charge.
+- [x] Rerun expanded local suite: 35 scenarios PASS, including existing registry/feature/host fixtures and all six actual-host coordinator startup orders; native game rebuilt. Source/executable hashes and limitations in local `fix-verification.json`, audit Fix verification and D4 §18. Tests/raw evidence remain in `pe-native-debug`; no production tests added.
+- [x] Deliver the scoped **next-successful-save** wallet/profile receipt protocol, native save integration and checked capacity handling in `ec1c6e92d`, with real Wardrobe/Bestiary adapters and controlled native/profile failure tests (Section 6.1). The user explicitly selected next-save permanence, superseding the briefly considered immediate-auto-save option.
+- [ ] Keep broader SPL-05/MCR-08/09 acceptance open: arbitrary nonconforming providers, all acquisition paths, global old-save rollback protection, crash-report/Restore integration, external concurrent editors and hardware power-loss guarantees are not established by this delivery.
+
 ## 6. Implementation checklist — only after a separate instruction to build
 
-### Branch kickoff — October 31, 2026
+### 6.1 Current delivered API foundation — November 3, 2026
+
+Target: `D:/Recomp Games/pe-test`; local branch `test/shops-split`, tracking/pushed to fork `mine/feat/shops-split`. Base `0b124d4a3`; delivered commit [ec1c6e92d](https://github.com/sirebacon/parasite-eve-pc/commit/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c). This establishes fork delivery, not upstream merge or a release. I1 is the implemented contract; earlier draft-only status rows must be read with this update.
+
+#### Implemented and locally verified
+
+| Done | Service / unit | Delivered behavior and limits |
+| --- | --- | --- |
+| [x] | Shared typed registration/seal | Copied namespaced definitions, required/optional batches, typed cross-provider references, duplicate-all failure, stable-ordinal conflicts, active-provider filtering and deterministic readiness. Three coordinator/provider startup orders exercised in all six permutations |
+| [x] | `content_registry` v1 | Declare/find/preview complete native-compatible weapon/armor definitions; immutable registry generation, exact version/size/schema checks |
+| [x] | `inventory_actions` v1 | Grant, adopt a native record, inspect stable identity and explicitly destroy eligible unequipped equipment. Persist 32 instances and 12 definition-revision dictionary entries; uncertain/orphaned/missing-provider handling, no silent pool reassignment |
+| [x] | `equipment_effects` v1 | Implemented native-effect aliases; tracked apply/remove, native conflict rules, built-in/removable provenance and 16 attachments. New arbitrary effect mechanics and bag-capacity installation are unsupported |
+| [x] | `catalog_entries` v1 | Separate persistent custom discovery/unlock state (20 keys), typed effect reference and stable provider ordinal. Player-facing `visible` hides undiscovered details; no automatic merge into the existing Catalog screen |
+| [x] | `economy_shop` v1 | Equipment/Catalog-unlock offers, exact registered Junk prices, 10 finite-stock counters, 32 bounded one-use quotes, stale generation/inventory/balance/stock checks and prepared delivery before debit. No automatic shop frontend or shared stock-pool/restock model |
+| [x] | `economy_policy` v1 | Pure bounded payout additions/factors, deterministic checked arithmetic, complete provider preset definitions and guarded post-commit observers. The existing Enhanced reward path does not invoke these modifiers; automatic configurable battle-pipeline adoption is still to build |
+| [x] | `profile_transactions` v1 | Eight owner adapters and twelve bounded durable receipts. Wardrobe/Bestiary purchases work in-session, become permanent only at the next successful game save, and roll back with unsaved payment on quit/older load. Committed receipts recover failed later profile writes; unknown/inactive adapters retain receipts |
+| [x] | `equipment_guard` / legacy bridges | Native and Catalog boundaries refuse unsafe legacy changes to tracked gear. Tools refusal precedes salvage observers, so an unconsumed donor cannot pay Junk. Normal native equipment retains existing behavior |
+| [x] | Save prerequisites + extension store | Ported query/admission/conditional emission into `pe-test`; refuse overflow instead of dropping carried records. Stage/flush companion, pack its checked link, then flush/publish the native card; only then promote profiles. Missing/unreadable required companion or unsupported core-ledger layout refuses outer load before native runtime changes |
+| [x] | Execution/resource protections | Game-thread gates, dispatch structure/recursion guards, pure callback/reentry refusal, bounded registry metadata, bounded quotes/receipts/tables, cancellation cleanup, two-generation normal retention and delayed dirty-profile retry |
+| [x] | Delivery | Native RelWithDebInfo/PE_MODS rebuild succeeded; commit and push completed. No new test files/raw evidence in the game commit; local test repo has no remote |
+
+**Actual storage, not the earlier draft sketch:** PEMC/native card format stays unchanged. `pe_host.extlink` v1 uses a 20-byte payload plus 12-byte record header only when needed. PEEX v1 companion total limit is **8,192 bytes**, with a **96-byte header**, **64-byte directory entries**, at most 16 sections and 2,048 bytes per section. Current core sections are `pe_host/content` (2,048), `pe_host/catalog` (1,024), `pe_host/shop` (512), and `pe_host/transactions` (1,408), all v1. All four total 4,992 payload + 352 framing = **5,344 bytes**. Do not implement a reader from the older 5,120-byte/32-byte-header/256-byte-operations draft. Keep D3/D6 reconciliation open; these actual section keys also differ from draft owner names.
+
+**V1 boundary:** native equipment kinds 1–8/armor 9 and implemented native-effect aliases. Unique custom consumables/ammo/key items, arbitrary new combat behaviors, automatic custom Catalog/Workshop presentation, content conversion/removal UI, broad migration schemas, later category APIs and Randomizer/overhaul coordinators remain open. A tested API is not the corresponding preset/menu feature.
+
+#### Final validation evidence — all local
+
+| Group | Result | Fixed run reference under `D:/Recomp Games/pe-native-debug/runs/` |
+| --- | --- | --- |
+| Previous interaction regressions | 35 PASS | `api-interactions-20261103/run-1793748046665785100/results.json` |
+| New extension/runtime cases | 23 PASS | `api-extensions-20261103/run-1793748048070822200/results.json` |
+| Real profile/native commit integration | 6 PASS | `api-integrations-20261103/run-1793748055249039900/results.json` |
+| Save query/emission/admission | 54 PASS (21 + 25 + 8) | `api-save-regressions-20261103/run-1793748083732972200/results.json` |
+| Existing Catalog and host fixtures | 2 PASS | Same save-regression result; Catalog UI-registration boundaries stubbed, host fixture independently linked |
+| Writer parity | 100 complete card images match original writer byte for byte | Same save-regression result |
+| Runtime soak | 10,000 grant/apply/remove/destroy cycles PASS | New-extension run; short desktop measurement, not target-hardware acceptance |
+| Native rebuild | PASS | `final-api-build.log`; executable `D:/Recomp Games/pe-test/build-mods/parasite-eve-pc.exe` |
+
+Total **120 passing local scenarios/fixtures**, plus the parity images and soak cycles; these are not 120 distinct D4 acceptance IDs. E1 pins source/executable hashes and exact runs. Failure coverage includes stale/duplicate requests, full capacity, refused wallet debit, callback reentry, missing/newer providers, native fingerprint changes, separate content revisions, cancelled/failed saves, missing companions, profile publication refusal/replay, native flush/close/publish failure, wrong-thread refusal and normal generation retention.
+
+Do not mark the full STN/CONTENT/SHOP matrices, cross-platform builds, interactive keyboard/controller/layout checks, arbitrary provider behavior, low-powered targets, GPU/model/language resource cleanup, long leak soaks, ThreadSanitizer or hardware power-loss tests complete. Preset/battle balance comparisons and playtests are still unrun because the configurable reward consumer is not implemented.
+
+### 6.2 Next build — companion-aware coherent crash recovery
+
+The ordinary save/next-save receipt boundary is tested. The current `HostRoomSnapshot` in native `src/main/boot/main.c` captures native bytes and a card-tail image, not all live companion sections. The old tail-only crash workflow therefore does not establish recovery of new custom identities, shop/discovery state or pending profile receipts. Section 5 N and the earlier kickoff already retain this recovery requirement.
+
+Status November 3, 2026: built and tested. `pe-test` is pushed; Restore 0.4.0 is on local branch `merge/restore-0.4`, not pushed; `pe-native-debug` is committed locally and has no remote. Results and limits: validation record §20.
+
+- [x] Reconcile D3/D6's format/version tables and recovery contract with I1's actual keys, 8 KiB framing, next-save receipt policy and native card-name binding before extending persistence. D3 §15.6 rows and §12.8, one pointer in D6's shop transaction text. Only the rows this work touches; D6's other design differences stay open as listed in the document table.
+- [x] Capture native state, tail and required companion-section state from one coherent game-thread point into bounded owned buffers; never combine an old companion image with newer native inventory/payment state. `pe_recovery_snapshot.c`, taken at each room start. Source cases `coherent-gear`, `purchase-boundary`, `refused-boundaries`.
+- [x] Include the versioned extension snapshot in crash-report output without allocation, filesystem I/O, provider callbacks or unsafe live pointers in the crash handler. The handler only prints the published copy; real crashes in all game scenario cases.
+- [x] Teach the Restore path to publish the required companion together with the reconstructed card, using the reconstructed card's actual basename/generation/CRCs. Refuse unsafe/incomplete required data rather than creating an apparently complete recovery without its identities/receipts. `pe-restore` `src/companion.rs`, `save.rs`, `card.rs`. Exercised through Restore's code by the game scenario; **its window has only been compiled, not clicked through.**
+- [x] Test old reports without extensions, new/unknown sections, absent providers, missing/damaged data, capture/commit boundaries, failed publication, payment/unlock replay and renamed/restored cards. Keep all fixtures/raw evidence in `pe-native-debug`. Not exercised: the native-only fallback (`version = 0`), the "newer rooms couldn't be captured" note, and the `s_call_depth` gate directly.
+- [x] Rebuild and record the exact supported crash/Restore guarantees and remaining power-loss/platform limits. Validation record §20; Restore README. Companion-aware editor/bundle import/export may reuse this work but remains separately scoped.
+
+### 6.3 Following gameplay build — Economy preset/settings backend
+
+After the recovery prerequisite, build the first actual consumer of these APIs, keeping UI and balance changes separately reviewable:
+
+- [ ] **Blockers before new Economy code:** explain or fix the `pe_stacks` `purchase` failure, then merge `merge/upstream-main` into `feat/shops-split`. Make `mod-loot-parity` link on Windows before step 4.
+
+1. [ ] Audit current Economy/rewards controls and bind the remaining D1/D2 decisions. First pass and seven decisions are in D2 §11; the items listed there as not covered stay open. Keep **Enhanced default and its legacy calculation/cascade path unchanged**. Suggested Light/Steady/Treasure numbers are playtest candidates, not final approved balance.
+2. [ ] Implement one owner-owned canonical configuration, validation, per-category Custom matching and pure preset preview/explicit Apply. Do not auto-apply a newly registered provider preset or silently change another category.
+3. [ ] Implement versioned preset/progress persistence using the reviewed extension-store layout; missing data selects legacy Enhanced/current settings. Preserve the existing loot record, native drops, unknown providers and all unrelated progress. Conditional registration alone does not implement this model.
+4. [ ] Add the opt-in configurable reward consumer: independent native drops/extra Junk/rare rewards/Super-Duper controls, owner-persisted fractional carry/guarantee state, safe pending rewards, disabled-category rules and one commit/notification per award. Call `economy_policy` only on this new path.
+5. [x] Run no-provider/Enhanced parity, settings transitions, save/load, repeated application, multi-provider composition and reward continuity checks before exposing the new controls. Local real-game run `runs/economy-step5-all-20261104` on source `cacd565e5`: declined and already-unlocked effects, Enhanced with providers, in-game Apply, two providers in both start orders, save, reload and a second battle (7 Junk carrying 0.5, then 8 carrying 0). 5 of 5 cases; progress identical in both orders. Test games reuse cached objects, not a clean rebuild. Not certified: crash during a save, long soaks, a held full-wallet payment released after spending, low-powered machines.
+6. [ ] Add the simple preset/common-options/Advanced menu under Economy, then translation/controller/layout checks and Light/Steady/Treasure playtests. Workshop visibility, other category presets, new acquisition algorithms and coordinators remain follow-ups. Menu built, local commit on `test/shops-split`; rows driven in the real game by `pe-native-debug/scenarios/economy_menu.py`. Still open before ticking: panel layout seen on screen, controller walk, new strings in the translation data, Light/Steady/Treasure playtests. Validation record section 22.
+
+### Branch kickoff — October 31, 2026 — historical worktree evidence
 
 Created local branch `feat/mod-presets-framework` in the isolated checkout [D:/Recomp Games/pe-mod-presets](<D:/Recomp Games/pe-mod-presets>), based on fetched upstream `origin/main` at `8c52cdde5d60ee52f00913517ffb593e9521bf2d`. Existing localization/UI worktrees remain on their own branches. The new branch is not pushed and does not track upstream main. Branch creation/initial read-only audit does not approve every provisional balance or API choice in D2/D3/D6.
 
@@ -402,7 +498,7 @@ Created local branch `feat/mod-presets-framework` in the isolated checkout [D:/R
 - [x] Verify capacity refusal locally: 8 owner admission cases, 3 actual-host dispatch cases, 1 extracted-native serializer/slot control-flow fixture; rerun 21 query cases, 3 existing fixture modes, and 100 byte-identical supported card images. Native rebuild and 6 existing CTests pass; no-mod native save-flow source also compiles. Evidence is local in `runs/save-queries/admission-*`. The extracted gate fixture has surrounding boundaries stubbed; it is not a full UI/disk-fault playthrough.
 - [x] **Conditional-record host prerequisite:** `pe_save_emission.h` provides init-time dormant registration and explicit checked owner activation. Dormant records occupy a registry slot but no save header/payload bytes. Activation checks complete union capacity, initialized owner state and source provenance; loaded/used records stay preserved. Valid-CRC rejected/newer optional records are carried intact. Existing ordinary records and serialized format are unchanged.
 - [x] Verify conditional emission locally: 25 new cases plus rerun 21 query and 12 admission/host/native-gate cases, 3 existing fixture modes, 100 byte-identical supported card images, native rebuild and 6 existing CTests. Evidence and source/executable hashes are local in `runs/save-queries/emission-*`; no new test files enter the game repository.
-- [ ] **Next prerequisite — policy semantics and coherent crash images:** bind the actual candidate policy layout/validation and readiness rules before registering/enabling preset data. Conditional activation now conservatively refuses uncertain sources, but no actual policy record or preset transition exists. Whole native-plus-mod coherent crash capture remains separate. Existing damaged-record recovery and whole newer-container passthrough intentionally remain compatible.
+- [ ] **Still open after the API delivery:** actual preset settings/progress layout, validation and transitions plus the configurable reward consumer (Section 6.3). The pure policy API and conditional storage prerequisites exist; they do not constitute a persisted player preset.
 
 New rewards, 160-byte policy registration, preset activation, broad menu reordering, and public contribution APIs follow their dependent gates. Safe whole-save crash capture remains a separate required design/implementation step. Kickoff initially changed no code; read-only queries, capacity refusal and conditional emission are now implemented and rebuilt on October 31, with uncommitted source and local-only fixtures. Numeric gameplay and shared callback composition policies are still provisional. Evidence: `D:/Recomp Games/pe-native-debug/runs/save-queries/` (query/admission/emission manifests, results, build and CTest logs). The rebuilt executable is `D:/Recomp Games/pe-mod-presets/build-mods/parasite-eve-pc.exe`; there was no interactive game playthrough. This protects valid carried records from capacity omission; it does not recover bytes the existing parser already rejected or provide rollback of arbitrary mod callback side effects.
 
@@ -435,7 +531,7 @@ For every result, record the build/commit, configuration, expected outcome, obse
 
 - [ ] Bind D4 PB-01–09 to accepted policies/build scope, select mandatory case IDs and actual target hardware/budgets, and record blocked/deferred cases explicitly before claiming acceptance.
 
-- [ ] Rebuild the affected native targets and record the output location and result.
+- [x] Rebuild the delivered API target: `pe-test/build-mods/parasite-eve-pc.exe`, RelWithDebInfo/PE_MODS PASS; Section 6.1 / D4 §19 pin the build evidence. Rebuild again when later units change code.
 - [ ] Compare untouched Enhanced/new defaults and migrated saves against the previous build: payouts, rounding, rare cascade, bundles, prices, queues, and Wayne preferences.
 - [ ] Compare native rewards under counter-only/Vanilla-drops settings, including native bundles and successful Junk steals.
 - [ ] Exercise pickups, storage, full inventory, Wayne crafting/hand-ins, counter transitions, and one-time bundle conversion.
@@ -480,6 +576,8 @@ For every result, record the build/commit, configuration, expected outcome, obse
 
 ## 8. Delivery and documentation checklist — D4–D5
 
+- [x] Publish the scoped v1 API guide and mod README link with `ec1c6e92d`, including supported capabilities/limits, native bindings, ownership, save format and next-save purchase policy. This does not complete the broader D1/D2/D3/D6 reconciliation or Player Guide release work below.
+
 - [ ] Update D1 with final decisions, implemented scope, approved values, and remaining follow-ups.
 - [ ] Finish D2's actual control/menu map and D3's implemented persistence/version details.
 - [ ] Finish D4 with build/test/playtest evidence, known limitations, and open issues.
@@ -504,14 +602,14 @@ Use one entry per deliverable or unresolved decision. Link completed artifacts a
 | Item | Owner | State | Branch / commit | Document / evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
 | Current proposal, D1 | Unassigned | Documented; decisions remain | Documentation only | D1 §§1–20 | Review Section 5 of this checklist |
-| Custom content/effects and Economy shop API | Unassigned | Proposal and scoped draft extensions added; no implementation or runs | Documentation-only addition, October 31 | D1 §20, D2 §9, D3 §10, D6 §10, D4 §15; Section 5 K CONTENT/EFFECT/SHOP gates | Review/approve PB-10–14, concrete schemas/limits and native adapters; settle missing-mod and coherent purchase/save contracts before code |
-| Multi-provider content/shop review | Unassigned | MCR-01–06, MCR-10 and MCR-04X design-resolved; MCR-07–09/11/12 OPEN; no implementation/runs | Documentation-only dispositions, October 31 | D3 §§11–14, D6 §§11–14, D7 disposition addenda, D4 §15 bindings; Sections 5 M and N | Design MCR-07 next; when code is authorized, build unit S (Section 5 N) first; finalize and later verify registry headers/resource profile under separate implementation scope |
-| Master checklist, D0 | Unassigned | Created | Documentation only | This document | Keep status/evidence current |
+| Custom content/effects and Economy shop API | Host + feature owners | Native-compatible v1 implemented/tested/pushed; broader content/frontends remain open | `ec1c6e92d`, fork `feat/shops-split` | I1, E1, Section 6.1, D4 §19 | Complete recovery unit, sync draft contracts and separately stage unsupported content/UI capabilities |
+| Multi-provider content/shop review | Host + feature owners | Typed registration, six orders, conflicts, capacity/reentry and scoped purchase tests PASS; full MCR-07–09/11/12 acceptance remains open | `ec1c6e92d` | Section 6.1 and original D3/D6/D7 findings | Reconcile simple v1 stock/tokens/prices with broader pool/migration/coordinator designs; do not close every finding from fixture counts |
+| Master checklist, D0 | Maintainer | Updated November 3 with actual API/evidence status and next build order | Documentation update; not separately committed by this edit | This document, Sections 6.1–6.3 | Keep later delivery/release status separate from draft planning |
 | Control inventory/menu map, D2 | Unassigned | Scoped draft created | Reference `ae6520fe6`; implementation target pending | Linked D2 | Review candidate policies and INI-key migration |
-| Persistence design, D3 | Unassigned | Scoped draft created | Reference `ae6520fe6`; implementation target pending | Linked D3 | Approve layout/policies; resolve host prerequisites |
-| Validation record, D4 | Unassigned | Scoped plan created; no runs | Baseline/target for execution pending | Linked D4; result ledger empty | Bind PB-01–09, select hardware/budgets; execute only after separate authorization |
+| Persistence design, D3 | Storage/feature owners | Draft must be reconciled to the implemented 8 KiB companion profile; preset model and crash recovery remain open | `ec1c6e92d` is current source | I1, Section 6.1; D3 broader design | Correct framing/section-key/receipt budgets, then recovery and preset-state contracts |
+| Validation record, D4 | Maintainer/test owners | Scoped audit/fix/API results recorded in §§17–19; broad acceptance/playtesting still open | `ec1c6e92d` | E1, Section 6.1, D4 §19 | Execute the next recovery/preset cases; agree hardware budgets before performance acceptance |
 | Player guide update, D5 | Unassigned | Pending implemented behavior | Not selected | Maintained copy not yet identified | Locate source and update after verification |
-| Extension API specification, D6 | Unassigned | Scoped draft created | Reference `ae6520fe6`; no API implemented | Linked D6 | Review composition, bounds, registration lifecycle, and typed surface |
+| Extension API specification, D6 | API/feature owners | Native-compatible v1 services implemented; broader draft needs synchronization | `ec1c6e92d` | I1, Section 6.1 | Align actual public layouts/bounds/adoption status; leave later category/coordinator contracts open |
 | Pre-implementation review, D7 | Unassigned | Candidate dispositions and D4 plan linked; findings/gates open | Reference checkout `ae6520fe6` | Linked report and D2/D3/D4/D6 | Approve candidate contracts and scoped plan bindings before coding |
 
-No game code was changed to create this checklist. The proposed systems are not marked implemented or tested.
+This checklist update changes documentation only. It records the separately authorized/pushed API implementation in Section 6.1; it does not implement or authorize the remaining recovery, presets, menus or balance work. Broader unchecked requirements remain open even where a limited v1 subset is now available.
