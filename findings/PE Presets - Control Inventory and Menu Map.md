@@ -10,6 +10,8 @@ Reference baseline: clean `feat/localization`, HEAD `ae6520fe6`, `D:/Recomp Game
 
 October 31 kickoff: implementation checkout selected as `D:/Recomp Games/pe-mod-presets`, branch `feat/mod-presets-framework`, fetched upstream base `8c52cdde5d60ee52f00913517ffb593e9521bf2d`. Initial read-only save-host checks confirm the capacity/admission gap persists; the entire control inventory is not yet revalidated against this newer base. First code unit is the host-owned read-only provenance/capacity query recorded in D0, before any new saved policy is registered. No implementation code or tests were added during branch setup.
 
+**November 3, 2026 update:** Economy implementation target is `D:/Recomp Games/pe-test`, branch `test/shops-split`; `pe-mod-presets` has no `pe_rewards` and is historical. Upstream `main` is merged (`ddea58193`, pushed to `mine/feat/shops-split`). Section 11 records the accepted decisions and the Economy/rewards audit, and overrides older wording below where they differ. Sections 2 and 3 still cite the earlier baseline; the full setting inventory has not been redone.
+
 Labels: **Observed** means source-confirmed; **Required** means a previously stated invariant; **Recommended** means a concrete draft policy for review. None authorizes code changes. Numeric playtest balance in D1 remains provisional.
 
 ### Included slices
@@ -96,19 +98,19 @@ Presets use D1's exact provisional table. Enhanced selects Legacy; Vanilla drops
 
 Apply engine/policy changes only at a free-field boundary after the current battle/reward presentation/Wayne action has settled. Freeze inactive engine progress; no transfer, duplicate entitlement, or simultaneous victory credit. Frozen legacy pending rewards may retain legacy replacement semantics when that engine resumes; new pending entries never reroll merely because settings changed. At most one engine handles any battle. Mid-battle edits can be previewed but cannot commit.
 
-Shared wallet, Catalog/permit ownership, and `charm_left` remain authoritative in their existing record. Do not duplicate them into the new record. Recommended charm behavior: only an enabled, admitted bonus-item attempt consumes/advances its new-mode duration, once per relevant victory; Legacy keeps its existing behavior. Scavenger/Lucky Find/charm ordering and consumption are explicitly part of policy review, not silently settled by this draft.
+Shared wallet, Catalog/permit ownership, and `charm_left` remain authoritative in their existing record. Do not duplicate them into the new record. **Accepted November 3:** the new path ignores `charm_left` entirely, neither reading nor consuming it; Enhanced keeps its existing behavior. Scavenger/Lucky Find ordering and new-path fractions remain open.
 
 ## 5. Recommended storage, cap, redemption, and pricing policies
 
-For a manageable first slice, recommend allowing new bonus income/redemption only with native routing set to Counter. Items routing is supported only with new added income/automatic redemption off; otherwise reject Apply with a clear reason. Bonus non-currency items can remain enabled. This intentionally narrows the first implementation; accepting it requires reconciling D1's unrestricted Custom table. Do not silently disable fields to make the combination valid.
+**Accepted November 3:** new bonus income/redemption is allowed only with native routing set to Counter. Items routing is supported only with new added income/automatic redemption off; otherwise reject Apply with a clear reason. Bonus non-currency items can remain enabled. This intentionally narrows the first implementation; D1 §4 records the restriction on its Custom row. Do not silently disable fields to make the combination valid.
 
 Items routing leaves existing wallet funds intact and available to existing spending/Wayne actions while Economy is active. It does not empty the wallet or create inventory stacks. Explicit Take out Junk moves only what fits. The existing master economy-off behavior remains a separate legacy compatibility operation. `junk.enabled()` continues to mean Economy availability, not “added income on”; do not change v1 semantics for consumers.
 
-Recommended new-path cap policy: commit each native routing/bundle conversion in full or leave its source item intact; a generated new payout that cannot fit is retained once in the bounded currency pending slot. Stop admitting further extra-income attempts while that slot is occupied. Notify the player that income is paused until capacity is freed; never accumulate an invisible unbounded debt. Legacy saturation remains unchanged. Preserving already generated value does not promise infinite new income at a full wallet; backpressure is visible and occurs before another attempt.
+Accepted new-path cap policy (November 3): commit each native routing/bundle conversion in full or leave its source item intact; a generated new payout that cannot fit is retained once in the bounded currency pending slot. Stop admitting further extra-income attempts while that slot is occupied. Notify the player that income is paused until capacity is freed; never accumulate an invisible unbounded debt. Legacy saturation remains unchanged. Preserving already generated value does not promise infinite new income at a full wallet; backpressure is visible and occurs before another attempt.
 
-Recommended redemption consent: Apply's preview states that enabling automatic redemption also covers currently held eligible inventory/trunk bundles, at the displayed values. Explicit Apply authorizes later safe-field sweeps; the setter does not consume anything. A preset adding redemption must display this consequence even if the field is in a collapsed subpage. No additional per-item popup. Items remain untouched if full credit cannot commit. This resolves REV-04 as a draft recommendation requiring sign-off, not an implementation.
+Accepted redemption consent (November 3): Apply's preview states that enabling automatic redemption also covers currently held eligible inventory/trunk bundles, at the displayed values. Explicit Apply authorizes later safe-field sweeps; the setter does not consume anything. A preset adding redemption must display this consequence even if the field is in a collapsed subpage. No additional per-item popup. Items remain untouched if full credit cannot commit. This resolves REV-04's policy; it is not yet implemented.
 
-Pricing: when entering new mode, capture the **base** legacy price percentage (Relaxed 75 / Normal 100 / Grind 125), excluding Bargain. New reward presets leave it unchanged. Equipped Bargain is evaluated at the actual price request using existing rounding. Returning to Enhanced restores the price implied by its retained legacy difficulty; disclose a possible price change in that transition preview. If the user wants current prices preserved even on return to Enhanced, a separate independent legacy price policy is necessary; that alternative changes the scope and remains a decision. New price sliders/extensions are deferred.
+Pricing: when entering new mode, capture the **base** legacy price percentage (Relaxed 75 / Normal 100 / Grind 125), excluding Bargain. New reward presets leave it unchanged. Equipped Bargain is evaluated at the actual price request using existing rounding. Returning to Enhanced restores the price implied by its retained legacy difficulty; disclose a possible price change in that transition preview. The return-to-Enhanced behavior was accepted November 3, so no separate legacy price policy is needed for it. The rest of the pricing paragraph stays a draft under REV-05. New price sliders/extensions are deferred.
 
 ## 6. Scoped menu map and migration requirement
 
@@ -144,7 +146,7 @@ Preview has a generation/version token and is observational: no callbacks that a
 
 ## 8. Decisions, acceptance references, and implementation readiness
 
-Draft recommendations needing approval: cross-engine freeze/resume and shared charm policy; Counter-only extra income restriction; full-credit/deferred-income cap behavior; preview-authorized existing-bundle conversion; return-to-Enhanced price behavior; D3 layout/limits; D6 composition. Exact new UI numeric ranges/named levels and target hardware budgets remain open. These are not new balance changes.
+Draft recommendations still needing approval: cross-engine freeze/resume; D3 layout/limits, including the 160-byte record, arithmetic and capacities; init-only lifecycle; D6 composition. Section 11 lists what was accepted November 3. Exact new UI numeric ranges/named levels and target hardware budgets remain open. These are not new balance changes.
 
 Required checks belong in D4: current-default parity; legacy custom INI migration; every engine transition and repeat Apply; full bag/trunk/cap cases; provider missing/disabled; no preview effects; old/new/corrupt/unsupported records; price/Bargain transitions; independent inventory display; local two-provider API examples; frame/memory and leak checks.
 
@@ -248,3 +250,43 @@ Migration and scope gates: D3 §16 owns feature profiles, retained mixed records
 D8 §12 is the controlling acquisition table: Wardrobe owns viewing/equipping and saved ownership; Economy optionally restricts access using its default-on Costume unlock rules toggle. There is no phase 1 Wardrobe acquisition selector. Explicit toggle off affects only costume restriction; it does not disable the wallet/rewards/shops globally. Missing/incompatible payment while Economy's rules are on blocks the paid action without silently making every costume free. Re-enabling restrictions on an unowned worn costume uses an explained safe appearance fallback while retaining the requested key and owned collection; no automatic grant/charge or unsafe model swap.
 
 Phase 1 preserves existing Economy-enabled rules/prices and the no-buying viewer. Progression/challenge/acquisition presets are later Economy work; prepared-skin importing is a separately staged Wardrobe feature. Prior wording leaving these phase 1 defaults open is superseded. SPL-01's phase 1 design conflict is resolved by this table, not by implementing anything; other SPL findings and payment gates remain open.
+
+## 11. Economy decisions and audit — November 3, 2026
+
+These bind checklist Section 6.3. Balance numbers stay provisional.
+
+### Accepted decisions
+
+| # | Decision | Where it applies |
+| --- | --- | --- |
+| 1 | Merge upstream before new Economy code | §1 |
+| 2 | Extend `PeEconomyPreset` now; no mod registers a preset yet | D6 preset API |
+| 3 | Extra income and automatic redemption only with native Junk routed to the counter; refuse Apply otherwise | §5; D1 §4 |
+| 4 | Full wallet: hold one payout pending, pause income, tell the player | §5 |
+| 5 | Apply's preview discloses that held bundles get redeemed; no per-item popup | §5 |
+| 6 | Returning to Enhanced restores the price from the retained Difficulty, shown in the preview | §5; D1 §6 |
+| 7 | The new path ignores `charm_left`; Enhanced is unchanged. Low/Standard/Frequent wait for playtests, and the backend stores exact numbers | §4; D1 §12 |
+
+Not covered by these decisions: the 160-byte record, arithmetic and capacity limits, init-only lifecycle, cross-engine freeze/resume, and the rest of REV-05's pricing.
+
+### Audit of `test/shops-split`
+
+Source reading of the Economy and rewards controls only, before the upstream merge. It is not the full inventory in checklist part A.
+
+- **Ownership moved.** Wallet, Difficulty and empty-steal are in `pe_economy/pe_loot.c`. Extra Junk, rares and most tuning are in `pe_rewards/pe_rewards.c`. §2's source links predate this split.
+- **Charm is effectively dead.** `RC_CHARM` is always skipped, and `charm_left` is only set when upgrading old recomp saves.
+- **One switch.** `Junk economy` controls routing and the sweep together; there is no separate routing setting.
+- **Fixed bundles.** `pe_bundle_value` hardcodes 75/150 and the sweep always redeems, so redemption off or 10/20 needs a wallet change.
+- **Rewards off still pays.** With `pe_rewards` off, the wallet still takes native Junk and pays empty-steal Junk.
+- **Preset API too small.** It has no separate Super/Duper chances, redemption flags, routing, payment chance or empty-steal settings.
+- **Rounding.** Scavenger's `earned / 2` drops fractions. Enhanced keeps that; carried fractions apply only on the new path, and their definition is still open.
+
+### After the upstream merge
+
+`ddea58193` on `test/shops-split`. A search of the merged source confirms the bundle values, the charm skip, Scavenger's rounding, the preset struct and the registered Economy rows above; the behaviour was not rerun.
+
+- **More Economy rows than §2 lists.** The page also holds `Costume unlock rules`, `Discard dismantles` and `Warner helps out`, from `pe_economy`, `pe_catalog` and `pe_shops`. Account for them in the Economy subpage map and the key migration.
+- **More default mods.** `PE_MOD_LIST` now also has `pe_stacks`, `pe_warp`, `pe_quicksave` and `pe_cheats`. This follows upstream and is not yet the user's explicit choice.
+- **Stacks are not counted by rewards.** `pe_rw_held` and `pe_rw_bag_count_of` count slots, not stacked copies, so caps such as Tools and Mod Permits see one copy per slot. Upstream's equivalents behaved the same. Enhanced is left as it is; the configurable path must decide, and should use the `stacks` service.
+- **Save tail budget.** Measured with all default mods and the companion link: 556 of 744 bytes used, 188 free. Stack counts moved to the companion for this reason (a 216-byte record had left 4 free, refusing the link and so every companion use). D3's proposed 160-byte Economy record would need 172 and leave 16. Decide whether it belongs in the companion instead; this is still open.
+- **Parity can't run on Windows.** `mod-loot-parity` doesn't link, before or after the merge. Step 5 of Section 6.3, and the proof that Enhanced is unchanged, depend on fixing that.

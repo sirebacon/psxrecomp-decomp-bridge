@@ -103,6 +103,8 @@ The exact labels can be refined during UI review. The following behavior is prop
 | **Treasure Hunter** | On | Off | Provisional: 10% per victory, guaranteed by the tenth victory without one | Off | Off: keep bundles as items |
 | **Custom** | Player selection | Player selection | Player selection | Player selection | Player selection |
 
+**Custom restriction, accepted November 3, 2026:** Custom is not unrestricted. Extra income and automatic redemption require native Junk routed to the counter; with Items routing, Apply is refused with a clear reason rather than disabling fields silently. See D2 §§5 and 11.
+
 Enhanced remains the confirmed default and its current behavior is unchanged. Light economy, Steady Income, and Treasure Hunter now have suggested starting settings for playtesting. These are not finalized balance values or implemented changes; they remain open to adjustment after discussion and testing.
 
 ### Provisional starting values for playtesting
@@ -249,7 +251,7 @@ Scavenger and Lucky Find must not bypass disabled reward systems. Preserve the e
 
 ### Rewards versus shop prices and services
 
-Selecting a reward playstyle should not unexpectedly change shop prices, difficulty, owned effects, recipes, or Workshop availability. Keep Relaxed/Normal/Grind as an advanced legacy option for Enhanced and existing saves, with an explanation that it currently changes income, rare rewards, and prices together. The new presets use their own explicit reward settings; do not apply a legacy income multiplier a second time to their fixed payments. Preserve current shop prices until the player explicitly changes them.
+Selecting a reward playstyle should not unexpectedly change shop prices, difficulty, owned effects, recipes, or Workshop availability. Keep Relaxed/Normal/Grind as an advanced legacy option for Enhanced and existing saves, with an explanation that it currently changes income, rare rewards, and prices together. The new presets use their own explicit reward settings; do not apply a legacy income multiplier a second time to their fixed payments. Preserve current shop prices until the player explicitly changes them. Returning to Enhanced restores the price implied by its retained Difficulty, and the Apply preview shows that change (accepted November 3, 2026; D2 §5).
 
 **Workshop-service visibility is a follow-up, outside the initial implementation.** Existing enabled services remain available when a reward preset changes. Describe the Vanilla-drops preset as a reward/storage policy so players do not infer that it also hides shops. A future separate Workshop-services switch may hide added services while retaining the counter and native Wayne hand-ins.
 
@@ -349,7 +351,8 @@ These recommendations define the proposed first implementation. They do not auth
 ### Remaining refinements before coding
 
 - Review the proposed starting values as a playtest baseline; final balancing remains open.
-- Specify the numeric mappings for Low / Standard / Frequent and the allowed custom input ranges.
+- Specify the numeric mappings for Low / Standard / Frequent after playtests (decided November 3, 2026: the backend stores exact numbers, so the named levels can wait) and the allowed custom input ranges.
+- Accepted November 3, 2026: a full wallet holds one payout pending, pauses income and tells the player; the Apply preview discloses redemption of held bundles, with no per-item popup; the new path ignores `charm_left`. See D2 §§4, 5 and 11.
 - Verify the existing Scavenger/Lucky Find descriptions and document how actual modifiers affect the displayed base settings.
 - Check save-container capacity and finalize the new records' layouts and migration behavior, including fractional progress and pending-reward capacity/full-queue behavior.
 - Define and test how advanced legacy tuning and separate shop-price choices are presented and preserved across playstyle changes, without changing untouched Enhanced behavior.
