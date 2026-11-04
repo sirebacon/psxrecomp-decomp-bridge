@@ -1,12 +1,32 @@
 # PE presets and menu organization: master checklist
 
-Updated: November 3, 2026.
+Updated: November 4, 2026.
 
 Status: planning **and scoped implementation/evidence** tracker. The native-compatible v1 API foundation is implemented, tested, rebuilt and pushed; see Section 6.1. Economy presets, their configurable battle pipeline and the menu reorganization are not implemented by that delivery. This checklist does not authorize additional code or balance changes.
 
 **Current implementation:** [ec1c6e92d](https://github.com/sirebacon/parasite-eve-pc/commit/ec1c6e92dfcf49b81c3bc75cef1860c8b1a70b2c) on the fork's `feat/shops-split`, tested in `D:/Recomp Games/pe-test` (local branch `test/shops-split`). **120 local checks/fixtures PASS**, 100 card-image writer comparisons PASS, 10,000 equipment/effect cycles PASS, native RelWithDebInfo/PE_MODS rebuild PASS. This is not a full gameplay, cross-platform, low-powered-hardware or power-loss certification.
 
-**Next build:** the Economy preset/settings backend and opt-in configurable reward consumer (Section 6.3). Companion-aware crash recovery (Section 6.2) is built, tested and committed; the game side is pushed, and Restore 0.4.0 is still local. The upstream merge and the `pe_stacks` purchase failure block Section 6.3. The APIs alone do not activate new reward behavior.
+**Next:** finish Section 6.3 step 6 at the game (panel on screen, pad walk, playtests), then a clean rebuild and the branch merge. See "What is left" below. Sections 6.2 and 6.3 steps 2-5 are built, tested and pushed. New reward behavior is opt-in; Enhanced stays the default.
+
+## What is left (November 4, 2026)
+
+Reconciled against source, tests and the validation record. An item was ticked only with evidence; a partly covered item stays open with a note. 217 boxes remain, and most are not release work.
+
+**Before merging the branches**
+- Compare `mods` and `debug-control` (92 commits each not in `feat/shops-split`) and `feat/text-font-hooks` (2) against `feat/shops-split`; retire what is superseded. Check `feat/mod-presets-framework`, which is not on the fork.
+
+**Before a player release**
+- At the game: panel on screen, pad walk, refusal messages, Light/Steady/Treasure playtests (step 6).
+- Clean rebuild, `build-mods` up to date, CI green; 12 or more tests do not link on Windows locally.
+- Choose whether `pe_stacks`, `pe_warp`, `pe_quicksave` and `pe_cheats` default on.
+- Uncertified: crash during a save, long soaks, held full-wallet payout after spending, low-powered machines (target hardware and budgets, part H, are not agreed).
+- Translation width limit, the Wardrobe description that overruns the panel, player guide and release notes (Section 8).
+
+**Later, not blocking this release**
+- Other category presets (C), coordinators and Randomizer (J), custom content and shops (K, M), character packs and standalone extraction (P, Q, R).
+
+**Needs review rather than new work**
+- Design parts A, D, F, G, I and L, and the design documents in Section 8, probably hold more that is done. Their wording covers more than Economy, so they were left open rather than ticked on Economy's evidence alone.
 
 ## 1. Scope and how to use this document
 
@@ -126,13 +146,13 @@ These boxes confirm written coverage only. The values, final menu map, and engin
 
 - [ ] Review the provisional Light/Steady/Treasure values as first-playtest candidates; keep Enhanced unchanged.
 - [ ] Define Low/Standard/Frequent numeric mappings, custom limits, and a separate displayed guarantee interval.
-- [ ] Specify boss classification, fixed-payment behavior, performance bonus controls, and empty-steal compensation.
-- [ ] Verify Scavenger/Lucky Find behavior and descriptions; define fractional state for the new path while preserving Enhanced rounding.
-- [ ] Confirm independent item/bundle selection, Super/Duper probability bounds, and disabled probability remaining “no bundle.”
-- [ ] Confirm inactive redemption values and manual toggle behavior; conversion off keeps the item.
-- [ ] Define legacy Relaxed/Normal/Grind presentation and price preservation; avoid applying its income multiplier to new fixed payments.
-- [ ] Finalize bounded pending-reward capacity, full-queue behavior, mixed enabled/disabled categories, and between-battle application.
-- [ ] Specify a safe counter-to-inventory transition with a full bag; do not discard value or assume space is available.
+- [x] Specify boss classification, fixed-payment behavior, performance bonus controls, and empty-steal compensation. Built: `pe_econ_engine.c`, `mod-econ-engine` test_income (boss replaces the ordinary payment, few-hits bonus), `pe_loot.c` empty steal.
+- [ ] Verify Scavenger/Lucky Find behavior and descriptions; define fractional state for the new path while preserving Enhanced rounding. Partial: fractions carry (`mod-econ-engine`), both flags reach the engine. Descriptions not reviewed.
+- [x] Confirm independent item/bundle selection, Super/Duper probability bounds, and disabled probability remaining “no bundle.” Separate RNG streams in `pe_econ_engine.h`; `PE_ECON_BUNDLE_CHANCES` refuses over 100%; `mod-econ-engine` test_bundles_and_streams.
+- [x] Confirm inactive redemption values and manual toggle behavior; conversion off keeps the item. `pe_sweep_policy` redeems only with the flag on; value rows are kept; real game: a Super stays held on Treasure Hunter (`economy_menu.py`).
+- [x] Define legacy Relaxed/Normal/Grind presentation and price preservation; avoid applying its income multiplier to new fixed payments. Difficulty is on Economy/Advanced Legacy; decision 6 for price; new-path payments do not use its multiplier (`pe_rw_policy_battle`). `mod-loot-parity` checks both prices.
+- [x] Finalize bounded pending-reward capacity, full-queue behavior, mixed enabled/disabled categories, and between-battle application. One entry each for currency, item and bundle (`PeEconPending`); settlement rules in the handoff; `mod-econ-engine` test_full_wallet, `economy_settlement.py`. A held full-wallet payout released after spending is still uncertified.
+- [x] Specify a safe counter-to-inventory transition with a full bag; do not discard value or assume space is available. `pe_take_out_junk` fills free slots only and leaves the rest counted. Source reading; not run with a full bag.
 - [x] Record Workshop visibility as a follow-up rather than an initial dependency. D1 §6, D2 §1.
 
 ### C. Independent category definitions — D1 §13; D2
@@ -149,7 +169,7 @@ These boxes confirm written coverage only. The values, final menu map, and engin
 
 - [ ] Review the proposed category order with the player-facing labels, descriptions, and expected access paths.
 - [ ] Define each category's summary, preset preview/application, common options, and Advanced page.
-- [ ] Define Economy subpages and retain simple access to the preset and Junk balance.
+- [x] Define Economy subpages and retain simple access to the preset and Junk balance. Junk Storage, Battle Income, Bonus Drops, Bundle Redemption, Advanced Legacy; main page keeps the picker and Junk. Not yet seen on screen.
 - [ ] Decide which existing pages to reuse; avoid empty pages and unnecessary navigation depth.
 - [ ] Separate F1 configuration from Aya's Catalog/Bestiary/Wardrobe actions; preserve Catalog discovery and install/remove rules.
 - [ ] Give shared controls one backing value and owner; cross-category links open the owning setting.
@@ -160,20 +180,20 @@ These boxes confirm written coverage only. The values, final menu map, and engin
 ### E. Persistence and migration — D1 §§7–8, 13–14; D3; R1–R3
 
 - [ ] Inspect the actual current save API, record/byte budgets, unknown-record preservation, and failure behavior. Historical fixed-offset diagrams are not current evidence.
-- [ ] Record versioned settings/progress layouts and ownership; do not append fields to the asserted 36-byte `pe_economy.loot` v1 record without a versioned plan.
-- [ ] Define older-save behavior: missing new settings retains legacy Enhanced behavior, existing difficulty, wallet, and progress.
+- [x] Record versioned settings/progress layouts and ownership; do not append fields to the asserted 36-byte `pe_economy.loot` v1 record without a versioned plan. `pe_economy/policy` companion section, 160 bytes, `pe_econ_encode`/`pe_econ_decode`; the 36-byte loot record is unchanged. `mod-econ-config` test_record.
+- [x] Define older-save behavior: missing new settings retains legacy Enhanced behavior, existing difficulty, wallet, and progress. No section selects Enhanced and saving adds none: `economy_path.py` control case, `mod-econ-store`.
 - [ ] Preserve other categories' existing persistence scope, including collection profile ownership.
-- [ ] Define fractional bonuses, guarantee counters, and pending reward identities across save/load and disabled categories.
-- [ ] Define corrupt/unsupported records, capacity exhaustion, disabled/missing mods, and failed-save behavior without silently destroying carried data.
-- [ ] Verify switching saves/New Game does not leak another playthrough's settings or rewards.
-- [ ] Specify safe between-battle application and prevent rerolls, reward replay, and duplication.
+- [x] Define fractional bonuses, guarantee counters, and pending reward identities across save/load and disabled categories. `PeEconProgress` holds remainder, dry count and pending; `mod-econ-engine` test_results_save; real game carry 0.5 across reload, validation record section 21.
+- [ ] Define corrupt/unsupported records, capacity exhaustion, disabled/missing mods, and failed-save behavior without silently destroying carried data. Partial: damaged and newer sections tested (`economy_path.py`, `mod-econ-store`). Capacity, missing mods and failed saves not shown for Economy.
+- [ ] Verify switching saves/New Game does not leak another playthrough's settings or rewards. Partial: New Game inherits nothing in `mod-econ-store`. Not run in the real game.
+- [ ] Specify safe between-battle application and prevent rerolls, reward replay, and duplication. Partial: Apply is free-field only and refused in menus (`economy_menu.py`). Replay and duplication routes not attacked.
 
 ### F. Extension API and multiple cooperating mods — D1 §15; D6 with D2–D4
 
 - [ ] Audit existing hooks/events/services and activation behavior; reuse the host and keep current public contracts compatible.
 - [ ] Document framework-wide contracts independently of Economy formulas and categories; use module-neutral discovery, registration, versioning, lifecycle, conflict, and diagnostic conventions.
 - [ ] Create a per-module adoption matrix in D6 covering Combat, Encounters, Movement, Inventory/QoL, Economy/shops, Catalog/custom content, Wardrobe, Bestiary, localization/presentation, and future categories. Record owners, existing/proposed interfaces, capabilities, versions, dependencies, status, and validation evidence.
-- [ ] Define first-slice scope: new-path battle-Junk modifiers, committed reward notifications, and provider Economy presets. Mark other modules' contracts as later adoption within the same framework, not excluded from its scope or implicitly delivered.
+- [x] Define first-slice scope: new-path battle-Junk modifiers, committed reward notifications, and provider Economy presets. Mark other modules' contracts as later adoption within the same framework, not excluded from its scope or implicitly delivered. Built: payout modifiers and observers on the new path, provider presets. Other modules remain later adoption.
 - [ ] Specify typed registration, calculation, and notification contracts with stable namespaced provider/entry IDs, units, bounds, payload ownership, lifetimes, and failure results.
 - [ ] Define additions/multipliers, arithmetic representation, rounding/fractions, overflow limits, and owner-enforced eligibility; settle operation-specific formulas rather than a universal multiplier pipeline.
 - [ ] Specify deterministic ordering/tie-breaks where sequential resolution is needed. Define duplicate IDs, conflicting replacements/limits, allowed vetoes, and visible fallback behavior; omit unresolved capabilities from the initial API.
@@ -255,7 +275,7 @@ Draft locations for this section: D2 §9 (follow-up slices E/F/G, controls/nativ
 ### L. Pre-implementation findings — D7; scoped D2/D3/D4/D6
 
 - [ ] **REV-01:** budget all live/carried/unknown records and headers, define capacity failure before enabling new saved settings, and test near-full saves.
-- [ ] **REV-02:** separate execution engine from preset label; define legacy/new/Custom transitions, repeat application, all progress/RNG/pending ownership, and toggle-exploit policy.
+- [ ] **REV-02:** separate execution engine from preset label; define legacy/new/Custom transitions, repeat application, all progress/RNG/pending ownership, and toggle-exploit policy. Partial: engine, label and transitions built and tested. Toggle-exploit policy not reviewed.
 - [x] **REV-03:** settle storage × income × redemption combinations, wallet availability, cap/full-bag policies, and accepted-credit transaction results. Design only: D2 §§5, 11, decisions 3 and 4.
 - [x] **REV-04:** resolve preset application versus redemption of already owned bundles; disclose conversion consequences and settle consent/safe-boundary behavior. Design only: D2 §§5, 11, decision 5.
 - [ ] **REV-05:** define independent price-policy ownership/persistence and legacy difficulty transitions without baking equipped discounts into stored prices. Return to Enhanced is settled (decision 6); the rest is still a draft in D2 §5.
@@ -263,7 +283,7 @@ Draft locations for this section: D2 §9 (follow-up slices E/F/G, controls/nativ
 - [ ] **REV-07:** specify the small typed layer over existing host mechanics, deterministic ordering, activation/discovery/lifetime, error handling, and source API versus binary ABI scope.
 - [ ] **REV-08:** distinguish coherent normal saves from crash snapshots/recovery and interrupted writes; define committed-state capture without unsafe crash-path locks/callbacks.
 - [ ] **REV-09:** define new-path RNG, record-status/missing/corrupt/newer defaults, charm/temporary state, and New Game/save-switch rules while retaining legacy behavior.
-- [ ] **REV-10:** define pure preview/diagnostic queries and stale-preview validation; verify they do not consume RNG, mutate guarantees, reserve resources, or trigger payments.
+- [x] **REV-10:** define pure preview/diagnostic queries and stale-preview validation; verify they do not consume RNG, mutate guarantees, reserve resources, or trigger payments. `pe_econ_preview` is pure; real game: browsing and previewing leave the policy bytes, RNG streams included, unchanged (`economy_menu.py`); Apply re-previews before committing.
 - [ ] **REV-11:** select the implementation delivery slice and satisfy its readiness gates; accept the scoped D2/D3/D6 drafts and bind D4's created plan to final policy/budget criteria without requiring every deferred feature to be implemented.
 - [ ] Review the candidate D2/D3/D6 decisions explicitly: storage restrictions, redemption consent, return-to-Enhanced pricing, frozen progress/charm, queue success/settlement, 160-byte record, arithmetic/capacities, and init-only lifecycle. Revise D1 where an accepted refinement differs from its broader options.
 - [ ] Resolve the newly source-confirmed page/label INI key migration before moving persisted rows; approve stable identities/aliases and precedence, without changing scopes or importing stale aliases over newer values.
@@ -317,7 +337,7 @@ Layers: **S** save safety and extension store (mod-independent, useful now), **C
 - [ ] **Unit S / remaining user-facing scope:** missing-mod notice, save-slot warning, two Manage mods options and any reviewed explicit Continue-without-data/recovery prompt. Current implementation refuses an unsafe load; it does not implement the draft's destructive Continue option.
 
   Run the D4 MCR-04X bindings and the layer S rows of "Mod on/off bindings" using today's records.
-- [ ] **Next recovery unit:** coherent native + tail + companion crash snapshots and matching Restore output; see Section 6.2. Ordinary save publication tests do not prove crash-report recovery.
+- [x] **Next recovery unit:** coherent native + tail + companion crash snapshots and matching Restore output; see Section 6.2. Ordinary save publication tests do not prove crash-report recovery. Done, Section 6.2 and validation record section 20.
 - [ ] Other Unit S follow-ups: companion-aware save editor and bundle export/import; explicit import copies required `.pe-ext`; D-v0.7 save-location fixes can share that later work.
 - [ ] With unit S: update `mods/README.md`'s All-mods-off wording (D3 §14.2) and add the tester guidance (D3 §14.6) to the player/tester guide.
 
@@ -464,7 +484,7 @@ Do not mark the full STN/CONTENT/SHOP matrices, cross-platform builds, interacti
 
 The ordinary save/next-save receipt boundary is tested. The current `HostRoomSnapshot` in native `src/main/boot/main.c` captures native bytes and a card-tail image, not all live companion sections. The old tail-only crash workflow therefore does not establish recovery of new custom identities, shop/discovery state or pending profile receipts. Section 5 N and the earlier kickoff already retain this recovery requirement.
 
-Status November 3, 2026: built and tested. `pe-test` is pushed; Restore 0.4.0 is on local branch `merge/restore-0.4`, not pushed; `pe-native-debug` is committed locally and has no remote. Results and limits: validation record §20.
+Status November 3, 2026: built and tested. `pe-test` is pushed; Restore 0.4.0 is pushed as `31d997d` on `mine/mod-records`; `pe-native-debug` is committed locally and has no remote. Results and limits: validation record §20.
 
 - [x] Reconcile D3/D6's format/version tables and recovery contract with I1's actual keys, 8 KiB framing, next-save receipt policy and native card-name binding before extending persistence. D3 §15.6 rows and §12.8, one pointer in D6's shop transaction text. Only the rows this work touches; D6's other design differences stay open as listed in the document table.
 - [x] Capture native state, tail and required companion-section state from one coherent game-thread point into bounded owned buffers; never combine an old companion image with newer native inventory/payment state. `pe_recovery_snapshot.c`, taken at each room start. Source cases `coherent-gear`, `purchase-boundary`, `refused-boundaries`.
@@ -477,14 +497,14 @@ Status November 3, 2026: built and tested. `pe-test` is pushed; Restore 0.4.0 is
 
 After the recovery prerequisite, build the first actual consumer of these APIs, keeping UI and balance changes separately reviewable:
 
-- [ ] **Blockers before new Economy code:** explain or fix the `pe_stacks` `purchase` failure, then merge `merge/upstream-main` into `feat/shops-split`. Make `mod-loot-parity` link on Windows before step 4.
+- [x] **Blockers before new Economy code:** explain or fix the `pe_stacks` `purchase` failure, then merge `merge/upstream-main` into `feat/shops-split`. Make `mod-loot-parity` link on Windows before step 4. Done: `pe_stacks` fixed and upstream merged in `ddea58193`; `mod-loot-parity` links and passes on Windows.
 
-1. [ ] Audit current Economy/rewards controls and bind the remaining D1/D2 decisions. First pass and seven decisions are in D2 §11; the items listed there as not covered stay open. Keep **Enhanced default and its legacy calculation/cascade path unchanged**. Suggested Light/Steady/Treasure numbers are playtest candidates, not final approved balance.
-2. [ ] Implement one owner-owned canonical configuration, validation, per-category Custom matching and pure preset preview/explicit Apply. Do not auto-apply a newly registered provider preset or silently change another category.
-3. [ ] Implement versioned preset/progress persistence using the reviewed extension-store layout; missing data selects legacy Enhanced/current settings. Preserve the existing loot record, native drops, unknown providers and all unrelated progress. Conditional registration alone does not implement this model.
-4. [ ] Add the opt-in configurable reward consumer: independent native drops/extra Junk/rare rewards/Super-Duper controls, owner-persisted fractional carry/guarantee state, safe pending rewards, disabled-category rules and one commit/notification per award. Call `economy_policy` only on this new path.
+1. [ ] Audit current Economy/rewards controls and bind the remaining D1/D2 decisions. First pass and seven decisions are in D2 §11; the items listed there as not covered stay open. Keep **Enhanced default and its legacy calculation/cascade path unchanged**. Suggested Light/Steady/Treasure numbers are playtest candidates, not final approved balance. Still open from D2 §11: arithmetic and capacity limits as policy, init-only lifecycle, cross-engine freeze/resume, the rest of REV-05.
+2. [x] Implement one owner-owned canonical configuration, validation, per-category Custom matching and pure preset preview/explicit Apply. Do not auto-apply a newly registered provider preset or silently change another category. Done: `pe_econ_config.c`, `mod-econ-config`.
+3. [x] Implement versioned preset/progress persistence using the reviewed extension-store layout; missing data selects legacy Enhanced/current settings. Preserve the existing loot record, native drops, unknown providers and all unrelated progress. Conditional registration alone does not implement this model. Done: `pe_econ_store.c`, companion section `pe_economy/policy`, `mod-econ-store`, `economy_path.py`.
+4. [x] Add the opt-in configurable reward consumer: independent native drops/extra Junk/rare rewards/Super-Duper controls, owner-persisted fractional carry/guarantee state, safe pending rewards, disabled-category rules and one commit/notification per award. Call `economy_policy` only on this new path. Done: `pe_econ_engine.c`, new-path branch in `pe_rewards.c`, `mod-econ-engine`, `economy_settlement.py`. Junk economy off pauses the path (user decision November 4, `economy_paused.py`).
 5. [x] Run no-provider/Enhanced parity, settings transitions, save/load, repeated application, multi-provider composition and reward continuity checks before exposing the new controls. Local real-game run `runs/economy-step5-all-20261104` on source `cacd565e5`: declined and already-unlocked effects, Enhanced with providers, in-game Apply, two providers in both start orders, save, reload and a second battle (7 Junk carrying 0.5, then 8 carrying 0). 5 of 5 cases; progress identical in both orders. Test games reuse cached objects, not a clean rebuild. Not certified: crash during a save, long soaks, a held full-wallet payment released after spending, low-powered machines.
-6. [ ] Add the simple preset/common-options/Advanced menu under Economy, then translation/controller/layout checks and Light/Steady/Treasure playtests. Workshop visibility, other category presets, new acquisition algorithms and coordinators remain follow-ups. Menu built, local commit on `test/shops-split`; rows driven in the real game by `pe-native-debug/scenarios/economy_menu.py`. Still open before ticking: panel layout seen on screen, controller walk, new strings in the translation data, Light/Steady/Treasure playtests. Validation record section 22.
+6. [ ] Add the simple preset/common-options/Advanced menu under Economy, then translation/controller/layout checks and Light/Steady/Treasure playtests. Workshop visibility, other category presets, new acquisition algorithms and coordinators remain follow-ups. Menu built and pushed (`f37771cfa`); rows driven in the real game by `economy_menu.py`, `economy_menu_provider.py`, `economy_paused.py`; strings in the translation data, not translated. Still open before ticking: panel layout seen on screen, controller walk, refusal messages as shown, Light/Steady/Treasure playtests. Validation record section 22.
 
 ### Branch kickoff — October 31, 2026 — historical worktree evidence
 
@@ -498,7 +518,7 @@ Created local branch `feat/mod-presets-framework` in the isolated checkout [D:/R
 - [x] Verify capacity refusal locally: 8 owner admission cases, 3 actual-host dispatch cases, 1 extracted-native serializer/slot control-flow fixture; rerun 21 query cases, 3 existing fixture modes, and 100 byte-identical supported card images. Native rebuild and 6 existing CTests pass; no-mod native save-flow source also compiles. Evidence is local in `runs/save-queries/admission-*`. The extracted gate fixture has surrounding boundaries stubbed; it is not a full UI/disk-fault playthrough.
 - [x] **Conditional-record host prerequisite:** `pe_save_emission.h` provides init-time dormant registration and explicit checked owner activation. Dormant records occupy a registry slot but no save header/payload bytes. Activation checks complete union capacity, initialized owner state and source provenance; loaded/used records stay preserved. Valid-CRC rejected/newer optional records are carried intact. Existing ordinary records and serialized format are unchanged.
 - [x] Verify conditional emission locally: 25 new cases plus rerun 21 query and 12 admission/host/native-gate cases, 3 existing fixture modes, 100 byte-identical supported card images, native rebuild and 6 existing CTests. Evidence and source/executable hashes are local in `runs/save-queries/emission-*`; no new test files enter the game repository.
-- [ ] **Still open after the API delivery:** actual preset settings/progress layout, validation and transitions plus the configurable reward consumer (Section 6.3). The pure policy API and conditional storage prerequisites exist; they do not constitute a persisted player preset.
+- [x] **Still open after the API delivery:** actual preset settings/progress layout, validation and transitions plus the configurable reward consumer (Section 6.3). The pure policy API and conditional storage prerequisites exist; they do not constitute a persisted player preset. Built in Section 6.3 steps 2-4. Only the balance numbers stay provisional.
 
 New rewards, 160-byte policy registration, preset activation, broad menu reordering, and public contribution APIs follow their dependent gates. Safe whole-save crash capture remains a separate required design/implementation step. Kickoff initially changed no code; read-only queries, capacity refusal and conditional emission are now implemented and rebuilt on October 31, with uncommitted source and local-only fixtures. Numeric gameplay and shared callback composition policies are still provisional. Evidence: `D:/Recomp Games/pe-native-debug/runs/save-queries/` (query/admission/emission manifests, results, build and CTest logs). The rebuilt executable is `D:/Recomp Games/pe-mod-presets/build-mods/parasite-eve-pc.exe`; there was no interactive game playthrough. This protects valid carried records from capacity omission; it does not recover bytes the existing parser already rejected or provide rollback of arbitrary mod callback side effects.
 
@@ -506,17 +526,17 @@ References: D1 §§9, 12–19; approved D2 and D3, plus D6 for extension work.
 
 Readiness: close applicable D7 gates before the corresponding coding. G4's criteria/plan precede behavioral implementation and its measured results precede release; G5 stays deferred until coordinator work is requested. Record each finding's disposition and supporting document rather than checking it off merely because it appears in the proposal.
 
-- [ ] Record the authorized scope; implement Economy first unless the user chooses a different scope.
-- [ ] Separate wallet, battle income, bonus reward generation, redemption, preset/settings, and presentation responsibilities.
-- [ ] Keep Enhanced's existing calculation/cascade/queue path compatible; isolate the new configurable path.
-- [ ] Implement canonical settings and category-local preset definitions without duplicating game rules in menu code.
-- [ ] Add explicit preview/apply behavior and preserve unrelated settings.
-- [ ] Add persistence/migration with documented versions and capacity handling.
-- [ ] Register/reorganize controls through their owning modules, preserving stable identifiers and safe navigation.
-- [ ] Add stable translation keys and Latin American Spanish interface text; keep translated text out of saved identifiers.
-- [ ] Add clear reward-source feedback and inactive-system explanations without excessive battle popups.
+- [x] Record the authorized scope; implement Economy first unless the user chooses a different scope. Economy first, Section 6.3.
+- [x] Separate wallet, battle income, bonus reward generation, redemption, preset/settings, and presentation responsibilities. Wallet `pe_loot.c`; battle rewards `pe_rewards.c`; rules `pe_econ_engine.c`; settings `pe_econ_config.c`/`pe_econ_store.c`; menu `pe_econ_menu.c`.
+- [x] Keep Enhanced's existing calculation/cascade/queue path compatible; isolate the new configurable path. New path is a separate branch; `mod-loot-parity` passes.
+- [x] Implement canonical settings and category-local preset definitions without duplicating game rules in menu code. `pe_econ_config.c`; the menu edits a draft of it.
+- [x] Add explicit preview/apply behavior and preserve unrelated settings. `pe_econ_menu.c`; `economy_menu.py`.
+- [x] Add persistence/migration with documented versions and capacity handling. `pe_econ_store.c`; refused when the companion cannot hold it. Economy only; other categories have no presets.
+- [x] Register/reorganize controls through their owning modules, preserving stable identifiers and safe navigation. Economy only: `pe_pages.h`, live rows in `pe_econ_menu.c`. INI-key migration was not needed for these save-owned rows; L's migration item stays open for moved rows.
+- [ ] Add stable translation keys and Latin American Spanish interface text; keep translated text out of saved identifiers. Partial, November 4: Economy menu keys added, no Spanish text. Translated long strings fail the pack build at the 320 px limit.
+- [ ] Add clear reward-source feedback and inactive-system explanations without excessive battle popups. Partial: paused and refusal messages exist; not reviewed on screen.
 - [ ] Implement additional categories separately, only after their definitions and scope are approved.
-- [ ] If extension work is authorized, implement feature-owned contracts and owner-scoped registration/resolution separately from menus, persistence, and transaction commit; retain no-provider parity.
+- [x] If extension work is authorized, implement feature-owned contracts and owner-scoped registration/resolution separately from menus, persistence, and transaction commit; retain no-provider parity. Economy: `economy_policy` on the new path only; Enhanced with providers passes, validation record section 21.
 - [ ] Keep shared extension infrastructure free of compulsory Economy dependencies; add each subsequent module through reviewed, versioned contracts and update its adoption status separately.
 - [ ] Implement reviewed execution-context, transaction coordination, bounded handoff, lifecycle/resource-lifetime, and coherent save boundaries in their owning modules.
 - [ ] Implement cached/empty dispatch paths, bounded scratch/queues, and optional diagnostics separately from game rules; do not sacrifice safety or gameplay results for speed.
@@ -535,24 +555,24 @@ For every result, record the build/commit, configuration, expected outcome, obse
 - [ ] Compare untouched Enhanced/new defaults and migrated saves against the previous build: payouts, rounding, rare cascade, bundles, prices, queues, and Wayne preferences.
 - [ ] Compare native rewards under counter-only/Vanilla-drops settings, including native bundles and successful Junk steals.
 - [ ] Exercise pickups, storage, full inventory, Wayne crafting/hand-ins, counter transitions, and one-time bundle conversion.
-- [ ] Test independent switches, named/numeric synchronization, Custom detection, and preview versus explicit application.
+- [x] Test independent switches, named/numeric synchronization, Custom detection, and preview versus explicit application. `mod-econ-config` test_matching; `economy_menu.py` (an edit reads Custom and waits for Apply). Rows driven, not seen on screen.
 - [ ] Test separate reward families, probability bounds, guarantees, equipment modifiers, and fractional carry across saves.
-- [ ] Test disabled-category freeze/resume, pending identities, capacity limits, mixed queues, and between-battle changes.
-- [ ] Test legacy ↔ new-path ↔ Custom transitions, repeat presets, changed guarantees, queue admission/reset states, redundant effects, and new-path RNG/save provenance as resolved in D7/D3.
+- [ ] Test disabled-category freeze/resume, pending identities, capacity limits, mixed queues, and between-battle changes. Partial: `economy_paused.py` covers the Junk economy switch. Individual reward families not run.
+- [ ] Test legacy ↔ new-path ↔ Custom transitions, repeat presets, changed guarantees, queue admission/reset states, redundant effects, and new-path RNG/save provenance as resolved in D7/D3. Partial: `economy_menu.py`, `mod-econ-store`. Changed guarantees and redundant effects not all run.
 - [ ] Test wallet cap/full-bag storage combinations and existing-bundle redemption previews/consent; no new-path item consumption or accepted value may disappear silently.
 - [ ] Test carried/unknown/newer records near save capacity and dependency records that fail validation; test crash/interrupted transactions separately from ordinary save/load.
-- [ ] Repeatedly preview/hover/inspect and compare the next actual operation's RNG/progress/payment against a control; revalidate stale quotes before commit.
+- [ ] Repeatedly preview/hover/inspect and compare the next actual operation's RNG/progress/payment against a control; revalidate stale quotes before commit. Partial: browsing leaves the policy bytes unchanged. No comparison of the next operation against a control.
 - [ ] Attempt toggle/equip/load/Dismantle/Rebuild reward duplication routes; retain existing anti-exploit protections.
 - [ ] Change each category while checking all others remain unchanged; verify stored equipment and collection ownership/progress are intact.
 - [ ] Verify Story Focus required encounters, Movement combat-speed boundaries, and Inventory manual-sort behavior if those categories are implemented.
 - [ ] Verify Bestiary visibility policies and Wardrobe story transitions/viewer controls if implemented; presets must not grant or reset progress.
 - [ ] Test old/missing/corrupt/unsupported settings, multiple saves, New Game, absent mods, and save-capacity handling.
-- [ ] Check English/Spanish layouts, controller/keyboard input, long lists/help, Back/scroll restoration, Aya's sidebar, and Catalog discovery rules.
+- [ ] Check English/Spanish layouts, controller/keyboard input, long lists/help, Back/scroll restoration, Aya's sidebar, and Catalog discovery rules. Open: needs a windowed run and a pad.
 - [ ] Run appropriate existing checks plus new local tests; document failures and limits rather than claiming an unrun full-suite pass.
 - [ ] Playtest Light/Steady/Treasure progression, reward variability, and indirect upgrade value; distinguish mathematical estimates from actual play/simulation evidence.
 - [ ] Review provisional values with the user before any subsequent balance adjustment.
-- [ ] For extensions, compare no-provider results against the unchanged baseline, including Enhanced and native drops.
-- [ ] Test two or more providers, reverse registration order, equal priorities, defined arithmetic/fractions, duplicate IDs, invalid/overflow contributions, and conflicts; confirm deterministic outcomes and attributable diagnostics.
+- [ ] For extensions, compare no-provider results against the unchanged baseline, including Enhanced and native drops. Partial: `mod-loot-parity`, `economy_path.py` control. No comparison against a previous build.
+- [ ] Test two or more providers, reverse registration order, equal priorities, defined arithmetic/fractions, duplicate IDs, invalid/overflow contributions, and conflicts; confirm deterministic outcomes and attributable diagnostics. Partial: both start orders match, section 21; `economy_menu_provider.py`. Duplicate IDs and conflicts not run in the real game.
 - [ ] Test disabled categories, recursive calls, notification-triggered replay, and transaction side effects; verify one commit per operation.
 - [ ] Test provider disable/restart, missing dependencies/API versions, registration capacity, and stale/duplicate callback or menu prevention under the supported lifecycle.
 - [ ] Test save/load with missing providers/presets and pending rewards; preserve unknown records and prevent compounding effective values, rerolls, or duplicate payments.
@@ -604,10 +624,10 @@ Use one entry per deliverable or unresolved decision. Link completed artifacts a
 | Current proposal, D1 | Unassigned | Documented; decisions remain | Documentation only | D1 §§1–20 | Review Section 5 of this checklist |
 | Custom content/effects and Economy shop API | Host + feature owners | Native-compatible v1 implemented/tested/pushed; broader content/frontends remain open | `ec1c6e92d`, fork `feat/shops-split` | I1, E1, Section 6.1, D4 §19 | Complete recovery unit, sync draft contracts and separately stage unsupported content/UI capabilities |
 | Multi-provider content/shop review | Host + feature owners | Typed registration, six orders, conflicts, capacity/reentry and scoped purchase tests PASS; full MCR-07–09/11/12 acceptance remains open | `ec1c6e92d` | Section 6.1 and original D3/D6/D7 findings | Reconcile simple v1 stock/tokens/prices with broader pool/migration/coordinator designs; do not close every finding from fixture counts |
-| Master checklist, D0 | Maintainer | Updated November 3 with actual API/evidence status and next build order | Documentation update; not separately committed by this edit | This document, Sections 6.1–6.3 | Keep later delivery/release status separate from draft planning |
+| Master checklist, D0 | Maintainer | Reconciled November 4 against code and validation record | Local commit | "What is left" under the status lines | Tick step 6 after the checks at the game |
 | Control inventory/menu map, D2 | Unassigned | Scoped draft created | Reference `ae6520fe6`; implementation target pending | Linked D2 | Review candidate policies and INI-key migration |
-| Persistence design, D3 | Storage/feature owners | Draft must be reconciled to the implemented 8 KiB companion profile; preset model and crash recovery remain open | `ec1c6e92d` is current source | I1, Section 6.1; D3 broader design | Correct framing/section-key/receipt budgets, then recovery and preset-state contracts |
-| Validation record, D4 | Maintainer/test owners | Scoped audit/fix/API results recorded in §§17–19; broad acceptance/playtesting still open | `ec1c6e92d` | E1, Section 6.1, D4 §19 | Execute the next recovery/preset cases; agree hardware budgets before performance acceptance |
+| Persistence design, D3 | Storage/feature owners | Draft must be reconciled to the implemented 8 KiB companion profile; preset model and crash recovery are built; D3 not fully reconciled | `ec1c6e92d` is current source | I1, Section 6.1; D3 broader design | Correct framing/section-key/receipt budgets, then recovery and preset-state contracts |
+| Validation record, D4 | Maintainer/test owners | Scoped results recorded in §§17–22; broad acceptance/playtesting still open | `ec1c6e92d` | E1, Section 6.1, D4 §19 | Execute the next recovery/preset cases; agree hardware budgets before performance acceptance |
 | Player guide update, D5 | Unassigned | Pending implemented behavior | Not selected | Maintained copy not yet identified | Locate source and update after verification |
 | Extension API specification, D6 | API/feature owners | Native-compatible v1 services implemented; broader draft needs synchronization | `ec1c6e92d` | I1, Section 6.1 | Align actual public layouts/bounds/adoption status; leave later category/coordinator contracts open |
 | Pre-implementation review, D7 | Unassigned | Candidate dispositions and D4 plan linked; findings/gates open | Reference checkout `ae6520fe6` | Linked report and D2/D3/D4/D6 | Approve candidate contracts and scoped plan bindings before coding |
