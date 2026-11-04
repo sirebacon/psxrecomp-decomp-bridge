@@ -382,8 +382,14 @@ A failure or crash before step 3 leaves the old card linked to a generation that
 - **Copying** a card folder (`bu00`) copies `.pe-ext` with it; on Windows a leading dot does not hide a folder. Players moving saves are told to copy the folder, not single files.
 - **Legacy importer** (8,192-byte files only) does not carry extensions. Saves made before this feature have none, so nothing is lost for them. A later explicit import action (D-v0.7 §4.5) should copy matching `.pe-ext` generations too.
 - **Save editor:** must open the linked generation beside a card file, keep the link valid when it rewrites the card (either by rewriting the extension with the next generation or by keeping both untouched), and offer a bundle export (card file + extension) because `.mcs`/`.srm`/card images cannot hold it. Until the editor supports this, an editor write that drops or breaks the link is handled by §12.4 (required → gate).
-- **Crash report:** `pe_save_crash_tail` gains a companion dump of the extension sections as they would be saved, beside the tail it already writes.
+- **Crash report:** as built, the room-start recovery snapshot carries the companion (§12.8), not a dump taken by `pe_save_crash_tail` at the crash.
 - **Vanilla build:** never writes the link; the ledger is lost at its next save (§11.5, unchanged). Extension files are left orphaned and cleaned up by the next supporting save to that card name.
+
+### 12.8 Crash recovery as built (November 3, 2026)
+
+Checklist Section 6.2; results and limits in the validation record §20. At each room start, on the game thread, `pe_recovery_snapshot` copies the native bytes, tail and companion sections into owned buffers under one CRC32. It refuses while a companion is staged, a save is being written, a provider callback runs, or off the game thread, and the last snapshot stays. The crash handler only prints the copy, in a `Mod recovery snapshot v1` section. A failed capture keeps the last complete snapshot; with none, the native bytes are still reported with `version = 0`.
+
+The report's companion is named `pe-crash`, generation 1. PE Restore rewrites its name and generation for the target slot, recomputes the CRCs, and patches `pe_host.extlink` in the tail. Taking a snapshot publishes nothing and doesn't affect the next save's generation. Receipts replay on each load until a save clears them, without a second charge.
 
 ### 12.6 Host service boundary (modular)
 
@@ -557,8 +563,9 @@ Every persistent layout gets a row here. Any change to a layout must update the 
 | Tail record | `pe_qol.keys` | 1 | — | v0 = legacy `PKEY` (0x200, 0x54); compatibility window |
 | Tail record | `pe_qol.sort` | 1 | — | v0 = legacy `SORT` (0x260, 0x28); compatibility window |
 | Tail record (proposed) | `pe_economy.policy` | 1 | — | §3 candidate, 160 bytes; not registered |
-| Tail record (proposed) | `pe_host.extlink` | format 1 | — | §12.3, 20-byte payload |
-| Extension file (proposed) | `PEX1` | format 1 | — | §12.3; profile 5,120 bytes (§13.2) |
+| Tail record | `pe_host.extlink` | 1 | — | §12.3, 20-byte payload; implemented |
+| Extension file | `PEEX` | 1 | — | Implemented as `PEEX`, not the proposed `PEX1`; 8 KiB bound (checklist 6.1) |
+| Crash report section | `Mod recovery snapshot` (`PECR` in its CRC) | 1 | — | §12.8; `version = 0` means native bytes only |
 | Section (proposed) | `pe_content.ledger` | format 1 | 1 | §11.2 |
 | Section (proposed) | `pe_economy.discovery` | format 1 | 1 | §13.1 |
 
