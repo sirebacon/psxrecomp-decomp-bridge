@@ -111,8 +111,8 @@ def retarget_row(blob, off, aya, md, mp, idle, corr, ratio, layout=None):
     for f in range(frames):
         tr, ang = R.anim_frame_at(blob, off, f)
         skin = T.retarget_world(src, ang, md, smp, idle, scorr, straight=T.straight_parts(md))
-        # placeholders take Aya's own angles only from a jacket-skeleton row (same indices)
-        angs.append(layout.angles(skin, ang if src is aya else []) if layout else skin)
+        # placeholders take Aya's angles; a row for another skeleton has other indices (held_angles)
+        angs.append(layout.angles(skin, ang if src is aya else layout.held_angles(src, ang)) if layout else skin)
         trs.append([tr[0] * ratio, tr[1] * ratio, tr[2] * ratio])
     return encode_row(trs, angs, layout.n if layout else md['parts'], hit_vals)
 
@@ -143,12 +143,27 @@ def fingerprint(data):
     return h
 
 
+def with_bundle_rows(rows):
+    """Add the rows Aya's Day 1 long dress bundle (bank 11, image 19) keeps in room slots: it has no
+    moveset, its story scenes (the arrival at the hall) play rows 28-34 from the bundle, not the room.
+    Left as they are, 23-part rows would drive a 29-part skin with the wrong bone numbers."""
+    rows = dict(rows)
+    b = R.image_blob(19); recs = R.records(b, 0x10)
+    offs = sorted({o for o, s, g in recs}) + [len(b)]
+    for o, s, g in recs:
+        if s < 24: continue
+        data = bytes(b[o:next(x for x in offs if x > o)])
+        data = data[:row_length(data)]
+        rows.setdefault(fingerprint(data), data)
+    return rows
+
+
 def room_player_rows():
     """Distinct player animation rows rooms install (bank_rows[0][24..47], Scene_LoadRoom row records
     with group 0: door opening, room events), both discs, by fingerprint. Cached in skins/."""
     import pickle
     cache = os.path.join(HERE, 'skins', 'room_rows.pkl')
-    if os.path.exists(cache): return pickle.load(open(cache, 'rb'))
+    if os.path.exists(cache): return with_bundle_rows(pickle.load(open(cache, 'rb')))
     rows = {}
     for disc in (1, 2):
         for m in range(1, 1000):
@@ -167,7 +182,7 @@ def room_player_rows():
                 rows.setdefault(fp, data)
     os.makedirs(os.path.dirname(cache), exist_ok=True)
     pickle.dump(rows, open(cache, 'wb'))
-    return rows
+    return with_bundle_rows(rows)
 
 
 def write_room_rows(path, rows, aya, md, mp, idle, corr, ratio, layout=None):
@@ -205,7 +220,8 @@ class AyaLayout:
     after index 28, so command order and part order differed and Maeda's mesh stretched across the
     room.)"""
 
-    def __init__(self, aya, md, mp, idle, straight):
+    def __init__(self, aya, aya_idle, md, mp, idle, straight):
+        self.aya, self.aya_idle, self.held_maps = aya, aya_idle, {}
         self.n = aya['parts']
         self.aya_cmds = list(aya['cmds'])
         self.aya_parent = parents(aya['cmds'])
@@ -267,6 +283,16 @@ class AyaLayout:
         if abs(vec[0]) > 2 or abs(vec[1]) > 2:   # a bent folded piece: keep the length on z
             return int(round(math.copysign(math.sqrt(sum(v * v for v in vec)), vec[2] or 1)))
         return int(round(vec[2]))
+
+    def held_angles(self, src, ang):
+        """A row for another Aya skeleton (src), as angles indexed like the jacket's, for the
+        placeholders: the same semantic part where src has it, else the jacket's idle. The weapon hangs
+        on finger part 0x12, so zeros there would turn it about 90 degrees (fingers hold one constant
+        grip in every row; the 23-part long dress has no fingers at all)."""
+        if src['parts'] not in self.held_maps:
+            self.held_maps[src['parts']] = T.semantic_mapping(src, self.aya)
+        m = self.held_maps[src['parts']]
+        return [ang[m[a]] if a in m and m[a] < len(ang) else self.aya_idle[a] for a in range(self.n)]
 
     def angles(self, skin_ang, aya_ang):
         out = []
@@ -443,7 +469,7 @@ def build(name, m, slot, disc=1):
         if i < md['pk'][0]: struct.pack_into('<BBHBBHBBHBBH', raw, pos, *t); pos += 16
         else: struct.pack_into('<BBHBBHBBH', raw, pos, *t); pos += 12
 
-    layout = AyaLayout(aya, md, mp, idle, T.straight_parts(md)) if LAYOUT else None
+    layout = AyaLayout(aya, aya_idle, md, mp, idle, T.straight_parts(md)) if LAYOUT else None
     if layout: raw = bytearray(layout.model(bytes(raw), md))
     print(name, 'parts', md['parts'], '->', layout.n if layout else md['parts'], 'mapped', len(mp), 'leg ratio %.2f' % ratio, 'model bytes', len(raw),
           'gun part', write_meta(out_dir, mp))

@@ -64,8 +64,10 @@ def to_yxz(M):
     """Inverse of RotMatrixYXZ (M = Ry*Rx*Rz) in 4096-per-turn units."""
     sx = max(-1.0, min(1.0, -M[1][2]))
     x = math.asin(sx)
-    y = math.atan2(M[0][2], M[2][2])
-    z = math.atan2(M[1][0], M[1][1])
+    if abs(sx) > 0.99999:   # gimbal lock (Aya's forearm rests at x = 3072): y and z share one axis, put it all on y
+        y, z = math.atan2(-M[2][0], M[0][0]), 0.0
+    else:
+        y, z = math.atan2(M[0][2], M[2][2]), math.atan2(M[1][0], M[1][1])
     return [int(round(a * 4096 / (2 * math.pi))) & 4095 for a in (x, y, z)]
 
 
