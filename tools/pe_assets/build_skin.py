@@ -88,6 +88,64 @@ def encode_row(frames_tr, frames_ang, parts, hit_vals):
 
 ALT_SOURCES = {}     # row part count -> (Aya model, mapping, shoulder correction), per skin (build())
 
+# Floor-length gowns: the skirt's vertices sit on the pelvis, thigh and shin bones, so Aya's full leg
+# swing (running, crouching, kneeling) tears the gown into flaps between those parts. For these skins
+# the leg bones follow only this fraction of Aya's leg motion away from the character's own standing
+# pose; hips, upper body, arms and the gun hand stay fully retargeted. (2026-11-14: Melissa and the
+# opera actress share one 28-part skeleton, pelvis 21 + legs 22-24 / 25-27.)
+GOWNS = {'melissa': 0.2, 'opera_actress': 0.2}
+GOWN = {}            # per skin (build()): 'legs' = skin parts mapped onto Aya's legs, 'follow'
+
+
+def _quat(M):
+    """Unit quaternion (w, x, y, z) of a rotation matrix."""
+    t = M[0][0] + M[1][1] + M[2][2]
+    if t > 0:
+        s = math.sqrt(t + 1.0) * 2
+        q = (0.25 * s, (M[2][1] - M[1][2]) / s, (M[0][2] - M[2][0]) / s, (M[1][0] - M[0][1]) / s)
+    elif M[0][0] > M[1][1] and M[0][0] > M[2][2]:
+        s = math.sqrt(1.0 + M[0][0] - M[1][1] - M[2][2]) * 2
+        q = ((M[2][1] - M[1][2]) / s, 0.25 * s, (M[0][1] + M[1][0]) / s, (M[0][2] + M[2][0]) / s)
+    elif M[1][1] > M[2][2]:
+        s = math.sqrt(1.0 + M[1][1] - M[0][0] - M[2][2]) * 2
+        q = ((M[0][2] - M[2][0]) / s, (M[0][1] + M[1][0]) / s, 0.25 * s, (M[1][2] + M[2][1]) / s)
+    else:
+        s = math.sqrt(1.0 + M[2][2] - M[0][0] - M[1][1]) * 2
+        q = ((M[1][0] - M[0][1]) / s, (M[0][2] + M[2][0]) / s, (M[1][2] + M[2][1]) / s, 0.25 * s)
+    n = math.sqrt(sum(c * c for c in q))
+    return [c / n for c in q]
+
+
+def _quat_matrix(q):
+    w, x, y, z = q
+    return [[1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+            [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+            [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]]
+
+
+def damp_angle(angle, rest, k):
+    """Local YXZ angle `k` of the way from `rest` to `angle` (shortest rotation, no gimbal flips)."""
+    R0, R1 = R.rot_yxz(rest), R.rot_yxz(angle)
+    q = _quat(R.mm([list(r) for r in zip(*R0)], R1))     # rest -> angle
+    if q[0] < 0: q = [-c for c in q]
+    half = math.acos(max(-1.0, min(1.0, q[0])))
+    if half < 1e-6: return list(rest)
+    s = math.sin(half * k) / math.sin(half)
+    part = [math.cos(half * k)] + [c * s for c in q[1:]]
+    return T.to_yxz(R.mm(R0, _quat_matrix(part)))
+
+
+def gown_legs(aya, mp):
+    """Skin parts mapped onto Aya's leg chains (descendants of her pelvis, part 20)."""
+    par = parents(aya['cmds'])
+    def below_pelvis(a):
+        p = par.get(a)
+        while p is not None:
+            if p == 20: return True
+            p = par.get(p)
+        return False
+    return {s for s, a in mp.items() if below_pelvis(a)}
+
 
 def alt_sources(md, idle):
     """Room rows drive one of three Aya skeletons by part count: 29 the jacket (image 20), 31 the
@@ -111,6 +169,9 @@ def retarget_row(blob, off, aya, md, mp, idle, corr, ratio, layout=None):
     for f in range(frames):
         tr, ang = R.anim_frame_at(blob, off, f)
         skin = T.retarget_world(src, ang, md, smp, idle, scorr, straight=T.straight_parts(md))
+        if GOWN:
+            skin = [damp_angle(a, idle[s], GOWN['follow']) if s in GOWN['legs'] and s < len(idle) else a
+                    for s, a in enumerate(skin)]
         # placeholders take Aya's angles; a row for another skeleton has other indices (held_angles)
         angs.append(layout.angles(skin, ang if src is aya else layout.held_angles(src, ang)) if layout else skin)
         trs.append([tr[0] * ratio, tr[1] * ratio, tr[2] * ratio])
@@ -458,6 +519,11 @@ def build(name, m, slot, disc=1):
     mp = T.semantic_mapping(aya, md)
     corr = T.shoulder_deltas(aya, md, mp, aya_idle, idle)
     alt_sources(md, idle)
+    GOWN.clear()
+    follow = next((float(a.split('=', 1)[1]) for a in sys.argv if a.startswith('--gown-follow=')), GOWNS.get(name))
+    if follow is not None:
+        GOWN.update(legs=gown_legs(aya, mp), follow=follow)
+        print('  gown: legs %s follow %.2f of Aya\'s leg motion' % (sorted(GOWN['legs']), follow))
     ratio = T.leg_length(md, md['cmds']) / T.leg_length(aya, aya['cmds'])
 
     # model bytes with the texture moved to the player's slot
